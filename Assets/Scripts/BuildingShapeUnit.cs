@@ -2,15 +2,5 @@ using UnityEngine;
 
 public class BuildingShapeUnit : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //this script is just for  BuildingModels script to get the position of each building unit, so we can check if the building can be placed or not
 }
