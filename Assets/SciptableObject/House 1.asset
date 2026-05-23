@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a167ec9bc33dc408ea2eaa2a1ababd, type: 3}
   m_Name: House 1
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
-  <Description>k__BackingField: House 2
-  <Cost>k__BackingField: 2
+  <Name>k__BackingField: House 2
+  <CellSize>k__BackingField: 2
   <Model>k__BackingField: {fileID: 4299618899565708483, guid: 8e8bf7b6048d19240aba93549e2ae8ed, type: 3}
