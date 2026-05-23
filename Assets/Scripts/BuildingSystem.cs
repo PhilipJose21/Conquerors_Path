@@ -6,9 +6,7 @@ public class BuildingSystem : MonoBehaviour
 {
     public const float CellSize = 1f;
 
-    [SerializeField] private BuildingData buildingData1;
-    [SerializeField] private BuildingData buildingData2;
-    [SerializeField] private BuildingData buildingData3;
+    [SerializeField] private List<BuildingData> buildingDataList;
 
     [SerializeField] private BuildingPreview buildingGrid;
 
@@ -30,15 +28,19 @@ public class BuildingSystem : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                preview = CreatePreview(buildingData1, mousePos);
+                preview = CreatePreview(buildingDataList[0], mousePos);
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                preview = CreatePreview(buildingData2, mousePos);
+                preview = CreatePreview(buildingDataList[1], mousePos);
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                preview = CreatePreview(buildingData3, mousePos);
+                preview = CreatePreview(buildingDataList[2], mousePos);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                preview = CreatePreview(buildingDataList[3], mousePos);
             }
         }
     }

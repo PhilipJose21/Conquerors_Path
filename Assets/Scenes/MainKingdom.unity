@@ -205,13 +205,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38025117, y: -0, z: -0, w: 0.9248833}
-  m_LocalPosition: {x: 0, y: 6.78, z: 0}
+  m_LocalRotation: {x: 0.70524395, y: -0, z: -0, w: 0.7089647}
+  m_LocalPosition: {x: 0, y: 12.8510475, z: 9.989944}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1834522704}
-  m_LocalEulerAnglesHint: {x: 44.698, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 89.698, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -666,9 +666,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a3cba4c796c0b944ac1c47520fb504f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingSystem
-  buildingData1: {fileID: 11400000, guid: c0e556533ebe892468208580ebbe5ef0, type: 2}
-  buildingData2: {fileID: 11400000, guid: ec20874a787da684baeb96afa8ff279b, type: 2}
-  buildingData3: {fileID: 11400000, guid: 0d73a53f25e502e42b905028493bd814, type: 2}
+  buildingDataList:
+  - {fileID: 11400000, guid: c0e556533ebe892468208580ebbe5ef0, type: 2}
+  - {fileID: 11400000, guid: ec20874a787da684baeb96afa8ff279b, type: 2}
+  - {fileID: 11400000, guid: 0d73a53f25e502e42b905028493bd814, type: 2}
+  - {fileID: 11400000, guid: e6f802c46ba1c984aaee18e3a8809ba9, type: 2}
   buildingGrid: {fileID: 4571845357412621073, guid: e8e79a61d6e7a464ea1bac703c91a86c, type: 3}
   buildingPrefab: {fileID: 2050431222552286972, guid: 5e4acca1106e8b8479eee7ac24197c6a, type: 3}
   grid: {fileID: 1512447955}
