@@ -9,6 +9,7 @@ public class Building : MonoBehaviour
 
     private BuildingModel model;
     private BuildingData data;
+    [SerializeField] private Vector3 manualOffset;
 
     public void SetUp(BuildingData data, float rotation)
     {
@@ -30,6 +31,8 @@ public class Building : MonoBehaviour
             }
             if (minLocalY < float.PositiveInfinity)
                 model.transform.localPosition = new Vector3(0, -minLocalY, 0);
+            // Apply any manual offset set in the inspector
+            model.transform.localPosition += manualOffset;
         }
         model.Rotate(rotation);
     }

@@ -11,6 +11,7 @@ public class BuildingPreview : MonoBehaviour
 
     [SerializeField] private Material validMaterial;
     [SerializeField] private Material invalidMaterial;
+    [SerializeField] private Vector3 manualOffset;
 
     public BuildingPreviewState State { get; private set; } = BuildingPreviewState.INVALID;
     public BuildingData Data { get; private set; }
@@ -41,6 +42,8 @@ public class BuildingPreview : MonoBehaviour
             }
             if (minLocalY < float.PositiveInfinity)
                 BuildingModel.transform.localPosition = new Vector3(0, -minLocalY, 0);
+            // Apply any manual offset set in the inspector
+            BuildingModel.transform.localPosition += manualOffset;
         }
         SetPreviewMaterial(State);
     }
