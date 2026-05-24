@@ -109,6 +109,12 @@ public class BuildingSystem : MonoBehaviour
         grid.SetBuilding(building, buildPosition);
         Destroy(preview.gameObject);
         preview = null;
+        PassiveResource passiveResource = building.GetComponentInChildren<PassiveResource>();
+        if (passiveResource != null)
+        {
+            passiveResource.isActive = true;
+            passiveResource.currentTime = 0f;
+        }
     }
 
     private Vector3 GetSnappedCenterPosition(List<Vector3> allBuildingPositions)

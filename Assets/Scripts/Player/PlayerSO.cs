@@ -1,16 +1,14 @@
 using UnityEngine;
 
+[CreateAssetMenu()]
 public class PlayerSO : ScriptableObject
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int woodResources;
+    public int stoneResources;
+    public int farmResources;
+    public int energyPoints;
+    public int researchPoints;
+    public int gems;
+    public int coins;
+    
 }

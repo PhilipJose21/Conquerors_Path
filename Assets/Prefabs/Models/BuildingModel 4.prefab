@@ -383,6 +383,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4590363406452074743}
   - component: {fileID: 2874987730797851543}
+  - component: {fileID: -1898833167421023853}
   m_Layer: 0
   m_Name: BuildingModel 4
   m_TagString: Untagged
@@ -419,6 +420,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingModel
   wrapper: {fileID: 7819200143557944406}
+--- !u!114 &-1898833167421023853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8239972581677183168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e7a8dafc8c08474c8e6a1e31a1e85bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PassiveResource
+  resourceType: 3
+  resourceAmount: 1
+  resourceTimer: 1
 --- !u!1001 &219471333480370417
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -156,6 +156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3449380818281653029}
   - component: {fileID: 4299618899565708483}
+  - component: {fileID: -6678622617216763301}
   m_Layer: 0
   m_Name: BuildingModel 2
   m_TagString: Untagged
@@ -192,6 +193,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingModel
   wrapper: {fileID: 785408710291604748}
+--- !u!114 &-6678622617216763301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6032859875639384591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e7a8dafc8c08474c8e6a1e31a1e85bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PassiveResource
+  resourceType: 1
+  isActive: 0
+  resourceAmount: 1
+  resourceTimer: 1
+  currentTime: 0
 --- !u!1001 &5163058021603543809
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -206,7 +224,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7910461020077472752, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7910461020077472752, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_LocalPosition.y
@@ -268,7 +286,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7910461020077472752, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7910461020077472752, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_LocalPosition.y
