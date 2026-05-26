@@ -433,8 +433,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PassiveResource
   resourceType: 3
+  isActive: 0
   resourceAmount: 1
   resourceTimer: 1
+  currentTime: 0
 --- !u!1001 &219471333480370417
 PrefabInstance:
   m_ObjectHideFlags: 0

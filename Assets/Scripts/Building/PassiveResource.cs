@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PassiveResource : MonoBehaviour
 {
+    // Component that periodically awards a resource to the player while active.
+    // It increments a PlayerSO resource field every `resourceTimer` seconds.
     public enum ResourceType
     {
         Wood,
@@ -26,8 +28,10 @@ public class PassiveResource : MonoBehaviour
 
     void Update()
     {
+        // Only accrue while active
         if (!isActive)
             return;
+        // Track elapsed time and award resource when timer completes
         currentTime += Time.deltaTime;
 
         if (currentTime >= resourceTimer)
@@ -42,6 +46,7 @@ public class PassiveResource : MonoBehaviour
 
     public void AddResource(ResourceType type)
     {
+        // Add the configured resource amount to the player's SO based on type.
         switch (type)
         {
             case ResourceType.Wood:
@@ -67,6 +72,7 @@ public class PassiveResource : MonoBehaviour
                 break;
         }
 
+        // Track cumulative amount awarded (useful for stats/debugging)
         totalResourceAmount += resourceAmount;
     }
 }

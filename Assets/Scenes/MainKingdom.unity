@@ -985,6 +985,7 @@ GameObject:
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
   - component: {fileID: 330585549}
+  - component: {fileID: 330585550}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1138,6 +1139,20 @@ MonoBehaviour:
   SmoothChange: 1
   MinSize: 2
   MaxSize: 5
+--- !u!114 &330585550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc758afc2f55eaf4a805789d92e5b8cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RotateEnvironment
+  rotationSpeed: 40
+  environmentParent: {fileID: 1963962560}
 --- !u!1 &392159623
 GameObject:
   m_ObjectHideFlags: 0
@@ -3247,7 +3262,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -920, y: -307}
+  m_AnchoredPosition: {x: -917, y: -256}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1566428779
@@ -3274,12 +3289,15 @@ MonoBehaviour:
 
     1/2/3/4 -> Buildings
 
-    Space + Lmb -> Drag Camera
+    R / T -> Rotate Left/Right
 
     Space
-    + ScrollWheel -> Zoom In and Out
+    + Lmb -> Drag Camera
 
-    Space + Rmb -> Reset Camera Position'
+    Space + ScrollWheel -> Zoom In and Out
+
+    Space +
+    Rmb -> Reset Camera/Rotation Position'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3413,6 +3431,7 @@ MonoBehaviour:
   buildingGrid: {fileID: 4571845357412621073, guid: e8e79a61d6e7a464ea1bac703c91a86c, type: 3}
   buildingPrefab: {fileID: 2050431222552286972, guid: 5e4acca1106e8b8479eee7ac24197c6a, type: 3}
   grid: {fileID: 1512447955}
+  environmentParent: {fileID: 1963962560}
 --- !u!1 &1653015713
 GameObject:
   m_ObjectHideFlags: 0

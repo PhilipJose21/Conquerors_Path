@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 public class BuildingPreview : MonoBehaviour
 {
+    // Represents the in-world translucent preview shown while the player positions a building.
+    // It contains a `BuildingModel` instance (disabled colliders) and handles preview
+    // materials, vertical alignment and rotation input.
     public enum BuildingPreviewState
     {
         VALID,
@@ -37,6 +40,8 @@ public class BuildingPreview : MonoBehaviour
             foreach (var r in renderers)
             {
                 if (r == null) continue;
+                // Determine the lowest point of all renderers in the model's local space
+                // so the preview can be translated upward to sit flush with the grid plane.
                 Vector3 localMin = BuildingModel.transform.InverseTransformPoint(r.bounds.min);
                 minLocalY = Mathf.Min(minLocalY, localMin.y);
             }
@@ -57,6 +62,8 @@ public class BuildingPreview : MonoBehaviour
 
     public void Rotate(int rotationStep)
     {
+        // Rotate the preview model. Rotation is applied to the BuildingModel wrapper
+        // so its child shape units move appropriately if they are parented under the wrapper.
         BuildingModel.Rotate(rotationStep);
     }
 

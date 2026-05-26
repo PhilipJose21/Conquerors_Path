@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class BuildingGrid : MonoBehaviour
 {
+    // Represents a rectangular grid area that can contain buildings.
+    // Coordinates and cell calculations are performed in the grid's local space
+    // so the grid can be rotated and positioned arbitrarily in the world.
     [SerializeField] private int width;
     [SerializeField] private int height;
     [SerializeField] private float cellSize = BuildingSystem.CellSize;
@@ -33,6 +36,7 @@ public class BuildingGrid : MonoBehaviour
 
     public void SetBuilding(Building building, List<Vector3> allBuildingPositions)
     {
+        // Mark each covered cell as occupied by the provided Building instance.
         foreach (var position in allBuildingPositions)
         {
             (int x, int y) = WorldToGridPosition(position);
@@ -42,6 +46,7 @@ public class BuildingGrid : MonoBehaviour
 
     public bool CanBuild(List<Vector3> allBuildingPositions)
     {
+        // Verify all positions fall inside the grid and reference empty cells.
         foreach (var position in allBuildingPositions)
         {
             (int x, int y) = WorldToGridPosition(position);
@@ -53,6 +58,8 @@ public class BuildingGrid : MonoBehaviour
 
     public (int x, int y) WorldToGridPosition(Vector3 worldPosition)
     {
+        // Convert a world-space point into the grid's integer cell coordinates.
+        // Uses the transform's inverse to handle rotated/scaled grids.
         Vector3 localPos = transform.InverseTransformPoint(worldPosition);
         int x = Mathf.FloorToInt(localPos.x / cellSize);
         int y = Mathf.FloorToInt(localPos.z / cellSize);
@@ -61,6 +68,7 @@ public class BuildingGrid : MonoBehaviour
 
     public bool IsCellEmptyAtWorldPosition(Vector3 worldPosition)
     {
+        // Quick check whether the world position maps to an empty grid cell.
         if (!ContainsWorldPosition(worldPosition)) return false;
         (int x, int y) = WorldToGridPosition(worldPosition);
         if (x < 0 || x >= width || y < 0 || y >= height) return false;
@@ -69,6 +77,7 @@ public class BuildingGrid : MonoBehaviour
 
     public void SetBuildingAtWorldPosition(Building building, Vector3 worldPosition)
     {
+        // Set the given cell (identified by world position) as occupied by the building.
         if (!ContainsWorldPosition(worldPosition)) return;
         (int x, int y) = WorldToGridPosition(worldPosition);
         if (x < 0 || x >= width || y < 0 || y >= height) return;
@@ -79,6 +88,7 @@ public class BuildingGrid : MonoBehaviour
 
     public bool ContainsWorldPosition(Vector3 worldPosition)
     {
+        // Check if a world-space point falls within the grid bounds expressed in local space.
         Vector3 localPos = transform.InverseTransformPoint(worldPosition);
         float xMin = 0f;
         float xMax = width * cellSize;

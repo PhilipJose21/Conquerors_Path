@@ -4,6 +4,10 @@ using System.Linq;
 
 public class BuildingSystem : MonoBehaviour
 {
+    // Manages building previews, validation and placement.
+    // - Creates and positions BuildingPreview instances
+    // - Validates preview cell occupancy against registered BuildingGrid instances
+    // - Snaps previews to the grid-local center and instantiates Building objects
     public const float CellSize = 1f;
     public int buildingDataIndex = 0;
 
@@ -23,39 +27,27 @@ public class BuildingSystem : MonoBehaviour
 
     private void Update()
     {
+        // Check input and update the active preview each frame.
         Vector3 mousePos = GetMouseWorldPosition();
 
-        // Always listen for number key presses so the player can switch selection
-        // even while a preview is active.
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            TrySelectBuilding(0, mousePos);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            TrySelectBuilding(1, mousePos);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            TrySelectBuilding(2, mousePos);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            TrySelectBuilding(3, mousePos);
-        }
+        // Number keys switch selected building type even while previewing.
+        if (Input.GetKeyDown(KeyCode.Alpha1)) TrySelectBuilding(0, mousePos);
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) TrySelectBuilding(1, mousePos);
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) TrySelectBuilding(2, mousePos);
+        else if (Input.GetKeyDown(KeyCode.Alpha4)) TrySelectBuilding(3, mousePos);
 
-        if (preview != null)
-        {
-            HandlePreview(mousePos);
-        }
+        // If a preview exists, move and validate it.
+        if (preview != null) HandlePreview(mousePos);
     }
 
+    // Select a building by index and (re)create the preview at the given position.
     private void TrySelectBuilding(int index, Vector3 position)
     {
         if (buildingDataList == null || index < 0 || index >= buildingDataList.Count) return;
         buildingDataIndex = index;
         if (preview != null)
         {
+            // Preserve previous preview position when switching building types
             Vector3 prevPos = preview.transform.position;
             Destroy(preview.gameObject);
             preview = CreatePreview(buildingDataList[buildingDataIndex], prevPos);
@@ -72,12 +64,16 @@ public class BuildingSystem : MonoBehaviour
         TrySelectBuilding(index, GetMouseWorldPosition());
     }
 
+    // Update preview position, validate against grids and snap/place when appropriate.
     private void HandlePreview(Vector3 mouseWorldPosition)
     {
+        // Move preview to follow mouse
         preview.transform.position = mouseWorldPosition;
+        // Gather all world positions for the preview's building units
         List<Vector3> buildPosition = preview.BuildingModel.GetAllBuildingPosition();
         bool canBuild = true;
-        // Validate each cell against whichever grid contains that world position
+
+        // Validate each unit's world position against whichever grid contains it
         foreach (var pos in buildPosition)
         {
             BuildingGrid posGrid = BuildingGridManager.Instance.FindGridAtPosition(pos);
@@ -87,19 +83,23 @@ public class BuildingSystem : MonoBehaviour
                 break;
             }
         }
+
         if (canBuild)
         {
-            // Use the grid that contains the first position for snapping
+            // Choose primary grid for snapping and orientation
             BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridAtPosition(buildPosition.First()) ?? grid;
-            // Align preview rotation with the grid so placement and preview match grid orientation
             if (primaryGrid != null)
             {
+                // Align preview rotation to the grid's rotation so visuals match
                 preview.transform.rotation = primaryGrid.transform.rotation;
             }
+            // Snap preview to the center of occupied cells in grid local space
             preview.transform.position = GetSnappedCenterPosition(buildPosition, primaryGrid);
-            // Recompute positions after snapping so they match the preview's final transform
+            // Recompute positions after snapping so validation/placement uses final transforms
             buildPosition = preview.BuildingModel.GetAllBuildingPosition();
             preview.ChangeState(BuildingPreview.BuildingPreviewState.VALID);
+
+            // Place building on left mouse click (unless holding Space for camera)
             if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.Space))
             {
                 PlaceBuilding(buildPosition, null);
@@ -109,11 +109,14 @@ public class BuildingSystem : MonoBehaviour
         {
             preview.ChangeState(BuildingPreview.BuildingPreviewState.INVALID);
         }
-        if(Input.GetKeyDown(KeyCode.R) && canRotate)
+
+        // Rotation input for the preview
+        if (Input.GetKeyDown(KeyCode.R) && canRotate)
         {
             preview.Rotate(90);
-            Debug.Log("Preview rotated");
         }
+
+        // Cancel preview
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Destroy(preview.gameObject);
