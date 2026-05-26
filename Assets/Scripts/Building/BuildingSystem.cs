@@ -17,6 +17,8 @@ public class BuildingSystem : MonoBehaviour
 
     [SerializeField] private BuildingGrid grid; // fallback or default grid
 
+    [SerializeField] private GameObject environmentParent;
+
     private BuildingPreview preview;
 
     private void Update()
@@ -89,6 +91,11 @@ public class BuildingSystem : MonoBehaviour
         {
             // Use the grid that contains the first position for snapping
             BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridAtPosition(buildPosition.First()) ?? grid;
+            // Align preview rotation with the grid so placement and preview match grid orientation
+            if (primaryGrid != null)
+            {
+                preview.transform.rotation = primaryGrid.transform.rotation;
+            }
             preview.transform.position = GetSnappedCenterPosition(buildPosition, primaryGrid);
             // Recompute positions after snapping so they match the preview's final transform
             buildPosition = preview.BuildingModel.GetAllBuildingPosition();
@@ -116,7 +123,7 @@ public class BuildingSystem : MonoBehaviour
 
     private void PlaceBuilding(List<Vector3> buildPosition, BuildingGrid targetGrid)
     {
-        Building building = Instantiate(buildingPrefab, preview.transform.position, Quaternion.identity);
+        Building building = Instantiate(buildingPrefab, preview.transform.position, Quaternion.identity, environmentParent.transform);
         building.SetUp(preview.Data, preview.BuildingModel.Rotation);
         // Assign each position to its containing grid
         foreach (var pos in buildPosition)
@@ -144,13 +151,26 @@ public class BuildingSystem : MonoBehaviour
     private Vector3 GetSnappedCenterPosition(List<Vector3> allBuildingPositions, BuildingGrid targetGrid)
     {
         if (targetGrid == null) targetGrid = grid;
-        Vector3 gridOrigin = targetGrid.transform.position;
         float cs = targetGrid.CellSize;
-        List<int> xs = allBuildingPositions.Select(p => Mathf.FloorToInt((p.x - gridOrigin.x) / cs)).ToList();
-        List<int> zs = allBuildingPositions.Select(p => Mathf.FloorToInt((p.z - gridOrigin.z) / cs)).ToList();
-        float centerX = gridOrigin.x + (xs.Max() + xs.Min()) / 2f * cs + cs / 2f;
-        float centerZ = gridOrigin.z + (zs.Max() + zs.Min()) / 2f * cs + cs / 2f;
-        return new Vector3(centerX, gridOrigin.y, centerZ);
+        List<int> xs = new List<int>();
+        List<int> zs = new List<int>();
+        foreach (var p in allBuildingPositions)
+        {
+            (int gx, int gz) = targetGrid.WorldToGridPosition(p);
+            xs.Add(gx);
+            zs.Add(gz);
+        }
+        int minX = xs.Min();
+        int maxX = xs.Max();
+        int minZ = zs.Min();
+        int maxZ = zs.Max();
+        float centerLocalX = (maxX + minX) / 2f * cs + cs / 2f;
+        float centerLocalZ = (maxZ + minZ) / 2f * cs + cs / 2f;
+        Vector3 centerLocal = new Vector3(centerLocalX, 0f, centerLocalZ);
+        Vector3 worldCenter = targetGrid.transform.TransformPoint(centerLocal);
+        // Preserve the grid's y position
+        worldCenter.y = targetGrid.transform.position.y;
+        return worldCenter;
     }
     
     private Vector3 GetMouseWorldPosition()

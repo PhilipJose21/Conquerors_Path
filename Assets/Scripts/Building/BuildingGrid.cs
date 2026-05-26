@@ -53,8 +53,9 @@ public class BuildingGrid : MonoBehaviour
 
     public (int x, int y) WorldToGridPosition(Vector3 worldPosition)
     {
-        int x = Mathf.FloorToInt((worldPosition - transform.position).x / cellSize);
-        int y = Mathf.FloorToInt((worldPosition - transform.position).z / cellSize);
+        Vector3 localPos = transform.InverseTransformPoint(worldPosition);
+        int x = Mathf.FloorToInt(localPos.x / cellSize);
+        int y = Mathf.FloorToInt(localPos.z / cellSize);
         return (x, y);
     }
 
@@ -78,12 +79,12 @@ public class BuildingGrid : MonoBehaviour
 
     public bool ContainsWorldPosition(Vector3 worldPosition)
     {
-        Vector3 origin = transform.position;
-        float xMin = origin.x;
-        float xMax = origin.x + width * cellSize;
-        float zMin = origin.z;
-        float zMax = origin.z + height * cellSize;
-        return worldPosition.x >= xMin && worldPosition.x < xMax && worldPosition.z >= zMin && worldPosition.z < zMax;
+        Vector3 localPos = transform.InverseTransformPoint(worldPosition);
+        float xMin = 0f;
+        float xMax = width * cellSize;
+        float zMin = 0f;
+        float zMax = height * cellSize;
+        return localPos.x >= xMin && localPos.x < xMax && localPos.z >= zMin && localPos.z < zMax;
     }
 
     private void OnDrawGizmos()
@@ -91,16 +92,20 @@ public class BuildingGrid : MonoBehaviour
         Gizmos.color = Color.white;
         if (cellSize <= 0 || width <= 0 || height <= 0) return;
         Vector3 origin = transform.position;
+        Vector3 right = transform.right * cellSize * transform.lossyScale.x;
+        Vector3 forward = transform.forward * cellSize * transform.lossyScale.z;
+        Vector3 upOffset = Vector3.up * 0.01f;
+
         for (int y = 0; y <= height; y++)
         {
-            Vector3 start = origin + new Vector3(0, 0.01f, y * cellSize);
-            Vector3 end = origin + new Vector3(width * cellSize, 0.01f, y * cellSize);
+            Vector3 start = origin + forward * y + upOffset;
+            Vector3 end = origin + forward * y + right * width + upOffset;
             Gizmos.DrawLine(start, end);
         }
         for (int x = 0; x <= width; x++)
         {
-            Vector3 start = origin + new Vector3(x * cellSize, 0.01f, 0);
-            Vector3 end = origin + new Vector3(x * cellSize, 0.01f, height * cellSize);
+            Vector3 start = origin + right * x + upOffset;
+            Vector3 end = origin + right * x + forward * height + upOffset;
             Gizmos.DrawLine(start, end);
         }
     }
