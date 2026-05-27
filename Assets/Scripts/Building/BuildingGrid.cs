@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 
 public class BuildingGrid : MonoBehaviour
@@ -27,6 +28,7 @@ public class BuildingGrid : MonoBehaviour
             lineMaterial.SetInt("_ZWrite", 0);
             lineMaterial.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
         }
+        // Find the BuildingSystem component in the scene (fallback: use tag lookup if needed)
         buildingSystem = FindObjectOfType<BuildingSystem>();
     }
 
@@ -44,7 +46,11 @@ public class BuildingGrid : MonoBehaviour
 
     void Update()
     {
-        buildingSystem.isPlacing = showGrid;
+        // Follow the BuildingSystem's placing state rather than overwriting it.
+        if (buildingSystem != null)
+        {
+            showGrid = buildingSystem.isPlacing;
+        }
     }
 
     private void OnEnable()

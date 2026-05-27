@@ -3091,6 +3091,8 @@ MonoBehaviour:
   width: 12
   height: 12
   cellSize: 1
+  lineColor: {r: 1, g: 1, b: 1, a: 1}
+  showGrid: 0
 --- !u!1 &1554787367
 GameObject:
   m_ObjectHideFlags: 0
@@ -3389,7 +3391,7 @@ GameObject:
   - component: {fileID: 1572707462}
   m_Layer: 0
   m_Name: BuildingSystem
-  m_TagString: Untagged
+  m_TagString: BuildingSystem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3423,6 +3425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BuildingSystem
   buildingDataIndex: 0
   canRotate: 0
+  isPlacing: 0
   buildingDataList:
   - {fileID: 11400000, guid: c0e556533ebe892468208580ebbe5ef0, type: 2}
   - {fileID: 11400000, guid: ec20874a787da684baeb96afa8ff279b, type: 2}
@@ -4102,6 +4105,8 @@ MonoBehaviour:
   width: 6
   height: 6
   cellSize: 1
+  lineColor: {r: 1, g: 1, b: 1, a: 1}
+  showGrid: 0
 --- !u!1 &1915528509
 GameObject:
   m_ObjectHideFlags: 0

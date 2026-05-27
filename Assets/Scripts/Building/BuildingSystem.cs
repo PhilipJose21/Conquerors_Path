@@ -13,7 +13,7 @@ public class BuildingSystem : MonoBehaviour
 
     public bool canRotate = true;
 
-    public bool isPlacing = false;
+    public bool isPlacing;
 
     [SerializeField] private List<BuildingData> buildingDataList;
 
@@ -46,6 +46,7 @@ public class BuildingSystem : MonoBehaviour
     // Select a building by index and (re)create the preview at the given position.
     private void TrySelectBuilding(int index, Vector3 position)
     {
+        isPlacing = true;
         if (buildingDataList == null || index < 0 || index >= buildingDataList.Count) return;
         buildingDataIndex = index;
         if (preview != null)
@@ -106,6 +107,7 @@ public class BuildingSystem : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.R) && !Input.GetKey(KeyCode.Q))
             {
                 PlaceBuilding(buildPosition, primaryGrid);
+                isPlacing = false;
             }
         }
         else
@@ -124,6 +126,7 @@ public class BuildingSystem : MonoBehaviour
         {
             Destroy(preview.gameObject);
             preview = null;
+            isPlacing = false;
         }
     }
 
@@ -163,6 +166,7 @@ public class BuildingSystem : MonoBehaviour
 
         Destroy(preview.gameObject);
         preview = null;
+        isPlacing = false;
         PassiveResource passiveResource = building.GetComponentInChildren<PassiveResource>();
         if (passiveResource != null)
         {
@@ -209,7 +213,7 @@ public class BuildingSystem : MonoBehaviour
 
     private BuildingPreview CreatePreview(BuildingData data, Vector3 position)
     {
-        isPlacing = true;
+        // isPlacing = true;
         BuildingPreview newPreview = Instantiate(buildingGrid, position, Quaternion.identity);
         newPreview.Setup(data);
         return newPreview;
