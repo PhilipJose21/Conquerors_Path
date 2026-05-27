@@ -7,7 +7,7 @@ public class BuildingModel : MonoBehaviour
     // Visual representation of a building type. Contains a `wrapper` transform
     // which is rotated to visually orient the model without changing unit world positions.
     [SerializeField] private Transform wrapper;
-    public float Rotation => wrapper.transform.eulerAngles.y;
+    public float Rotation => wrapper.localEulerAngles.y;
     private BuildingShapeUnit[] shapeUnits;
 
     private void Awake()
@@ -21,6 +21,11 @@ public class BuildingModel : MonoBehaviour
         // Rotate the wrapper transform around Y axis to change visual orientation.
         // `rotationStep` is an angle in degrees.
         wrapper.Rotate(new Vector3(0, rotationStep, 0));
+    }
+
+    public void SetRotation(float angle)
+    {
+        wrapper.localRotation = Quaternion.Euler(0f, angle, 0f);
     }
 
     public List<Vector3> GetAllBuildingPosition()

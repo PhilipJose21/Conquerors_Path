@@ -46,7 +46,7 @@ public class Building : MonoBehaviour
             // Apply any manual offset set in the inspector
             model.transform.localPosition += manualOffset;
         }
-        // Apply the requested rotation to the visual model
-        model.Rotate(rotation);
+        // Apply the requested absolute rotation to the visual model
+        model.SetRotation(rotation);
     }
 }

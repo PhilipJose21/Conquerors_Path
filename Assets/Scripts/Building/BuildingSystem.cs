@@ -13,6 +13,8 @@ public class BuildingSystem : MonoBehaviour
 
     public bool canRotate = true;
 
+    public bool isPlacing = false;
+
     [SerializeField] private List<BuildingData> buildingDataList;
 
     [SerializeField] private BuildingPreview buildingGrid;
@@ -35,6 +37,7 @@ public class BuildingSystem : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha2)) TrySelectBuilding(1, mousePos);
         else if (Input.GetKeyDown(KeyCode.Alpha3)) TrySelectBuilding(2, mousePos);
         else if (Input.GetKeyDown(KeyCode.Alpha4)) TrySelectBuilding(3, mousePos);
+
 
         // If a preview exists, move and validate it.
         if (preview != null) HandlePreview(mousePos);
@@ -100,9 +103,9 @@ public class BuildingSystem : MonoBehaviour
             preview.ChangeState(BuildingPreview.BuildingPreviewState.VALID);
 
             // Place building on left mouse click (unless holding Space for camera)
-            if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.Space))
+            if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.R) && !Input.GetKey(KeyCode.Q))
             {
-                PlaceBuilding(buildPosition, null);
+                PlaceBuilding(buildPosition, primaryGrid);
             }
         }
         else
@@ -126,8 +129,24 @@ public class BuildingSystem : MonoBehaviour
 
     private void PlaceBuilding(List<Vector3> buildPosition, BuildingGrid targetGrid)
     {
-        Building building = Instantiate(buildingPrefab, preview.transform.position, Quaternion.identity, environmentParent.transform);
+        // Determine which grid to use for final placement
+        BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridAtPosition(buildPosition.First()) ?? targetGrid ?? grid;
+
+        // Compute the exact snapped center in world space if we have a grid; otherwise use the preview position
+        Vector3 placePosition = preview != null ? preview.transform.position : Vector3.zero;
+        Quaternion placeRotation = preview != null ? preview.transform.rotation : Quaternion.identity;
+        if (primaryGrid != null)
+        {
+            placePosition = GetSnappedCenterPosition(buildPosition, primaryGrid);
+            placeRotation = primaryGrid.transform.rotation;
+        }
+
+        Building building = Instantiate(buildingPrefab, placePosition, placeRotation, environmentParent.transform);
         building.SetUp(preview.Data, preview.BuildingModel.Rotation);
+
+        // Ensure setup didn't shift the transform unexpectedly
+        building.transform.SetPositionAndRotation(placePosition, placeRotation);
+
         // Assign each position to its containing grid
         foreach (var pos in buildPosition)
         {
@@ -141,6 +160,7 @@ public class BuildingSystem : MonoBehaviour
                 Debug.LogWarning("No grid found for position " + pos + " — skipping cell assignment.");
             }
         }
+
         Destroy(preview.gameObject);
         preview = null;
         PassiveResource passiveResource = building.GetComponentInChildren<PassiveResource>();
@@ -189,6 +209,7 @@ public class BuildingSystem : MonoBehaviour
 
     private BuildingPreview CreatePreview(BuildingData data, Vector3 position)
     {
+        isPlacing = true;
         BuildingPreview newPreview = Instantiate(buildingGrid, position, Quaternion.identity);
         newPreview.Setup(data);
         return newPreview;

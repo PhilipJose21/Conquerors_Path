@@ -11,6 +11,24 @@ public class BuildingGrid : MonoBehaviour
     [SerializeField] private int height;
     [SerializeField] private float cellSize = BuildingSystem.CellSize;
     private BuildingGridCell[,] grid;
+    private Material lineMaterial;
+    [SerializeField] private Color lineColor = Color.white;
+
+    BuildingSystem buildingSystem;
+    public bool showGrid = false;
+
+    private void Awake()
+    {
+        if (lineMaterial == null)
+        {
+            Shader shader = Shader.Find("Hidden/Internal-Colored");
+            lineMaterial = new Material(shader);
+            lineMaterial.hideFlags = HideFlags.HideAndDontSave;
+            lineMaterial.SetInt("_ZWrite", 0);
+            lineMaterial.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
+        }
+        buildingSystem = FindObjectOfType<BuildingSystem>();
+    }
 
     private void Start()
     {
@@ -22,6 +40,11 @@ public class BuildingGrid : MonoBehaviour
                 grid[x, y] = new();
             }
         }
+    }
+
+    void Update()
+    {
+        buildingSystem.isPlacing = showGrid;
     }
 
     private void OnEnable()
@@ -99,6 +122,7 @@ public class BuildingGrid : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (!showGrid) return;
         Gizmos.color = Color.white;
         if (cellSize <= 0 || width <= 0 || height <= 0) return;
         Vector3 origin = transform.position;
@@ -119,6 +143,45 @@ public class BuildingGrid : MonoBehaviour
             Gizmos.DrawLine(start, end);
         }
     }
+
+    void OnRenderObject()
+    {
+        if (!showGrid) return;
+        if (lineMaterial == null) return;
+        lineMaterial.SetPass(0);
+
+        GL.PushMatrix();
+        // Draw in the grid's local space
+        GL.MultMatrix(transform.localToWorldMatrix);
+
+        GL.Begin(GL.LINES);
+        GL.Color(lineColor);
+
+        // Horizontal lines (along local z)
+        for (int y = 0; y <= height; y++)
+        {
+            float z = y * cellSize;
+            GL.Vertex3(0f, 0.01f, z);
+            GL.Vertex3(width * cellSize, 0.01f, z);
+        }
+
+        // Vertical lines (along local x)
+        for (int x = 0; x <= width; x++)
+        {
+            float xPos = x * cellSize;
+            GL.Vertex3(xPos, 0.01f, 0f);
+            GL.Vertex3(xPos, 0.01f, height * cellSize);
+        }
+
+        GL.End();
+        GL.PopMatrix();
+    }
+
+    void OnDestroy()
+    {
+        if (lineMaterial) Destroy(lineMaterial);
+    }
+
 }
 
 public class BuildingGridCell
