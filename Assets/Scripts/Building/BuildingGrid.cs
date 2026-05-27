@@ -42,6 +42,34 @@ public class BuildingGrid : MonoBehaviour
                 grid[x, y] = new();
             }
         }
+
+        // On start, mark any existing buildings or building-models that were
+        // placed into the scene (for example dragged in from the prefab folder)
+        // so they occupy their grid cells during Play mode.
+        // 1) Register real `Building` instances.
+        var existingBuildings = FindObjectsOfType<Building>();
+        foreach (var b in existingBuildings)
+        {
+            var model = b.GetComponentInChildren<BuildingModel>();
+            if (model == null) continue;
+            var positions = model.GetAllBuildingPosition();
+            if (positions != null && positions.Count > 0)
+                SetBuilding(b, positions);
+        }
+
+        // 2) Also handle standalone `BuildingModel` objects that were placed
+        // directly in the scene without a `Building` component by adding a
+        // lightweight `Building` marker at runtime so the grid can track them.
+        var allModels = FindObjectsOfType<BuildingModel>();
+        foreach (var m in allModels)
+        {
+            if (m.GetComponentInParent<Building>() != null) continue;
+            Building marker = m.gameObject.GetComponent<Building>();
+            if (marker == null) marker = m.gameObject.AddComponent<Building>();
+            var positions = m.GetAllBuildingPosition();
+            if (positions != null && positions.Count > 0)
+                SetBuilding(marker, positions);
+        }
     }
 
     void Update()
