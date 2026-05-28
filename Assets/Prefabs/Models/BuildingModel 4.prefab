@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2845577770201452662}
   - component: {fileID: 5778296316998988511}
   - component: {fileID: 9094398431362317344}
+  - component: {fileID: 7818801002574315518}
   m_Layer: 0
   m_Name: Building (1)
   m_TagString: Untagged
@@ -112,6 +113,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7818801002574315518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776351884463277539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b43b5fa56f1c7d468b860fa1640f000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickObject
+  mainCamera: {fileID: 0}
 --- !u!1 &5015895576099832487
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,6 +175,7 @@ GameObject:
   - component: {fileID: 1317419646937287368}
   - component: {fileID: 249619028357924665}
   - component: {fileID: 6609935895425295128}
+  - component: {fileID: 5670775425168818776}
   m_Layer: 0
   m_Name: Building (2)
   m_TagString: Untagged
@@ -261,6 +276,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5670775425168818776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6910650972499278547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b43b5fa56f1c7d468b860fa1640f000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickObject
+  mainCamera: {fileID: 0}
 --- !u!1 &7898804367648665815
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,6 +301,7 @@ GameObject:
   - component: {fileID: 308204415863580703}
   - component: {fileID: 1368312746597991649}
   - component: {fileID: 3592630384138158584}
+  - component: {fileID: 4980242489009366766}
   m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
@@ -373,6 +402,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4980242489009366766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7898804367648665815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b43b5fa56f1c7d468b860fa1640f000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickObject
+  mainCamera: {fileID: 0}
 --- !u!1 &8239972581677183168
 GameObject:
   m_ObjectHideFlags: 0
