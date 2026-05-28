@@ -1,5 +1,4 @@
 using UnityEngine;
-// EventSystems namespace provides IPointerClickHandler and related interfaces
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -34,7 +33,11 @@ public class ClickObject : MonoBehaviour
 
     public void Clicked(GameObject obj)
     {
-        Debug.Log("Object clicked: " + obj.name);
+        OpenBuildingUI buildingUI = obj.GetComponent<OpenBuildingUI>();
+        if (buildingUI != null)
+        {
+            buildingUI.OpenUI();
+        }
     }
 
     public void HighlightObject(GameObject obj)

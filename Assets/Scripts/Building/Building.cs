@@ -5,8 +5,15 @@ public class Building : MonoBehaviour
 
     // Represents a placed building instance. Responsible for creating and positioning
     // the visual model and applying the requested rotation.
-    public string Description => data.Description;
-    public int Cost => data.Cost;
+    public string Name => data.Name;
+    public int Size => data.Size;
+    public Sprite Icon => data.Icon;
+    public int CoinCost => data.coinCost;
+    public int FarmCost => data.farmCost;
+    public int RockCost => data.rockCost;
+    public int WoodCost => data.woodCost;
+    public int GemCost => data.gemCost;
+    public int EnergyCost => data.energyCost;
 
 
     private BuildingModel model;

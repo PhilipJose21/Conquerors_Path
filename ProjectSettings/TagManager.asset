@@ -6,6 +6,7 @@ TagManager:
   tags:
   - BuildingSystem
   - Building
+  - ObjectInformationParent
   layers:
   - Default
   - TransparentFX

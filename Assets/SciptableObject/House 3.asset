@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a167ec9bc33dc408ea2eaa2a1ababd, type: 3}
   m_Name: House 3
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
-  <Description>k__BackingField: House 4
-  <Cost>k__BackingField: 1
+  <Name>k__BackingField: House 3
+  <Size>k__BackingField: 3
   <Model>k__BackingField: {fileID: 2874987730797851543, guid: e35ab423c33c79844829cf75b5e0e1b5, type: 3}
+  <Icon>k__BackingField: {fileID: 0}
+  <coinCost>k__BackingField: 0
+  <farmCost>k__BackingField: 0
+  <rockCost>k__BackingField: 0
+  <woodCost>k__BackingField: 0
+  <gemCost>k__BackingField: 0
+  <energyCost>k__BackingField: 0
