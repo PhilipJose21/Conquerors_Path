@@ -1,0 +1,139 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CellHighlighter : MonoBehaviour
+{
+    public static CellHighlighter Instance { get; private set; }
+
+    public Material moveMaterial;
+    public Material attackMaterial;
+
+    private List<GameObject> tiles = new List<GameObject>();
+    private GameObject currentUnit;
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        if (moveMaterial == null)
+        {
+            moveMaterial = new Material(Shader.Find("Standard"));
+            moveMaterial.color = new Color(0f, 0.5f, 1f, 0.45f);
+            SetupMaterialTransparent(moveMaterial);
+        }
+        if (attackMaterial == null)
+        {
+            attackMaterial = new Material(Shader.Find("Standard"));
+            attackMaterial.color = new Color(1f, 0f, 0f, 0.45f);
+            SetupMaterialTransparent(attackMaterial);
+        }
+    }
+
+    void SetupMaterialTransparent(Material m)
+    {
+        if (m == null) return;
+        m.SetFloat("_Mode", 3);
+        m.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        m.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        m.SetInt("_ZWrite", 0);
+        m.DisableKeyword("_ALPHATEST_ON");
+        m.EnableKeyword("_ALPHABLEND_ON");
+        m.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+        m.renderQueue = 3000;
+    }
+
+    public void ClearHighlights()
+    {
+        for (int i = tiles.Count - 1; i >= 0; i--)
+        {
+            var t = tiles[i];
+            if (t != null) Destroy(t);
+        }
+        tiles.Clear();
+        currentUnit = null;
+    }
+
+    // Shows highlights for the provided unit GameObject.
+    // mobility: Manhattan distance (diamond / cross)
+    // attackRange: square radius (all dx,dy where |dx|<=attackRange && |dy|<=attackRange)
+    public void ShowHighlightsForUnit(GameObject unit, int mobility, int attackRange)
+    {
+        // Toggle: if clicking the same unit again, clear and return
+        if (unit != null && currentUnit == unit)
+        {
+            Debug.Log("CellHighlighter: clicked same unit again - clearing highlights.");
+            ClearHighlights();
+            return;
+        }
+
+        ClearHighlights();
+        if (unit == null) return;
+
+        // Find a BuildingGrid that contains the unit
+        BuildingGrid[] grids = FindObjectsOfType<BuildingGrid>();
+        BuildingGrid grid = null;
+        foreach (var g in grids)
+        {
+            if (g.ContainsWorldPosition(unit.transform.position))
+            {
+                grid = g;
+                break;
+            }
+        }
+
+        if (grid == null)
+        {
+            Debug.LogWarning("CellHighlighter: No BuildingGrid found that contains the unit.");
+            return;
+        }
+
+        float cellSize = grid.CellSize;
+        (int cx, int cy) = grid.WorldToGridPosition(unit.transform.position);
+        int maxRange = Mathf.Max(mobility, attackRange);
+
+        for (int dx = -maxRange; dx <= maxRange; dx++)
+        {
+            for (int dy = -maxRange; dy <= maxRange; dy++)
+            {
+                bool inMove = Mathf.Abs(dx) + Mathf.Abs(dy) <= mobility;
+                bool inAttack = Mathf.Abs(dx) <= attackRange && Mathf.Abs(dy) <= attackRange;
+                if (!inMove && !inAttack) continue;
+
+                int x = cx + dx;
+                int y = cy + dy;
+
+                Vector3 localCenter = new Vector3((x + 0.5f) * cellSize, 0.01f, (y + 0.5f) * cellSize);
+                Vector3 worldPos = grid.transform.TransformPoint(localCenter);
+
+                // skip if outside grid bounds
+                if (!grid.ContainsWorldPosition(worldPos)) continue;
+
+                GameObject tile = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                tile.name = "HighlightTile";
+                tile.transform.position = worldPos;
+                tile.transform.localScale = new Vector3(cellSize, 0.02f, cellSize);
+                tile.transform.SetParent(this.transform, true);
+
+                var mr = tile.GetComponent<MeshRenderer>();
+                if (mr != null)
+                {
+                    mr.sharedMaterial = inAttack ? attackMaterial : moveMaterial;
+                    mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                    mr.receiveShadows = false;
+                }
+
+                var col = tile.GetComponent<Collider>();
+                if (col != null) Destroy(col);
+
+                tiles.Add(tile);
+            }
+        }
+        currentUnit = unit;
+    }
+}
