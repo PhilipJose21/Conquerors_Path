@@ -17,6 +17,7 @@ public class BuildingGrid : MonoBehaviour
 
     BuildingSystem buildingSystem;
     public bool showGrid = false;
+    public bool isBattleGrid = false; // Optional flag to indicate if this grid is used for battle purposes (e.g., unit movement/attack range)
 
     private void Awake()
     {
@@ -75,7 +76,7 @@ public class BuildingGrid : MonoBehaviour
     void Update()
     {
         // Follow the BuildingSystem's placing state rather than overwriting it.
-        if (buildingSystem != null)
+        if (buildingSystem != null && !isBattleGrid)
         {
             showGrid = buildingSystem.isPlacing;
         }
@@ -83,12 +84,14 @@ public class BuildingGrid : MonoBehaviour
 
     private void OnEnable()
     {
-        BuildingGridManager.Instance?.RegisterGrid(this);
+        // if (!isBattleGrid)
+            BuildingGridManager.Instance?.RegisterGrid(this);
     }
 
     private void OnDisable()
     {
-        BuildingGridManager.Instance?.UnregisterGrid(this);
+        // if (!isBattleGrid)
+            BuildingGridManager.Instance?.UnregisterGrid(this);
     }
 
     public void SetBuilding(Building building, List<Vector3> allBuildingPositions)
