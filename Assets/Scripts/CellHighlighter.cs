@@ -10,6 +10,7 @@ public class CellHighlighter : MonoBehaviour
 
     private List<GameObject> tiles = new List<GameObject>();
     private GameObject currentUnit;
+    public GameObject CurrentUnit => currentUnit;
 
     void Awake()
     {
@@ -128,12 +129,39 @@ public class CellHighlighter : MonoBehaviour
                     mr.receiveShadows = false;
                 }
 
-                var col = tile.GetComponent<Collider>();
-                if (col != null) Destroy(col);
+                // Add a trigger collider so clicks can be detected on highlight tiles
+                var col = tile.GetComponent<BoxCollider>();
+                if (col == null) col = tile.AddComponent<BoxCollider>();
+                col.isTrigger = true;
+
+                // Attach tile metadata for click handling
+                var ht = tile.AddComponent<HighlightTile>();
+                ht.worldPosition = worldPos;
+                ht.isMove = inMove;
+                ht.isAttack = inAttack;
 
                 tiles.Add(tile);
             }
         }
         currentUnit = unit;
+        // NOTE: do not auto-attack when highlights are shown — require the player to
+        // select their unit and click the highlighted tile to perform an attack.
+    }
+
+    // Move the currently selected unit (if any) to the given world position.
+    public bool MoveCurrentUnitTo(Vector3 worldPos)
+    {
+        if (currentUnit == null) return false;
+        var mu = currentUnit.GetComponent<MoveUnit>();
+        if (mu != null)
+        {
+            mu.MoveToPosition(worldPos);
+            return true;
+        }
+        // Fallback: teleport
+        Vector3 tp = worldPos;
+        tp.y = currentUnit.transform.position.y;
+        currentUnit.transform.position = tp;
+        return true;
     }
 }
