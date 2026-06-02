@@ -16,8 +16,10 @@ MonoBehaviour:
   unitType: 0
   health: 8
   damage: 6
-  attackRange: 3
-  mobility: 5
+  attackRange: 1
+  mobility: 3
+  movePoints: 1
+  attackPoints: 1
   unitCost: 3
   unitIcon: {fileID: 0}
   unitPrefab: {fileID: 0}

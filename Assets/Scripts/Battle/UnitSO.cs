@@ -15,8 +15,10 @@ public class UnitSO : ScriptableObject
     public UnitType unitType;
     public int health;
     public int damage;
-    public float attackRange;
-    public float mobility;
+    public int attackRange;
+    public int mobility;
+    public int movePoints;
+    public int attackPoints;
     public int unitCost;
     public Sprite unitIcon;
     public GameObject unitPrefab;

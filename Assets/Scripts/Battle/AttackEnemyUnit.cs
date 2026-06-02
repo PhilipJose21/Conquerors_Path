@@ -4,6 +4,7 @@ public class AttackEnemyUnit : MonoBehaviour
 {
     private UnitSO unitData;
     private MoveUnit moveUnit;
+    private int attackPoints;
 
     void Awake()
     {
@@ -12,6 +13,7 @@ public class AttackEnemyUnit : MonoBehaviour
         {
             unitData = container.unitData;
             moveUnit = this.GetComponent<MoveUnit>();
+            attackPoints = moveUnit.attackActions; // Get attack points from MoveUnit
         }
     }    
 
@@ -42,10 +44,11 @@ public class AttackEnemyUnit : MonoBehaviour
         Collider[] hits = Physics.OverlapSphere(transform.position, radius);
         foreach (var h in hits)
         {
-            if (h.CompareTag("EnemyUnit"))
+            if (h.CompareTag("EnemyUnit") && attackPoints > 0)
             {
-                Debug.Log("Enemy Attacked");
+                Debug.Log($"Enemy Attacked, {attackPoints} attack points remaining.");
                 CellHighlighter.Instance?.ClearHighlights();
+                attackPoints--;
                 return;
             }
         }

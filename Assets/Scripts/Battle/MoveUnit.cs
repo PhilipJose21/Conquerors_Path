@@ -31,6 +31,10 @@ public class MoveUnit : MonoBehaviour
         }
         if (mainCamera == null)
             mainCamera = Camera.main;
+        mobility = unitData != null ? unitData.mobility : mobility;
+        attackRange = unitData != null ? unitData.attackRange : attackRange;
+        attackActions = unitData != null ? unitData.attackPoints : attackActions;
+        moveActions = unitData != null ? unitData.movePoints : moveActions;
     }
 
     void Update()
