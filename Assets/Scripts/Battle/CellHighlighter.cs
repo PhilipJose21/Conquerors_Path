@@ -51,6 +51,13 @@ public class CellHighlighter : MonoBehaviour
 
     public void ClearHighlights()
     {
+        // Ensure any selected unit is deselected when highlights are cleared
+        if (currentUnit != null)
+        {
+            var mu = currentUnit.GetComponent<MoveUnit>();
+            if (mu != null) mu.isSelected = false;
+        }
+
         for (int i = tiles.Count - 1; i >= 0; i--)
         {
             var t = tiles[i];

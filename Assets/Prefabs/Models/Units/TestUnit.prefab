@@ -13,8 +13,10 @@ GameObject:
   - component: {fileID: 43846652049700427}
   - component: {fileID: 6992985739912047394}
   - component: {fileID: 4333439837566906419}
+  - component: {fileID: 7473405283178477117}
   - component: {fileID: 2028299047993414369}
   - component: {fileID: 8838602506026816360}
+  - component: {fileID: 8889273464930698551}
   m_Layer: 0
   m_Name: TestUnitModel
   m_TagString: Untagged
@@ -128,6 +130,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitSOContainer
   unitData: {fileID: 11400000, guid: f9e553575959a694e96661ea99f4a2ea, type: 2}
+--- !u!114 &7473405283178477117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2889937920117931480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f3f7720ecb47d441bf201102347d005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitStateMachine
+  currentUnitPhase: 0
 --- !u!114 &2028299047993414369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +162,10 @@ MonoBehaviour:
   moveActions: 100
   attackActions: 1
   canMove: 1
+  currentTurnPhase: 0
+  stateMachine: {fileID: 0}
   isPlayerTurn: 0
+  isSelected: 0
 --- !u!114 &8838602506026816360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,6 +178,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b36a45723216594b9c316998a2e7285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackEnemyUnit
+--- !u!114 &8889273464930698551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2889937920117931480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15cf2c512921e0f45a5857d0f4cd0ad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitHealth
+  unitData: {fileID: 0}
+  currentHealth: 0
+  maxHealth: 0
+  currentUnitPhase: 0
 --- !u!1 &3427269806742989989
 GameObject:
   m_ObjectHideFlags: 0

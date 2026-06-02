@@ -41,9 +41,11 @@ public class TurnManager : MonoBehaviour
             case turnPhase.StartPlayerTurn:
                 foreach (var unit in playerUnits)
                 {
-                    var moveUnit = unit.GetComponent<MoveUnit>();
+                    // Use GetComponentInChildren in case MoveUnit is on a child object
+                    var moveUnit = unit.GetComponentInChildren<MoveUnit>();
                     if (moveUnit != null)
                     {
+                        // If unitData is available use its values, otherwise keep current values
                         moveUnit.moveActions = moveUnit.unitData != null ? moveUnit.unitData.movePoints : moveUnit.moveActions;
                         moveUnit.attackActions = moveUnit.unitData != null ? moveUnit.unitData.attackPoints : moveUnit.attackActions;
                     }
@@ -111,9 +113,22 @@ public class TurnManager : MonoBehaviour
                 break;
         }
             
-
-
-
         turnPhaseText.text = currentTurnPhase.ToString();
+    }
+
+    public void EndPlayerTurn()
+    {
+        if (currentTurnPhase == turnPhase.PlayerTurn)
+        {
+            currentTurnPhase = turnPhase.StartEnemyTurn;
+        }
+    }
+
+    public void EndEnemyTurn()
+    {
+        if (currentTurnPhase == turnPhase.EnemyTurn || currentTurnPhase == turnPhase.StartEnemyTurn)
+        {
+            currentTurnPhase = turnPhase.StartPlayerTurn;
+        }
     }
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
+
+
 public class MoveUnit : MonoBehaviour
 {
     public UnitSO unitData;
@@ -23,11 +25,13 @@ public class MoveUnit : MonoBehaviour
     public int attackActions = 1;
     public bool canMove = true;
 
-    
+    [Header("States")]
     private Coroutine moveCoroutine;
     private TurnManager turnManager;
     public turnPhase currentTurnPhase;
+    public UnitStateMachine stateMachine;
     public bool isPlayerTurn;
+    public bool isSelected;
 
     void Awake()
     {
@@ -43,6 +47,7 @@ public class MoveUnit : MonoBehaviour
         attackRange = unitData != null ? unitData.attackRange : attackRange;
         attackActions = unitData != null ? unitData.attackPoints : attackActions;
         moveActions = unitData != null ? unitData.movePoints : moveActions;
+        stateMachine = this.GetComponent<UnitStateMachine>();
     }
 
     void Update()
@@ -64,6 +69,15 @@ public class MoveUnit : MonoBehaviour
             {
                 Clicked(hit.collider.gameObject);
             }
+        }
+
+        if (isSelected == true)
+        {
+            stateMachine.currentUnitPhase = unitPhase.Selected;
+        }
+        else if (isSelected == false)
+        {
+            stateMachine.currentUnitPhase = unitPhase.Idle;
         }
     }
 
@@ -195,8 +209,28 @@ public class MoveUnit : MonoBehaviour
         MoveUnit clickedMove = obj.GetComponent<MoveUnit>();
         if (clickedMove != null)
         {
-            if (CellHighlighter.Instance != null)
-                CellHighlighter.Instance.ShowHighlightsForUnit(obj, clickedMove.mobility, clickedMove.attackRange);
+            var ch = CellHighlighter.Instance;
+            GameObject prevObj = ch != null ? ch.CurrentUnit : null;
+            MoveUnit prevMove = prevObj != null ? prevObj.GetComponent<MoveUnit>() : null;
+
+            // If clicking the same unit again -> deselect and clear highlights
+            if (prevObj == obj)
+            {
+                clickedMove.isSelected = false;
+                if (ch != null) ch.ClearHighlights();
+                return;
+            }
+
+            // If another unit was selected, deselect it
+            if (prevMove != null && prevMove != clickedMove)
+            {
+                prevMove.isSelected = false;
+            }
+
+            // Select this unit and show its highlights
+            clickedMove.isSelected = true;
+            if (ch != null)
+                ch.ShowHighlightsForUnit(obj, clickedMove.mobility, clickedMove.attackRange);
             return;
         }
 
