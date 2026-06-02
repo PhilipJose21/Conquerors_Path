@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MoveUnit : MonoBehaviour
 {
-    private UnitSO unitData;
+    public UnitSO unitData;
 
     private static int lastProcessedClickFrame = -1;
     private Camera mainCamera;
@@ -15,16 +15,24 @@ public class MoveUnit : MonoBehaviour
     [Header("Range (set per-unit or via UnitSO)")]
     public int mobility = 2; // Manhattan (diamond/cross) movement range
     public int attackRange = 1; // Square attack range
+
+
     [Header("Movement")]
     public float moveSpeed = 4f;
-    private Coroutine moveCoroutine;
     public int moveActions = 1;
     public int attackActions = 1;
     public bool canMove = true;
 
+    
+    private Coroutine moveCoroutine;
+    private TurnManager turnManager;
+    public turnPhase currentTurnPhase;
+    public bool isPlayerTurn;
+
     void Awake()
     {
         UnitSOContainer container = this.GetComponent<UnitSOContainer>();
+        turnManager = FindObjectOfType<TurnManager>();
         if (container != null)
         {
             unitData = container.unitData;
@@ -39,8 +47,18 @@ public class MoveUnit : MonoBehaviour
 
     void Update()
     {
+        currentTurnPhase = turnManager.currentTurnPhase;
+        if (currentTurnPhase == turnPhase.PlayerTurn)
+        {
+            isPlayerTurn = true;
+        }
+        else
+        {
+            isPlayerTurn = false;
+        }
+
         DetectObjects();
-        if (Input.GetMouseButtonDown(0)) // Left mouse button
+        if (Input.GetMouseButtonDown(0) && isPlayerTurn) // Left mouse button
         {
             if(rayHit)
             {
