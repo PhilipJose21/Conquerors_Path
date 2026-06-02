@@ -117,9 +117,11 @@ public class CellHighlighter : MonoBehaviour
 
                 GameObject tile = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 tile.name = "HighlightTile";
-                tile.transform.position = worldPos;
+                // Parent the highlight tile to the grid so it follows grid position/rotation
+                tile.transform.SetParent(grid.transform, false);
+                tile.transform.localPosition = localCenter;
+                tile.transform.localRotation = Quaternion.identity;
                 tile.transform.localScale = new Vector3(cellSize, 0.02f, cellSize);
-                tile.transform.SetParent(this.transform, true);
 
                 var mr = tile.GetComponent<MeshRenderer>();
                 if (mr != null)
@@ -136,7 +138,8 @@ public class CellHighlighter : MonoBehaviour
 
                 // Attach tile metadata for click handling
                 var ht = tile.AddComponent<HighlightTile>();
-                ht.worldPosition = worldPos;
+                // store the actual world position (after parenting) for click handling
+                ht.worldPosition = tile.transform.position;
                 ht.isMove = inMove;
                 ht.isAttack = inAttack;
 
