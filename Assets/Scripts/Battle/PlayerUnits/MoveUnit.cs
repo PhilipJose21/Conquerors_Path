@@ -174,7 +174,7 @@ public class MoveUnit : MonoBehaviour
                 var selMove = selected.GetComponent<MoveUnit>();
                 if (selMove != null) selAttackRange = selMove.attackRange;
 
-                BuildingGrid[] grids = FindObjectsOfType<BuildingGrid>();
+                BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
                 BuildingGrid grid = null;
                 foreach (var g in grids)
                 {

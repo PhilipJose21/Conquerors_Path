@@ -66,7 +66,6 @@ public class EnemyMovement : MonoBehaviour
     void Act()
     {
         // Find nearest player unit
-        Debug.Log("Act");
         GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerUnit");
         if (players == null || players.Length == 0)
         {
@@ -90,13 +89,11 @@ public class EnemyMovement : MonoBehaviour
         if (nearest == null) return;
 
         // Compute approximate cell size
-        BuildingGrid[] grids = FindObjectsOfType<BuildingGrid>();
+        BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
         float approxCell = 1f;
         if (grids != null && grids.Length > 0) approxCell = grids[0].CellSize;
         // Check if any player is already within attack range from current position.
         float maxAttackDist = (attackRange + 0.5f) * approxCell;
-        Debug.Log($"EnemyMovement.Act: nearestDist={bestDist} maxAttackDist={maxAttackDist} attackActions={attackActions}");
-
         // Find any players within attack distance (could be multiple)
         Transform inRangeTarget = null;
         float inRangeBest = float.MaxValue;
@@ -126,7 +123,6 @@ public class EnemyMovement : MonoBehaviour
             }
             Debug.Log($"EnemyMovement.Act: player in range -> attacking {inRangeTarget.name}");
             bool attacked = attackerComp.TryAttackAtPosition(inRangeTarget.position);
-            Debug.Log($"EnemyMovement.Act: immediate attack returned {attacked}");
             if (attacked) return;
             // If attack didn't find a valid target (colliders/components), we stop here.
             return;
@@ -226,7 +222,7 @@ public class EnemyMovement : MonoBehaviour
         var moveTransform = unitObject != null ? unitObject.transform : transform;
         Vector3 myPos = moveTransform.position;
 
-        BuildingGrid[] grids = FindObjectsOfType<BuildingGrid>();
+        BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
         float approxCell = 1f;
         if (grids != null && grids.Length > 0) approxCell = grids[0].CellSize;
         float maxAttackDist = (attackRange + 0.5f) * approxCell;

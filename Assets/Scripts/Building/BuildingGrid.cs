@@ -30,7 +30,7 @@ public class BuildingGrid : MonoBehaviour
             lineMaterial.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
         }
         // Find the BuildingSystem component in the scene (fallback: use tag lookup if needed)
-        buildingSystem = FindObjectOfType<BuildingSystem>();
+        buildingSystem = UnityEngine.Object.FindFirstObjectByType<BuildingSystem>();
     }
 
     private void Start()
@@ -48,7 +48,7 @@ public class BuildingGrid : MonoBehaviour
         // placed into the scene (for example dragged in from the prefab folder)
         // so they occupy their grid cells during Play mode.
         // 1) Register real `Building` instances.
-        var existingBuildings = FindObjectsOfType<Building>();
+        var existingBuildings = UnityEngine.Object.FindObjectsByType<Building>(UnityEngine.FindObjectsSortMode.None);
         foreach (var b in existingBuildings)
         {
             var model = b.GetComponentInChildren<BuildingModel>();
@@ -61,7 +61,7 @@ public class BuildingGrid : MonoBehaviour
         // 2) Also handle standalone `BuildingModel` objects that were placed
         // directly in the scene without a `Building` component by adding a
         // lightweight `Building` marker at runtime so the grid can track them.
-        var allModels = FindObjectsOfType<BuildingModel>();
+        var allModels = UnityEngine.Object.FindObjectsByType<BuildingModel>(UnityEngine.FindObjectsSortMode.None);
         foreach (var m in allModels)
         {
             if (m.GetComponentInParent<Building>() != null) continue;

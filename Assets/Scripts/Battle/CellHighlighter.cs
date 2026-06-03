@@ -86,7 +86,7 @@ public class CellHighlighter : MonoBehaviour
         // but if none contains the unit, allow highlighting on any grid where
         // the computed cells fall inside that grid. This supports units placed
         // between multiple separate grids.
-        BuildingGrid[] grids = FindObjectsOfType<BuildingGrid>();
+        BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
         if (grids == null || grids.Length == 0)
         {
             Debug.LogWarning("CellHighlighter: No BuildingGrid instances found in scene.");

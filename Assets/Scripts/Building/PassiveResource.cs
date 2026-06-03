@@ -16,7 +16,7 @@ public class PassiveResource : MonoBehaviour
     }
 
     public ResourceType resourceType;
-    public PlayerData playerData => FindObjectOfType<PlayerData>();
+    public PlayerData playerData => UnityEngine.Object.FindFirstObjectByType<PlayerData>();
     public PlayerSO playerSO => playerData.playerSO;
 
     public bool isActive;

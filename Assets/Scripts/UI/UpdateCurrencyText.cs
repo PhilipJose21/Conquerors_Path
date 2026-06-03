@@ -10,7 +10,7 @@ public class UpdateCurrencyText : MonoBehaviour
     public TextMeshProUGUI researchText;
     public TextMeshProUGUI gemsText;
     public TextMeshProUGUI coinsText;
-    public PlayerData playerData => FindObjectOfType<PlayerData>();
+    public PlayerData playerData => UnityEngine.Object.FindFirstObjectByType<PlayerData>();
     public PlayerSO playerSO => playerData.playerSO;
 
     void Update()
