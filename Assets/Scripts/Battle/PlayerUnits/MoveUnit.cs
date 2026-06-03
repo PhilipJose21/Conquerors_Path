@@ -33,6 +33,8 @@ public class MoveUnit : MonoBehaviour
     public bool isPlayerTurn;
     public bool isSelected;
 
+    public GameObject unitObject;
+
     void Awake()
     {
         UnitSOContainer container = this.GetComponent<UnitSOContainer>();
@@ -270,8 +272,9 @@ public class MoveUnit : MonoBehaviour
 
     public void MoveToPosition(Vector3 target)
     {
-        // Preserve current Y so unit doesn't sink or float when moving on grid
-        target.y = transform.position.y;
+        // Preserve current Y so the assigned unitObject (or this) doesn't sink or float when moving on grid
+        var moveTransform = unitObject != null ? unitObject.transform : transform;
+        target.y = moveTransform.position.y;
         // Only consume a move action if available
         if (moveActions <= 0)
         {
@@ -287,12 +290,13 @@ public class MoveUnit : MonoBehaviour
     IEnumerator MoveRoutine(Vector3 target)
     {
         float stopSq = 0.001f;
-        while ((transform.position - target).sqrMagnitude > stopSq)
+        var moveTransform = unitObject != null ? unitObject.transform : transform;
+        while ((moveTransform.position - target).sqrMagnitude > stopSq)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
+            moveTransform.position = Vector3.MoveTowards(moveTransform.position, target, moveSpeed * Time.deltaTime);
             yield return null;
         }
-        transform.position = target;
+        moveTransform.position = target;
         moveCoroutine = null;
     }
 }

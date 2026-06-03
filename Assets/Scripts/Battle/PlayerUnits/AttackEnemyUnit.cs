@@ -5,6 +5,7 @@ public class AttackEnemyUnit : MonoBehaviour
     private UnitSO unitData;
     private MoveUnit moveUnit;
     private int attackPoints;
+    public int dmg;
 
     void Awake()
     {
@@ -46,7 +47,7 @@ public class AttackEnemyUnit : MonoBehaviour
         {
             if (h.CompareTag("EnemyUnit") && attackPoints > 0)
             {
-                Debug.Log($"Enemy Attacked, {attackPoints} attack points remaining.");
+                h.GetComponent<UnitHealth>().TakeDamage(dmg);
                 CellHighlighter.Instance?.ClearHighlights();
                 attackPoints--;
                 return;
