@@ -4,7 +4,6 @@ public class AttackEnemyUnit : MonoBehaviour
 {
     private UnitSO unitData;
     private MoveUnit moveUnit;
-    private int attackPoints;
     public int dmg;
 
     void Awake()
@@ -14,7 +13,9 @@ public class AttackEnemyUnit : MonoBehaviour
         {
             unitData = container.unitData;
             moveUnit = this.GetComponent<MoveUnit>();
-            attackPoints = moveUnit.attackActions; // Get attack points from MoveUnit
+            
+            dmg = unitData != null ? unitData.damage : dmg;
+            // don't cache attackPoints here; read `moveUnit.attackActions` at attack time
         }
     }    
 
@@ -26,10 +27,25 @@ public class AttackEnemyUnit : MonoBehaviour
         Collider[] hits = Physics.OverlapSphere(worldPos, checkRadius);
         foreach (var h in hits)
         {
-            if (h.CompareTag("EnemyUnit"))
+            // Try to find a UnitHealth on the collider or one of its parents (covers child colliders)
+            var health = h.GetComponentInParent<UnitHealth>();
+            if (health != null)
             {
-                Debug.Log("Enemy Attacked");
-                // Clear highlights after attack
+                // Ensure this health belongs to an enemy unit
+                var owner = health.gameObject;
+                bool isEnemy = owner.CompareTag("EnemyUnit") || owner.GetComponentInParent<EnemyMovement>() != null;
+                if (!isEnemy) continue;
+
+                if (moveUnit != null && moveUnit.attackActions > 0)
+                {
+                    health.TakeDamage(dmg);
+                    moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
+                }
+                else
+                {
+                    // If no MoveUnit present, still attempt with local attackPoints fallback
+                }
+
                 CellHighlighter.Instance?.ClearHighlights();
                 return true;
             }
@@ -45,11 +61,17 @@ public class AttackEnemyUnit : MonoBehaviour
         Collider[] hits = Physics.OverlapSphere(transform.position, radius);
         foreach (var h in hits)
         {
-            if (h.CompareTag("EnemyUnit") && attackPoints > 0)
+            var health = h.GetComponentInParent<UnitHealth>();
+            if (health == null) continue;
+            var owner = health.gameObject;
+            bool isEnemy = owner.CompareTag("EnemyUnit") || owner.GetComponentInParent<EnemyMovement>() != null;
+            if (!isEnemy) continue;
+
+            if (moveUnit != null && moveUnit.attackActions > 0)
             {
-                h.GetComponent<UnitHealth>().TakeDamage(dmg);
+                health.TakeDamage(dmg);
                 CellHighlighter.Instance?.ClearHighlights();
-                attackPoints--;
+                moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
                 return;
             }
         }

@@ -23,6 +23,7 @@ public class EnemyMovement : MonoBehaviour
     public UnitStateMachine stateMachine;
     public bool isPlayerTurn;
     public bool isSelected;
+    public bool endTurn;
 
     public GameObject unitObject;
     private bool hasActedThisTurn = false;
@@ -65,8 +66,14 @@ public class EnemyMovement : MonoBehaviour
     void Act()
     {
         // Find nearest player unit
+        Debug.Log("Act");
         GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerUnit");
-        if (players == null || players.Length == 0) return;
+        if (players == null || players.Length == 0)
+        {
+            // No player units present to target -> mark this enemy as finished for the turn
+            endTurn = true;
+            return;
+        }
 
         Transform nearest = null;
         float bestDist = float.MaxValue;
@@ -86,22 +93,42 @@ public class EnemyMovement : MonoBehaviour
         BuildingGrid[] grids = FindObjectsOfType<BuildingGrid>();
         float approxCell = 1f;
         if (grids != null && grids.Length > 0) approxCell = grids[0].CellSize;
-
-        // Check if nearest is within attack range
+        // Check if any player is already within attack range from current position.
         float maxAttackDist = (attackRange + 0.5f) * approxCell;
-        if (bestDist <= maxAttackDist)
+        Debug.Log($"EnemyMovement.Act: nearestDist={bestDist} maxAttackDist={maxAttackDist} attackActions={attackActions}");
+
+        // Find any players within attack distance (could be multiple)
+        Transform inRangeTarget = null;
+        float inRangeBest = float.MaxValue;
+        foreach (var p in players)
         {
-            // Attack using AttackPlayerUnit component
-            var attacker = this.GetComponent<AttackPlayerUnit>();
-            if (attacker != null && attackActions > 0)
+            float d = Vector3.Distance(myPos, p.transform.position);
+            if (d <= maxAttackDist && d < inRangeBest)
             {
-                bool attacked = attacker.TryAttackAtPosition(nearest.position);
-                if (attacked)
-                {
-                    attackActions = Mathf.Max(0, attackActions - 1);
-                    return;
-                }
+                inRangeBest = d;
+                inRangeTarget = p.transform;
             }
+        }
+
+        var attackerComp = this.GetComponentInChildren<AttackPlayerUnit>();
+        if (inRangeTarget != null)
+        {
+            // There is at least one player in range -> attack the closest one
+            if (attackerComp == null)
+            {
+                Debug.Log("EnemyMovement.Act: no AttackPlayerUnit component found to perform attack");
+                return;
+            }
+            if (attackActions <= 0)
+            {
+                Debug.Log("EnemyMovement.Act: no attackActions left");
+                return;
+            }
+            Debug.Log($"EnemyMovement.Act: player in range -> attacking {inRangeTarget.name}");
+            bool attacked = attackerComp.TryAttackAtPosition(inRangeTarget.position);
+            Debug.Log($"EnemyMovement.Act: immediate attack returned {attacked}");
+            if (attacked) return;
+            // If attack didn't find a valid target (colliders/components), we stop here.
             return;
         }
 
@@ -151,6 +178,11 @@ public class EnemyMovement : MonoBehaviour
             Vector3 worldTarget = chosenGrid.transform.TransformPoint(localCenter);
             worldTarget.y = moveTransform.position.y;
             MoveToPosition(worldTarget);
+            // After moving, attempt an attack if we will be in range
+            if (attackerComp != null && attackActions > 0)
+            {
+                StartCoroutine(AttemptAttackAfterMove(nearest, attackerComp));
+            }
         }
         else
         {
@@ -167,6 +199,48 @@ public class EnemyMovement : MonoBehaviour
             Vector3 origin = Vector3.zero;
             Vector3 snapped = new Vector3(Mathf.Floor(moveTarget.x / cs) * cs + cs * 0.5f, moveTarget.y, Mathf.Floor(moveTarget.z / cs) * cs + cs * 0.5f);
             MoveToPosition(snapped);
+            if (attackerComp != null && attackActions > 0)
+            {
+                StartCoroutine(AttemptAttackAfterMove(nearest, attackerComp));
+            }
+        }
+    }
+
+    IEnumerator AttemptAttackAfterMove(Transform target, AttackPlayerUnit attacker)
+    {
+        // wait until movement coroutine finishes
+        while (moveCoroutine != null)
+            yield return null;
+
+        if (attacker == null)
+        {
+            Debug.Log("AttemptAttackAfterMove: no attacker available");
+            yield break;
+        }
+        if (attackActions <= 0)
+        {
+            Debug.Log("AttemptAttackAfterMove: no attackActions left after moving");
+            yield break;
+        }
+        // Recompute distance after movement and only attack if within attackRange
+        var moveTransform = unitObject != null ? unitObject.transform : transform;
+        Vector3 myPos = moveTransform.position;
+
+        BuildingGrid[] grids = FindObjectsOfType<BuildingGrid>();
+        float approxCell = 1f;
+        if (grids != null && grids.Length > 0) approxCell = grids[0].CellSize;
+        float maxAttackDist = (attackRange + 0.5f) * approxCell;
+        float dist = Vector3.Distance(myPos, target.position);
+        Debug.Log($"AttemptAttackAfterMove: distAfterMove={dist} maxAttackDist={maxAttackDist}");
+        if (dist <= maxAttackDist)
+        {
+            Debug.Log($"AttemptAttackAfterMove: attempting attack on {target.name} at {target.position}");
+            bool attacked = attacker.TryAttackAtPosition(target.position);
+            Debug.Log($"AttemptAttackAfterMove: attack returned {attacked}");
+        }
+        else
+        {
+            Debug.Log("AttemptAttackAfterMove: target still out of range after moving");
         }
     }
 

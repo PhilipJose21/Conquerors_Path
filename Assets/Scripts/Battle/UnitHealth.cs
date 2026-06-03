@@ -10,6 +10,7 @@ public class UnitHealth : MonoBehaviour
     public Image healthBarFill; // Reference to the UI Image component for the health bar fill
 
     public unitPhase currentUnitPhase;
+    public GameObject playerUnit;
 
     void Awake()
     {
@@ -43,6 +44,7 @@ public class UnitHealth : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        Debug.Log("Damaged; " + damage);
         if (currentHealth <= 0)
         {
             currentHealth = 0;
@@ -52,6 +54,6 @@ public class UnitHealth : MonoBehaviour
 
     public void Die()
     {
-        Destroy(gameObject);
+        Destroy(playerUnit);
     }
 }

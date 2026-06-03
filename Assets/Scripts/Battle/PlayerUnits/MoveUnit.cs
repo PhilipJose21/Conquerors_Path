@@ -148,64 +148,70 @@ public class MoveUnit : MonoBehaviour
             return;
         }
 
-        // If player clicked an enemy directly, attempt attack only if a player unit is selected
-        if (obj != null && obj.CompareTag("EnemyUnit"))
+        // If player clicked an enemy directly (or a child collider), attempt attack only if a player unit is selected
+        if (obj != null)
         {
-            var selected = CellHighlighter.Instance?.CurrentUnit;
-            if (selected == null)
+            // Resolve to the enemy root via EnemyMovement if present (covers child colliders)
+            var enemyComp = obj.GetComponentInParent<EnemyMovement>();
+            if (enemyComp != null)
             {
-                Debug.Log("No unit selected — select your unit first to attack an enemy.");
-                return;
-            }
-
-            var attacker = selected.GetComponent<AttackEnemyUnit>();
-            if (attacker == null)
-            {
-                Debug.Log("Selected unit cannot attack.");
-                return;
-            }
-
-            int selAttackRange = 1;
-            var selMove = selected.GetComponent<MoveUnit>();
-            if (selMove != null) selAttackRange = selMove.attackRange;
-
-            BuildingGrid[] grids = FindObjectsOfType<BuildingGrid>();
-            BuildingGrid grid = null;
-            foreach (var g in grids)
-            {
-                if (g.ContainsWorldPosition(selected.transform.position))
+                var enemyRoot = enemyComp.gameObject;
+                var selected = CellHighlighter.Instance?.CurrentUnit;
+                if (selected == null)
                 {
-                    grid = g;
-                    break;
+                    Debug.Log("No unit selected — select your unit first to attack an enemy.");
+                    return;
                 }
-            }
 
-            bool inRange = false;
-            if (grid != null)
-            {
-                (int sx, int sy) = grid.WorldToGridPosition(selected.transform.position);
-                (int ex, int ey) = grid.WorldToGridPosition(obj.transform.position);
-                inRange = Mathf.Abs(sx - ex) <= selAttackRange && Mathf.Abs(sy - ey) <= selAttackRange;
-            }
-            else
-            {
-                float approxCell = 1f;
-                if (grids != null && grids.Length > 0) approxCell = grids[0].CellSize;
-                float maxDist = (selAttackRange + 0.5f) * approxCell;
-                inRange = Vector3.Distance(selected.transform.position, obj.transform.position) <= maxDist;
-            }
+                var attacker = selected.GetComponent<AttackEnemyUnit>();
+                if (attacker == null)
+                {
+                    Debug.Log("Selected unit cannot attack.");
+                    return;
+                }
 
-            if (inRange)
-            {
-                bool attacked = attacker.TryAttackAtPosition(obj.transform.position);
-                if (attacked) return;
-            }
-            else
-            {
-                Debug.Log("Enemy is not within selected unit's attack range.");
-            }
+                int selAttackRange = 1;
+                var selMove = selected.GetComponent<MoveUnit>();
+                if (selMove != null) selAttackRange = selMove.attackRange;
 
-            return;
+                BuildingGrid[] grids = FindObjectsOfType<BuildingGrid>();
+                BuildingGrid grid = null;
+                foreach (var g in grids)
+                {
+                    if (g.ContainsWorldPosition(selected.transform.position))
+                    {
+                        grid = g;
+                        break;
+                    }
+                }
+
+                bool inRange = false;
+                if (grid != null)
+                {
+                    (int sx, int sy) = grid.WorldToGridPosition(selected.transform.position);
+                    (int ex, int ey) = grid.WorldToGridPosition(enemyRoot.transform.position);
+                    inRange = Mathf.Abs(sx - ex) <= selAttackRange && Mathf.Abs(sy - ey) <= selAttackRange;
+                }
+                else
+                {
+                    float approxCell = 1f;
+                    if (grids != null && grids.Length > 0) approxCell = grids[0].CellSize;
+                    float maxDist = (selAttackRange + 0.5f) * approxCell;
+                    inRange = Vector3.Distance(selected.transform.position, enemyRoot.transform.position) <= maxDist;
+                }
+
+                if (inRange)
+                {
+                    bool attacked = attacker.TryAttackAtPosition(enemyRoot.transform.position);
+                    if (attacked) return;
+                }
+                else
+                {
+                    Debug.Log("Enemy is not within selected unit's attack range.");
+                }
+
+                return;
+            }
         }
 
         // Try to get a MoveUnit component from the clicked object (preferred)
