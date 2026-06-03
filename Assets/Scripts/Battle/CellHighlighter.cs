@@ -82,74 +82,119 @@ public class CellHighlighter : MonoBehaviour
         ClearHighlights();
         if (unit == null) return;
 
-        // Find a BuildingGrid that contains the unit
+        // Find BuildingGrids in the scene. Prefer the grid that contains the unit,
+        // but if none contains the unit, allow highlighting on any grid where
+        // the computed cells fall inside that grid. This supports units placed
+        // between multiple separate grids.
         BuildingGrid[] grids = FindObjectsOfType<BuildingGrid>();
-        BuildingGrid grid = null;
+        if (grids == null || grids.Length == 0)
+        {
+            Debug.LogWarning("CellHighlighter: No BuildingGrid instances found in scene.");
+            return;
+        }
+
+        // If a grid contains the unit, include that grid. Also include any other
+        // grids that have at least one cell within the unit's mobility/attack range
+        // so highlights span adjacent grids. If no grid contains the unit, use all.
+        List<BuildingGrid> gridsToUse = new List<BuildingGrid>();
+        BuildingGrid containing = null;
         foreach (var g in grids)
         {
             if (g.ContainsWorldPosition(unit.transform.position))
             {
-                grid = g;
+                containing = g;
                 break;
             }
         }
-
-        if (grid == null)
+        int maxRange = Mathf.Max(mobility, attackRange);
+        if (containing == null)
         {
-            Debug.LogWarning("CellHighlighter: No BuildingGrid found that contains the unit.");
-            return;
+            gridsToUse.AddRange(grids);
+        }
+        else
+        {
+            gridsToUse.Add(containing);
+            // Include other grids that intersect the set of candidate cells
+            foreach (var g in grids)
+            {
+                if (g == containing) continue;
+                (int gx, int gy) = g.WorldToGridPosition(unit.transform.position);
+                bool added = false;
+                for (int dx = -maxRange; dx <= maxRange && !added; dx++)
+                {
+                    for (int dy = -maxRange; dy <= maxRange; dy++)
+                    {
+                        bool inMove = Mathf.Abs(dx) + Mathf.Abs(dy) <= mobility;
+                        bool inAttack = Mathf.Abs(dx) <= attackRange && Mathf.Abs(dy) <= attackRange;
+                        if (!inMove && !inAttack) continue;
+                        int x = gx + dx;
+                        int y = gy + dy;
+                        Vector3 localCenter = new Vector3((x + 0.5f) * g.CellSize, 0.01f, (y + 0.5f) * g.CellSize);
+                        Vector3 worldPos = g.transform.TransformPoint(localCenter);
+                        if (g.ContainsWorldPosition(worldPos))
+                        {
+                            gridsToUse.Add(g);
+                            added = true;
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
-        float cellSize = grid.CellSize;
-        (int cx, int cy) = grid.WorldToGridPosition(unit.transform.position);
-        int maxRange = Mathf.Max(mobility, attackRange);
-
-        for (int dx = -maxRange; dx <= maxRange; dx++)
+        // reuse maxRange computed above
+        foreach (var grid in gridsToUse)
         {
-            for (int dy = -maxRange; dy <= maxRange; dy++)
+            float cellSize = grid.CellSize;
+            (int cx, int cy) = grid.WorldToGridPosition(unit.transform.position);
+
+            for (int dx = -maxRange; dx <= maxRange; dx++)
             {
-                bool inMove = Mathf.Abs(dx) + Mathf.Abs(dy) <= mobility;
-                bool inAttack = Mathf.Abs(dx) <= attackRange && Mathf.Abs(dy) <= attackRange;
-                if (!inMove && !inAttack) continue;
-
-                int x = cx + dx;
-                int y = cy + dy;
-
-                Vector3 localCenter = new Vector3((x + 0.5f) * cellSize, 0.01f, (y + 0.5f) * cellSize);
-                Vector3 worldPos = grid.transform.TransformPoint(localCenter);
-
-                // skip if outside grid bounds
-                if (!grid.ContainsWorldPosition(worldPos)) continue;
-
-                GameObject tile = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                tile.name = "HighlightTile";
-                // Parent the highlight tile to the grid so it follows grid position/rotation
-                tile.transform.SetParent(grid.transform, false);
-                tile.transform.localPosition = localCenter;
-                tile.transform.localRotation = Quaternion.identity;
-                tile.transform.localScale = new Vector3(cellSize, 0.02f, cellSize);
-
-                var mr = tile.GetComponent<MeshRenderer>();
-                if (mr != null)
+                for (int dy = -maxRange; dy <= maxRange; dy++)
                 {
-                    mr.sharedMaterial = inAttack ? attackMaterial : moveMaterial;
-                    mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-                    mr.receiveShadows = false;
+                    bool inMove = Mathf.Abs(dx) + Mathf.Abs(dy) <= mobility;
+                    bool inAttack = Mathf.Abs(dx) <= attackRange && Mathf.Abs(dy) <= attackRange;
+                    if (!inMove && !inAttack) continue;
+
+                    int x = cx + dx;
+                    int y = cy + dy;
+
+                    Vector3 localCenter = new Vector3((x + 0.5f) * cellSize, 0.01f, (y + 0.5f) * cellSize);
+                    Vector3 worldPos = grid.transform.TransformPoint(localCenter);
+
+                    // skip if outside grid bounds
+                    if (!grid.ContainsWorldPosition(worldPos)) continue;
+
+                    GameObject tile = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    tile.name = "HighlightTile";
+                    // Parent the highlight tile to the grid so it follows grid position/rotation
+                    tile.transform.SetParent(grid.transform, false);
+                    tile.transform.localPosition = localCenter;
+                    tile.transform.localRotation = Quaternion.identity;
+                    tile.transform.localScale = new Vector3(cellSize, 0.02f, cellSize);
+
+                    var mr = tile.GetComponent<MeshRenderer>();
+                    if (mr != null)
+                    {
+                        mr.sharedMaterial = inAttack ? attackMaterial : moveMaterial;
+                        mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                        mr.receiveShadows = false;
+                    }
+
+                    // Add a trigger collider so clicks can be detected on highlight tiles
+                    var col = tile.GetComponent<BoxCollider>();
+                    if (col == null) col = tile.AddComponent<BoxCollider>();
+                    col.isTrigger = true;
+
+                    // Attach tile metadata for click handling
+                    var ht = tile.AddComponent<HighlightTile>();
+                    // store the actual world position (after parenting) for click handling
+                    ht.worldPosition = tile.transform.position;
+                    ht.isMove = inMove;
+                    ht.isAttack = inAttack;
+
+                    tiles.Add(tile);
                 }
-
-                // Add a trigger collider so clicks can be detected on highlight tiles
-                var col = tile.GetComponent<BoxCollider>();
-                if (col == null) col = tile.AddComponent<BoxCollider>();
-                col.isTrigger = true;
-
-                // Attach tile metadata for click handling
-                var ht = tile.AddComponent<HighlightTile>();
-                // store the actual world position (after parenting) for click handling
-                ht.worldPosition = tile.transform.position;
-                ht.isMove = inMove;
-                ht.isAttack = inAttack;
-
-                tiles.Add(tile);
             }
         }
         currentUnit = unit;

@@ -20,6 +20,8 @@ public class TurnManager : MonoBehaviour
 
     public GameObject[] playerUnits;
     public GameObject[] enemyUnits;
+
+    public float transitionTime = 1f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
     void Awake()
@@ -50,8 +52,9 @@ public class TurnManager : MonoBehaviour
                         moveUnit.attackActions = moveUnit.unitData != null ? moveUnit.unitData.attackPoints : moveUnit.attackActions;
                     }
                 }
-
-                currentTurnPhase = turnPhase.PlayerTurn;
+                // After initializing player units, transition to PlayerTurn (schedule once)
+                if (!transitionPending)
+                    TransitionToPhase(turnPhase.PlayerTurn);
                 break;
             
             case turnPhase.PlayerTurn:
@@ -83,19 +86,22 @@ public class TurnManager : MonoBehaviour
             case turnPhase.StartEnemyTurn:
                 foreach (var unit in enemyUnits)
                 {
-                    var moveUnit = unit.GetComponent<MoveUnit>();
+                    var moveUnit = unit.GetComponent<EnemyMovement>();
                     if (moveUnit != null)
                     {
                         moveUnit.moveActions = moveUnit.unitData != null ? moveUnit.unitData.movePoints : moveUnit.moveActions;
                         moveUnit.attackActions = moveUnit.unitData != null ? moveUnit.unitData.attackPoints : moveUnit.attackActions;
                     }
                 }
+                // After initializing enemy units, transition to EnemyTurn (schedule once)
+                if (!transitionPending)
+                    TransitionToPhase(turnPhase.EnemyTurn);
                 break;
             
             case turnPhase.EnemyTurn:
                 foreach (var unit in enemyUnits)
                 {
-                    var moveUnit = unit.GetComponent<MoveUnit>();
+                    var moveUnit = unit.GetComponent<EnemyMovement>();
                     if (moveUnit != null)
                     {
                         if (moveUnit.moveActions == 0 && moveUnit.attackActions == 0)
@@ -131,4 +137,24 @@ public class TurnManager : MonoBehaviour
             currentTurnPhase = turnPhase.StartPlayerTurn;
         }
     }
+
+    public void TransitionToPhase(turnPhase newPhase)
+    {
+        if (transitionCoroutine != null)
+            StopCoroutine(transitionCoroutine);
+        transitionPending = true;
+        transitionCoroutine = StartCoroutine(TransitionCoroutine(newPhase));
+    }
+
+    private Coroutine transitionCoroutine;
+    private System.Collections.IEnumerator TransitionCoroutine(turnPhase newPhase)
+    {
+        yield return new WaitForSeconds(transitionTime);
+        currentTurnPhase = newPhase;
+        transitionCoroutine = null;
+        transitionPending = false;
+    }
+
+    // Prevent scheduling multiple concurrent transitions
+    private bool transitionPending = false;
 }

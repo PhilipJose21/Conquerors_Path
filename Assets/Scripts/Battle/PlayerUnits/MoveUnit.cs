@@ -230,21 +230,29 @@ public class MoveUnit : MonoBehaviour
                 prevMove.isSelected = false;
             }
 
-            // Select this unit and show its highlights
+            // Select this unit and show its highlights (only for player units)
             clickedMove.isSelected = true;
             if (ch != null)
-                ch.ShowHighlightsForUnit(obj, clickedMove.mobility, clickedMove.attackRange);
+            {
+                GameObject unitRoot = clickedMove.gameObject;
+                if (unitRoot.CompareTag("PlayerUnit") || unitRoot.GetComponentInParent<MoveUnit>() != null)
+                    ch.ShowHighlightsForUnit(unitRoot, clickedMove.mobility, clickedMove.attackRange);
+            }
             return;
         }
 
         // Fallback: if the clicked object has a UnitSOContainer, you can read ranges from it
-        UnitSOContainer container = obj.GetComponent<UnitSOContainer>();
+        // Only show highlights for player units (avoid showing highlights for enemies when clicking their children)
+        UnitSOContainer container = obj.GetComponentInParent<UnitSOContainer>();
         if (container != null && container.unitData != null)
         {
-            // If your UnitSO has explicit fields for mobility/attack, map them here.
-            // As a safe fallback, use this object's serialized values.
-            if (CellHighlighter.Instance != null)
-                CellHighlighter.Instance.ShowHighlightsForUnit(obj, mobility, attackRange);
+            GameObject unitRoot = container.gameObject;
+            bool isPlayer = unitRoot.CompareTag("PlayerUnit") || obj.CompareTag("PlayerUnit") || obj.GetComponentInParent<MoveUnit>() != null;
+            if (isPlayer)
+            {
+                if (CellHighlighter.Instance != null)
+                    CellHighlighter.Instance.ShowHighlightsForUnit(unitRoot, mobility, attackRange);
+            }
             return;
         }
 
