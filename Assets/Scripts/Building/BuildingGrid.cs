@@ -97,9 +97,21 @@ public class BuildingGrid : MonoBehaviour
     public void SetBuilding(Building building, List<Vector3> allBuildingPositions)
     {
         // Mark each covered cell as occupied by the provided Building instance.
+        if (grid == null)
+        {
+            Debug.LogWarning("SetBuilding called before grid initialized.");
+            return;
+        }
+
         foreach (var position in allBuildingPositions)
         {
             (int x, int y) = WorldToGridPosition(position);
+            // Skip positions that fall outside this grid's bounds
+            if (x < 0 || x >= width || y < 0 || y >= height)
+            {
+                Debug.LogWarning($"SetBuilding: position {position} maps to out-of-bounds cell ({x},{y}) for grid '{name}' - skipping.");
+                continue;
+            }
             grid[x, y].SetBuilding(building);
         }
     }
