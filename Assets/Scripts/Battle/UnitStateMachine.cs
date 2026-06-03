@@ -20,12 +20,7 @@ public class UnitStateMachine : MonoBehaviour
     {
         AttackEnemyUnit attackComponent = this.GetComponent<AttackEnemyUnit>();
         UnitHealth healthComponent = this.GetComponent<UnitHealth>();
-        MoveUnit moveComponent = this.GetComponent<MoveUnit>();
-        if (attackComponent == null || healthComponent == null || moveComponent == null)
-        {
-            Debug.LogError("UnitStateMachine requires AttackEnemyUnit, UnitHealth, and MoveUnit components.");
-            return;
-        }
+       
         currentUnitPhase = unitPhase.Idle;
     }
 

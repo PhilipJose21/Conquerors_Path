@@ -38,18 +38,20 @@ public class MoveUnit : MonoBehaviour
     void Awake()
     {
         UnitSOContainer container = this.GetComponent<UnitSOContainer>();
-        turnManager = FindObjectOfType<TurnManager>();
+        turnManager = Object.FindAnyObjectByType<TurnManager>();
         if (container != null)
         {
             unitData = container.unitData;
         }
         if (mainCamera == null)
             mainCamera = Camera.main;
+
         mobility = unitData != null ? unitData.mobility : mobility;
         attackRange = unitData != null ? unitData.attackRange : attackRange;
         attackActions = unitData != null ? unitData.attackPoints : attackActions;
         moveActions = unitData != null ? unitData.movePoints : moveActions;
         stateMachine = this.GetComponent<UnitStateMachine>();
+        
     }
 
     void Update()
@@ -89,7 +91,6 @@ public class MoveUnit : MonoBehaviour
 
     public void Clicked(GameObject obj)
     {
-        Debug.Log("Clicked on: " + obj.name);
 
         // If player clicked a highlighted tile, handle move/attack only if a player unit is selected
         var ht = obj.GetComponent<HighlightTile>();

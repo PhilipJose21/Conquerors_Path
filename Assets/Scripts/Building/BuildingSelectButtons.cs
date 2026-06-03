@@ -5,7 +5,7 @@ public class BuildingSelectButtons : MonoBehaviour
     // Simple UI helper that forwards button presses to the BuildingSystem to select
     // a building by index. Keeps the UI decoupled from BuildingSystem internals.
     public int buildingDataIndex = 0;
-    private BuildingSystem buildingSystem => FindObjectOfType<BuildingSystem>();
+    private BuildingSystem buildingSystem => Object.FindAnyObjectByType<BuildingSystem>();
 
     public void SelectBuilding()
     {

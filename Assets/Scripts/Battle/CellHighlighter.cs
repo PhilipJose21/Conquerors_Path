@@ -75,7 +75,6 @@ public class CellHighlighter : MonoBehaviour
         // Toggle: if clicking the same unit again, clear and return
         if (unit != null && currentUnit == unit)
         {
-            Debug.Log("CellHighlighter: clicked same unit again - clearing highlights.");
             ClearHighlights();
             return;
         }
