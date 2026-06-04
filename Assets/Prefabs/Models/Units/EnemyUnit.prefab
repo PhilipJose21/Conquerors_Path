@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 5951086020465060332}
   - component: {fileID: 3650844119260679332}
   - component: {fileID: 8347601032527971901}
+  - component: {fileID: 6221337278329465846}
   m_Layer: 0
   m_Name: TestUnitModel
   m_TagString: Enemy
@@ -329,6 +330,7 @@ MonoBehaviour:
   stateMachine: {fileID: 0}
   isPlayerTurn: 0
   isSelected: 0
+  endTurn: 0
   unitObject: {fileID: 0}
 --- !u!114 &3650844119260679332
 MonoBehaviour:
@@ -360,6 +362,20 @@ MonoBehaviour:
   maxHealth: 0
   healthBarFill: {fileID: 595738003048244818}
   currentUnitPhase: 0
+  playerUnit: {fileID: 0}
+--- !u!114 &6221337278329465846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3889137153310265391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a619f6ef02b9304c97bb93736ac7384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackPlayerUnit
+  dmg: 0
 --- !u!1 &6836925158722237672
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,6 +386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4422870771595090536}
   - component: {fileID: 6902321519127519615}
+  - component: {fileID: 8481947347920709708}
   m_Layer: 0
   m_Name: EnemyUnit
   m_TagString: EnemyUnit
@@ -386,7 +403,7 @@ Transform:
   m_GameObject: {fileID: 6836925158722237672}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5279166, y: 1, z: 3.490417}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -407,3 +424,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AssignParent
   parentObject: {fileID: 0}
+--- !u!114 &8481947347920709708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6836925158722237672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ffaef8884ccaec49bba701ed22eea59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingModel
+  wrapper: {fileID: 0}

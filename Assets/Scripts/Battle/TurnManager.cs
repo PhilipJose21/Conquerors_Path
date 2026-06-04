@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 
 public enum turnPhase
@@ -6,6 +8,7 @@ public enum turnPhase
         PlayerTurn,
         EnemyTurn,
         SetupTurn,
+        SetUpArrays,
         StartPlayerTurn,
         StartEnemyTurn
     }
@@ -14,25 +17,27 @@ public class TurnManager : MonoBehaviour
 {
 
     
-
+    public float transitionTime = 1f;
+    public bool placementPhase;
+    public BuildingSystem buildingSystem;
     public turnPhase currentTurnPhase;
     public TextMeshProUGUI turnPhaseText;
-
     public GameObject[] playerUnits;
     public GameObject[] enemyUnits;
 
-    public float transitionTime = 1f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
     void Awake()
     {
-        playerUnits = GameObject.FindGameObjectsWithTag("PlayerUnit");
-        enemyUnits = GameObject.FindGameObjectsWithTag("EnemyUnit");
+        
+        // Cache reference to BuildingSystem (single instance expected)
+        buildingSystem = FindObjectOfType<BuildingSystem>();
+
     }
 
     void Start()
     {
-        currentTurnPhase = turnPhase.PlayerTurn;
+        currentTurnPhase = turnPhase.SetupTurn;
     }
 
     // Update is called once per frame
@@ -40,6 +45,20 @@ public class TurnManager : MonoBehaviour
     {
         switch (currentTurnPhase)
         {
+
+            case turnPhase.SetupTurn:
+                if (buildingSystem != null)
+                    buildingSystem.gameObject.SetActive(true);
+
+                if (placementPhase == false)
+                {
+                    playerUnits = GameObject.FindGameObjectsWithTag("PlayerUnit");
+                    enemyUnits = GameObject.FindGameObjectsWithTag("EnemyUnit");
+                    currentTurnPhase = turnPhase.StartPlayerTurn;
+                    buildingSystem.gameObject.SetActive(false);
+                }
+                break;
+
             case turnPhase.StartPlayerTurn:
                 // Refresh player list in case units were removed/added during the enemy turn
                 playerUnits = GameObject.FindGameObjectsWithTag("PlayerUnit");

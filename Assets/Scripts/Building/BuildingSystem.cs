@@ -9,7 +9,8 @@ public class BuildingSystem : MonoBehaviour
     // - Validates preview cell occupancy against registered BuildingGrid instances
     // - Snaps previews to the grid-local center and instantiates Building objects
     public const float CellSize = 1f;
-    public int buildingDataIndex = 0;
+    // -1 means no building type selected; requires explicit selection to start placing.
+    public int buildingDataIndex = -1;
 
     public bool canRotate = true;
 
@@ -107,6 +108,8 @@ public class BuildingSystem : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.R) && !Input.GetKey(KeyCode.Q))
             {
                 PlaceBuilding(buildPosition, primaryGrid);
+                // After placing, require the player to explicitly reselect a building
+                buildingDataIndex = -1;
                 isPlacing = false;
             }
         }
@@ -127,6 +130,7 @@ public class BuildingSystem : MonoBehaviour
             Destroy(preview.gameObject);
             preview = null;
             isPlacing = false;
+            buildingDataIndex = -1;
         }
     }
 
@@ -167,6 +171,14 @@ public class BuildingSystem : MonoBehaviour
         Destroy(preview.gameObject);
         preview = null;
         isPlacing = false;
+        buildingDataIndex = -1;
+        // Extra cleanup: remove any lingering previews that might have been left behind
+        // Use the newer FindObjectsByType API to avoid the obsolete warning and avoid unnecessary sorting
+        var lingering = Object.FindObjectsByType<BuildingPreview>(FindObjectsSortMode.None);
+        foreach (var lp in lingering)
+        {
+            if (lp != null) Destroy(lp.gameObject);
+        }
         PassiveResource passiveResource = building.GetComponentInChildren<PassiveResource>();
         if (passiveResource != null)
         {
@@ -214,7 +226,8 @@ public class BuildingSystem : MonoBehaviour
     private BuildingPreview CreatePreview(BuildingData data, Vector3 position)
     {
         // isPlacing = true;
-        BuildingPreview newPreview = Instantiate(buildingGrid, position, Quaternion.identity);
+        var previewGO = Instantiate(buildingGrid.gameObject, position, Quaternion.identity);
+        BuildingPreview newPreview = previewGO.GetComponent<BuildingPreview>();
         newPreview.Setup(data);
         return newPreview;
     }
