@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 8913851016305286998}
   - component: {fileID: 43846652049700427}
   - component: {fileID: 6992985739912047394}
-  - component: {fileID: 4333439837566906419}
+  - component: {fileID: 6146339035423047448}
   - component: {fileID: 7473405283178477117}
-  - component: {fileID: 2028299047993414369}
-  - component: {fileID: 8838602506026816360}
+  - component: {fileID: 2116137324839493132}
+  - component: {fileID: 6020906171987382805}
   - component: {fileID: 8889273464930698551}
   m_Layer: 0
   m_Name: TestUnitModel
@@ -117,7 +117,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4333439837566906419
+--- !u!114 &6146339035423047448
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,10 +126,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2889937920117931480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ea5d065b3b91f94399b4db79f8fe387, type: 3}
+  m_Script: {fileID: 11500000, guid: e5f7e235abd90f244971b547dc79a947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitSOContainer
-  unitData: {fileID: 11400000, guid: f9e553575959a694e96661ea99f4a2ea, type: 2}
+  unitData: {fileID: 11400000, guid: 28d18d86a945b5143838a668623a1d68, type: 2}
 --- !u!114 &7473405283178477117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitStateMachine
   currentUnitPhase: 0
---- !u!114 &2028299047993414369
+--- !u!114 &2116137324839493132
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -152,14 +152,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2889937920117931480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ad8c9c0b538388448c7a2d1e09c2ee6, type: 3}
+  m_Script: {fileID: 11500000, guid: 15f82b98b5932fb4badadb2349cd211f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoveUnit
   unitData: {fileID: 0}
   mobility: 2
   attackRange: 1
   moveSpeed: 4
-  moveActions: 100
+  moveActions: 1
   attackActions: 1
   canMove: 1
   currentTurnPhase: 0
@@ -167,7 +167,7 @@ MonoBehaviour:
   isPlayerTurn: 0
   isSelected: 0
   unitObject: {fileID: 0}
---- !u!114 &8838602506026816360
+--- !u!114 &6020906171987382805
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2889937920117931480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b36a45723216594b9c316998a2e7285, type: 3}
+  m_Script: {fileID: 11500000, guid: 29d3dc192e86ff34aa15803f6f10a568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackEnemyUnit
   dmg: 0

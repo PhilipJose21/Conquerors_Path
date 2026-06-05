@@ -1410,7 +1410,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingSystem
   buildingDataIndex: 0
-  placementEnabled: 1
   canRotate: 1
   isPlacing: 0
   buildingDataList:
@@ -3231,6 +3230,8 @@ GameObject:
   - component: {fileID: 2044518043}
   - component: {fileID: 2044518044}
   - component: {fileID: 2044518045}
+  - component: {fileID: 2044518047}
+  - component: {fileID: 2044518046}
   m_Layer: 0
   m_Name: HighlightObjectManager
   m_TagString: Untagged
@@ -3265,8 +3266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45f36db22b76cb841adac1ef285d9735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CellHighlighter
-  moveMaterial: {fileID: 2100000, guid: 3d1603cceae7dff41b7beab0b810d1a1, type: 2}
-  attackMaterial: {fileID: 2100000, guid: 4a8d7b7abca7c404e8f0be9cc040160f, type: 2}
 --- !u!114 &2044518045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3279,9 +3278,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbb45ec1b8ba63c449c39a18e0e85732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HighlightTile
+--- !u!114 &2044518046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044518042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ccc50bfaa1580944868771b832098cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightTile
   worldPosition: {x: 0, y: 0, z: 0}
   isMove: 0
   isAttack: 0
+--- !u!114 &2044518047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044518042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8628d5daff23044a8e13c0bb622296e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CellHighlighter
+  moveMaterial: {fileID: 2100000, guid: 3d1603cceae7dff41b7beab0b810d1a1, type: 2}
+  attackMaterial: {fileID: 2100000, guid: 4a8d7b7abca7c404e8f0be9cc040160f, type: 2}
 --- !u!1 &2081128227
 GameObject:
   m_ObjectHideFlags: 0

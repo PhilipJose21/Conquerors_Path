@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 4723545979575880828}
   - component: {fileID: 2949034886621629305}
   - component: {fileID: 7293271326986337495}
-  - component: {fileID: 2827770733029203746}
+  - component: {fileID: 8181205248822202691}
   - component: {fileID: 5951086020465060332}
   - component: {fileID: 3650844119260679332}
   - component: {fileID: 8347601032527971901}
@@ -294,7 +294,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2827770733029203746
+--- !u!114 &8181205248822202691
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -303,10 +303,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3889137153310265391}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ea5d065b3b91f94399b4db79f8fe387, type: 3}
+  m_Script: {fileID: 11500000, guid: e5f7e235abd90f244971b547dc79a947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitSOContainer
-  unitData: {fileID: 11400000, guid: f9e553575959a694e96661ea99f4a2ea, type: 2}
+  unitData: {fileID: 11400000, guid: 28d18d86a945b5143838a668623a1d68, type: 2}
 --- !u!114 &5951086020465060332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,7 +386,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4422870771595090536}
   - component: {fileID: 6902321519127519615}
-  - component: {fileID: 8481947347920709708}
   m_Layer: 0
   m_Name: EnemyUnit
   m_TagString: EnemyUnit
@@ -424,16 +423,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AssignParent
   parentObject: {fileID: 0}
---- !u!114 &8481947347920709708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6836925158722237672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ffaef8884ccaec49bba701ed22eea59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuildingModel
-  wrapper: {fileID: 0}
