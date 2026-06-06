@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -289,6 +290,48 @@ public class MoveUnit : MonoBehaviour
     {
         // Preserve current Y so the assigned unitObject (or this) doesn't sink or float when moving on grid
         var moveTransform = unitObject != null ? unitObject.transform : transform;
+        // Determine if any terrain along the path requires stopping before reaching the requested target.
+        BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
+        BuildingGrid grid = null;
+        if (grids != null && grids.Length > 0)
+        {
+            foreach (var g in grids)
+            {
+                if (g.ContainsWorldPosition(moveTransform.position))
+                {
+                    grid = g;
+                    break;
+                }
+            }
+            if (grid == null) grid = grids[0];
+        }
+
+        if (grid != null)
+        {
+            (int sx, int sy) = grid.WorldToGridPosition(moveTransform.position);
+            (int ex, int ey) = grid.WorldToGridPosition(target);
+            var path = GetCellsOnLine(sx, sy, ex, ey);
+            foreach (var cell in path)
+            {
+                int x = cell.x; int y = cell.y;
+                Vector3 localCenter = new Vector3((x + 0.5f) * grid.CellSize, 0.01f, (y + 0.5f) * grid.CellSize);
+                Vector3 worldCenter = grid.transform.TransformPoint(localCenter);
+                // Check for terrain interaction components near the cell center
+                Collider[] cols = Physics.OverlapSphere(worldCenter, grid.CellSize * 0.35f);
+                foreach (var c in cols)
+                {
+                    var ti = c.GetComponentInParent<TerrainInteraction>();
+                    if (ti != null && ti.CantWalkThrough())
+                    {
+                        // If terrain blocks movement, stop on this cell instead of passing through
+                        target = worldCenter;
+                        // break out of both loops
+                        goto FoundBlockingTerrain;
+                    }
+                }
+            }
+        }
+FoundBlockingTerrain:
         target.y = moveTransform.position.y;
         // Only consume a move action if available
         if (moveActions <= 0)
@@ -300,6 +343,37 @@ public class MoveUnit : MonoBehaviour
 
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
         moveCoroutine = StartCoroutine(MoveRoutine(target));
+    }
+
+    // Bresenham line algorithm to enumerate grid cells between two grid coordinates
+    private List<Vector2Int> GetCellsOnLine(int x0, int y0, int x1, int y1)
+    {
+        var cells = new List<Vector2Int>();
+        int dx = Mathf.Abs(x1 - x0);
+        int dy = Mathf.Abs(y1 - y0);
+        int sx = x0 < x1 ? 1 : -1;
+        int sy = y0 < y1 ? 1 : -1;
+        int err = dx - dy;
+
+        int x = x0;
+        int y = y0;
+        while (true)
+        {
+            cells.Add(new Vector2Int(x, y));
+            if (x == x1 && y == y1) break;
+            int e2 = 2 * err;
+            if (e2 > -dy)
+            {
+                err -= dy;
+                x += sx;
+            }
+            if (e2 < dx)
+            {
+                err += dx;
+                y += sy;
+            }
+        }
+        return cells;
     }
 
     IEnumerator MoveRoutine(Vector3 target)
