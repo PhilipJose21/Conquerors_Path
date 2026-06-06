@@ -8,7 +8,6 @@ public enum turnPhase
         PlayerTurn,
         EnemyTurn,
         SetupTurn,
-        SetUpArrays,
         StartPlayerTurn,
         StartEnemyTurn
     }
@@ -25,13 +24,15 @@ public class TurnManager : MonoBehaviour
     public GameObject[] playerUnits;
     public GameObject[] enemyUnits;
 
+    public GameObject gameOverScreen;
+    public GameObject victoryScreen;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
     void Awake()
     {
         
         // Cache reference to BuildingSystem (single instance expected)
-        buildingSystem = FindObjectOfType<BuildingSystem>();
+        buildingSystem = Object.FindFirstObjectByType<BuildingSystem>();
 
     }
 
@@ -43,9 +44,25 @@ public class TurnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        checkTurnPhase();
+        if (currentTurnPhase != turnPhase.SetupTurn)
+        {
+            if (playerUnits == null || playerUnits.Length == 0)
+            {
+                gameOverScreen.SetActive(true);
+            }
+            else if (enemyUnits == null || enemyUnits.Length == 0)
+            {
+                victoryScreen.SetActive(true);
+            }
+            
+        }
+    }
+
+    public void checkTurnPhase()
+    {
         switch (currentTurnPhase)
         {
-
             case turnPhase.SetupTurn:
                 if (buildingSystem != null)
                     buildingSystem.gameObject.SetActive(true);
@@ -199,4 +216,9 @@ public class TurnManager : MonoBehaviour
 
     // Prevent scheduling multiple concurrent transitions
     private bool transitionPending = false;
+
+    public void endSetup()
+    {
+        placementPhase = false;
+    }
 }

@@ -10,6 +10,7 @@ TagManager:
   - EnemyUnit
   - PlayerUnit
   - Enemy
+  - Terrain
   layers:
   - Default
   - TransparentFX
