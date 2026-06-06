@@ -311,8 +311,11 @@ public class MoveUnit : MonoBehaviour
             (int sx, int sy) = grid.WorldToGridPosition(moveTransform.position);
             (int ex, int ey) = grid.WorldToGridPosition(target);
             var path = GetCellsOnLine(sx, sy, ex, ey);
-            foreach (var cell in path)
+            // Skip the starting cell so units already standing on disruptive terrain
+            // are allowed to move out on subsequent turns.
+            for (int pi = 1; pi < path.Count; pi++)
             {
+                var cell = path[pi];
                 int x = cell.x; int y = cell.y;
                 Vector3 localCenter = new Vector3((x + 0.5f) * grid.CellSize, 0.01f, (y + 0.5f) * grid.CellSize);
                 Vector3 worldCenter = grid.transform.TransformPoint(localCenter);

@@ -16,6 +16,6 @@ MonoBehaviour:
   terrainPrefab: {fileID: 0}
   resourceType: 0
   unitVisibility: 1
-  disruptsMovement: 0
+  disruptsMovement: 1
   attackRangeImmune: 0
   specialConditions: 
