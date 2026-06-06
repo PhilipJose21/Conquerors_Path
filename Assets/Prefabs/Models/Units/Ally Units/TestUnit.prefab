@@ -303,6 +303,7 @@ GameObject:
   - component: {fileID: 3784859791488326291}
   - component: {fileID: 7422695407567533727}
   - component: {fileID: 7157696317104797339}
+  - component: {fileID: 116592530269078392}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -367,6 +368,19 @@ MonoBehaviour:
   m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &116592530269078392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8002205835395159660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf621b23b0b25343a66f85eb1051d62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LookAtCamera
+  mode: 2
 --- !u!1 &8324503826283835905
 GameObject:
   m_ObjectHideFlags: 0

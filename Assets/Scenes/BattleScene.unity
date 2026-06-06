@@ -889,10 +889,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8002205835395159660, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1712500456}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
 --- !u!1 &235123813
 GameObject:
@@ -2052,24 +2049,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 999015517}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1065451139 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3295970276733736372, guid: 2d78187e3147bb04282d89b6c28e7f87, type: 3}
-  m_PrefabInstance: {fileID: 1389276887}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1065451143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1065451139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caf621b23b0b25343a66f85eb1051d62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LookAtCamera
-  mode: 2
 --- !u!1 &1164576542
 GameObject:
   m_ObjectHideFlags: 0
@@ -2842,10 +2821,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3295970276733736372, guid: 2d78187e3147bb04282d89b6c28e7f87, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1065451143}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d78187e3147bb04282d89b6c28e7f87, type: 3}
 --- !u!4 &1389276888 stripped
 Transform:
@@ -3785,24 +3761,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1701668411}
   m_CullTransparentMesh: 1
---- !u!1 &1712500452 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8002205835395159660, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-  m_PrefabInstance: {fileID: 223501271}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1712500456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1712500452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caf621b23b0b25343a66f85eb1051d62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LookAtCamera
-  mode: 2
 --- !u!1 &1727869472
 GameObject:
   m_ObjectHideFlags: 0
