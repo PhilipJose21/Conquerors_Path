@@ -33,6 +33,12 @@ public class ClickObject : MonoBehaviour
 
     public void Clicked(GameObject obj)
     {
+        // Ignore clicks when pointer is over UI or object info panel is open
+        if (UnityEngine.EventSystems.EventSystem.current != null && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            return;
+        if (KingdomUIManager.Instance != null && KingdomUIManager.Instance.IsObjectInfoOpen)
+            return;
+
         OpenBuildingUI buildingUI = obj.GetComponent<OpenBuildingUI>();
         if (buildingUI != null)
         {
