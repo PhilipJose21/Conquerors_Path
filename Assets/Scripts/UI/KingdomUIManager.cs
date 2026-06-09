@@ -20,6 +20,8 @@ public class KingdomUIManager : MonoBehaviour
     public GameObject buildingInfoPrefab;
     [SerializeField] private GameObject currentObjectInfoPanel;
     [SerializeField] private bool currentObjectInfoPanelIsInstantiated;
+    [Header("Troop Selection Panel")]
+    public GameObject troopSelectionPanel;
 
     void Awake()
     {
@@ -170,5 +172,25 @@ public class KingdomUIManager : MonoBehaviour
         }
 
         return panel;
+    }
+    // Troop selection panel methods
+    public void OpenTroopSelectionPanel()
+    {
+        Debug.Log("Opening troop selection panel");
+        if (troopSelectionPanel != null)
+            troopSelectionPanel.SetActive(true);
+    }
+
+    public void CloseTroopSelectionPanel()
+    {
+        if (troopSelectionPanel != null)
+            troopSelectionPanel.SetActive(false);
+    }
+
+    public void ToggleTroopSelectionPanel()
+    {
+        Debug.Log("Toggling troop selection panel");
+        if (troopSelectionPanel != null)
+            troopSelectionPanel.SetActive(!troopSelectionPanel.activeSelf);
     }
 }
