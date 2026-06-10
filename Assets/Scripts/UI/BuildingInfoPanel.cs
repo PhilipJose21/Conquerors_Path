@@ -68,14 +68,14 @@ public class BuildingInfoPanel : MonoBehaviour
 
         PopulateCommon(viewData.title, viewData.icon, viewData.description);
 
-        if (typeText != null) typeText.text = viewData.type ?? "";
-        if (mobilityText != null) mobilityText.text = viewData.mobility ?? "";
-        if (hpText != null) hpText.text = viewData.hp ?? "";
-        if (resourceText != null) resourceText.text = viewData.resource ?? "";
-        if (damageText != null) damageText.text = viewData.damage ?? "";
-        if (unitCostText != null) unitCostText.text = viewData.unitCost ?? "";
-        if (attackRangeText != null) attackRangeText.text = viewData.attackRange ?? "";
-        if (upgradeCostText != null) upgradeCostText.text = viewData.upgradeCost ?? "";
+        if (typeText != null) typeText.text = FormatStat("Type", viewData.type);
+        if (mobilityText != null) mobilityText.text = FormatStat("Mobility", viewData.mobility);
+        if (hpText != null) hpText.text = FormatStat("HP", viewData.hp);
+        if (resourceText != null) resourceText.text = FormatStat("Resources", viewData.resource);
+        if (damageText != null) damageText.text = FormatStat("Damage", viewData.damage);
+        if (unitCostText != null) unitCostText.text = FormatStat("Cost", viewData.unitCost);
+        if (attackRangeText != null) attackRangeText.text = FormatStat("Attack Range", viewData.attackRange);
+        if (upgradeCostText != null) upgradeCostText.text = FormatStat("Upgrade Cost", viewData.upgradeCost);
 
         ShowUpgradeAndDestroy(viewData.showUpgrade, viewData.showDestroy);
     }
@@ -85,6 +85,11 @@ public class BuildingInfoPanel : MonoBehaviour
         if (nameText != null) nameText.text = name ?? "";
         if (iconImage != null) iconImage.sprite = icon;
         if (descriptionText != null) descriptionText.text = description ?? "";
+    }
+
+    private static string FormatStat(string label, string value)
+    {
+        return string.IsNullOrWhiteSpace(value) ? string.Empty : $"{label}: {value}";
     }
 
     private void ShowUpgradeAndDestroy(bool showBoth)
@@ -161,7 +166,7 @@ public class InfoPanelViewData
             icon = troop != null ? troop.unitIcon : null,
             description = troop != null ? troop.description : string.Empty,
             type = troop != null ? troop.unitType.ToString() : string.Empty,
-            mobility = troop != null ? troop.mobility.ToString() + " cells" : string.Empty,
+            mobility = troop != null ? troop.mobility.ToString() : string.Empty,
             hp = troop != null ? troop.health.ToString() : string.Empty,
             damage = troop != null ? troop.damage.ToString() : string.Empty,
             unitCost = troop != null ? troop.unitCost.ToString() : string.Empty,

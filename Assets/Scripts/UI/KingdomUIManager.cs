@@ -22,6 +22,8 @@ public class KingdomUIManager : MonoBehaviour
     [SerializeField] private bool currentObjectInfoPanelIsInstantiated;
     [Header("Troop Selection Panel")]
     public GameObject troopSelectionPanel;
+    [Header("Bag Panel")]
+    public GameObject bagPanel;
 
     void Awake()
     {
@@ -192,5 +194,24 @@ public class KingdomUIManager : MonoBehaviour
         Debug.Log("Toggling troop selection panel");
         if (troopSelectionPanel != null)
             troopSelectionPanel.SetActive(!troopSelectionPanel.activeSelf);
+    }
+    public void OpenBagPanel()
+    {
+        Debug.Log("Opening bag panel");
+        if (bagPanel != null && !bagPanel.activeSelf)
+            bagPanel.SetActive(true);
+    }
+
+    public void CloseBagPanel()
+    {
+        if (bagPanel != null && bagPanel.activeSelf)
+            bagPanel.SetActive(false);
+    }
+
+    public void ToggleBagPanel()
+    {
+        Debug.Log("Toggling bag panel");
+        if (bagPanel != null)
+            bagPanel.SetActive(!bagPanel.activeSelf);
     }
 }
