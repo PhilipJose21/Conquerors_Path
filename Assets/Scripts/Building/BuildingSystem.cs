@@ -33,11 +33,11 @@ public class BuildingSystem : MonoBehaviour
         // Check input and update the active preview each frame.
         Vector3 mousePos = GetMouseWorldPosition();
 
-        // Number keys switch selected building type even while previewing.
-        if (Input.GetKeyDown(KeyCode.Alpha1)) TrySelectBuilding(0, mousePos);
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) TrySelectBuilding(1, mousePos);
-        else if (Input.GetKeyDown(KeyCode.Alpha3)) TrySelectBuilding(2, mousePos);
-        else if (Input.GetKeyDown(KeyCode.Alpha4)) TrySelectBuilding(3, mousePos);
+        // // Number keys switch selected building type even while previewing.
+        // if (Input.GetKeyDown(KeyCode.Alpha1)) TrySelectBuilding(0, mousePos);
+        // else if (Input.GetKeyDown(KeyCode.Alpha2)) TrySelectBuilding(1, mousePos);
+        // else if (Input.GetKeyDown(KeyCode.Alpha3)) TrySelectBuilding(2, mousePos);
+        // else if (Input.GetKeyDown(KeyCode.Alpha4)) TrySelectBuilding(3, mousePos);
 
 
         // If a preview exists, move and validate it.
