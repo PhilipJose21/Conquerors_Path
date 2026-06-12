@@ -15,6 +15,7 @@ public class KingdomUIManager : MonoBehaviour
     public TextMeshProUGUI gemsText;
     public TextMeshProUGUI coinsText;
 
+    private Building currentBuilding;
     // Object info / building panel
     public Transform objectInfoParent;
     public GameObject buildingInfoPrefab;
@@ -113,6 +114,16 @@ public class KingdomUIManager : MonoBehaviour
     {
         if (building == null) return;
 
+        // Toggle OFF if same building clicked again
+        if (currentBuilding == building)
+        {
+            CloseObjectInfo();
+            currentBuilding = null;
+            return;
+        }
+
+        currentBuilding = building;
+
         var panel = EnsureObjectInfoPanel();
 
         if (panel != null)
@@ -124,6 +135,8 @@ public class KingdomUIManager : MonoBehaviour
 
     public void CloseObjectInfo()
     {
+        currentBuilding = null;
+
         if (currentObjectInfoPanel == null)
             return;
 

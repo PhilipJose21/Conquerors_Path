@@ -19,6 +19,14 @@ public class OpenBuildingUI : MonoBehaviour
             buildingUIPrefab = Resources.Load<GameObject>("UI/BuildingInfoPanel");
         }
     }
+    private void OnMouseDown()
+    {
+        BuildingSystem buildingSystem = FindFirstObjectByType<BuildingSystem>();
+        if (buildingSystem != null && buildingSystem.isPlacing)
+            return;
+
+        OpenUI();
+    }
 
     public void OpenUI()
     {
