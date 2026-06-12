@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: -1254735274301716287}
   - component: {fileID: -1936643875974198992}
   m_Layer: 0
-  m_Name: BuildingModel 1
+  m_Name: Mine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e7a8dafc8c08474c8e6a1e31a1e85bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PassiveResource
-  resourceType: 0
+  resourceType: 1
   isActive: 0
   resourceAmount: 1
   resourceTimer: 1
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a51036a5178cf94c86ff8a7cbe919cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpenBuildingUI
-  buildingUIPrefab: {fileID: 0}
+  buildingUIPrefab: {fileID: 5035976004460821801, guid: 553fef961050f534ba597de4dfa6ab5c, type: 3}
   transformUI: {fileID: 0}
 --- !u!65 &-1936643875974198992
 BoxCollider:

@@ -72,4 +72,14 @@ public class Building : MonoBehaviour
         // Apply the requested absolute rotation to the visual model
         model.SetRotation(rotation);
     }
+    private void OnMouseDown()
+    {
+        if (!HasData) return;
+
+        BuildingSystem system = FindFirstObjectByType<BuildingSystem>();
+        if (system != null && system.isPlacing)
+            return;
+
+        KingdomUIManager.Instance?.ShowObjectInfo(this);
+    }
 }

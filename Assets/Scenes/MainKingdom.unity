@@ -4889,7 +4889,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 480827220}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2128207253}
+        m_TargetAssemblyTypeName: KingdomUIManager, Assembly-CSharp
+        m_MethodName: ToggleTroopSelectionPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &480827220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15953,6 +15965,34 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4542413901476149716, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4542413901476149716, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4542413901476149716, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2128207253}
+    - target: {fileID: 4542413901476149716, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4542413901476149716, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseObjectInfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 4542413901476149716, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KingdomUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4542413901476149716, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4724395340772982720, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
       propertyPath: m_fontSize
       value: 15
@@ -16349,6 +16389,34 @@ PrefabInstance:
     - target: {fileID: 5161180808412074210, guid: 45c3e0a3460a3bd4489a72b1cf4248c3, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197089054947896424, guid: 45c3e0a3460a3bd4489a72b1cf4248c3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197089054947896424, guid: 45c3e0a3460a3bd4489a72b1cf4248c3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197089054947896424, guid: 45c3e0a3460a3bd4489a72b1cf4248c3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2128207253}
+    - target: {fileID: 6197089054947896424, guid: 45c3e0a3460a3bd4489a72b1cf4248c3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197089054947896424, guid: 45c3e0a3460a3bd4489a72b1cf4248c3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseObjectInfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197089054947896424, guid: 45c3e0a3460a3bd4489a72b1cf4248c3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KingdomUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197089054947896424, guid: 45c3e0a3460a3bd4489a72b1cf4248c3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6577335742712443027, guid: 45c3e0a3460a3bd4489a72b1cf4248c3, type: 3}
       propertyPath: m_AnchorMax.x

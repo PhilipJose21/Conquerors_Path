@@ -171,8 +171,10 @@ GameObject:
   - component: {fileID: 3449380818281653029}
   - component: {fileID: 4299618899565708483}
   - component: {fileID: -6678622617216763301}
+  - component: {fileID: -7141742493467945471}
+  - component: {fileID: 1524658142921448788}
   m_Layer: 0
-  m_Name: BuildingModel 2
+  m_Name: Lumberbill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -219,11 +221,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e7a8dafc8c08474c8e6a1e31a1e85bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PassiveResource
-  resourceType: 1
+  resourceType: 0
   isActive: 0
   resourceAmount: 1
   resourceTimer: 1
   currentTime: 0
+--- !u!114 &-7141742493467945471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6032859875639384591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a51036a5178cf94c86ff8a7cbe919cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OpenBuildingUI
+  buildingUIPrefab: {fileID: 5035976004460821801, guid: 553fef961050f534ba597de4dfa6ab5c, type: 3}
+  transformUI: {fileID: 0}
+--- !u!65 &1524658142921448788
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6032859875639384591}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &5163058021603543809
 PrefabInstance:
   m_ObjectHideFlags: 0
