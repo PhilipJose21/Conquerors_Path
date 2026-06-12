@@ -979,10 +979,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1963962561}
     m_Modifications:
-    - target: {fileID: 43846652049700427, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: fa989e510a3844b4a8fc3b008124c53c, type: 2}
     - target: {fileID: 2295165078543630765, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.5187714
@@ -2202,10 +2198,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1963962561}
     m_Modifications:
-    - target: {fileID: 2949034886621629305, guid: 2d78187e3147bb04282d89b6c28e7f87, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 102d412e826721a41af2bddc6104c4db, type: 2}
     - target: {fileID: 4422870771595090536, guid: 2d78187e3147bb04282d89b6c28e7f87, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.5009279
@@ -3101,10 +3093,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1963962561}
     m_Modifications:
-    - target: {fileID: 2949034886621629305, guid: 2d78187e3147bb04282d89b6c28e7f87, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 102d412e826721a41af2bddc6104c4db, type: 2}
     - target: {fileID: 4422870771595090536, guid: 2d78187e3147bb04282d89b6c28e7f87, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.4990721
@@ -3201,7 +3189,6 @@ Transform:
   - {fileID: 2132759341}
   - {fileID: 1202145366}
   - {fileID: 465482108}
-  - {fileID: 2080969452}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1512447953
@@ -4677,51 +4664,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &2080969451
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2080969452}
-  - component: {fileID: 2080969453}
-  m_Layer: 0
-  m_Name: EnemyTurnManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2080969452
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080969451}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1404085934}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2080969453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080969451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06103faa018d47743add12578e4cc331, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyTurnManager
-  enemyUnits: []
 --- !u!1 &2081128227
 GameObject:
   m_ObjectHideFlags: 0
@@ -4912,6 +4854,7 @@ MonoBehaviour:
   turnPhaseText: {fileID: 97481270}
   playerUnits: []
   enemyUnits: []
+  enemyTurnDelay: 1
   gameOverScreen: {fileID: 1325056871}
   victoryScreen: {fileID: 929853632}
   playerTurnScreen: {fileID: 1693408867}

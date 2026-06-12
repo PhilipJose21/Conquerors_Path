@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   <Name>k__BackingField: House
   <Size>k__BackingField: 1
-  <Model>k__BackingField: {fileID: 1915748257449464270, guid: 542d3b7b4cd219642b1f4479e9fe7111, type: 3}
+  <Model>k__BackingField: {fileID: 1915748257449464270, guid: e18c451318b0670419c0751ad32d4cfc, type: 3}
   <Icon>k__BackingField: {fileID: 0}
   <coinCost>k__BackingField: 0
   <farmCost>k__BackingField: 0
