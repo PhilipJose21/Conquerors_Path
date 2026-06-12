@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -59,11 +60,10 @@ public class EnemyMovement : MonoBehaviour
         if (!hasActedThisTurn)
         {
             hasActedThisTurn = true;
-            Act();
         }
     }
 
-    void Act()
+    public void Act()
     {
         // Find nearest player unit
         GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerUnit");
@@ -155,18 +155,53 @@ public class EnemyMovement : MonoBehaviour
 
             int nx = sx;
             int ny = sy;
-            int remaining = moveCells;
-            int dx = tx - sx;
-            int stepX = dx > 0 ? 1 : (dx < 0 ? -1 : 0);
-            int moveX = Mathf.Min(Mathf.Abs(dx), remaining);
-            nx += stepX * moveX;
-            remaining -= moveX;
+            
+            // BFS to find the closest reachable unoccupied cell to target
+            int bestX = sx;
+            int bestY = sy;
+            int minDistToTarget = Mathf.Abs(sx - tx) + Mathf.Abs(sy - ty);
 
-            int dy = ty - sy;
-            int stepY = dy > 0 ? 1 : (dy < 0 ? -1 : 0);
-            int moveY = Mathf.Min(Mathf.Abs(dy), remaining);
-            ny += stepY * moveY;
-            remaining -= moveY;
+            Queue<(int x, int y, int dist)> queue = new Queue<(int x, int y, int dist)>();
+            HashSet<(int x, int y)> visited = new HashSet<(int x, int y)>();
+
+            queue.Enqueue((sx, sy, 0));
+            visited.Add((sx, sy));
+
+            while (queue.Count > 0)
+            {
+                var curr = queue.Dequeue();
+                int cx = curr.x;
+                int cy = curr.y;
+                int cdist = curr.dist;
+
+                int distToTarget = Mathf.Abs(cx - tx) + Mathf.Abs(cy - ty);
+                if (distToTarget < minDistToTarget)
+                {
+                    minDistToTarget = distToTarget;
+                    bestX = cx;
+                    bestY = cy;
+                }
+
+                if (cdist < moveCells)
+                {
+                    (int dx, int dy)[] dirs = new (int, int)[] { (0, 1), (1, 0), (0, -1), (-1, 0) };
+                    foreach (var dir in dirs)
+                    {
+                        int nxtX = cx + dir.dx;
+                        int nxtY = cy + dir.dy;
+                        if (!visited.Contains((nxtX, nxtY)))
+                        {
+                            visited.Add((nxtX, nxtY));
+                            if (!IsCellOccupied(chosenGrid, nxtX, nxtY))
+                            {
+                                queue.Enqueue((nxtX, nxtY, cdist + 1));
+                            }
+                        }
+                    }
+                }
+            }
+            nx = bestX;
+            ny = bestY;
 
             // Compute world center of target cell
             float cs = chosenGrid.CellSize;
@@ -279,5 +314,35 @@ public class EnemyMovement : MonoBehaviour
     public void ForceActNow()
     {
         Act();
+    }
+
+    private bool IsCellOccupied(BuildingGrid grid, int gx, int gy)
+    {
+        if (grid == null) return false;
+
+        // Check against other enemy units
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("EnemyUnit");
+        if (enemies != null)
+        {
+            foreach (var e in enemies)
+            {
+                if (e == this.gameObject || (unitObject != null && e == unitObject)) continue;
+                (int ex, int ey) = grid.WorldToGridPosition(e.transform.position);
+                if (ex == gx && ey == gy) return true;
+            }
+        }
+
+        // Check against player units
+        GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerUnit");
+        if (players != null)
+        {
+            foreach (var p in players)
+            {
+                (int px, int py) = grid.WorldToGridPosition(p.transform.position);
+                if (px == gx && py == gy) return true;
+            }
+        }
+
+        return false;
     }
 }

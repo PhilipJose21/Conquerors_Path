@@ -4,13 +4,15 @@ using System.Linq;
 using TMPro;
 
 public enum turnPhase
-    {
-        PlayerTurn,
-        EnemyTurn,
-        SetupTurn,
-        StartPlayerTurn,
-        StartEnemyTurn
-    }
+{
+    PlayerTurn,
+    EnemyTurn,
+    SetupTurn,
+    StartPlayerTurn,
+    StartEnemyTurn,
+    PlayerWin,
+    EnemyWin
+}
 
 public class TurnManager : MonoBehaviour
 {
@@ -23,9 +25,12 @@ public class TurnManager : MonoBehaviour
     public TextMeshProUGUI turnPhaseText;
     public GameObject[] playerUnits;
     public GameObject[] enemyUnits;
+    public float enemyTurnDelay = 1f;
 
     public GameObject gameOverScreen;
     public GameObject victoryScreen;
+    public GameObject playerTurnScreen;
+    public GameObject enemyTurnScreen;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
     void Awake()
@@ -35,7 +40,6 @@ public class TurnManager : MonoBehaviour
         buildingSystem = Object.FindFirstObjectByType<BuildingSystem>();
 
     }
-
     void Start()
     {
         currentTurnPhase = turnPhase.SetupTurn;
@@ -50,10 +54,13 @@ public class TurnManager : MonoBehaviour
             if (playerUnits == null || playerUnits.Length == 0)
             {
                 gameOverScreen.SetActive(true);
+                currentTurnPhase = turnPhase.EnemyWin;
             }
             else if (enemyUnits == null || enemyUnits.Length == 0)
             {
                 victoryScreen.SetActive(true);
+                currentTurnPhase = turnPhase.PlayerWin;
+
             }
             
         }
@@ -145,25 +152,10 @@ public class TurnManager : MonoBehaviour
                 break;
             
             case turnPhase.EnemyTurn:
-                // Advance to StartPlayerTurn only when ALL enemy units have finished (no actions or flagged endTurn)
-                bool anyEnemyCanAct = false;
-                foreach (var unit in enemyUnits)
+                if (!isEnemyTurnProcessing)
                 {
-                    var moveUnit = unit.GetComponent<EnemyMovement>();
-                    if (moveUnit != null)
-                    {
-                        bool hasActions = moveUnit.moveActions > 0 || moveUnit.attackActions > 0;
-                        if (hasActions && !moveUnit.endTurn)
-                        {
-                            anyEnemyCanAct = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!anyEnemyCanAct)
-                {
-                    currentTurnPhase = turnPhase.StartPlayerTurn;
+                    isEnemyTurnProcessing = true;
+                    StartCoroutine(EnemyTurnSequence());
                 }
                 break;
         }
@@ -208,7 +200,19 @@ public class TurnManager : MonoBehaviour
     private Coroutine transitionCoroutine;
     private System.Collections.IEnumerator TransitionCoroutine(turnPhase newPhase)
     {
+        if (newPhase == turnPhase.PlayerTurn)
+        {
+            playerTurnScreen.SetActive(true);
+            enemyTurnScreen.SetActive(false);
+        }
+        else if (newPhase == turnPhase.EnemyTurn)
+        {
+            playerTurnScreen.SetActive(false);
+            enemyTurnScreen.SetActive(true);
+        }
         yield return new WaitForSeconds(transitionTime);
+        playerTurnScreen.SetActive(false);
+        enemyTurnScreen.SetActive(false);
         currentTurnPhase = newPhase;
         transitionCoroutine = null;
         transitionPending = false;
@@ -216,6 +220,26 @@ public class TurnManager : MonoBehaviour
 
     // Prevent scheduling multiple concurrent transitions
     private bool transitionPending = false;
+    private bool isEnemyTurnProcessing = false;
+
+    private System.Collections.IEnumerator EnemyTurnSequence()
+    {
+        for (int i = 0; i < enemyUnits.Length; i++)
+        {
+            if (enemyUnits[i] != null)
+            {
+                var moveUnit = enemyUnits[i].GetComponentInChildren<EnemyMovement>();
+                if (moveUnit != null && !moveUnit.endTurn)
+                {
+                    moveUnit.Act();
+                    yield return new WaitForSeconds(enemyTurnDelay);
+                }
+            }
+        }
+        
+        currentTurnPhase = turnPhase.StartPlayerTurn;
+        isEnemyTurnProcessing = false;
+    }
 
     public void endSetup()
     {
