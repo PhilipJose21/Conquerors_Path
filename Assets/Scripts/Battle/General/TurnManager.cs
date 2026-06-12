@@ -16,8 +16,6 @@ public enum turnPhase
 
 public class TurnManager : MonoBehaviour
 {
-
-    
     public float transitionTime = 1f;
     public bool placementPhase;
     public BuildingSystem buildingSystem;
@@ -31,38 +29,62 @@ public class TurnManager : MonoBehaviour
     public GameObject victoryScreen;
     public GameObject playerTurnScreen;
     public GameObject enemyTurnScreen;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    private Coroutine transitionCoroutine;
+    private bool transitionPending = false;
+    private bool isEnemyTurnProcessing = false;
     
     void Awake()
     {
-        
-        // Cache reference to BuildingSystem (single instance expected)
         buildingSystem = Object.FindFirstObjectByType<BuildingSystem>();
-
     }
+
     void Start()
     {
         currentTurnPhase = turnPhase.SetupTurn;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        checkTurnPhase();
-        if (currentTurnPhase != turnPhase.SetupTurn)
+        // 1. Check Win/Loss conditions FIRST before handling any phase logic
+        if (currentTurnPhase != turnPhase.SetupTurn && currentTurnPhase != turnPhase.PlayerWin && currentTurnPhase != turnPhase.EnemyWin)
         {
+            // We need to keep our unit lists updated to check for win/loss accurately
+            playerUnits = GameObject.FindGameObjectsWithTag("PlayerUnit");
+            enemyUnits = GameObject.FindGameObjectsWithTag("EnemyUnit");
+
             if (playerUnits == null || playerUnits.Length == 0)
             {
-                gameOverScreen.SetActive(true);
                 currentTurnPhase = turnPhase.EnemyWin;
+                gameOverScreen.SetActive(true);
+                HideTurnScreens(); // Clean up UI instantly
+                return; 
             }
             else if (enemyUnits == null || enemyUnits.Length == 0)
             {
-                victoryScreen.SetActive(true);
                 currentTurnPhase = turnPhase.PlayerWin;
-
+                victoryScreen.SetActive(true);
+                HideTurnScreens(); // Clean up UI instantly
+                return;
             }
-            
+        }
+
+        // 2. Only run turn logic if the game is still actively going
+        if (currentTurnPhase != turnPhase.PlayerWin && currentTurnPhase != turnPhase.EnemyWin)
+        {
+            checkTurnPhase();
+        }
+    }
+
+    // Helper method to make sure turn banners are stripped away on Win/Loss
+    private void HideTurnScreens()
+    {
+        if (playerTurnScreen != null) playerTurnScreen.SetActive(false);
+        if (enemyTurnScreen != null) enemyTurnScreen.SetActive(false);
+        if (transitionCoroutine != null)
+        {
+            StopCoroutine(transitionCoroutine);
+            transitionPending = false;
         }
     }
 
@@ -76,29 +98,22 @@ public class TurnManager : MonoBehaviour
 
                 if (placementPhase == false)
                 {
-                    playerUnits = GameObject.FindGameObjectsWithTag("PlayerUnit");
-                    enemyUnits = GameObject.FindGameObjectsWithTag("EnemyUnit");
                     currentTurnPhase = turnPhase.StartPlayerTurn;
-                    buildingSystem.gameObject.SetActive(false);
+                    if (buildingSystem != null) buildingSystem.gameObject.SetActive(false);
                 }
                 break;
 
             case turnPhase.StartPlayerTurn:
-                // Refresh player list in case units were removed/added during the enemy turn
-                playerUnits = GameObject.FindGameObjectsWithTag("PlayerUnit");
                 foreach (var unit in playerUnits)
                 {
                     if (unit == null) continue;
-                    // Use GetComponentInChildren in case MoveUnit is on a child object
                     var moveUnit = unit.GetComponentInChildren<MoveUnit>();
                     if (moveUnit != null)
                     {
-                        // If unitData is available use its values, otherwise keep current values
                         moveUnit.moveActions = moveUnit.unitData != null ? moveUnit.unitData.movePoints : moveUnit.moveActions;
                         moveUnit.attackActions = moveUnit.unitData != null ? moveUnit.unitData.attackPoints : moveUnit.attackActions;
                     }
                 }
-                // After initializing player units, transition to PlayerTurn (schedule once)
                 if (!transitionPending)
                     TransitionToPhase(turnPhase.PlayerTurn);
                 break;
@@ -107,6 +122,7 @@ public class TurnManager : MonoBehaviour
                 bool anyPlayerCanAct = false;
                 foreach (var unit in playerUnits)
                 {
+                    if (unit == null) continue;
                     var moveUnit = unit.GetComponentInChildren<MoveUnit>();
                     if (moveUnit != null)
                     {
@@ -120,33 +136,23 @@ public class TurnManager : MonoBehaviour
 
                 if (!anyPlayerCanAct)
                 {
-                    // Clear any move/attack highlights when the player turn ends automatically
                     if (CellHighlighter.Instance != null) CellHighlighter.Instance.ClearHighlights();
                     currentTurnPhase = turnPhase.StartEnemyTurn;
-                }
-                else
-                {
-                    // At least one player unit can act, remain in PlayerTurn
-                    return;
                 }
                 break;
 
             case turnPhase.StartEnemyTurn:
-                // Refresh enemy list (in case enemies were added/removed) and reset their action points
-                enemyUnits = GameObject.FindGameObjectsWithTag("EnemyUnit");
                 foreach (var unit in enemyUnits)
                 {
-                    // Use GetComponentInChildren to support EnemyMovement on child objects
+                    if (unit == null) continue;
                     var moveUnit = unit.GetComponentInChildren<EnemyMovement>();
                     if (moveUnit != null)
                     {
                         moveUnit.moveActions = moveUnit.unitData != null ? moveUnit.unitData.movePoints : moveUnit.moveActions;
                         moveUnit.attackActions = moveUnit.unitData != null ? moveUnit.unitData.attackPoints : moveUnit.attackActions;
-                        // Reset per-unit endTurn flag when beginning the enemy turn
                         moveUnit.endTurn = false;
                     }
                 }
-                // After initializing enemy units, transition to EnemyTurn (schedule once)
                 if (!transitionPending)
                     TransitionToPhase(turnPhase.EnemyTurn);
                 break;
@@ -160,14 +166,13 @@ public class TurnManager : MonoBehaviour
                 break;
         }
             
-        turnPhaseText.text = currentTurnPhase.ToString();
+        if (turnPhaseText != null) turnPhaseText.text = currentTurnPhase.ToString();
     }
 
     public void EndPlayerTurn()
     {
         if (currentTurnPhase == turnPhase.PlayerTurn)
         {
-            // Clear highlights to tidy the battlefield when the player ends their turn
             if (CellHighlighter.Instance != null) CellHighlighter.Instance.ClearHighlights();
             currentTurnPhase = turnPhase.StartEnemyTurn;
         }
@@ -179,13 +184,14 @@ public class TurnManager : MonoBehaviour
         {
             for (int i = 0; i < enemyUnits.Length; i++)
             {
+                if (enemyUnits[i] == null) continue;
                 var moveUnit = enemyUnits[i].GetComponent<EnemyMovement>();
                 if (moveUnit != null)
                 {
                     moveUnit.endTurn = true;
                 }
-                currentTurnPhase = turnPhase.StartPlayerTurn;
             }
+            currentTurnPhase = turnPhase.StartPlayerTurn;
         }
     }
 
@@ -197,9 +203,15 @@ public class TurnManager : MonoBehaviour
         transitionCoroutine = StartCoroutine(TransitionCoroutine(newPhase));
     }
 
-    private Coroutine transitionCoroutine;
     private System.Collections.IEnumerator TransitionCoroutine(turnPhase newPhase)
     {
+        // Safety Check: If a win/loss occurred right as this triggered, abort.
+        if (currentTurnPhase == turnPhase.PlayerWin || currentTurnPhase == turnPhase.EnemyWin)
+        {
+            HideTurnScreens();
+            yield break;
+        }
+
         if (newPhase == turnPhase.PlayerTurn)
         {
             playerTurnScreen.SetActive(true);
@@ -210,7 +222,16 @@ public class TurnManager : MonoBehaviour
             playerTurnScreen.SetActive(false);
             enemyTurnScreen.SetActive(true);
         }
+
         yield return new WaitForSeconds(transitionTime);
+
+        // Safety Check: Did a unit die via a status effect/hazard during the wait time?
+        if (currentTurnPhase == turnPhase.PlayerWin || currentTurnPhase == turnPhase.EnemyWin)
+        {
+            HideTurnScreens();
+            yield break;
+        }
+
         playerTurnScreen.SetActive(false);
         enemyTurnScreen.SetActive(false);
         currentTurnPhase = newPhase;
@@ -218,14 +239,17 @@ public class TurnManager : MonoBehaviour
         transitionPending = false;
     }
 
-    // Prevent scheduling multiple concurrent transitions
-    private bool transitionPending = false;
-    private bool isEnemyTurnProcessing = false;
-
     private System.Collections.IEnumerator EnemyTurnSequence()
     {
         for (int i = 0; i < enemyUnits.Length; i++)
         {
+            // Abort processing the sequence if the player won mid-enemy turn (e.g., counter-attack)
+            if (currentTurnPhase == turnPhase.PlayerWin || currentTurnPhase == turnPhase.EnemyWin)
+            {
+                isEnemyTurnProcessing = false;
+                yield break;
+            }
+
             if (enemyUnits[i] != null)
             {
                 var moveUnit = enemyUnits[i].GetComponentInChildren<EnemyMovement>();
@@ -237,7 +261,10 @@ public class TurnManager : MonoBehaviour
             }
         }
         
-        currentTurnPhase = turnPhase.StartPlayerTurn;
+        if (currentTurnPhase != turnPhase.PlayerWin && currentTurnPhase != turnPhase.EnemyWin)
+        {
+            currentTurnPhase = turnPhase.StartPlayerTurn;
+        }
         isEnemyTurnProcessing = false;
     }
 
