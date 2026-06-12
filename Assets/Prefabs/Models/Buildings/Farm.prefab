@@ -50,6 +50,8 @@ GameObject:
   - component: {fileID: 5463258199016408226}
   - component: {fileID: 1915748257449464270}
   - component: {fileID: 8512812881624744170}
+  - component: {fileID: -1033801144095243950}
+  - component: {fileID: -4825794789931344145}
   m_Layer: 0
   m_Name: Farm
   m_TagString: Untagged
@@ -103,6 +105,41 @@ MonoBehaviour:
   resourceAmount: 1
   resourceTimer: 1
   currentTime: 0
+--- !u!65 &-1033801144095243950
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3929424400633602478}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 1, z: 2.01651}
+  m_Center: {x: 0, y: 0, z: -0.0016241074}
+--- !u!114 &-4825794789931344145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3929424400633602478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a51036a5178cf94c86ff8a7cbe919cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OpenBuildingUI
+  buildingUIPrefab: {fileID: 5035976004460821801, guid: 553fef961050f534ba597de4dfa6ab5c, type: 3}
+  transformUI: {fileID: 0}
 --- !u!1 &6623303806970524477
 GameObject:
   m_ObjectHideFlags: 0

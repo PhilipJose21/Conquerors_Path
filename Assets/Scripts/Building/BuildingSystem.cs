@@ -62,7 +62,7 @@ public class BuildingSystem : MonoBehaviour
             preview = CreatePreview(buildingDataList[buildingDataIndex], position);
         }
         // Notify UI manager about the selected building (if present)
-        KingdomUIManager.Instance?.ShowSelectedBuilding(buildingDataList[buildingDataIndex]);
+        // KingdomUIManager.Instance?.ShowSelectedBuilding(buildingDataList[buildingDataIndex]);
     }
 
     // Public entry for UI buttons to select a building by index.
