@@ -8,21 +8,40 @@ public class OpenBuildingUI : MonoBehaviour
 
     public void Awake()
     {
-        transformUI = GameObject.FindWithTag("ObjectInformationParent").transform;
+        if (transformUI == null)
+        {
+            var go = GameObject.FindWithTag("ObjectInformationParent");
+            if (go != null) transformUI = go.transform;
+        }
+
+        if (buildingUIPrefab == null)
+        {
+            buildingUIPrefab = Resources.Load<GameObject>("UI/BuildingInfoPanel");
+        }
     }
 
     public void OpenUI()
     {
-        if (buildingUIPrefab != null && !isUIOpen)
+        // Route all building selections through the shared UI manager.
+        var building = GetComponent<Building>() ?? GetComponentInParent<Building>();
+        if (building != null && KingdomUIManager.Instance != null)
         {
-            // Instantiate the UI as a child and keep the prefab's local RectTransform values
-            GameObject go = Instantiate(buildingUIPrefab);
-            go.transform.SetParent(transformUI, false); // false = keep local transform (anchoredPosition, scale)
+            KingdomUIManager.Instance.ShowObjectInfo(building);
             isUIOpen = true;
+            return;
         }
-        else
-        {
-            Debug.LogWarning("Building UI Prefab is not assigned.");
-        }
+
+        Debug.LogWarning("OpenBuildingUI: no Building found or KingdomUIManager is missing.");
     }
+
+    public void CloseUI()
+    {
+        if (KingdomUIManager.Instance != null)
+        {
+            KingdomUIManager.Instance.CloseObjectInfo();
+        }
+        isUIOpen = false;
+    }
+
+    public bool IsUIOpen => isUIOpen;
 }

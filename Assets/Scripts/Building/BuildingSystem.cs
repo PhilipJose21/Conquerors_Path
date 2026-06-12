@@ -61,6 +61,8 @@ public class BuildingSystem : MonoBehaviour
         {
             preview = CreatePreview(buildingDataList[buildingDataIndex], position);
         }
+        // Notify UI manager about the selected building (if present)
+        KingdomUIManager.Instance?.ShowSelectedBuilding(buildingDataList[buildingDataIndex]);
     }
 
     // Public entry for UI buttons to select a building by index.
@@ -111,6 +113,8 @@ public class BuildingSystem : MonoBehaviour
                 // After placing, require the player to explicitly reselect a building
                 buildingDataIndex = -1;
                 isPlacing = false;
+                // Close any selected-building UI
+                KingdomUIManager.Instance?.CloseObjectInfo();
             }
         }
         else
@@ -131,6 +135,7 @@ public class BuildingSystem : MonoBehaviour
             preview = null;
             isPlacing = false;
             buildingDataIndex = -1;
+            KingdomUIManager.Instance?.CloseObjectInfo();
         }
     }
 
@@ -185,6 +190,17 @@ public class BuildingSystem : MonoBehaviour
             passiveResource.isActive = true;
             passiveResource.currentTime = 0f;
         }
+
+        // After placing, ensure any selected-building UI is closed
+        KingdomUIManager.Instance?.CloseObjectInfo();
+    }
+
+    // Expose building data for UI code that wants to show costs
+    public BuildingData GetBuildingData(int index)
+    {
+        if (buildingDataList == null) return null;
+        if (index < 0 || index >= buildingDataList.Count) return null;
+        return buildingDataList[index];
     }
 
     private Vector3 GetSnappedCenterPosition(List<Vector3> allBuildingPositions, BuildingGrid targetGrid)

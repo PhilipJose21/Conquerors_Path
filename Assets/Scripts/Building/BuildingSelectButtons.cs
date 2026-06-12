@@ -12,6 +12,11 @@ public class BuildingSelectButtons : MonoBehaviour
         if (buildingSystem != null)
         {
             buildingSystem.SelectBuilding(buildingDataIndex);
+            var data = buildingSystem.GetBuildingData(buildingDataIndex);
+            if (data != null)
+            {
+                KingdomUIManager.Instance?.ShowSelectedBuilding(data);
+            }
         }
     }
 }
