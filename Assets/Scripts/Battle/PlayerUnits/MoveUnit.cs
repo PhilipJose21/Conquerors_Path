@@ -50,12 +50,11 @@ public class MoveUnit : MonoBehaviour
         attackActions = unitData != null ? unitData.attackPoints : attackActions;
         moveActions = unitData != null ? unitData.movePoints : moveActions;
         stateMachine = this.GetComponent<UnitStateMachine>();
-        
     }
 
     void Update()
     {
-        currentTurnPhase = turnManager.currentTurnPhase;
+        currentTurnPhase = turnManager != null ? turnManager.currentTurnPhase : turnPhase.PlayerTurn;
         if (currentTurnPhase == turnPhase.PlayerTurn)
         {
             isPlayerTurn = true;
@@ -110,8 +109,7 @@ public class MoveUnit : MonoBehaviour
             var selectedMove = selected.GetComponent<MoveUnit>();
             var attacker = selected.GetComponent<AttackEnemyUnit>();
 
-            // FIX 1: Prioritize ranged attack over movement if the tile is an attack tile 
-            // and an enemy is present, preventing the unit from walking into the cell.
+            // Prioritize ranged attack over movement if the tile is an attack tile 
             if (enemyPresent && ht.isAttack)
             {
                 if (attacker != null && (selectedMove == null || selectedMove.attackActions > 0))
@@ -245,7 +243,6 @@ public class MoveUnit : MonoBehaviour
                 GameObject unitRoot = clickedMove.gameObject;
                 if (unitRoot.CompareTag("PlayerUnit") || unitRoot.GetComponentInParent<MoveUnit>() != null)
                 {
-                    // FIX 2: Do not display highlights if both move and attack actions are exhausted.
                     if (clickedMove.moveActions <= 0 && clickedMove.attackActions <= 0)
                     {
                         ch.ClearHighlights();
@@ -253,7 +250,6 @@ public class MoveUnit : MonoBehaviour
                     }
                     else
                     {
-                        // Pass current action states or adjust ranges locally so CellHighlighter knows what to render.
                         int structuralMobility = clickedMove.moveActions > 0 ? clickedMove.mobility : 0;
                         int structuralAttackRange = clickedMove.attackActions > 0 ? clickedMove.attackRange : 0;
                         
@@ -272,7 +268,6 @@ public class MoveUnit : MonoBehaviour
             bool isPlayer = unitRoot.CompareTag("PlayerUnit") || obj.CompareTag("PlayerUnit") || obj.GetComponentInParent<MoveUnit>() != null;
             if (isPlayer)
             {
-                // Fallback respects zero actions check
                 if (moveActions > 0 || attackActions > 0)
                 {
                     if (CellHighlighter.Instance != null)
@@ -290,6 +285,17 @@ public class MoveUnit : MonoBehaviour
             return;
         }
 
+        // --- NEW TERRAIN INTERACTION FALLBACK ---
+        // If the click pierced through everything else and we are down to just the terrain layer, 
+        // you can safely place your future custom terrain interaction logic here!
+        var terrainComp = obj.GetComponentInParent<TerrainInteraction>();
+        if (terrainComp != null)
+        {
+            Debug.Log($"Interacted directly with Terrain: {obj.name}. Future feature ready!");
+            // Execute custom terrain actions here
+            return;
+        }
+
         // If nothing found, clear highlights
         if (CellHighlighter.Instance != null)
         {
@@ -298,6 +304,7 @@ public class MoveUnit : MonoBehaviour
     }
     
 
+    // FIXED DECTECT OBJECTS LAYER PIERCING LOGIC
     public void DetectObjects()
     {
         if (lastProcessedClickFrame == Time.frameCount)
@@ -307,7 +314,37 @@ public class MoveUnit : MonoBehaviour
 
         Vector3 mousePos = Input.mousePosition;
         Ray ray = mainCamera.ScreenPointToRay(mousePos);
-        rayHit = Physics.Raycast(ray, out hit);
+        
+        // Use RaycastAll to capture every single object underneath the cursor, sorted by distance
+        RaycastHit[] hits = Physics.RaycastAll(ray, 100f);
+        System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
+
+        rayHit = false;
+        hit = default;
+
+        // Step 1: Look through all objects hit to find Units or Grid Highlights first
+        foreach (var h in hits)
+        {
+            GameObject g = h.collider.gameObject;
+            if (g.GetComponent<MoveUnit>() != null || 
+                g.GetComponent<HighlightTile>() != null || 
+                g.GetComponentInParent<EnemyMovement>() != null ||
+                g.CompareTag("PlayerUnit") || 
+                g.CompareTag("EnemyUnit"))
+            {
+                hit = h;
+                rayHit = true;
+                break;
+            }
+        }
+
+        // Step 2: If we didn't hit a gameplay system/unit, fall back to whatever was closest (like Terrain)
+        if (!rayHit && hits.Length > 0)
+        {
+            hit = hits[0];
+            rayHit = true;
+        }
+
         Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
     }
 
