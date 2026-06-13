@@ -971,67 +971,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133773497}
   m_CullTransparentMesh: 1
---- !u!1001 &223501271
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1963962561}
-    m_Modifications:
-    - target: {fileID: 2295165078543630765, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.5187714
-      objectReference: {fileID: 0}
-    - target: {fileID: 2295165078543630765, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.003
-      objectReference: {fileID: 0}
-    - target: {fileID: 2295165078543630765, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.4870148
-      objectReference: {fileID: 0}
-    - target: {fileID: 2295165078543630765, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2295165078543630765, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2295165078543630765, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2295165078543630765, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2295165078543630765, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2295165078543630765, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2295165078543630765, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3427269806742989989, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-      propertyPath: m_Name
-      value: TestUnit
-      objectReference: {fileID: 0}
-    - target: {fileID: 7075555005480491703, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 330585545}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
 --- !u!1 &235123813
 GameObject:
   m_ObjectHideFlags: 0
@@ -1556,6 +1495,7 @@ MonoBehaviour:
   buildingDataList:
   - {fileID: 11400000, guid: ddec126d5e5780140a61dda17dbbee35, type: 2}
   - {fileID: 11400000, guid: 6aa22561e16bec640a78b10b8825064b, type: 2}
+  - {fileID: 11400000, guid: 481560a86d9f3c247b8166ab56ad5a0f, type: 2}
   buildingGrid: {fileID: 4571845357412621073, guid: e8e79a61d6e7a464ea1bac703c91a86c, type: 3}
   buildingPrefab: {fileID: 2050431222552286972, guid: 5e4acca1106e8b8479eee7ac24197c6a, type: 3}
   grid: {fileID: 1512447955}
@@ -1575,11 +1515,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1404085934}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &608720196 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2295165078543630765, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
-  m_PrefabInstance: {fileID: 223501271}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &625759369
 GameObject:
   m_ObjectHideFlags: 0
@@ -4527,7 +4462,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 235123814}
-  - {fileID: 608720196}
   - {fileID: 1389276888}
   - {fileID: 1066193241}
   - {fileID: 1398800426}
@@ -4581,8 +4515,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45f36db22b76cb841adac1ef285d9735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CellHighlighter
-  moveMaterial: {fileID: 0}
-  attackMaterial: {fileID: 0}
 --- !u!114 &2044518045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4595,9 +4527,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbb45ec1b8ba63c449c39a18e0e85732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HighlightTile
-  worldPosition: {x: 0, y: 0, z: 0}
-  isMove: 0
-  isAttack: 0
 --- !u!114 &2044518046
 MonoBehaviour:
   m_ObjectHideFlags: 0
