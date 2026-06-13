@@ -67,7 +67,7 @@ public class MoveUnit : MonoBehaviour
         DetectObjects();
         if (Input.GetMouseButtonDown(0) && isPlayerTurn) // Left mouse button
         {
-            if(rayHit)
+            if (rayHit && hit.collider != null)
             {
                 Clicked(hit.collider.gameObject);
             }
