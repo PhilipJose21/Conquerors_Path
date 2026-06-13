@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class MoveUnit : MonoBehaviour
 {
     public UnitSO unitData;
@@ -86,13 +84,9 @@ public class MoveUnit : MonoBehaviour
         }
     }
 
-
-
     //CLICK LOGIC
-
     public void Clicked(GameObject obj)
     {
-
         // If player clicked a highlighted tile, handle move/attack only if a player unit is selected
         var ht = obj.GetComponent<HighlightTile>();
         if (ht != null)
@@ -116,10 +110,11 @@ public class MoveUnit : MonoBehaviour
             var selectedMove = selected.GetComponent<MoveUnit>();
             var attacker = selected.GetComponent<AttackEnemyUnit>();
 
-            // If enemy present and tile is attackable, attempt attack via selected unit (only if it has attackActions)
-            if (enemyPresent)
+            // FIX 1: Prioritize ranged attack over movement if the tile is an attack tile 
+            // and an enemy is present, preventing the unit from walking into the cell.
+            if (enemyPresent && ht.isAttack)
             {
-                if (attacker != null && ht.isAttack && (selectedMove == null || selectedMove.attackActions > 0))
+                if (attacker != null && (selectedMove == null || selectedMove.attackActions > 0))
                 {
                     bool attacked = attacker.TryAttackAtPosition(ht.worldPosition);
                     if (attacked) return; // attack occurred and highlights cleared
@@ -128,7 +123,7 @@ public class MoveUnit : MonoBehaviour
                 return;
             }
 
-            // No enemy present — perform move only if the selected unit has remaining moveActions
+            // No enemy present or not an attack tile — perform move only if the selected unit has remaining moveActions
             if (selectedMove != null && selectedMove.canMove && selectedMove.moveActions > 0)
             {
                 if (CellHighlighter.Instance != null)
@@ -143,7 +138,7 @@ public class MoveUnit : MonoBehaviour
             }
             else
             {
-                Debug.Log("Selected unit has no move actions remaining and cannot move, but highlights remain visible.");
+                Debug.Log("Selected unit has no move actions remaining and cannot move.");
             }
 
             return;
@@ -152,7 +147,6 @@ public class MoveUnit : MonoBehaviour
         // If player clicked an enemy directly (or a child collider), attempt attack only if a player unit is selected
         if (obj != null)
         {
-            // Resolve to the enemy root via EnemyMovement if present (covers child colliders)
             var enemyComp = obj.GetComponentInParent<EnemyMovement>();
             if (enemyComp != null)
             {
@@ -164,6 +158,14 @@ public class MoveUnit : MonoBehaviour
                     return;
                 }
 
+                var selectedMove = selected.GetComponent<MoveUnit>();
+                // Only allow target selection if we have attack actions left
+                if (selectedMove != null && selectedMove.attackActions <= 0)
+                {
+                    Debug.Log("Selected unit has no attack actions left.");
+                    return;
+                }
+
                 var attacker = selected.GetComponent<AttackEnemyUnit>();
                 if (attacker == null)
                 {
@@ -172,8 +174,7 @@ public class MoveUnit : MonoBehaviour
                 }
 
                 int selAttackRange = 1;
-                var selMove = selected.GetComponent<MoveUnit>();
-                if (selMove != null) selAttackRange = selMove.attackRange;
+                if (selectedMove != null) selAttackRange = selectedMove.attackRange;
 
                 BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
                 BuildingGrid grid = null;
@@ -243,13 +244,27 @@ public class MoveUnit : MonoBehaviour
             {
                 GameObject unitRoot = clickedMove.gameObject;
                 if (unitRoot.CompareTag("PlayerUnit") || unitRoot.GetComponentInParent<MoveUnit>() != null)
-                    ch.ShowHighlightsForUnit(unitRoot, clickedMove.mobility, clickedMove.attackRange);
+                {
+                    // FIX 2: Do not display highlights if both move and attack actions are exhausted.
+                    if (clickedMove.moveActions <= 0 && clickedMove.attackActions <= 0)
+                    {
+                        ch.ClearHighlights();
+                        Debug.Log("Unit selected, but has no actions remaining. Grid will not highlight.");
+                    }
+                    else
+                    {
+                        // Pass current action states or adjust ranges locally so CellHighlighter knows what to render.
+                        int structuralMobility = clickedMove.moveActions > 0 ? clickedMove.mobility : 0;
+                        int structuralAttackRange = clickedMove.attackActions > 0 ? clickedMove.attackRange : 0;
+                        
+                        ch.ShowHighlightsForUnit(unitRoot, structuralMobility, structuralAttackRange);
+                    }
+                }
             }
             return;
         }
 
-        // Fallback: if the clicked object has a UnitSOContainer, you can read ranges from it
-        // Only show highlights for player units (avoid showing highlights for enemies when clicking their children)
+        // Fallback: if the clicked object has a UnitSOContainer
         UnitSOContainer container = obj.GetComponentInParent<UnitSOContainer>();
         if (container != null && container.unitData != null)
         {
@@ -257,8 +272,20 @@ public class MoveUnit : MonoBehaviour
             bool isPlayer = unitRoot.CompareTag("PlayerUnit") || obj.CompareTag("PlayerUnit") || obj.GetComponentInParent<MoveUnit>() != null;
             if (isPlayer)
             {
-                if (CellHighlighter.Instance != null)
-                    CellHighlighter.Instance.ShowHighlightsForUnit(unitRoot, mobility, attackRange);
+                // Fallback respects zero actions check
+                if (moveActions > 0 || attackActions > 0)
+                {
+                    if (CellHighlighter.Instance != null)
+                    {
+                        int structuralMobility = moveActions > 0 ? mobility : 0;
+                        int structuralAttackRange = attackActions > 0 ? attackRange : 0;
+                        CellHighlighter.Instance.ShowHighlightsForUnit(unitRoot, structuralMobility, structuralAttackRange);
+                    }
+                }
+                else
+                {
+                    CellHighlighter.Instance?.ClearHighlights();
+                }
             }
             return;
         }
@@ -273,11 +300,9 @@ public class MoveUnit : MonoBehaviour
 
     public void DetectObjects()
     {
-        // If another ClickObject already handled this frame's click, skip
         if (lastProcessedClickFrame == Time.frameCount)
             return;
 
-        // Mark this frame as handled so others skip
         lastProcessedClickFrame = Time.frameCount;
 
         Vector3 mousePos = Input.mousePosition;
@@ -288,9 +313,7 @@ public class MoveUnit : MonoBehaviour
 
     public void MoveToPosition(Vector3 target)
     {
-        // Preserve current Y so the assigned unitObject (or this) doesn't sink or float when moving on grid
         var moveTransform = unitObject != null ? unitObject.transform : transform;
-        // Determine if any terrain along the path requires stopping before reaching the requested target.
         BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
         BuildingGrid grid = null;
         if (grids != null && grids.Length > 0)
@@ -311,24 +334,19 @@ public class MoveUnit : MonoBehaviour
             (int sx, int sy) = grid.WorldToGridPosition(moveTransform.position);
             (int ex, int ey) = grid.WorldToGridPosition(target);
             var path = GetCellsOnLine(sx, sy, ex, ey);
-            // Skip the starting cell so units already standing on disruptive terrain
-            // are allowed to move out on subsequent turns.
             for (int pi = 1; pi < path.Count; pi++)
             {
                 var cell = path[pi];
                 int x = cell.x; int y = cell.y;
                 Vector3 localCenter = new Vector3((x + 0.5f) * grid.CellSize, 0.01f, (y + 0.5f) * grid.CellSize);
                 Vector3 worldCenter = grid.transform.TransformPoint(localCenter);
-                // Check for terrain interaction components near the cell center
                 Collider[] cols = Physics.OverlapSphere(worldCenter, grid.CellSize * 0.35f);
                 foreach (var c in cols)
                 {
                     var ti = c.GetComponentInParent<TerrainInteraction>();
                     if (ti != null && ti.CantWalkThrough())
                     {
-                        // If terrain blocks movement, stop on this cell instead of passing through
                         target = worldCenter;
-                        // break out of both loops
                         goto FoundBlockingTerrain;
                     }
                 }
@@ -336,7 +354,6 @@ public class MoveUnit : MonoBehaviour
         }
 FoundBlockingTerrain:
         target.y = moveTransform.position.y;
-        // Only consume a move action if available
         if (moveActions <= 0)
         {
             Debug.Log("No move actions available.");
@@ -348,7 +365,6 @@ FoundBlockingTerrain:
         moveCoroutine = StartCoroutine(MoveRoutine(target));
     }
 
-    // Bresenham line algorithm to enumerate grid cells between two grid coordinates
     private List<Vector2Int> GetCellsOnLine(int x0, int y0, int x1, int y1)
     {
         var cells = new List<Vector2Int>();
