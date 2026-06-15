@@ -22,6 +22,7 @@ public class TerrainSO : ScriptableObject
     public bool unitVisibility;
     public bool disruptsMovement;
     public bool attackRangeImmune;
+    public bool canMoveOn;
     public string specialConditions;
     
 }
