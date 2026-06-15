@@ -22,3 +22,5 @@ MonoBehaviour:
   <woodCost>k__BackingField: 0
   <gemCost>k__BackingField: 0
   <energyCost>k__BackingField: 0
+  <unitCost>k__BackingField: 0
+  <reinforcementCost>k__BackingField: 1

@@ -4,10 +4,6 @@ using System.Linq;
 
 public class BuildingSystem : MonoBehaviour
 {
-    // Manages building previews, validation and placement.
-    // - Creates and positions BuildingPreview instances
-    // - Validates preview cell occupancy against registered BuildingGrid instances
-    // - Snaps previews to the grid-local center and instantiates Building objects
     public const float CellSize = 1f;
     // -1 means no building type selected; requires explicit selection to start placing.
     public int buildingDataIndex = -1;
@@ -15,6 +11,10 @@ public class BuildingSystem : MonoBehaviour
     public bool canRotate = true;
 
     public bool isPlacing;
+
+    public bool isBattleScene = false;
+
+    public bool enableReinforcementCost = false;
 
     [SerializeField] private List<BuildingData> buildingDataList;
 
@@ -27,6 +27,14 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private GameObject environmentParent;
 
     private BuildingPreview preview;
+
+    private void Awake()
+    {
+        PlayerBattleSO battleSO = FindObjectOfType<PlayerData>()?.playerBattleSO;
+        if (battleSO != null)        {
+            buildingDataList = battleSO.playerUnits.ToList();
+        }
+    }
 
     private void Update()
     {
@@ -47,9 +55,22 @@ public class BuildingSystem : MonoBehaviour
     // Select a building by index and (re)create the preview at the given position.
     private void TrySelectBuilding(int index, Vector3 position)
     {
+        // 1. Guard Clause: Verify index bounds before anything else
+        if (buildingDataList == null || index < 0 || index >= buildingDataList.Count) 
+        {
+            return; // Exits early, keeping isPlacing unchanged
+        }
+
+        // 2. TOGGLE FEATURE: If the same index is selected again, cancel/deselect placement
+        if (isPlacing && buildingDataIndex == index)
+        {
+            CancelPlacement();
+            return;
+        }
+
         isPlacing = true;
-        if (buildingDataList == null || index < 0 || index >= buildingDataList.Count) return;
         buildingDataIndex = index;
+
         if (preview != null)
         {
             // Preserve previous preview position when switching building types
@@ -69,6 +90,19 @@ public class BuildingSystem : MonoBehaviour
     public void SelectBuilding(int index)
     {
         TrySelectBuilding(index, GetMouseWorldPosition());
+    }
+
+    // Centralized method to safely clear and cancel placement mode
+    public void CancelPlacement()
+    {
+        if (preview != null)
+        {
+            Destroy(preview.gameObject);
+            preview = null;
+        }
+        isPlacing = false;
+        buildingDataIndex = -1;
+        KingdomUIManager.Instance?.CloseObjectInfo();
     }
 
     // Update preview position, validate against grids and snap/place when appropriate.
@@ -109,12 +143,36 @@ public class BuildingSystem : MonoBehaviour
             // Place building on left mouse click (unless holding Space for camera)
             if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.R) && !Input.GetKey(KeyCode.Q))
             {
+                if (isBattleScene)
+                {
+                    if (enableReinforcementCost)
+                    {
+                        int unitRefCost = buildingDataList[buildingDataIndex].reinforcementCost;
+                        ReinforcementCostUpdate costUpdate = Object.FindObjectOfType<ReinforcementCostUpdate>();
+                        if (costUpdate != null)
+                        {
+                            if (costUpdate.unitReinforcementCost >= unitRefCost)
+                            {
+                                costUpdate.unitReinforcementCost -= unitRefCost;
+                            }
+                            else
+                            {
+                                Debug.Log("Not enough reinforcement cost to place this building.");
+                                return;
+                            }
+                        }
+                    }
+                    
+                    buildingDataList.Remove(preview.Data);
+                }
+
                 PlaceBuilding(buildPosition, primaryGrid);
                 // After placing, require the player to explicitly reselect a building
                 buildingDataIndex = -1;
                 isPlacing = false;
                 // Close any selected-building UI
                 KingdomUIManager.Instance?.CloseObjectInfo();
+                
             }
         }
         else
@@ -128,14 +186,10 @@ public class BuildingSystem : MonoBehaviour
             preview.Rotate(90);
         }
 
-        // Cancel preview
+        // Cancel preview via keybind
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Destroy(preview.gameObject);
-            preview = null;
-            isPlacing = false;
-            buildingDataIndex = -1;
-            KingdomUIManager.Instance?.CloseObjectInfo();
+            CancelPlacement();
         }
     }
 
@@ -178,7 +232,6 @@ public class BuildingSystem : MonoBehaviour
         isPlacing = false;
         buildingDataIndex = -1;
         // Extra cleanup: remove any lingering previews that might have been left behind
-        // Use the newer FindObjectsByType API to avoid the obsolete warning and avoid unnecessary sorting
         var lingering = Object.FindObjectsByType<BuildingPreview>(FindObjectsSortMode.None);
         foreach (var lp in lingering)
         {
@@ -241,11 +294,9 @@ public class BuildingSystem : MonoBehaviour
 
     private BuildingPreview CreatePreview(BuildingData data, Vector3 position)
     {
-        // isPlacing = true;
         var previewGO = Instantiate(buildingGrid.gameObject, position, Quaternion.identity);
         BuildingPreview newPreview = previewGO.GetComponent<BuildingPreview>();
         newPreview.Setup(data);
         return newPreview;
     }
-
 }

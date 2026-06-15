@@ -13,4 +13,6 @@ public class BuildingData : ScriptableObject
     [field: SerializeField] public int woodCost { get; private set; }
     [field: SerializeField] public int gemCost { get; private set; }
     [field: SerializeField] public int energyCost { get; private set; }
+    [field: SerializeField] public int unitCost { get; private set; }
+    [field: SerializeField] public int reinforcementCost { get; private set; }
 }

@@ -95,6 +95,7 @@ public class TurnManager : MonoBehaviour
             case turnPhase.SetupTurn:
                 if (buildingSystem != null)
                     buildingSystem.gameObject.SetActive(true);
+                    buildingSystem.enableReinforcementCost = false;
 
                 if (placementPhase == false)
                 {
@@ -110,6 +111,8 @@ public class TurnManager : MonoBehaviour
                     var moveUnit = unit.GetComponentInChildren<MoveUnit>();
                     if (moveUnit != null)
                     {
+                        buildingSystem.gameObject.SetActive(true);
+                        buildingSystem.enableReinforcementCost = true;
                         moveUnit.moveActions = moveUnit.unitData != null ? moveUnit.unitData.movePoints : moveUnit.moveActions;
                         moveUnit.attackActions = moveUnit.unitData != null ? moveUnit.unitData.attackPoints : moveUnit.attackActions;
                     }
@@ -270,6 +273,11 @@ public class TurnManager : MonoBehaviour
 
     public void endSetup()
     {
+        if (playerUnits == null || playerUnits.Length == 0)
+        {
+            Debug.LogWarning("No player units found at end of setup phase!");
+            return;
+        }
         placementPhase = false;
     }
 }

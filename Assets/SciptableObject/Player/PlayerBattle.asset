@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ac51e34cceea22408102a27e9aec896, type: 3}
+  m_Name: PlayerBattle
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerBattleSO
+  playerUnits:
+  - {fileID: 11400000, guid: 6aa22561e16bec640a78b10b8825064b, type: 2}
+  - {fileID: 11400000, guid: 481560a86d9f3c247b8166ab56ad5a0f, type: 2}
+  - {fileID: 11400000, guid: ddec126d5e5780140a61dda17dbbee35, type: 2}
+  - {fileID: 11400000, guid: ddec126d5e5780140a61dda17dbbee35, type: 2}
+  playerReinforcementCost: 3
+  woodHarvestAmount: 0
+  stoneHarvestAmount: 0
+  farmHarvestAmount: 0
+  goldHarvestAmount: 0
