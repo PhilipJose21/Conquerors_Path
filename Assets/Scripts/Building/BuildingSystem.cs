@@ -30,8 +30,9 @@ public class BuildingSystem : MonoBehaviour
 
     private void Awake()
     {
-        PlayerBattleSO battleSO = FindObjectOfType<PlayerData>()?.playerBattleSO;
-        if (battleSO != null)        {
+        PlayerBattleSO battleSO = Object.FindFirstObjectByType<PlayerData>()?.playerBattleSO;
+        if (battleSO != null)        
+        {
             buildingDataList = battleSO.playerUnits.ToList();
         }
     }
@@ -141,14 +142,19 @@ public class BuildingSystem : MonoBehaviour
             preview.ChangeState(BuildingPreview.BuildingPreviewState.VALID);
 
             // Place building on left mouse click (unless holding Space for camera)
-            if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.R) && !Input.GetKey(KeyCode.Q))
+            if (Input.GetMouseButtonDown(0) 
+                && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() 
+                && !Input.GetKey(KeyCode.Space) 
+                && !Input.GetKey(KeyCode.R) 
+                && !Input.GetKey(KeyCode.Q)
+                )
             {
                 if (isBattleScene)
                 {
                     if (enableReinforcementCost)
                     {
                         int unitRefCost = buildingDataList[buildingDataIndex].reinforcementCost;
-                        ReinforcementCostUpdate costUpdate = Object.FindObjectOfType<ReinforcementCostUpdate>();
+                        ReinforcementCostUpdate costUpdate = Object.FindFirstObjectByType<ReinforcementCostUpdate>();
                         if (costUpdate != null)
                         {
                             if (costUpdate.unitReinforcementCost >= unitRefCost)
@@ -164,6 +170,7 @@ public class BuildingSystem : MonoBehaviour
                     }
                     
                     buildingDataList.Remove(preview.Data);
+                    Object.FindFirstObjectByType<UnitButtonManager>()?.RefreshUnitButtons();
                 }
 
                 PlaceBuilding(buildPosition, primaryGrid);
@@ -298,5 +305,20 @@ public class BuildingSystem : MonoBehaviour
         BuildingPreview newPreview = previewGO.GetComponent<BuildingPreview>();
         newPreview.Setup(data);
         return newPreview;
+    }
+
+    public void SelectBuildingByData(BuildingData data)
+    {
+        if (buildingDataList == null || data == null) return;
+        int index = buildingDataList.IndexOf(data);
+        if (index >= 0)
+        {
+            TrySelectBuilding(index, GetMouseWorldPosition());
+        }
+    }
+
+    public List<BuildingData> GetLiveBuildings()
+    {
+        return buildingDataList;
     }
 }

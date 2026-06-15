@@ -24,3 +24,4 @@ MonoBehaviour:
   <energyCost>k__BackingField: 0
   <unitCost>k__BackingField: 0
   <reinforcementCost>k__BackingField: 1
+  <unitPrefab>k__BackingField: {fileID: 11400000, guid: 4bbd76910fc669144804d97c29155c58, type: 2}

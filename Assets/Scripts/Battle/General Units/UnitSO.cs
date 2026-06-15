@@ -22,4 +22,5 @@ public class UnitSO : ScriptableObject
     public int unitCost;
     public Sprite unitIcon;
     public GameObject unitPrefab;
+    public GameObject unitButtonPrefab;
 }
