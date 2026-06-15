@@ -49,10 +49,8 @@ public class TurnManager : MonoBehaviour
         // 1. Check Win/Loss conditions FIRST before handling any phase logic
         if (currentTurnPhase != turnPhase.SetupTurn && currentTurnPhase != turnPhase.PlayerWin && currentTurnPhase != turnPhase.EnemyWin)
         {
-            // We need to keep our unit lists updated to check for win/loss accurately
-            playerUnits = GameObject.FindGameObjectsWithTag("PlayerUnit");
-            enemyUnits = GameObject.FindGameObjectsWithTag("EnemyUnit");
-
+            
+            updateUnitLists();
             if (playerUnits == null || playerUnits.Length == 0)
             {
                 currentTurnPhase = turnPhase.EnemyWin;
@@ -273,11 +271,16 @@ public class TurnManager : MonoBehaviour
 
     public void endSetup()
     {
-        if (playerUnits == null || playerUnits.Length == 0)
+        updateUnitLists();
+        if (playerUnits.Length > 0)
         {
-            Debug.LogWarning("No player units found at end of setup phase!");
-            return;
+            placementPhase = false;
         }
-        placementPhase = false;
+    }
+
+    public void updateUnitLists()
+    {
+        playerUnits = GameObject.FindGameObjectsWithTag("PlayerUnit");
+        enemyUnits = GameObject.FindGameObjectsWithTag("EnemyUnit");
     }
 }
