@@ -157,7 +157,10 @@ public class BuildingSystem : MonoBehaviour
                         ReinforcementCostUpdate costUpdate = Object.FindFirstObjectByType<ReinforcementCostUpdate>();
                         if (costUpdate != null)
                         {
-                            if (costUpdate.unitReinforcementCost >= unitRefCost)
+                            TurnManager turnManagerScript = Object.FindFirstObjectByType<TurnManager>();
+                            if (costUpdate.unitReinforcementCost >= unitRefCost 
+                                && turnManagerScript != null 
+                                && turnManagerScript.currentTurnPhase == turnPhase.PlayerTurn)
                             {
                                 costUpdate.unitReinforcementCost -= unitRefCost;
                             }
