@@ -366,6 +366,8 @@ public class MoveUnit : MonoBehaviour
             if (grid == null) grid = grids[0];
         }
 
+        Vector3 finalTarget = target;
+
         if (grid != null)
         {
             (int sx, int sy) = grid.WorldToGridPosition(moveTransform.position);
@@ -381,25 +383,47 @@ public class MoveUnit : MonoBehaviour
                 foreach (var c in cols)
                 {
                     var ti = c.GetComponentInParent<TerrainInteraction>();
-                    if (ti != null && ti.CantWalkThrough())
+                    if (ti != null && (ti.CantWalkThrough() || !ti.canMoveOn))
                     {
-                        target = worldCenter;
+                        if (!ti.canMoveOn)
+                        {
+                            // Stop before entering this tile
+                            var previousCell = path[pi - 1];
+                            Vector3 prevLocalCenter = new Vector3((previousCell.x + 0.5f) * grid.CellSize, 0.01f, (previousCell.y + 0.5f) * grid.CellSize);
+                            finalTarget = grid.transform.TransformPoint(prevLocalCenter);
+                        }
+                        else
+                        {
+                            finalTarget = worldCenter;
+                        }
                         goto FoundBlockingTerrain;
                     }
                 }
             }
         }
-FoundBlockingTerrain:
-        target.y = moveTransform.position.y;
+    FoundBlockingTerrain:
+        finalTarget.y = moveTransform.position.y;
+
+        // If the final destination after calculation matches our current position, 
+        // it means the movement is completely blocked or invalid. Exit without consuming a move action.
+        float approxSameCellRadius = grid != null ? grid.CellSize * 0.4f : 0.1f;
+        if (Vector3.Distance(moveTransform.position, finalTarget) <= approxSameCellRadius)
+        {
+            Debug.Log("Movement invalid or immediately blocked. Move action preserved.");
+            return;
+        }
+
         if (moveActions <= 0)
         {
             Debug.Log("No move actions available.");
             return;
         }
+        
+        // Deduct action only after validating actual progress will be made
         moveActions = Mathf.Max(0, moveActions - 1);
 
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
-        moveCoroutine = StartCoroutine(MoveRoutine(target));
+        moveCoroutine = StartCoroutine(MoveRoutine(finalTarget));
     }
 
     private List<Vector2Int> GetCellsOnLine(int x0, int y0, int x1, int y1)

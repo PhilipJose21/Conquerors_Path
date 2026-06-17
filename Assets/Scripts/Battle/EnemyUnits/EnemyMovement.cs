@@ -286,11 +286,25 @@ public class EnemyMovement : MonoBehaviour
     {
         var moveTransform = unitObject != null ? unitObject.transform : transform;
         target.y = moveTransform.position.y;
+
+        // Calculate if the enemy is already sitting at the target center to prevent wasting actions
+        BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
+        float stopCheckRadius = 0.1f;
+        if (grids != null && grids.Length > 0) stopCheckRadius = grids[0].CellSize * 0.4f;
+
+        if (Vector3.Distance(moveTransform.position, target) <= stopCheckRadius)
+        {
+            Debug.Log("Enemy destination is invalid or identical to current position. Action preserved.");
+            return;
+        }
+
         if (moveActions <= 0)
         {
             Debug.Log("Enemy has no move actions available.");
             return;
         }
+
+        // Spend the action point only if actual displacement happens
         moveActions = Mathf.Max(0, moveActions - 1);
 
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
@@ -319,6 +333,20 @@ public class EnemyMovement : MonoBehaviour
     private bool IsCellOccupied(BuildingGrid grid, int gx, int gy)
     {
         if (grid == null) return false;
+
+        // --- NEW: Terrain non-walkable check ---
+        float cs = grid.CellSize;
+        Vector3 localCenter = new Vector3((gx + 0.5f) * cs, 0.01f, (gy + 0.5f) * cs);
+        Vector3 worldCenter = grid.transform.TransformPoint(localCenter);
+        Collider[] terrainCols = Physics.OverlapSphere(worldCenter, cs * 0.35f);
+        foreach (var c in terrainCols)
+        {
+            var ti = c.GetComponentInParent<TerrainInteraction>();
+            if (ti != null && !ti.canMoveOn)
+            {
+                return true; // Treat as occupied/blocked if cannot move on this terrain
+            }
+        }
 
         // Check against other enemy units
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("EnemyUnit");

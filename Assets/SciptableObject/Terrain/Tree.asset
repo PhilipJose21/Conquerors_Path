@@ -18,4 +18,5 @@ MonoBehaviour:
   unitVisibility: 0
   disruptsMovement: 0
   attackRangeImmune: 0
+  canMoveOn: 1
   specialConditions: 
