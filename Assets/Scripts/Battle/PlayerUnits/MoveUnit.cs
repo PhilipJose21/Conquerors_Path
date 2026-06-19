@@ -86,8 +86,8 @@ public class MoveUnit : MonoBehaviour
     //CLICK LOGIC
     public void Clicked(GameObject obj)
     {
-        // If player clicked a highlighted tile, handle move/attack only if a player unit is selected
-        var ht = obj.GetComponent<HighlightTile>();
+        // FIXED: Use GetComponentInParent to safely find the component if a child collider was clicked
+        var ht = obj.GetComponentInParent<HighlightTile>();
         if (ht != null)
         {
             var selected = CellHighlighter.Instance?.CurrentUnit;
@@ -115,7 +115,7 @@ public class MoveUnit : MonoBehaviour
                 if (attacker != null && (selectedMove == null || selectedMove.attackActions > 0))
                 {
                     bool attacked = attacker.TryAttackAtPosition(ht.worldPosition);
-                    if (attacked) return; // attack occurred and highlights cleared
+                    if (attacked) return; 
                 }
                 Debug.Log("Tile occupied by enemy — cannot move into it. Select your unit and click the highlighted tile to attack.");
                 return;
@@ -129,7 +129,6 @@ public class MoveUnit : MonoBehaviour
                     bool moved = CellHighlighter.Instance.MoveCurrentUnitTo(ht.worldPosition);
                     if (moved)
                     {
-                        // Clear highlights after issuing move
                         CellHighlighter.Instance.ClearHighlights();
                     }
                 }
@@ -157,7 +156,6 @@ public class MoveUnit : MonoBehaviour
                 }
 
                 var selectedMove = selected.GetComponent<MoveUnit>();
-                // Only allow target selection if we have attack actions left
                 if (selectedMove != null && selectedMove.attackActions <= 0)
                 {
                     Debug.Log("Selected unit has no attack actions left.");
@@ -238,7 +236,6 @@ public class MoveUnit : MonoBehaviour
                         return;
                     }
 
-                    // 1. Make sure the terrain is within the Player Unit's attack range
                     int selAttackRange = selectedMove.attackRange;
                     BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
                     BuildingGrid grid = null;
@@ -268,7 +265,6 @@ public class MoveUnit : MonoBehaviour
 
                     if (inRange)
                     {
-                        // 2, 3, 4, 5. Processes everything inside the TerrainHarvest node sequence cleanly
                         terrainHarvest.Harvest(harvester.harvestAmount, selectedMove);
                         CellHighlighter.Instance?.ClearHighlights();
                         return;
@@ -282,28 +278,26 @@ public class MoveUnit : MonoBehaviour
         }
 
         // Try to get a MoveUnit component from the clicked object (preferred)
-        MoveUnit clickedMove = obj.GetComponent<MoveUnit>();
+        // FIXED: Using GetComponentInParent here to capture selection smoothly
+        MoveUnit clickedMove = obj.GetComponentInParent<MoveUnit>();
         if (clickedMove != null)
         {
             var ch = CellHighlighter.Instance;
             GameObject prevObj = ch != null ? ch.CurrentUnit : null;
             MoveUnit prevMove = prevObj != null ? prevObj.GetComponent<MoveUnit>() : null;
 
-            // If clicking the same unit again -> deselect and clear highlights
-            if (prevObj == obj)
+            if (prevObj == clickedMove.gameObject)
             {
                 clickedMove.isSelected = false;
                 if (ch != null) ch.ClearHighlights();
                 return;
             }
 
-            // If another unit was selected, deselect it
             if (prevMove != null && prevMove != clickedMove)
             {
                 prevMove.isSelected = false;
             }
 
-            // Select this unit and show its highlights (only for player units)
             clickedMove.isSelected = true;
             if (ch != null)
             {
@@ -356,18 +350,17 @@ public class MoveUnit : MonoBehaviour
         var terrainComp = obj.GetComponentInParent<TerrainInteraction>();
         if (terrainComp != null)
         {
+            Debug.Log($"Interacted directly with Terrain: {obj.name}. Future feature ready!");
             return;
         }
 
-        // If nothing found, clear highlights
         if (CellHighlighter.Instance != null)
         {
             CellHighlighter.Instance.ClearHighlights();
         }
     }
-    
 
-    // FIXED DECTECT OBJECTS LAYER PIERCING LOGIC
+    // DECTECT OBJECTS LAYER PIERCING LOGIC
     public void DetectObjects()
     {
         if (lastProcessedClickFrame == Time.frameCount)
@@ -384,14 +377,12 @@ public class MoveUnit : MonoBehaviour
         rayHit = false;
         hit = default;
 
-        // PRIORITIZATION LAYER PIERCING FILTER:
-        // We look for structural UI grids, units, or interactive resource targets first 
-        // to bypass blocking cosmetic meshes.
+        // FIXED: Look through all objects using GetComponentInParent to pierce blocking meshes cleanly
         foreach (var h in hits)
         {
             GameObject g = h.collider.gameObject;
-            if (g.GetComponent<HighlightTile>() != null || 
-                g.GetComponent<MoveUnit>() != null || 
+            if (g.GetComponentInParent<HighlightTile>() != null || 
+                g.GetComponentInParent<MoveUnit>() != null || 
                 g.GetComponentInParent<TerrainHarvest>() != null ||
                 g.GetComponentInParent<EnemyMovement>() != null ||
                 g.CompareTag("PlayerUnit") || 
@@ -403,7 +394,7 @@ public class MoveUnit : MonoBehaviour
             }
         }
 
-        // Step 2: Fallback to whatever physical object was closest if no prioritized system component was hit
+        // Step 2: Fallback to whatever was closest (like decorative Terrain meshes) if no prioritized UI/gameplay system was hit
         if (!rayHit && hits.Length > 0)
         {
             hit = hits[0];
