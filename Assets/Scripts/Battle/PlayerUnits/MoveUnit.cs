@@ -285,14 +285,11 @@ public class MoveUnit : MonoBehaviour
             return;
         }
 
-        // --- NEW TERRAIN INTERACTION FALLBACK ---
-        // If the click pierced through everything else and we are down to just the terrain layer, 
-        // you can safely place your future custom terrain interaction logic here!
+        // --- TERRAIN INTERACTION FALLBACK ---
         var terrainComp = obj.GetComponentInParent<TerrainInteraction>();
         if (terrainComp != null)
         {
             Debug.Log($"Interacted directly with Terrain: {obj.name}. Future feature ready!");
-            // Execute custom terrain actions here
             return;
         }
 
@@ -373,43 +370,66 @@ public class MoveUnit : MonoBehaviour
             (int sx, int sy) = grid.WorldToGridPosition(moveTransform.position);
             (int ex, int ey) = grid.WorldToGridPosition(target);
             var path = GetCellsOnLine(sx, sy, ex, ey);
+            
+            int finalIndex = path.Count - 1;
+
+            // Step 1: Scan path forward for absolute structural blockades (e.g., walls)
             for (int pi = 1; pi < path.Count; pi++)
             {
                 var cell = path[pi];
-                int x = cell.x; int y = cell.y;
-                Vector3 localCenter = new Vector3((x + 0.5f) * grid.CellSize, 0.01f, (y + 0.5f) * grid.CellSize);
-                Vector3 worldCenter = grid.transform.TransformPoint(localCenter);
+                Vector3 worldCenter = grid.transform.TransformPoint(new Vector3((cell.x + 0.5f) * grid.CellSize, 0.01f, (cell.y + 0.5f) * grid.CellSize));
                 Collider[] cols = Physics.OverlapSphere(worldCenter, grid.CellSize * 0.35f);
                 foreach (var c in cols)
                 {
                     var ti = c.GetComponentInParent<TerrainInteraction>();
-                    if (ti != null && (ti.CantWalkThrough() || !ti.canMoveOn))
+                    if (ti != null && ti.CantWalkThrough())
                     {
-                        if (!ti.canMoveOn)
-                        {
-                            // Stop before entering this tile
-                            var previousCell = path[pi - 1];
-                            Vector3 prevLocalCenter = new Vector3((previousCell.x + 0.5f) * grid.CellSize, 0.01f, (previousCell.y + 0.5f) * grid.CellSize);
-                            finalTarget = grid.transform.TransformPoint(prevLocalCenter);
-                        }
-                        else
-                        {
-                            finalTarget = worldCenter;
-                        }
-                        goto FoundBlockingTerrain;
+                        finalIndex = pi - 1;
+                        break;
                     }
                 }
+                if (finalIndex < path.Count - 1) break;
             }
+
+            // Step 2: Step backward along the calculated path if the landing spot has !canMoveOn
+            while (finalIndex > 0)
+            {
+                var cell = path[finalIndex];
+                Vector3 worldCenter = grid.transform.TransformPoint(new Vector3((cell.x + 0.5f) * grid.CellSize, 0.01f, (cell.y + 0.5f) * grid.CellSize));
+                Collider[] cols = Physics.OverlapSphere(worldCenter, grid.CellSize * 0.35f);
+                
+                bool landingIsBlocked = false;
+                foreach (var c in cols)
+                {
+                    var ti = c.GetComponentInParent<TerrainInteraction>();
+                    if (ti != null && !ti.canMoveOn)
+                    {
+                        landingIsBlocked = true;
+                        break;
+                    }
+                }
+
+                if (landingIsBlocked)
+                {
+                    finalIndex--; // Fall back to the adjacent neighbor along the path sequence
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            var finalCell = path[finalIndex];
+            finalTarget = grid.transform.TransformPoint(new Vector3((finalCell.x + 0.5f) * grid.CellSize, 0.01f, (finalCell.y + 0.5f) * grid.CellSize));
         }
-    FoundBlockingTerrain:
+
         finalTarget.y = moveTransform.position.y;
 
-        // If the final destination after calculation matches our current position, 
-        // it means the movement is completely blocked or invalid. Exit without consuming a move action.
+        // If completely blocked from making progressive steps, exit cleanly preserving actions
         float approxSameCellRadius = grid != null ? grid.CellSize * 0.4f : 0.1f;
         if (Vector3.Distance(moveTransform.position, finalTarget) <= approxSameCellRadius)
         {
-            Debug.Log("Movement invalid or immediately blocked. Move action preserved.");
+            Debug.Log("Movement invalid or destination completely blocked. Move action preserved.");
             return;
         }
 
@@ -419,7 +439,7 @@ public class MoveUnit : MonoBehaviour
             return;
         }
         
-        // Deduct action only after validating actual progress will be made
+        // Deduct action point
         moveActions = Mathf.Max(0, moveActions - 1);
 
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);

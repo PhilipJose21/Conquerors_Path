@@ -167,6 +167,8 @@ public class EnemyMovement : MonoBehaviour
             queue.Enqueue((sx, sy, 0));
             visited.Add((sx, sy));
 
+            float cs = chosenGrid.CellSize;
+
             while (queue.Count > 0)
             {
                 var curr = queue.Dequeue();
@@ -174,12 +176,30 @@ public class EnemyMovement : MonoBehaviour
                 int cy = curr.y;
                 int cdist = curr.dist;
 
-                int distToTarget = Mathf.Abs(cx - tx) + Mathf.Abs(cy - ty);
-                if (distToTarget < minDistToTarget)
+                // Check if this terrain tile allows landing
+                bool canLandOnTerrain = true;
+                Vector3 checkWorldPos = chosenGrid.transform.TransformPoint(new Vector3((cx + 0.5f) * cs, 0.01f, (cy + 0.5f) * cs));
+                Collider[] terrainCols = Physics.OverlapSphere(checkWorldPos, cs * 0.35f);
+                foreach (var c in terrainCols)
                 {
-                    minDistToTarget = distToTarget;
-                    bestX = cx;
-                    bestY = cy;
+                    var ti = c.GetComponentInParent<TerrainInteraction>();
+                    if (ti != null && !ti.canMoveOn)
+                    {
+                        canLandOnTerrain = false;
+                        break;
+                    }
+                }
+
+                // Only consider this cell as a destination option if it can be safely landed on
+                if (canLandOnTerrain)
+                {
+                    int distToTarget = Mathf.Abs(cx - tx) + Mathf.Abs(cy - ty);
+                    if (distToTarget < minDistToTarget)
+                    {
+                        minDistToTarget = distToTarget;
+                        bestX = cx;
+                        bestY = cy;
+                    }
                 }
 
                 if (cdist < moveCells)
@@ -204,7 +224,6 @@ public class EnemyMovement : MonoBehaviour
             ny = bestY;
 
             // Compute world center of target cell
-            float cs = chosenGrid.CellSize;
             Vector3 localCenter = new Vector3((nx + 0.5f) * cs, 0f, (ny + 0.5f) * cs);
             Vector3 worldTarget = chosenGrid.transform.TransformPoint(localCenter);
             worldTarget.y = moveTransform.position.y;
@@ -227,7 +246,6 @@ public class EnemyMovement : MonoBehaviour
             Vector3 moveTarget = myPos + dir.normalized * moveDist;
             // Snap to nearest approx cell center
             float cs = approxCell;
-            Vector3 origin = Vector3.zero;
             Vector3 snapped = new Vector3(Mathf.Floor(moveTarget.x / cs) * cs + cs * 0.5f, moveTarget.y, Mathf.Floor(moveTarget.z / cs) * cs + cs * 0.5f);
             MoveToPosition(snapped);
             if (attackerComp != null && attackActions > 0)
@@ -287,8 +305,35 @@ public class EnemyMovement : MonoBehaviour
         var moveTransform = unitObject != null ? unitObject.transform : transform;
         target.y = moveTransform.position.y;
 
-        // Calculate if the enemy is already sitting at the target center to prevent wasting actions
         BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
+        BuildingGrid grid = null;
+        if (grids != null && grids.Length > 0)
+        {
+            foreach (var g in grids)
+            {
+                if (g.ContainsWorldPosition(moveTransform.position))
+                {
+                    grid = g;
+                    break;
+                }
+            }
+            if (grid == null) grid = grids[0];
+        }
+
+        // Validate landing spot safety
+        float cs = grid != null ? grid.CellSize : 1f;
+        Collider[] terrainCols = Physics.OverlapSphere(target, cs * 0.35f);
+        foreach (var c in terrainCols)
+        {
+            var ti = c.GetComponentInParent<TerrainInteraction>();
+            if (ti != null && !ti.canMoveOn)
+            {
+                Debug.Log("Enemy tried to land on non-walkable terrain! Blocked.");
+                return;
+            }
+        }
+
+        // Calculate if the enemy is already sitting at the target center to prevent wasting actions
         float stopCheckRadius = 0.1f;
         if (grids != null && grids.Length > 0) stopCheckRadius = grids[0].CellSize * 0.4f;
 
@@ -334,7 +379,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (grid == null) return false;
 
-        // --- NEW: Terrain non-walkable check ---
+        // Check against completely solid block obstacles (like walls) instead of canMoveOn
         float cs = grid.CellSize;
         Vector3 localCenter = new Vector3((gx + 0.5f) * cs, 0.01f, (gy + 0.5f) * cs);
         Vector3 worldCenter = grid.transform.TransformPoint(localCenter);
@@ -342,9 +387,10 @@ public class EnemyMovement : MonoBehaviour
         foreach (var c in terrainCols)
         {
             var ti = c.GetComponentInParent<TerrainInteraction>();
-            if (ti != null && !ti.canMoveOn)
+            // If the script contains an explicit CantWalkThrough check, respect it
+            if (ti != null && System.Array.Exists(ti.GetType().GetMethods(), m => m.Name == "CantWalkThrough"))
             {
-                return true; // Treat as occupied/blocked if cannot move on this terrain
+                if (ti.CantWalkThrough()) return true;
             }
         }
 
