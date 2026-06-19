@@ -3,7 +3,7 @@ using UnityEngine;
 public class TerrainInteraction : MonoBehaviour
 {
     private TerrainSO terrainData;
-
+    
     public bool disruptsMovement;
     public bool attackRangeImmune;
     public bool unitVisibility;

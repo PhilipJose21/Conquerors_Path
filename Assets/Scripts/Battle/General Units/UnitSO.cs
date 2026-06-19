@@ -20,6 +20,7 @@ public class UnitSO : ScriptableObject
     public int movePoints;
     public int attackPoints;
     public int unitCost;
+    public int harvestAmount;
     public Sprite unitIcon;
     public GameObject unitPrefab;
     public GameObject unitButtonPrefab;

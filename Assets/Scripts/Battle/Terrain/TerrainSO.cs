@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+
+
 [CreateAssetMenu()]
 public class TerrainSO : ScriptableObject
 {

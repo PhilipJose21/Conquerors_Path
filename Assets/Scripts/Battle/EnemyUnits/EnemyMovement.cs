@@ -280,12 +280,9 @@ public class EnemyMovement : MonoBehaviour
         if (grids != null && grids.Length > 0) approxCell = grids[0].CellSize;
         float maxAttackDist = (attackRange + 0.5f) * approxCell;
         float dist = Vector3.Distance(myPos, target.position);
-        Debug.Log($"AttemptAttackAfterMove: distAfterMove={dist} maxAttackDist={maxAttackDist}");
         if (dist <= maxAttackDist)
         {
-            Debug.Log($"AttemptAttackAfterMove: attempting attack on {target.name} at {target.position}");
             bool attacked = attacker.TryAttackAtPosition(target.position);
-            Debug.Log($"AttemptAttackAfterMove: attack returned {attacked}");
         }
         else
         {

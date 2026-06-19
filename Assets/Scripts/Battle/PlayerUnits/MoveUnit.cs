@@ -214,6 +214,73 @@ public class MoveUnit : MonoBehaviour
             }
         }
 
+        // --- HARVEST TERRAIN INTERACTION ---
+        var terrainHarvest = obj.GetComponentInParent<TerrainHarvest>();
+        if (terrainHarvest != null)
+        {
+            var selected = CellHighlighter.Instance?.CurrentUnit;
+            if (selected != null)
+            {
+                var harvester = selected.GetComponent<HarvestResource>();
+                var selectedMove = selected.GetComponent<MoveUnit>();
+
+                if (harvester != null && selectedMove != null)
+                {
+                    if (terrainHarvest.hasHarvested)
+                    {
+                        Debug.Log("This terrain node has already been harvested!");
+                        return;
+                    }
+
+                    if (selectedMove.attackActions <= 0)
+                    {
+                        Debug.Log("Unit has no attack actions left to harvest.");
+                        return;
+                    }
+
+                    // 1. Make sure the terrain is within the Player Unit's attack range
+                    int selAttackRange = selectedMove.attackRange;
+                    BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
+                    BuildingGrid grid = null;
+                    foreach (var g in grids)
+                    {
+                        if (g.ContainsWorldPosition(selected.transform.position))
+                        {
+                            grid = g;
+                            break;
+                        }
+                    }
+
+                    bool inRange = false;
+                    if (grid != null)
+                    {
+                        (int sx, int sy) = grid.WorldToGridPosition(selected.transform.position);
+                        (int ex, int ey) = grid.WorldToGridPosition(terrainHarvest.transform.position);
+                        inRange = Mathf.Abs(sx - ex) <= selAttackRange && Mathf.Abs(sy - ey) <= selAttackRange;
+                    }
+                    else
+                    {
+                        float approxCell = 1f;
+                        if (grids != null && grids.Length > 0) approxCell = grids[0].CellSize;
+                        float maxDist = (selAttackRange + 0.5f) * approxCell;
+                        inRange = Vector3.Distance(selected.transform.position, terrainHarvest.transform.position) <= maxDist;
+                    }
+
+                    if (inRange)
+                    {
+                        // 2, 3, 4, 5. Processes everything inside the TerrainHarvest node sequence cleanly
+                        terrainHarvest.Harvest(harvester.harvestAmount, selectedMove);
+                        CellHighlighter.Instance?.ClearHighlights();
+                        return;
+                    }
+                    else
+                    {
+                        Debug.Log("Terrain node is outside of the unit's attack range.");
+                    }
+                }
+            }
+        }
+
         // Try to get a MoveUnit component from the clicked object (preferred)
         MoveUnit clickedMove = obj.GetComponent<MoveUnit>();
         if (clickedMove != null)
@@ -289,7 +356,6 @@ public class MoveUnit : MonoBehaviour
         var terrainComp = obj.GetComponentInParent<TerrainInteraction>();
         if (terrainComp != null)
         {
-            Debug.Log($"Interacted directly with Terrain: {obj.name}. Future feature ready!");
             return;
         }
 
@@ -312,19 +378,21 @@ public class MoveUnit : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         Ray ray = mainCamera.ScreenPointToRay(mousePos);
         
-        // Use RaycastAll to capture every single object underneath the cursor, sorted by distance
         RaycastHit[] hits = Physics.RaycastAll(ray, 100f);
         System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
 
         rayHit = false;
         hit = default;
 
-        // Step 1: Look through all objects hit to find Units or Grid Highlights first
+        // PRIORITIZATION LAYER PIERCING FILTER:
+        // We look for structural UI grids, units, or interactive resource targets first 
+        // to bypass blocking cosmetic meshes.
         foreach (var h in hits)
         {
             GameObject g = h.collider.gameObject;
-            if (g.GetComponent<MoveUnit>() != null || 
-                g.GetComponent<HighlightTile>() != null || 
+            if (g.GetComponent<HighlightTile>() != null || 
+                g.GetComponent<MoveUnit>() != null || 
+                g.GetComponentInParent<TerrainHarvest>() != null ||
                 g.GetComponentInParent<EnemyMovement>() != null ||
                 g.CompareTag("PlayerUnit") || 
                 g.CompareTag("EnemyUnit"))
@@ -335,7 +403,7 @@ public class MoveUnit : MonoBehaviour
             }
         }
 
-        // Step 2: If we didn't hit a gameplay system/unit, fall back to whatever was closest (like Terrain)
+        // Step 2: Fallback to whatever physical object was closest if no prioritized system component was hit
         if (!rayHit && hits.Length > 0)
         {
             hit = hits[0];
