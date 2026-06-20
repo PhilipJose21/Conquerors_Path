@@ -350,7 +350,6 @@ public class MoveUnit : MonoBehaviour
         var terrainComp = obj.GetComponentInParent<TerrainInteraction>();
         if (terrainComp != null)
         {
-            Debug.Log($"Interacted directly with Terrain: {obj.name}. Future feature ready!");
             return;
         }
 

@@ -7,6 +7,7 @@ public class TerrainHarvest : MonoBehaviour
     
     [SerializeField] private PlayerBattleSO playerBattleData; 
     public TerrainSO.ResourceType resourceType;
+    public TerrainSO.ResourceType secondaryResourceType;
     public bool hasHarvested = false;
 
     void Awake()
@@ -31,25 +32,50 @@ public class TerrainHarvest : MonoBehaviour
         // 3 & 4. Gain assigned resource type and add to PlayerBattleSO based on unit's harvestAmount
         if (playerBattleData != null)
         {
+            int harvestAmount = amount;
+            if (secondaryResourceType != TerrainSO.ResourceType.None)
+            {
+                harvestAmount = Mathf.CeilToInt(amount / 2f);
+                switch (secondaryResourceType)
+                {
+                    case TerrainSO.ResourceType.Wood:
+                        playerBattleData.woodHarvestAmount += harvestAmount;
+                        break;
+                    case TerrainSO.ResourceType.Stone:
+                        playerBattleData.stoneHarvestAmount += harvestAmount;
+                        break;
+                    case TerrainSO.ResourceType.Farm:
+                        playerBattleData.farmHarvestAmount += harvestAmount;
+                        break;
+                    case TerrainSO.ResourceType.Coins:
+                        playerBattleData.goldHarvestAmount += harvestAmount;
+                        break;
+                    default:
+                        Debug.Log($"Harvested {amount} of {secondaryResourceType}, but it doesn't have an explicitly mapped tracker integer in PlayerBattleSO yet.");
+                        break;
+                }
+            }
             switch (resourceType)
             {
                 case TerrainSO.ResourceType.Wood:
-                    playerBattleData.woodHarvestAmount += amount;
+                    playerBattleData.woodHarvestAmount += harvestAmount;
                     break;
                 case TerrainSO.ResourceType.Stone:
-                    playerBattleData.stoneHarvestAmount += amount;
+                    playerBattleData.stoneHarvestAmount += harvestAmount;
                     break;
                 case TerrainSO.ResourceType.Farm:
-                    playerBattleData.farmHarvestAmount += amount;
+                    playerBattleData.farmHarvestAmount += harvestAmount;
                     break;
                 case TerrainSO.ResourceType.Coins:
-                    playerBattleData.goldHarvestAmount += amount;
+                    playerBattleData.goldHarvestAmount += harvestAmount;
                     break;
                 default:
                     Debug.Log($"Harvested {amount} of {resourceType}, but it doesn't have an explicitly mapped tracker integer in PlayerBattleSO yet.");
                     break;
             }
-            Debug.Log($"Successfully added {amount} to your player battle storage for {resourceType}!");
+
+
+            Debug.Log($"Successfully added {harvestAmount} to your player battle storage for {resourceType}!");
         }
         else
         {
