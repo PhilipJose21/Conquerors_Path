@@ -350,6 +350,10 @@ public class MoveUnit : MonoBehaviour
         var terrainComp = obj.GetComponentInParent<TerrainInteraction>();
         if (terrainComp != null)
         {
+            MoveToPosition(terrainComp.transform.position);
+        }
+        else
+        {
             return;
         }
 
@@ -484,12 +488,12 @@ public class MoveUnit : MonoBehaviour
         finalTarget.y = moveTransform.position.y;
 
         // If completely blocked from making progressive steps, exit cleanly preserving actions
-        float approxSameCellRadius = grid != null ? grid.CellSize * 0.4f : 0.1f;
-        if (Vector3.Distance(moveTransform.position, finalTarget) <= approxSameCellRadius)
-        {
-            Debug.Log("Movement invalid or destination completely blocked. Move action preserved.");
-            return;
-        }
+        // float approxSameCellRadius = grid != null ? grid.CellSize * 0.4f : 0.1f;
+        // if (Vector3.Distance(moveTransform.position, finalTarget) <= approxSameCellRadius)
+        // {
+        //     Debug.Log("Movement invalid or destination completely blocked. Move action preserved.");
+        //     return;
+        // }
 
         if (moveActions <= 0)
         {

@@ -12,6 +12,7 @@ public class TerrainHarvest : MonoBehaviour
 
     void Awake()
     {
+        terrainDataContainer = GetComponent<TerrainSOContainer>();
         if (terrainDataContainer != null && terrainDataContainer.terrainData != null)
         {
             terrainData = terrainDataContainer.terrainData;
