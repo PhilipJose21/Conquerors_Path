@@ -83,10 +83,11 @@ public class MoveUnit : MonoBehaviour
         }
     }
 
+//THIS IS THE ONE
     //CLICK LOGIC
     public void Clicked(GameObject obj)
     {
-        // If player clicked a highlighted tile, handle move/attack only if a player unit is selected
+        // If player clicked a highlighted tile, handle move/attack/harvest only if a player unit is selected
         var ht = obj.GetComponent<HighlightTile>();
         if (ht != null)
         {
@@ -108,8 +109,9 @@ public class MoveUnit : MonoBehaviour
 
             var selectedMove = selected.GetComponent<MoveUnit>();
             var attacker = selected.GetComponent<AttackEnemyUnit>();
+            var harvester = selected.GetComponent<HarvestUnit>(); // Grab the harvester component
 
-            // Prioritize ranged attack over movement if the tile is an attack tile 
+            // 1. Prioritize attacking an enemy if it's an attack tile
             if (enemyPresent && ht.isAttack)
             {
                 if (attacker != null && (selectedMove == null || selectedMove.attackActions > 0))
@@ -121,7 +123,23 @@ public class MoveUnit : MonoBehaviour
                 return;
             }
 
-            // No enemy present or not an attack tile — perform move only if the selected unit has remaining moveActions
+            // 2. NEW: Prioritize harvesting terrain if it's an attack tile and the unit can harvest
+            if (!enemyPresent && ht.isAttack && harvester != null)
+            {
+                if (selectedMove == null || selectedMove.attackActions > 0)
+                {
+                    // Execute harvest. This already consumes attackActions and clears highlights inside TryToHarvestPosition
+                    bool harvested = harvester.TryToHarvestPosition(ht.worldPosition);
+                    if (harvested) return; 
+                }
+                else
+                {
+                    Debug.Log("Selected unit has no attack actions left to harvest.");
+                    return;
+                }
+            }
+
+            // 3. No attack/harvest action taken — perform move only if the selected unit has remaining moveActions
             if (selectedMove != null && selectedMove.canMove && selectedMove.moveActions > 0)
             {
                 if (CellHighlighter.Instance != null)
@@ -141,6 +159,7 @@ public class MoveUnit : MonoBehaviour
 
             return;
         }
+        ////////THIS IS THE ONE
 
         //===== ATTACKING ENEMIES DIRECTLY =====
         // If player clicked an enemy directly (or a child collider), attempt attack only if a player unit is selected
