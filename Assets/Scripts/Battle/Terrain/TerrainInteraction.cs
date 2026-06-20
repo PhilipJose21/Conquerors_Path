@@ -7,6 +7,7 @@ public class TerrainInteraction : MonoBehaviour
     public bool disruptsMovement;
     public bool attackRangeImmune;
     public bool unitVisibility;
+    public bool cannotMoveOn;
     void Start()
     {
         TerrainSOContainer container = GetComponent<TerrainSOContainer>();
@@ -15,6 +16,7 @@ public class TerrainInteraction : MonoBehaviour
         disruptsMovement = terrainData.disruptsMovement;
         attackRangeImmune = terrainData.attackRangeImmune;
         unitVisibility = terrainData.unitVisibility;
+        cannotMoveOn = terrainData.cannotMoveOn;
     }
 
     // Update is called once per frame
@@ -27,5 +29,11 @@ public class TerrainInteraction : MonoBehaviour
     public bool CantWalkThrough()
     {
         return disruptsMovement;
+    }
+
+    // Return whether this terrain prevents movement (unit cannot move onto this tile)
+    public bool CantMoveOn()
+    {
+        return cannotMoveOn;
     }
 }

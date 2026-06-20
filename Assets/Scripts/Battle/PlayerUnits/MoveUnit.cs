@@ -433,6 +433,60 @@ public class MoveUnit : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
     }
 
+//     public void MoveToPosition(Vector3 target)
+//     {
+//         var moveTransform = unitObject != null ? unitObject.transform : transform;
+//         BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
+//         BuildingGrid grid = null;
+//         if (grids != null && grids.Length > 0)
+//         {
+//             foreach (var g in grids)
+//             {
+//                 if (g.ContainsWorldPosition(moveTransform.position))
+//                 {
+//                     grid = g;
+//                     break;
+//                 }
+//             }
+//             if (grid == null) grid = grids[0];
+//         }
+
+//         if (grid != null)
+//         {
+//             (int sx, int sy) = grid.WorldToGridPosition(moveTransform.position);
+//             (int ex, int ey) = grid.WorldToGridPosition(target);
+//             var path = GetCellsOnLine(sx, sy, ex, ey);
+//             for (int pi = 1; pi < path.Count; pi++)
+//             {
+//                 var cell = path[pi];
+//                 int x = cell.x; int y = cell.y;
+//                 Vector3 localCenter = new Vector3((x + 0.5f) * grid.CellSize, 0.01f, (y + 0.5f) * grid.CellSize);
+//                 Vector3 worldCenter = grid.transform.TransformPoint(localCenter);
+//                 Collider[] cols = Physics.OverlapSphere(worldCenter, grid.CellSize * 0.35f);
+//                 foreach (var c in cols)
+//                 {
+//                     var ti = c.GetComponentInParent<TerrainInteraction>();
+//                     if (ti != null && ti.CantWalkThrough())
+//                     {
+//                         target = worldCenter;
+//                         goto FoundBlockingTerrain;
+//                     }
+//                 }
+//             }
+//         }
+// FoundBlockingTerrain:
+//         target.y = moveTransform.position.y;
+//         if (moveActions <= 0)
+//         {
+//             Debug.Log("No move actions available.");
+//             return;
+//         }
+//         moveActions = Mathf.Max(0, moveActions - 1);
+
+//         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+//         moveCoroutine = StartCoroutine(MoveRoutine(target));
+//     }
+
     public void MoveToPosition(Vector3 target)
     {
         var moveTransform = unitObject != null ? unitObject.transform : transform;
@@ -453,6 +507,25 @@ public class MoveUnit : MonoBehaviour
 
         if (grid != null)
         {
+            // --- NEW: Check if the final target destination itself is blocked ---
+            (int tx, int ty) = grid.WorldToGridPosition(target);
+            Vector3 targetLocalCenter = new Vector3((tx + 0.5f) * grid.CellSize, 0.01f, (ty + 0.5f) * grid.CellSize);
+            Vector3 targetWorldCenter = grid.transform.TransformPoint(targetLocalCenter);
+            
+            Collider[] targetCols = Physics.OverlapSphere(targetWorldCenter, grid.CellSize * 0.35f);
+            foreach (var c in targetCols)
+            {
+                var ti = c.GetComponentInParent<TerrainInteraction>();
+                // Assuming your TerrainInteraction script uses a custom check or your specific variable/method like CantWalkThrough()
+                if (ti != null && ti.CantMoveOn())
+                {
+                    Debug.Log("Movement declined: Target cell is blocked by non-walkable terrain.");
+                    return; // EXIT EARLY: Do not consume moveActions, do not move
+                }
+            }
+            // ------------------------------------------------------------------
+
+            // Your existing line-of-sight/path checking logic
             (int sx, int sy) = grid.WorldToGridPosition(moveTransform.position);
             (int ex, int ey) = grid.WorldToGridPosition(target);
             var path = GetCellsOnLine(sx, sy, ex, ey);
@@ -474,13 +547,23 @@ public class MoveUnit : MonoBehaviour
                 }
             }
         }
-FoundBlockingTerrain:
+
+    FoundBlockingTerrain:
+        // Double-check if the pathing adjustment brought us right back to where we started
+        if (Vector3.Distance(moveTransform.position, target) < 0.1f)
+        {
+            Debug.Log("Movement declined: Blocked by terrain immediately ahead.");
+            return; // EXIT EARLY
+        }
+
         target.y = moveTransform.position.y;
         if (moveActions <= 0)
         {
             Debug.Log("No move actions available.");
             return;
         }
+        
+        // Safe to consume action and move
         moveActions = Mathf.Max(0, moveActions - 1);
 
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
