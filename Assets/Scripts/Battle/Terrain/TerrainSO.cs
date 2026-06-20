@@ -7,6 +7,7 @@ public class TerrainSO : ScriptableObject
 
     public enum ResourceType
     {
+        None,
         Wood,
         Stone,
         Farm,
