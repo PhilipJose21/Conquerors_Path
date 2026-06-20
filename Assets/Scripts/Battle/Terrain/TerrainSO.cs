@@ -19,10 +19,12 @@ public class TerrainSO : ScriptableObject
     public string terrainName;
     public GameObject terrainPrefab;
     public ResourceType resourceType;
+    public ResourceType secondaryResourceType;
     public bool unitVisibility;
     public bool disruptsMovement;
     public bool attackRangeImmune;
-    public bool canMoveOn;
+    public bool cannotMoveOn;
+    public int terrainDamage;
     public string specialConditions;
     
 }
