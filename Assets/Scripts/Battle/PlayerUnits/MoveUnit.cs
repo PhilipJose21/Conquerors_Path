@@ -142,6 +142,7 @@ public class MoveUnit : MonoBehaviour
             return;
         }
 
+        //===== ATTACKING ENEMIES DIRECTLY =====
         // If player clicked an enemy directly (or a child collider), attempt attack only if a player unit is selected
         if (obj != null)
         {
@@ -293,7 +294,72 @@ public class MoveUnit : MonoBehaviour
         {
             Debug.Log($"Interacted directly with Terrain: {obj.name}. Future feature ready!");
             // Execute custom terrain actions here
-            return;
+
+            var terrainHarvest = obj.GetComponentInParent<TerrainHarvest>();
+            if (terrainHarvest != null)
+            {
+                var selected = CellHighlighter.Instance?.CurrentUnit;
+                if (selected == null)
+                {
+                    Debug.Log("No unit selected — select your unit first to attack an enemy.");
+                    return;
+                }
+
+                var selectedMove = selected.GetComponent<MoveUnit>();
+                // Only allow target selection if we have attack actions left
+                if (selectedMove != null && selectedMove.attackActions <= 0)
+                {
+                    Debug.Log("Selected unit has no attack actions left.");
+                    return;
+                }
+
+                var attacker = selected.GetComponent<HarvestUnit>();
+                if (attacker == null)
+                {
+                    Debug.Log("Selected unit cannot attack.");
+                    return;
+                }
+
+                int selAttackRange = 1;
+                if (selectedMove != null) selAttackRange = selectedMove.attackRange;
+
+                BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
+                BuildingGrid grid = null;
+                foreach (var g in grids)
+                {
+                    if (g.ContainsWorldPosition(selected.transform.position))
+                    {
+                        grid = g;
+                        break;
+                    }
+                }
+
+                bool inRange = false;
+                if (grid != null)
+                {
+                    (int sx, int sy) = grid.WorldToGridPosition(selected.transform.position);
+                    (int ex, int ey) = grid.WorldToGridPosition(terrainHarvest.transform.position);
+                    inRange = Mathf.Abs(sx - ex) <= selAttackRange && Mathf.Abs(sy - ey) <= selAttackRange;
+                }
+                else
+                {
+                    float approxCell = 1f;
+                    if (grids != null && grids.Length > 0) approxCell = grids[0].CellSize;
+                    float maxDist = (selAttackRange + 0.5f) * approxCell;
+                    inRange = Vector3.Distance(selected.transform.position, terrainHarvest.transform.position) <= maxDist;
+                }
+
+                if (inRange)
+                {
+                    bool attacked = attacker.TryToHarvestPosition(terrainHarvest.transform.position);
+                    if (attacked) return;
+                }
+                else
+                {
+                    Debug.Log("Enemy is not within selected unit's attack range.");
+                }
+                return;
+            }
         }
 
         // If nothing found, clear highlights

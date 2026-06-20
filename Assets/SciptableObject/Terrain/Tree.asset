@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TerrainSO
   terrainName: 
   terrainPrefab: {fileID: 0}
-  resourceType: 0
+  resourceType: 1
+  secondaryResourceType: 0
   unitVisibility: 0
   disruptsMovement: 0
   attackRangeImmune: 0
+  cannotMoveOn: 0
+  terrainDamage: 0
   specialConditions: 
