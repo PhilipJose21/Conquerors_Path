@@ -23,12 +23,6 @@ public class TerrainHarvest : MonoBehaviour
         playerBattleSO = playerbattleData.playerBattleSO;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void HarvestResource(int amount)
     {
         if (canHarvest)
@@ -44,6 +38,9 @@ public class TerrainHarvest : MonoBehaviour
         }
     }
 
+
+
+//NOTE: CHANGE THIS SO THAT IT GOES TO THE UNITS INVENTORY AND NOT DIRECTLY AT THE PLAYER
     public void addMainResource(int amount)
     {
         switch (resourceType)

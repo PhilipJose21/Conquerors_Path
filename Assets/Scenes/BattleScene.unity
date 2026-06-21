@@ -1190,6 +1190,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Water Terrain
       objectReference: {fileID: 0}
+    - target: {fileID: 2294885873708185969, guid: cde41762e1198084c9eabbbcf79386f3, type: 3}
+      propertyPath: terrainData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8de5be30ea4cd9b4c9e90018dde96ab6, type: 2}
     - target: {fileID: 6856685851909274277, guid: cde41762e1198084c9eabbbcf79386f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.5309167
