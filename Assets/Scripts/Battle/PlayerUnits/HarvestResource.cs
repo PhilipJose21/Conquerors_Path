@@ -33,13 +33,13 @@ public class HarvestResource : MonoBehaviour
             {
                 if (moveUnit != null && moveUnit.attackActions > 0)
                 {
-                    resourceNode.Harvest(harvestAmount, moveUnit);
+                    resourceNode.HarvestResource(harvestAmount);
                     moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
                 }
                 else
                 {
                     // If no MoveUnit present, still attempt with local harvestAmount fallback
-                    resourceNode.Harvest(harvestAmount, null);
+                    resourceNode.HarvestResource(harvestAmount);
                 }
 
                 CellHighlighter.Instance?.ClearHighlights();

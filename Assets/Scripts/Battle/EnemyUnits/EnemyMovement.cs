@@ -183,7 +183,7 @@ public class EnemyMovement : MonoBehaviour
                 foreach (var c in terrainCols)
                 {
                     var ti = c.GetComponentInParent<TerrainInteraction>();
-                    if (ti != null && !ti.canMoveOn)
+                    if (ti != null && ti.cannotMoveOn)
                     {
                         canLandOnTerrain = false;
                         break;
@@ -323,7 +323,7 @@ public class EnemyMovement : MonoBehaviour
         foreach (var c in terrainCols)
         {
             var ti = c.GetComponentInParent<TerrainInteraction>();
-            if (ti != null && !ti.canMoveOn)
+            if (ti != null && ti.cannotMoveOn)
             {
                 Debug.Log("Enemy tried to land on non-walkable terrain! Blocked.");
                 return;
