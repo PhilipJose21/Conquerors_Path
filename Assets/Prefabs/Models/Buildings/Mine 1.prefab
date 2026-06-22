@@ -273,6 +273,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClickObject
   mainCamera: {fileID: 0}
+  hoverScaleMultiplier: 1.05
+  scaleSpeed: 12
 --- !u!1001 &6059253874764557833
 PrefabInstance:
   m_ObjectHideFlags: 0
