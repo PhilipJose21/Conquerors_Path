@@ -10,13 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9906bcf4817d9e444ad0e5000a641b83, type: 3}
-  m_Name: NewResearchNode
+  m_Name: Node_MarathonTraining
   m_EditorClassIdentifier: Assembly-CSharp::ResearchNodeData
-  nodeId: 
-  nodeDisplayName: 
-  description: 
-  researchPointCost: 0
+  nodeId: marathon_training
+  nodeDisplayName: Marathon Training
+  description: Increase 'MELEE' mobility one tier higher and  HP increases by 1.
+  cost: 30
   isUnlockedByDefault: 0
-  prerequisites: []
-  targetSystem: 0
-  modifierAmount: 0
+  prerequisites:
+  - {fileID: 11400000, guid: f7bcd230de58f4d4da066d0dd9fe455b, type: 2}
+  upgradeEffects:
+  - targetUpgrade: 8
+    modifierValue: 1
+  - targetUpgrade: 7
+    modifierValue: 1

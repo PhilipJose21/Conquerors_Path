@@ -14,8 +14,15 @@ public class ResearchNodeData : ScriptableObject
     public ResearchNodeData[] prerequisites;
 
     [Header("Game Modifiers")]
-    public UpgradeType targetUpgrade;
-    public float modifierValue;
+    [Tooltip("Add one or more effects to this node. Perfect for multi-effect upgrades like Marathon Training.")]
+    public UpgradeEffect[] upgradeEffects; // Supports multiple modifiers on a single node
+
+    [System.Serializable] 
+    public struct UpgradeEffect
+    {
+        public UpgradeType targetUpgrade;
+        public float modifierValue;
+    }
 
     public enum UpgradeType
     {

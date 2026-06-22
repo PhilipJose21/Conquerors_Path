@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9906bcf4817d9e444ad0e5000a641b83, type: 3}
+  m_Name: Node_GladiusSexSeptem
+  m_EditorClassIdentifier: Assembly-CSharp::ResearchNodeData
+  nodeId: gladius_sex_septem
+  nodeDisplayName: Gladius Sex Septem
+  description: '''MELEE'' gain 1 additional damage.'
+  cost: 20
+  isUnlockedByDefault: 0
+  prerequisites:
+  - {fileID: 11400000, guid: c557c1792645f7b4295095b4fe0c69b8, type: 2}
+  upgradeEffects:
+  - targetUpgrade: 6
+    modifierValue: 1
