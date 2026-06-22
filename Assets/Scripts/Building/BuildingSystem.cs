@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -109,13 +110,32 @@ public class BuildingSystem : MonoBehaviour
     // Update preview position, validate against grids and snap/place when appropriate.
     private void HandlePreview(Vector3 mouseWorldPosition)
     {
-        // Move preview to follow mouse
+        // 1. Move preview roughly to follow mouse first
         preview.transform.position = mouseWorldPosition;
-        // Gather all world positions for the preview's building units
+        
+        // 2. Gather preliminary positions to find the target grid
+        List<Vector3> roughPositions = preview.BuildingModel.GetAllBuildingPosition();
+        if (roughPositions.Count == 0) return;
+
+        // Choose primary grid for snapping and orientation - prefer a grid that contains the
+        // entire footprint to avoid selecting the wrong nearby grid when shape unit order
+        // causes the first unit to be outside the intended grid.
+        BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridForPositions(roughPositions) ?? grid;
+        
+        if (primaryGrid != null)
+        {
+            // Align preview rotation to the grid's rotation so visual math lines up
+            preview.transform.rotation = primaryGrid.transform.rotation;
+            
+            // CRITICAL FIX: Snap the preview to the final cell positions BEFORE validating
+            preview.transform.position = GetSnappedCenterPosition(roughPositions, primaryGrid);
+        }
+
+        // 3. NOW gather the final, snapped world positions for precise cell validation
         List<Vector3> buildPosition = preview.BuildingModel.GetAllBuildingPosition();
         bool canBuild = true;
 
-        // Validate each unit's world position against whichever grid contains it
+        // Validate each snapped unit's world position against the grid
         foreach (var pos in buildPosition)
         {
             BuildingGrid posGrid = BuildingGridManager.Instance.FindGridAtPosition(pos);
@@ -126,29 +146,27 @@ public class BuildingSystem : MonoBehaviour
             }
         }
 
+        // 4. Handle states based on the snapped validation results
         if (canBuild)
         {
-            // Choose primary grid for snapping and orientation
-            BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridAtPosition(buildPosition.First()) ?? grid;
-            if (primaryGrid != null)
-            {
-                // Align preview rotation to the grid's rotation so visuals match
-                preview.transform.rotation = primaryGrid.transform.rotation;
-            }
-            // Snap preview to the center of occupied cells in grid local space
-            preview.transform.position = GetSnappedCenterPosition(buildPosition, primaryGrid);
-            // Recompute positions after snapping so validation/placement uses final transforms
-            buildPosition = preview.BuildingModel.GetAllBuildingPosition();
             preview.ChangeState(BuildingPreview.BuildingPreviewState.VALID);
 
-            // Place building on left mouse click (unless holding Space for camera)
+            // Place building on left mouse click
             if (Input.GetMouseButtonDown(0) 
-                && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() 
                 && !Input.GetKey(KeyCode.Space) 
                 && !Input.GetKey(KeyCode.R) 
-                && !Input.GetKey(KeyCode.Q)
-                )
+                && !Input.GetKey(KeyCode.Q))
             {
+                // If the EventSystem reports the pointer over UI, log the blocking UI elements
+                if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+                {
+                    var ped = new PointerEventData(EventSystem.current) { position = Input.mousePosition };
+                    var results = new System.Collections.Generic.List<RaycastResult>();
+                    EventSystem.current.RaycastAll(ped, results);
+                    string names = results.Count == 0 ? "(no results)" : string.Join(", ", results.ConvertAll(r => r.gameObject.name));
+                    Debug.Log($"Placement blocked by UI elements under pointer: {names}");
+                    return;
+                }
                 if (isBattleScene)
                 {
                     if (enableReinforcementCost)
@@ -177,12 +195,9 @@ public class BuildingSystem : MonoBehaviour
                 }
 
                 PlaceBuilding(buildPosition, primaryGrid);
-                // After placing, require the player to explicitly reselect a building
                 buildingDataIndex = -1;
                 isPlacing = false;
-                // Close any selected-building UI
                 KingdomUIManager.Instance?.CloseObjectInfo();
-                
             }
         }
         else
@@ -206,7 +221,9 @@ public class BuildingSystem : MonoBehaviour
     private void PlaceBuilding(List<Vector3> buildPosition, BuildingGrid targetGrid)
     {
         // Determine which grid to use for final placement
-        BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridAtPosition(buildPosition.First()) ?? targetGrid ?? grid;
+        // Prefer a grid that contains the full set of positions to ensure cells
+        // are assigned to the correct grid when placing across boundaries.
+        BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridForPositions(buildPosition) ?? targetGrid ?? grid;
 
         // Compute the exact snapped center in world space if we have a grid; otherwise use the preview position
         Vector3 placePosition = preview != null ? preview.transform.position : Vector3.zero;
