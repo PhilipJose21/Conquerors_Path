@@ -83,11 +83,12 @@ public class MoveUnit : MonoBehaviour
         }
     }
 
+//THIS IS THE ONE
     //CLICK LOGIC
     public void Clicked(GameObject obj)
     {
-        // FIXED: Use GetComponentInParent to safely find the component if a child collider was clicked
-        var ht = obj.GetComponentInParent<HighlightTile>();
+        // If player clicked a highlighted tile, handle move/attack/harvest only if a player unit is selected
+        var ht = obj.GetComponent<HighlightTile>();
         if (ht != null)
         {
             var selected = CellHighlighter.Instance?.CurrentUnit;
@@ -108,20 +109,37 @@ public class MoveUnit : MonoBehaviour
 
             var selectedMove = selected.GetComponent<MoveUnit>();
             var attacker = selected.GetComponent<AttackEnemyUnit>();
+            var harvester = selected.GetComponent<HarvestUnit>(); // Grab the harvester component
 
-            // Prioritize ranged attack over movement if the tile is an attack tile 
+            // 1. Prioritize attacking an enemy if it's an attack tile
             if (enemyPresent && ht.isAttack)
             {
                 if (attacker != null && (selectedMove == null || selectedMove.attackActions > 0))
                 {
                     bool attacked = attacker.TryAttackAtPosition(ht.worldPosition);
-                    if (attacked) return; 
+                    if (attacked) return; // attack occurred and highlights cleared
                 }
                 Debug.Log("Tile occupied by enemy — cannot move into it. Select your unit and click the highlighted tile to attack.");
                 return;
             }
 
-            // No enemy present or not an attack tile — perform move only if the selected unit has remaining moveActions
+            // 2. NEW: Prioritize harvesting terrain if it's an attack tile and the unit can harvest
+            if (!enemyPresent && ht.isAttack && harvester != null)
+            {
+                if (selectedMove == null || selectedMove.attackActions > 0)
+                {
+                    // Execute harvest. This already consumes attackActions and clears highlights inside TryToHarvestPosition
+                    bool harvested = harvester.TryToHarvestPosition(ht.worldPosition);
+                    if (harvested) return; 
+                }
+                else
+                {
+                    Debug.Log("Selected unit has no attack actions left to harvest.");
+                    return;
+                }
+            }
+
+            // 3. No attack/harvest action taken — perform move only if the selected unit has remaining moveActions
             if (selectedMove != null && selectedMove.canMove && selectedMove.moveActions > 0)
             {
                 if (CellHighlighter.Instance != null)
@@ -129,6 +147,7 @@ public class MoveUnit : MonoBehaviour
                     bool moved = CellHighlighter.Instance.MoveCurrentUnitTo(ht.worldPosition);
                     if (moved)
                     {
+                        // Clear highlights after issuing move
                         CellHighlighter.Instance.ClearHighlights();
                     }
                 }
@@ -140,7 +159,9 @@ public class MoveUnit : MonoBehaviour
 
             return;
         }
+        ////////THIS IS THE ONE
 
+        //===== ATTACKING ENEMIES DIRECTLY =====
         // If player clicked an enemy directly (or a child collider), attempt attack only if a player unit is selected
         if (obj != null)
         {
@@ -156,6 +177,7 @@ public class MoveUnit : MonoBehaviour
                 }
 
                 var selectedMove = selected.GetComponent<MoveUnit>();
+                // Only allow target selection if we have attack actions left
                 if (selectedMove != null && selectedMove.attackActions <= 0)
                 {
                     Debug.Log("Selected unit has no attack actions left.");
@@ -212,92 +234,29 @@ public class MoveUnit : MonoBehaviour
             }
         }
 
-        // --- HARVEST TERRAIN INTERACTION ---
-        var terrainHarvest = obj.GetComponentInParent<TerrainHarvest>();
-        if (terrainHarvest != null)
-        {
-            var selected = CellHighlighter.Instance?.CurrentUnit;
-            if (selected != null)
-            {
-                var harvester = selected.GetComponent<HarvestResource>();
-                var selectedMove = selected.GetComponent<MoveUnit>();
-
-                if (harvester != null && selectedMove != null)
-                {
-                    if (terrainHarvest.hasHarvested)
-                    {
-                        Debug.Log("This terrain node has already been harvested!");
-                        return;
-                    }
-
-                    if (selectedMove.attackActions <= 0)
-                    {
-                        Debug.Log("Unit has no attack actions left to harvest.");
-                        return;
-                    }
-
-                    int selAttackRange = selectedMove.attackRange;
-                    BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
-                    BuildingGrid grid = null;
-                    foreach (var g in grids)
-                    {
-                        if (g.ContainsWorldPosition(selected.transform.position))
-                        {
-                            grid = g;
-                            break;
-                        }
-                    }
-
-                    bool inRange = false;
-                    if (grid != null)
-                    {
-                        (int sx, int sy) = grid.WorldToGridPosition(selected.transform.position);
-                        (int ex, int ey) = grid.WorldToGridPosition(terrainHarvest.transform.position);
-                        inRange = Mathf.Abs(sx - ex) <= selAttackRange && Mathf.Abs(sy - ey) <= selAttackRange;
-                    }
-                    else
-                    {
-                        float approxCell = 1f;
-                        if (grids != null && grids.Length > 0) approxCell = grids[0].CellSize;
-                        float maxDist = (selAttackRange + 0.5f) * approxCell;
-                        inRange = Vector3.Distance(selected.transform.position, terrainHarvest.transform.position) <= maxDist;
-                    }
-
-                    if (inRange)
-                    {
-                        terrainHarvest.Harvest(harvester.harvestAmount, selectedMove);
-                        CellHighlighter.Instance?.ClearHighlights();
-                        return;
-                    }
-                    else
-                    {
-                        Debug.Log("Terrain node is outside of the unit's attack range.");
-                    }
-                }
-            }
-        }
-
         // Try to get a MoveUnit component from the clicked object (preferred)
-        // FIXED: Using GetComponentInParent here to capture selection smoothly
-        MoveUnit clickedMove = obj.GetComponentInParent<MoveUnit>();
+        MoveUnit clickedMove = obj.GetComponent<MoveUnit>();
         if (clickedMove != null)
         {
             var ch = CellHighlighter.Instance;
             GameObject prevObj = ch != null ? ch.CurrentUnit : null;
             MoveUnit prevMove = prevObj != null ? prevObj.GetComponent<MoveUnit>() : null;
 
-            if (prevObj == clickedMove.gameObject)
+            // If clicking the same unit again -> deselect and clear highlights
+            if (prevObj == obj)
             {
                 clickedMove.isSelected = false;
                 if (ch != null) ch.ClearHighlights();
                 return;
             }
 
+            // If another unit was selected, deselect it
             if (prevMove != null && prevMove != clickedMove)
             {
                 prevMove.isSelected = false;
             }
 
+            // Select this unit and show its highlights (only for player units)
             clickedMove.isSelected = true;
             if (ch != null)
             {
@@ -346,24 +305,91 @@ public class MoveUnit : MonoBehaviour
             return;
         }
 
-        // --- TERRAIN INTERACTION FALLBACK ---
+        // --- NEW TERRAIN INTERACTION FALLBACK ---
+        // If the click pierced through everything else and we are down to just the terrain layer, 
+        // you can safely place your future custom terrain interaction logic here!
         var terrainComp = obj.GetComponentInParent<TerrainInteraction>();
         if (terrainComp != null)
         {
-            MoveToPosition(terrainComp.transform.position);
-        }
-        else
-        {
-            return;
+            Debug.Log($"Interacted directly with Terrain: {obj.name}. Future feature ready!");
+            // Execute custom terrain actions here
+
+            var terrainHarvest = obj.GetComponentInParent<TerrainHarvest>();
+            if (terrainHarvest != null)
+            {
+                var selected = CellHighlighter.Instance?.CurrentUnit;
+                if (selected == null)
+                {
+                    Debug.Log("No unit selected — select your unit first to attack an enemy.");
+                    return;
+                }
+
+                var selectedMove = selected.GetComponent<MoveUnit>();
+                // Only allow target selection if we have attack actions left
+                if (selectedMove != null && selectedMove.attackActions <= 0)
+                {
+                    Debug.Log("Selected unit has no attack actions left.");
+                    return;
+                }
+
+                var attacker = selected.GetComponent<HarvestUnit>();
+                if (attacker == null)
+                {
+                    Debug.Log("Selected unit cannot attack.");
+                    return;
+                }
+
+                int selAttackRange = 1;
+                if (selectedMove != null) selAttackRange = selectedMove.attackRange;
+
+                BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
+                BuildingGrid grid = null;
+                foreach (var g in grids)
+                {
+                    if (g.ContainsWorldPosition(selected.transform.position))
+                    {
+                        grid = g;
+                        break;
+                    }
+                }
+
+                bool inRange = false;
+                if (grid != null)
+                {
+                    (int sx, int sy) = grid.WorldToGridPosition(selected.transform.position);
+                    (int ex, int ey) = grid.WorldToGridPosition(terrainHarvest.transform.position);
+                    inRange = Mathf.Abs(sx - ex) <= selAttackRange && Mathf.Abs(sy - ey) <= selAttackRange;
+                }
+                else
+                {
+                    float approxCell = 1f;
+                    if (grids != null && grids.Length > 0) approxCell = grids[0].CellSize;
+                    float maxDist = (selAttackRange + 0.5f) * approxCell;
+                    inRange = Vector3.Distance(selected.transform.position, terrainHarvest.transform.position) <= maxDist;
+                }
+
+                if (inRange)
+                {
+                    bool attacked = attacker.TryToHarvestPosition(terrainHarvest.transform.position);
+                    if (attacked) return;
+                }
+                else
+                {
+                    Debug.Log("Enemy is not within selected unit's attack range.");
+                }
+                return;
+            }
         }
 
+        // If nothing found, clear highlights
         if (CellHighlighter.Instance != null)
         {
             CellHighlighter.Instance.ClearHighlights();
         }
     }
+    
 
-    // DECTECT OBJECTS LAYER PIERCING LOGIC
+    // FIXED DECTECT OBJECTS LAYER PIERCING LOGIC
     public void DetectObjects()
     {
         if (lastProcessedClickFrame == Time.frameCount)
@@ -374,19 +400,19 @@ public class MoveUnit : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         Ray ray = mainCamera.ScreenPointToRay(mousePos);
         
+        // Use RaycastAll to capture every single object underneath the cursor, sorted by distance
         RaycastHit[] hits = Physics.RaycastAll(ray, 100f);
         System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
 
         rayHit = false;
         hit = default;
 
-        // FIXED: Look through all objects using GetComponentInParent to pierce blocking meshes cleanly
+        // Step 1: Look through all objects hit to find Units or Grid Highlights first
         foreach (var h in hits)
         {
             GameObject g = h.collider.gameObject;
-            if (g.GetComponentInParent<HighlightTile>() != null || 
-                g.GetComponentInParent<MoveUnit>() != null || 
-                g.GetComponentInParent<TerrainHarvest>() != null ||
+            if (g.GetComponent<MoveUnit>() != null || 
+                g.GetComponent<HighlightTile>() != null || 
                 g.GetComponentInParent<EnemyMovement>() != null ||
                 g.CompareTag("PlayerUnit") || 
                 g.CompareTag("EnemyUnit"))
@@ -397,7 +423,7 @@ public class MoveUnit : MonoBehaviour
             }
         }
 
-        // Step 2: Fallback to whatever was closest (like decorative Terrain meshes) if no prioritized UI/gameplay system was hit
+        // Step 2: If we didn't hit a gameplay system/unit, fall back to whatever was closest (like Terrain)
         if (!rayHit && hits.Length > 0)
         {
             hit = hits[0];
@@ -406,6 +432,60 @@ public class MoveUnit : MonoBehaviour
 
         Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
     }
+
+//     public void MoveToPosition(Vector3 target)
+//     {
+//         var moveTransform = unitObject != null ? unitObject.transform : transform;
+//         BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
+//         BuildingGrid grid = null;
+//         if (grids != null && grids.Length > 0)
+//         {
+//             foreach (var g in grids)
+//             {
+//                 if (g.ContainsWorldPosition(moveTransform.position))
+//                 {
+//                     grid = g;
+//                     break;
+//                 }
+//             }
+//             if (grid == null) grid = grids[0];
+//         }
+
+//         if (grid != null)
+//         {
+//             (int sx, int sy) = grid.WorldToGridPosition(moveTransform.position);
+//             (int ex, int ey) = grid.WorldToGridPosition(target);
+//             var path = GetCellsOnLine(sx, sy, ex, ey);
+//             for (int pi = 1; pi < path.Count; pi++)
+//             {
+//                 var cell = path[pi];
+//                 int x = cell.x; int y = cell.y;
+//                 Vector3 localCenter = new Vector3((x + 0.5f) * grid.CellSize, 0.01f, (y + 0.5f) * grid.CellSize);
+//                 Vector3 worldCenter = grid.transform.TransformPoint(localCenter);
+//                 Collider[] cols = Physics.OverlapSphere(worldCenter, grid.CellSize * 0.35f);
+//                 foreach (var c in cols)
+//                 {
+//                     var ti = c.GetComponentInParent<TerrainInteraction>();
+//                     if (ti != null && ti.CantWalkThrough())
+//                     {
+//                         target = worldCenter;
+//                         goto FoundBlockingTerrain;
+//                     }
+//                 }
+//             }
+//         }
+// FoundBlockingTerrain:
+//         target.y = moveTransform.position.y;
+//         if (moveActions <= 0)
+//         {
+//             Debug.Log("No move actions available.");
+//             return;
+//         }
+//         moveActions = Mathf.Max(0, moveActions - 1);
+
+//         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+//         moveCoroutine = StartCoroutine(MoveRoutine(target));
+//     }
 
     public void MoveToPosition(Vector3 target)
     {
@@ -425,87 +505,69 @@ public class MoveUnit : MonoBehaviour
             if (grid == null) grid = grids[0];
         }
 
-        Vector3 finalTarget = target;
-
         if (grid != null)
         {
+            // --- NEW: Check if the final target destination itself is blocked ---
+            (int tx, int ty) = grid.WorldToGridPosition(target);
+            Vector3 targetLocalCenter = new Vector3((tx + 0.5f) * grid.CellSize, 0.01f, (ty + 0.5f) * grid.CellSize);
+            Vector3 targetWorldCenter = grid.transform.TransformPoint(targetLocalCenter);
+            
+            Collider[] targetCols = Physics.OverlapSphere(targetWorldCenter, grid.CellSize * 0.35f);
+            foreach (var c in targetCols)
+            {
+                var ti = c.GetComponentInParent<TerrainInteraction>();
+                // Assuming your TerrainInteraction script uses a custom check or your specific variable/method like CantWalkThrough()
+                if (ti != null && ti.CantMoveOn())
+                {
+                    Debug.Log("Movement declined: Target cell is blocked by non-walkable terrain.");
+                    return; // EXIT EARLY: Do not consume moveActions, do not move
+                }
+            }
+            // ------------------------------------------------------------------
+
+            // Your existing line-of-sight/path checking logic
             (int sx, int sy) = grid.WorldToGridPosition(moveTransform.position);
             (int ex, int ey) = grid.WorldToGridPosition(target);
             var path = GetCellsOnLine(sx, sy, ex, ey);
-            
-            int finalIndex = path.Count - 1;
-
-            // Step 1: Scan path forward for absolute structural blockades (e.g., walls)
             for (int pi = 1; pi < path.Count; pi++)
             {
                 var cell = path[pi];
-                Vector3 worldCenter = grid.transform.TransformPoint(new Vector3((cell.x + 0.5f) * grid.CellSize, 0.01f, (cell.y + 0.5f) * grid.CellSize));
+                int x = cell.x; int y = cell.y;
+                Vector3 localCenter = new Vector3((x + 0.5f) * grid.CellSize, 0.01f, (y + 0.5f) * grid.CellSize);
+                Vector3 worldCenter = grid.transform.TransformPoint(localCenter);
                 Collider[] cols = Physics.OverlapSphere(worldCenter, grid.CellSize * 0.35f);
                 foreach (var c in cols)
                 {
                     var ti = c.GetComponentInParent<TerrainInteraction>();
                     if (ti != null && ti.CantWalkThrough())
                     {
-                        finalIndex = pi - 1;
-                        break;
+                        target = worldCenter;
+                        goto FoundBlockingTerrain;
                     }
                 }
-                if (finalIndex < path.Count - 1) break;
             }
-
-            // Step 2: Step backward along the calculated path if the landing spot has !canMoveOn
-            while (finalIndex > 0)
-            {
-                var cell = path[finalIndex];
-                Vector3 worldCenter = grid.transform.TransformPoint(new Vector3((cell.x + 0.5f) * grid.CellSize, 0.01f, (cell.y + 0.5f) * grid.CellSize));
-                Collider[] cols = Physics.OverlapSphere(worldCenter, grid.CellSize * 0.35f);
-                
-                bool landingIsBlocked = false;
-                foreach (var c in cols)
-                {
-                    var ti = c.GetComponentInParent<TerrainInteraction>();
-                    if (ti != null && !ti.canMoveOn)
-                    {
-                        landingIsBlocked = true;
-                        break;
-                    }
-                }
-
-                if (landingIsBlocked)
-                {
-                    finalIndex--; // Fall back to the adjacent neighbor along the path sequence
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            var finalCell = path[finalIndex];
-            finalTarget = grid.transform.TransformPoint(new Vector3((finalCell.x + 0.5f) * grid.CellSize, 0.01f, (finalCell.y + 0.5f) * grid.CellSize));
         }
 
-        finalTarget.y = moveTransform.position.y;
+    FoundBlockingTerrain:
+        // Double-check if the pathing adjustment brought us right back to where we started
+        if (Vector3.Distance(moveTransform.position, target) < 0.1f)
+        {
+            Debug.Log("Movement declined: Blocked by terrain immediately ahead.");
+            return; // EXIT EARLY
+        }
 
-        // If completely blocked from making progressive steps, exit cleanly preserving actions
-        // float approxSameCellRadius = grid != null ? grid.CellSize * 0.4f : 0.1f;
-        // if (Vector3.Distance(moveTransform.position, finalTarget) <= approxSameCellRadius)
-        // {
-        //     Debug.Log("Movement invalid or destination completely blocked. Move action preserved.");
-        //     return;
-        // }
-
+        target.y = moveTransform.position.y;
         if (moveActions <= 0)
         {
             Debug.Log("No move actions available.");
             return;
         }
         
-        // Deduct action point
+        // Safe to consume action and move
         moveActions = Mathf.Max(0, moveActions - 1);
 
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
-        moveCoroutine = StartCoroutine(MoveRoutine(finalTarget));
+        moveCoroutine = StartCoroutine(MoveRoutine(target));
     }
 
     private List<Vector2Int> GetCellsOnLine(int x0, int y0, int x1, int y1)

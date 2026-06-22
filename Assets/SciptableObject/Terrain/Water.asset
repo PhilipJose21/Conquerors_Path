@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60371bcc297f71b4e81ce2f583c38947, type: 3}
   m_Name: Water
   m_EditorClassIdentifier: Assembly-CSharp::TerrainSO
-  terrainName: 
-  terrainPrefab: {fileID: 0}
-  resourceType: 2
-  secondaryResourceType: 2
+  terrainName: Water
+  terrainPrefab: {fileID: 993692904825539467, guid: cde41762e1198084c9eabbbcf79386f3, type: 3}
+  resourceType: 3
+  secondaryResourceType: 0
   unitVisibility: 0
   disruptsMovement: 0
   attackRangeImmune: 0
-  canMoveOn: 0
+  cannotMoveOn: 1
+  terrainDamage: 0
   specialConditions: 
-  terrainHazardDamage: 0

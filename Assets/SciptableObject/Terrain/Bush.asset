@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60371bcc297f71b4e81ce2f583c38947, type: 3}
-  m_Name: Cactus
+  m_Name: Bush
   m_EditorClassIdentifier: Assembly-CSharp::TerrainSO
-  terrainName: Cactus
-  terrainPrefab: {fileID: 0}
-  resourceType: 2
-  secondaryResourceType: 0
-  unitVisibility: 0
+  terrainName: Water
+  terrainPrefab: {fileID: 993692904825539467, guid: cde41762e1198084c9eabbbcf79386f3, type: 3}
+  resourceType: 1
+  secondaryResourceType: 3
+  unitVisibility: 1
   disruptsMovement: 0
   attackRangeImmune: 0
   cannotMoveOn: 0
-  terrainDamage: 5
+  terrainDamage: 0
   specialConditions: 

@@ -59,9 +59,10 @@ GameObject:
   - component: {fileID: 4261706881713242702}
   - component: {fileID: 8863169927101491656}
   - component: {fileID: 2059609969968531301}
-  - component: {fileID: 3222210145176786926}
   - component: {fileID: 2553196350995158378}
   - component: {fileID: 6267925874043587337}
+  - component: {fileID: 2364925977701102023}
+  - component: {fileID: 8127281376472685418}
   m_Layer: 0
   m_Name: TestUnitModel
   m_TagString: Untagged
@@ -156,7 +157,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -175,18 +176,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TerrainSOContainer
   terrainData: {fileID: 11400000, guid: f9abb5eea9ecd724e9bfd0f1e9ffb04e, type: 2}
---- !u!114 &3222210145176786926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2259240185444094748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5e14fea4b72b534684a046ea88e3147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TerrainMovement
 --- !u!114 &2553196350995158378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +191,7 @@ MonoBehaviour:
   disruptsMovement: 0
   attackRangeImmune: 0
   unitVisibility: 0
+  cannotMoveOn: 0
 --- !u!114 &6267925874043587337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +204,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f458003b18088646b2a2a1e0710f928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TerrainHarvest
+  resourceType: 0
+  secondaryResourceType: 0
+  playerbattleData: {fileID: 0}
+  playerBattleSO: {fileID: 0}
+  canHarvest: 1
+--- !u!114 &2364925977701102023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2259240185444094748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31400da3da6147d468856cde31e4847d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TerrainDamage
+  damageAmount: 0
+--- !u!114 &8127281376472685418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2259240185444094748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db31626cd67381d4f9588ee4c793a6a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TerrainHideUnit
+  resourceType: 0
+  secondaryResourceType: 0
+  hiddenAlpha: 0.3
 --- !u!1 &5816024404149294659
 GameObject:
   m_ObjectHideFlags: 0

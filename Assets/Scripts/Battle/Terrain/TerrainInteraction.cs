@@ -3,11 +3,11 @@ using UnityEngine;
 public class TerrainInteraction : MonoBehaviour
 {
     private TerrainSO terrainData;
-    
+
     public bool disruptsMovement;
     public bool attackRangeImmune;
     public bool unitVisibility;
-    public bool canMoveOn;
+    public bool cannotMoveOn;
     void Start()
     {
         TerrainSOContainer container = GetComponent<TerrainSOContainer>();
@@ -16,7 +16,20 @@ public class TerrainInteraction : MonoBehaviour
         disruptsMovement = terrainData.disruptsMovement;
         attackRangeImmune = terrainData.attackRangeImmune;
         unitVisibility = terrainData.unitVisibility;
-        canMoveOn = terrainData.canMoveOn;
+        cannotMoveOn = terrainData.cannotMoveOn;
+
+        TerrainDamage terrainDamage = GetComponent<TerrainDamage>();
+        TerrainHideUnit terrainHideUnit = GetComponent<TerrainHideUnit>();
+
+        if (terrainHideUnit != null)
+        {
+            terrainHideUnit.enabled = terrainData.unitVisibility;
+        }
+
+        if (terrainDamage != null)
+        {
+            terrainDamage.enabled = terrainData.terrainDamage > 0;
+        }
     }
 
     // Update is called once per frame
@@ -30,4 +43,22 @@ public class TerrainInteraction : MonoBehaviour
     {
         return disruptsMovement;
     }
+
+    // Return whether this terrain prevents movement (unit cannot move onto this tile)
+    public bool CantMoveOn()
+    {
+        return cannotMoveOn;
+    }
+
+    public bool IsAttackRangeImmune()
+    {
+        return attackRangeImmune;
+    }
+
+    public bool HasUnitVisibility()
+    {
+        return unitVisibility;
+    }
+
+
 }

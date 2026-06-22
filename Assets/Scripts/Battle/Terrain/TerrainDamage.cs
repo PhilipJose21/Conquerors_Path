@@ -2,33 +2,27 @@ using UnityEngine;
 
 public class TerrainDamage : MonoBehaviour
 {
-    public TerrainSOContainer terrainDataContainer;
-    public TerrainSO terrainData;
-    public int hazardDamage;
+    private TerrainSOContainer terrainSOContainer;
+    private TerrainSO terrainSO;
+    public int damageAmount;
+ 
+    // Update is called once per frame
     void Awake()
     {
-        terrainDataContainer = GetComponent<TerrainSOContainer>();
-        if (terrainDataContainer != null && terrainDataContainer.terrainData != null)
-        {
-            terrainData = terrainDataContainer.terrainData;
-            hazardDamage = terrainData.terrainHazardDamage;
-        }
+        terrainSOContainer = this.GetComponent<TerrainSOContainer>();
+        terrainSO = terrainSOContainer.terrainData;
+        damageAmount = terrainSO.terrainDamage;
     }
 
-    // Update is called once per frame
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PlayerUnit") || other.CompareTag("EnemyUnit"))
+        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
         {
-            UnitHealth unitHealth = other.GetComponentInChildren<UnitHealth>();
+            UnitHealth unitHealth = other.GetComponent<UnitHealth>();
             if (unitHealth != null)
             {
-                unitHealth.TakeDamage(hazardDamage);
-                Debug.Log($"Unit {other.name} took {hazardDamage} damage from terrain hazard.");
+                unitHealth.TakeDamage(damageAmount);
             }
-            Debug.Log("TRIGGERED");
         }
     }
-
-    
 }

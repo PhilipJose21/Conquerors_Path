@@ -17,6 +17,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 481560a86d9f3c247b8166ab56ad5a0f, type: 2}
   - {fileID: 11400000, guid: ddec126d5e5780140a61dda17dbbee35, type: 2}
   - {fileID: 11400000, guid: ddec126d5e5780140a61dda17dbbee35, type: 2}
+  - {fileID: 11400000, guid: bb69fcd3dbe8038468e2d0acb244478d, type: 2}
   playerReinforcementCost: 3
   woodHarvestAmount: 0
   stoneHarvestAmount: 0

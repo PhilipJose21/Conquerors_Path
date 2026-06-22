@@ -9087,6 +9087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   playerSO: {fileID: 11400000, guid: 11968b043e4f54e4aa60a402a854218e, type: 2}
+  playerBattleSO: {fileID: 0}
 --- !u!4 &1202145366
 Transform:
   m_ObjectHideFlags: 0
@@ -12023,6 +12024,8 @@ MonoBehaviour:
   buildingDataIndex: 0
   canRotate: 0
   isPlacing: 0
+  isBattleScene: 0
+  enableReinforcementCost: 0
   buildingDataList:
   - {fileID: 11400000, guid: c0e556533ebe892468208580ebbe5ef0, type: 2}
   - {fileID: 11400000, guid: ec20874a787da684baeb96afa8ff279b, type: 2}

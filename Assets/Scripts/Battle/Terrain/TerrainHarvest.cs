@@ -2,88 +2,88 @@ using UnityEngine;
 
 public class TerrainHarvest : MonoBehaviour
 {
-    public TerrainSOContainer terrainDataContainer;
-    private TerrainSO terrainData;
-    
-    [SerializeField] private PlayerBattleSO playerBattleData; 
+    private TerrainSOContainer terrainSOContainer;
+    private TerrainSO terrainSO;
     public TerrainSO.ResourceType resourceType;
     public TerrainSO.ResourceType secondaryResourceType;
-    public bool hasHarvested = false;
+    
+    public PlayerData playerbattleData;
+    public PlayerBattleSO playerBattleSO;
+    public bool canHarvest = true;
 
     void Awake()
     {
-        terrainDataContainer = GetComponent<TerrainSOContainer>();
-        if (terrainDataContainer != null && terrainDataContainer.terrainData != null)
+        playerbattleData = FindObjectOfType<PlayerData>();
+        terrainSOContainer = this.GetComponent<TerrainSOContainer>();
+
+        terrainSO = terrainSOContainer.terrainData;
+        resourceType = terrainSO.resourceType;
+        secondaryResourceType = terrainSO.secondaryResourceType;
+
+        playerBattleSO = playerbattleData.playerBattleSO;
+    }
+
+    public void HarvestResource(int amount)
+    {
+        if (canHarvest)
         {
-            terrainData = terrainDataContainer.terrainData;
-            resourceType = terrainData.resourceType;
+            int harvestAmount = amount;
+            if (terrainSO.secondaryResourceType != TerrainSO.ResourceType.None)
+            {
+                harvestAmount /= 2; 
+            }
+            addMainResource(harvestAmount);
+            addSecondaryResource(harvestAmount);
+            canHarvest = false;
         }
     }
 
-    public void Harvest(int amount, MoveUnit unitMovement)
+
+
+//NOTE: CHANGE THIS SO THAT IT GOES TO THE UNITS INVENTORY AND NOT DIRECTLY AT THE PLAYER
+    public void addMainResource(int amount)
     {
-        if (hasHarvested) return;
-
-        // 2. Consume an Attack Point
-        if (unitMovement != null)
+        switch (resourceType)
         {
-            unitMovement.attackActions = Mathf.Max(0, unitMovement.attackActions - 1);
+            case TerrainSO.ResourceType.Wood:
+                playerBattleSO.woodHarvestAmount += amount;
+                break;
+            case TerrainSO.ResourceType.Stone:
+                playerBattleSO.stoneHarvestAmount += amount;
+                break;
+            case TerrainSO.ResourceType.Farm:
+                playerBattleSO.farmHarvestAmount += amount;
+                break;
+            case TerrainSO.ResourceType.Coins:
+                playerBattleSO.goldHarvestAmount += amount;
+                break; 
+            default:
+                Debug.LogWarning("Unknown resource type: " + resourceType);
+                break;
         }
+        Debug.Log("Harvested " + amount + " of " + resourceType);
+    }
 
-        // 3 & 4. Gain assigned resource type and add to PlayerBattleSO based on unit's harvestAmount
-        if (playerBattleData != null)
+    public void addSecondaryResource(int amount)
+    {
+        switch (secondaryResourceType)
         {
-            int harvestAmount = amount;
-            if (secondaryResourceType != TerrainSO.ResourceType.None)
-            {
-                harvestAmount = Mathf.CeilToInt(amount / 2f);
-                switch (secondaryResourceType)
-                {
-                    case TerrainSO.ResourceType.Wood:
-                        playerBattleData.woodHarvestAmount += harvestAmount;
-                        break;
-                    case TerrainSO.ResourceType.Stone:
-                        playerBattleData.stoneHarvestAmount += harvestAmount;
-                        break;
-                    case TerrainSO.ResourceType.Farm:
-                        playerBattleData.farmHarvestAmount += harvestAmount;
-                        break;
-                    case TerrainSO.ResourceType.Coins:
-                        playerBattleData.goldHarvestAmount += harvestAmount;
-                        break;
-                    default:
-                        Debug.Log($"Harvested {amount} of {secondaryResourceType}, but it doesn't have an explicitly mapped tracker integer in PlayerBattleSO yet.");
-                        break;
-                }
-            }
-            switch (resourceType)
-            {
-                case TerrainSO.ResourceType.Wood:
-                    playerBattleData.woodHarvestAmount += harvestAmount;
-                    break;
-                case TerrainSO.ResourceType.Stone:
-                    playerBattleData.stoneHarvestAmount += harvestAmount;
-                    break;
-                case TerrainSO.ResourceType.Farm:
-                    playerBattleData.farmHarvestAmount += harvestAmount;
-                    break;
-                case TerrainSO.ResourceType.Coins:
-                    playerBattleData.goldHarvestAmount += harvestAmount;
-                    break;
-                default:
-                    Debug.Log($"Harvested {amount} of {resourceType}, but it doesn't have an explicitly mapped tracker integer in PlayerBattleSO yet.");
-                    break;
-            }
-
-
-            Debug.Log($"Successfully added {harvestAmount} to your player battle storage for {resourceType}!");
+            case TerrainSO.ResourceType.Wood:
+                playerBattleSO.woodHarvestAmount += amount;
+                break;
+            case TerrainSO.ResourceType.Stone:
+                playerBattleSO.stoneHarvestAmount += amount;
+                break;
+            case TerrainSO.ResourceType.Farm:
+                playerBattleSO.farmHarvestAmount += amount;
+                break;
+            case TerrainSO.ResourceType.Coins:
+                playerBattleSO.goldHarvestAmount += amount;
+                break; 
+            default:
+                Debug.LogWarning("Unknown resource type: " + secondaryResourceType);
+                break;
         }
-        else
-        {
-            Debug.LogWarning("PlayerBattleSO references are missing on this TerrainHarvest node configuration!");
-        }
-
-        // 5. Make hasHarvested true to prevent the player from harvesting the same terrain node again
-        hasHarvested = true;
+        Debug.Log("Harvested " + amount + " of " + secondaryResourceType);
     }
 }

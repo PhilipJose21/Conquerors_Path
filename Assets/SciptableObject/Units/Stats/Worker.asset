@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitSO
   unitName: Worker
   unitType: 2
-  health: 999
+  health: 5
   damage: 1
   attackRange: 1
-  mobility: 2
-  movePoints: 1
+  mobility: 3
+  movePoints: 99
   attackPoints: 1
   unitCost: 1
-  harvestAmount: 5
+  harvestAmount: 1
   unitIcon: {fileID: 0}
   unitPrefab: {fileID: 0}
   unitButtonPrefab: {fileID: 0}
