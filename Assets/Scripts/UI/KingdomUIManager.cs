@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class KingdomUIManager : MonoBehaviour
 {
@@ -213,5 +214,9 @@ public class KingdomUIManager : MonoBehaviour
         Debug.Log("Toggling bag panel");
         if (bagPanel != null)
             bagPanel.SetActive(!bagPanel.activeSelf);
+    }
+    public void LoadTargetScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 }

@@ -6,10 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class ResearchTreeManager : MonoBehaviour
 {
-    [Header("Player Inventory Economy")]
-    public int currentResearchPoints = 123; 
-
-    [Header("Research Points HUD UI Link")]
+    [Header("Currency HUD UI Link")]
     public TextMeshProUGUI researchPointsText;
 
     [Header("Inspection Bubble UI Links")]
@@ -23,6 +20,9 @@ public class ResearchTreeManager : MonoBehaviour
     private HashSet<string> unlockedNodeIds = new HashSet<string>();
     private ResearchNodeData currentlySelectedNode;
 
+    // 💡 ADD THIS EXACT LINE RIGHT HERE TO FIX THE ERROR!
+    private PlayerSO targetPlayerSO; 
+
     private void Awake()
     {
         unlockedNodeIds.Add("start"); 
@@ -31,7 +31,16 @@ public class ResearchTreeManager : MonoBehaviour
 
     private void Start()
     {
-        // Initialize the HUD counter text at startup
+        // 💡 Look directly for your existing PlayerData script component instance!
+        if (PlayerData.Instance != null && PlayerData.Instance.playerSO != null)
+        {
+            targetPlayerSO = PlayerData.Instance.playerSO;
+        }
+        else
+        {
+            Debug.LogWarning("ResearchTreeManager: PlayerData instance or PlayerSO reference not found! Make sure you start the game from your main scene.");
+        }
+
         UpdateCurrencyHUD();
     }
 
@@ -79,9 +88,9 @@ public class ResearchTreeManager : MonoBehaviour
         }
 
         // Existing validation checks...
-        if (currentResearchPoints >= currentlySelectedNode.cost && ArePrerequisitesMet(currentlySelectedNode.prerequisites))
+        if (targetPlayerSO.researchPoints >= currentlySelectedNode.cost && ArePrerequisitesMet(currentlySelectedNode.prerequisites))
         {
-            currentResearchPoints -= currentlySelectedNode.cost;
+            targetPlayerSO.researchPoints -= currentlySelectedNode.cost;
             unlockedNodeIds.Add(currentlySelectedNode.nodeId);
             
             UpdateCurrencyHUD();
@@ -99,6 +108,7 @@ public class ResearchTreeManager : MonoBehaviour
     {
         if (researchPointsText != null)
         {
+            int currentResearchPoints = targetPlayerSO != null ? targetPlayerSO.researchPoints : 0;
             researchPointsText.text = currentResearchPoints.ToString();
         }
     }
