@@ -18,17 +18,14 @@ public class TerrainInteraction : MonoBehaviour
         unitVisibility = terrainData.unitVisibility;
         cannotMoveOn = terrainData.cannotMoveOn;
 
-        TerrainDamage terrainDamage = GetComponent<TerrainDamage>();
-        TerrainHideUnit terrainHideUnit = GetComponent<TerrainHideUnit>();
-
-        if (terrainHideUnit != null)
+        if (terrainData.terrainDamage > 0)
         {
-            terrainHideUnit.enabled = terrainData.unitVisibility;
+            this.gameObject.AddComponent<TerrainDamage>();
         }
 
-        if (terrainDamage != null)
+        if (terrainData.unitVisibility)
         {
-            terrainDamage.enabled = terrainData.terrainDamage > 0;
+            this.gameObject.AddComponent<TerrainHideUnit>();
         }
     }
 

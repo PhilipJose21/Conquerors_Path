@@ -25,6 +25,7 @@ public class EnemyMovement : MonoBehaviour
     public bool isPlayerTurn;
     public bool isSelected;
     public bool endTurn;
+    public bool isHidden;
 
     public GameObject unitObject;
     private bool hasActedThisTurn = false;

@@ -194,11 +194,8 @@ GameObject:
   - component: {fileID: 6504737062278656762}
   - component: {fileID: 843101800289795292}
   - component: {fileID: 2470298195495587215}
-  - component: {fileID: 5623867096969698645}
   - component: {fileID: 7084794039265949332}
   - component: {fileID: 4625408704490808723}
-  - component: {fileID: 6025869472747581502}
-  - component: {fileID: 9004449856015326139}
   m_Layer: 0
   m_Name: TestUnitModel
   m_TagString: Untagged
@@ -312,18 +309,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TerrainSOContainer
   terrainData: {fileID: 11400000, guid: f9d3e0e5440a9c444994a426ce7c4e54, type: 2}
---- !u!114 &5623867096969698645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6146521165466870565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5e14fea4b72b534684a046ea88e3147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TerrainMovement
 --- !u!114 &7084794039265949332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,34 +342,6 @@ MonoBehaviour:
   playerbattleData: {fileID: 0}
   playerBattleSO: {fileID: 0}
   canHarvest: 1
---- !u!114 &6025869472747581502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6146521165466870565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db31626cd67381d4f9588ee4c793a6a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TerrainHideUnit
-  resourceType: 0
-  secondaryResourceType: 0
-  hiddenAlpha: 0.3
---- !u!114 &9004449856015326139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6146521165466870565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31400da3da6147d468856cde31e4847d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TerrainDamage
-  damageAmount: 0
 --- !u!1001 &7254900646757135837
 PrefabInstance:
   m_ObjectHideFlags: 0

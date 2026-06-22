@@ -10,8 +10,7 @@ public class TerrainHideUnit : MonoBehaviour
 
     [Range(0, 1)] public float hiddenAlpha = 0.3f; // Alpha value when the unit is hidden
 
-    // Track original alpha per renderer so we can restore it on exit
-    private readonly Dictionary<Renderer, float> originalAlphas = new();
+    // No longer track original alpha; always restore to fully opaque on exit
 
     void Awake()
     {
@@ -26,14 +25,14 @@ public class TerrainHideUnit : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
+        if (other.CompareTag("Player"))
         {
             Renderer otherRenderer = other.GetComponentInChildren<Renderer>();
+            MoveUnit moveUnit = other.GetComponent<MoveUnit>();
             if (otherRenderer != null)
             {
                 Material mat = otherRenderer.material; // creates instance if needed
                 Color currentColor = mat.color;
-                if (!originalAlphas.ContainsKey(otherRenderer)) originalAlphas[otherRenderer] = currentColor.a;
                 currentColor.a = hiddenAlpha; // Set the alpha to the hidden value
                 mat.color = currentColor;
             }
@@ -41,7 +40,36 @@ public class TerrainHideUnit : MonoBehaviour
             {
                 Debug.Log("No Renderer found on the entered unit to hide.");
             }
-            Debug.Log("TRIGGERED");
+
+            if (moveUnit != null)
+            {
+                moveUnit.isHidden = true;
+            }
+        }
+
+        else if (other.CompareTag("Enemy"))
+        {
+            Renderer otherRenderer = other.GetComponentInChildren<Renderer>();
+            
+            EnemyMovement enemyMovement = other.GetComponent<EnemyMovement>();
+            if (otherRenderer != null)
+            {
+                Material mat = otherRenderer.material; // creates instance if needed
+                Color currentColor = mat.color;
+                currentColor.a = 0; // Set the alpha to the hidden value
+                mat.color = currentColor;
+            }
+            
+            else
+            {
+                Debug.Log("No Renderer found on the entered unit to hide.");
+            }
+
+            if (enemyMovement != null)
+            {
+                enemyMovement.isHidden = true;
+            }
+            Debug.Log("Enemy entered the terrain and is now hidden.");
         }
    }
 
@@ -50,28 +78,30 @@ public class TerrainHideUnit : MonoBehaviour
         if (other.CompareTag("Player") || other.CompareTag("Enemy"))
         {
             Renderer otherRenderer = other.GetComponentInChildren<Renderer>();
+
+            MoveUnit moveUnit = other.GetComponent<MoveUnit>();
+            EnemyMovement enemyMovement = other.GetComponent<EnemyMovement>();
+
             if (otherRenderer != null)
             {
-                if (originalAlphas.TryGetValue(otherRenderer, out float orig))
-                {
-                    Material mat = otherRenderer.material;
-                    Color currentColor = mat.color;
-                    currentColor.a = orig; // Restore the alpha to the original value
-                    mat.color = currentColor;
-                    originalAlphas.Remove(otherRenderer);
-                }
-                else
-                {
-                    // Fallback: restore to fully opaque
-                    Material mat = otherRenderer.material;
-                    Color currentColor = mat.color;
-                    currentColor.a = 1f;
-                    mat.color = currentColor;
-                }
+                // Always restore to fully opaque
+                Material mat = otherRenderer.material;
+                Color currentColor = mat.color;
+                currentColor.a = 1f;
+                mat.color = currentColor;
             }
             else
             {
                 Debug.LogWarning("No Renderer found on the unit to restore visibility.");
+            }
+
+            if (moveUnit != null)
+            {
+                moveUnit.isHidden = false;
+            }
+            if (enemyMovement != null)
+            {
+                enemyMovement.isHidden = false;
             }
         }
     }

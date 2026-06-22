@@ -31,6 +31,7 @@ public class MoveUnit : MonoBehaviour
     public UnitStateMachine stateMachine;
     public bool isPlayerTurn;
     public bool isSelected;
+    public bool isHidden;
 
     public GameObject unitObject;
 
