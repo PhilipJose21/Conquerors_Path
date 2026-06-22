@@ -17,6 +17,19 @@ public class TerrainInteraction : MonoBehaviour
         attackRangeImmune = terrainData.attackRangeImmune;
         unitVisibility = terrainData.unitVisibility;
         cannotMoveOn = terrainData.cannotMoveOn;
+
+        TerrainDamage terrainDamage = GetComponent<TerrainDamage>();
+        TerrainHideUnit terrainHideUnit = GetComponent<TerrainHideUnit>();
+
+        if (terrainHideUnit != null)
+        {
+            terrainHideUnit.enabled = terrainData.unitVisibility;
+        }
+
+        if (terrainDamage != null)
+        {
+            terrainDamage.enabled = terrainData.terrainDamage > 0;
+        }
     }
 
     // Update is called once per frame
@@ -36,4 +49,16 @@ public class TerrainInteraction : MonoBehaviour
     {
         return cannotMoveOn;
     }
+
+    public bool IsAttackRangeImmune()
+    {
+        return attackRangeImmune;
+    }
+
+    public bool HasUnitVisibility()
+    {
+        return unitVisibility;
+    }
+
+
 }

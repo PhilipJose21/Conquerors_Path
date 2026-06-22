@@ -41,6 +41,39 @@ public class AttackPlayerUnit : MonoBehaviour
             Debug.Log($"  Found UnitHealth on {owner.name}, isPlayer={isPlayer}");
             if (!isPlayer) continue;
 
+            // If defender stands on terrain that grants attack-range immunity,
+            // require adjacency to attack.
+            bool defenderImmune = false;
+            Collider[] terrainHits = Physics.OverlapSphere(owner.transform.position, 0.2f);
+            foreach (var th in terrainHits)
+            {
+                var ti = th.GetComponentInParent<TerrainInteraction>();
+                if (ti != null && ti.IsAttackRangeImmune()) { defenderImmune = true; break; }
+            }
+
+            Vector3 attackerPos = moveComp != null ? moveComp.transform.position : transform.position;
+            if (defenderImmune)
+            {
+                BuildingGrid grid = BuildingGridManager.Instance.FindGridAtPosition(owner.transform.position);
+                bool adjacent = false;
+                if (grid != null)
+                {
+                    (int ax, int ay) = grid.WorldToGridPosition(attackerPos);
+                    (int dx, int dy) = grid.WorldToGridPosition(owner.transform.position);
+                    adjacent = (Mathf.Abs(ax - dx) + Mathf.Abs(ay - dy)) == 1;
+                }
+                else
+                {
+                    adjacent = Vector3.Distance(attackerPos, owner.transform.position) <= BuildingSystem.CellSize * 1.5f;
+                }
+
+                if (!adjacent)
+                {
+                    Debug.Log("Target is protected by terrain (attack-range immune). Must move adjacent to attack.");
+                    return false;
+                }
+            }
+
             if (moveComp != null && moveComp.attackActions > 0)
             {
                 health.TakeDamage(dmg);

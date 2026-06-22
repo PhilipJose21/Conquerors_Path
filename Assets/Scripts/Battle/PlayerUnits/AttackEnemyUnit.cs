@@ -36,6 +36,42 @@ public class AttackEnemyUnit : MonoBehaviour
                 bool isEnemy = owner.CompareTag("EnemyUnit") || owner.GetComponentInParent<EnemyMovement>() != null;
                 if (!isEnemy) continue;
 
+                // If the defender is on a terrain that grants attack-range immunity,
+                // require the attacker to be adjacent (one cell away).
+                bool defenderImmune = false;
+                Collider[] terrainHits = Physics.OverlapSphere(owner.transform.position, 0.2f);
+                foreach (var th in terrainHits)
+                {
+                    var ti = th.GetComponentInParent<TerrainInteraction>();
+                    if (ti != null && ti.IsAttackRangeImmune()) { defenderImmune = true; break; }
+                }
+
+                Vector3 attackerPos = moveUnit != null ? moveUnit.transform.position : transform.position;
+                if (defenderImmune)
+                {
+                    // Check adjacency using the grid if available
+                    BuildingGrid grid = BuildingGridManager.Instance.FindGridAtPosition(owner.transform.position);
+                    bool adjacent = false;
+                    if (grid != null)
+                    {
+                        (int ax, int ay) = grid.WorldToGridPosition(attackerPos);
+                        (int dx, int dy) = grid.WorldToGridPosition(owner.transform.position);
+                        adjacent = (Mathf.Abs(ax - dx) + Mathf.Abs(ay - dy)) == 1;
+                    }
+                    else
+                    {
+                        // Fallback: treat within one world unit as adjacent
+                        adjacent = Vector3.Distance(attackerPos, owner.transform.position) <= BuildingSystem.CellSize * 1.5f;
+                    }
+
+                    if (!adjacent)
+                    {
+                        Debug.Log("Target is protected by terrain (attack-range immune). Must move adjacent to attack.");
+                        // Do NOT consume attack action
+                        return false;
+                    }
+                }
+
                 if (moveUnit != null && moveUnit.attackActions > 0)
                 {
                     health.TakeDamage(dmg);

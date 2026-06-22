@@ -194,10 +194,10 @@ GameObject:
   - component: {fileID: 4426842618355564681}
   - component: {fileID: 6308403326100571245}
   - component: {fileID: 2294885873708185969}
-  - component: {fileID: 2227285217171581638}
   - component: {fileID: 7018785084799696180}
   - component: {fileID: 3403089503261951844}
   - component: {fileID: 1305009866229040731}
+  - component: {fileID: 7055874363079834501}
   m_Layer: 0
   m_Name: TestUnitModel
   m_TagString: Untagged
@@ -292,7 +292,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -311,18 +311,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TerrainSOContainer
   terrainData: {fileID: 11400000, guid: 5d113642a30de0c4191b1c1eb0c7f312, type: 2}
---- !u!114 &2227285217171581638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7028147471938386253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5e14fea4b72b534684a046ea88e3147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TerrainMovement
 --- !u!114 &7018785084799696180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,6 +326,7 @@ MonoBehaviour:
   disruptsMovement: 0
   attackRangeImmune: 0
   unitVisibility: 0
+  cannotMoveOn: 0
 --- !u!114 &3403089503261951844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,6 +339,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f458003b18088646b2a2a1e0710f928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TerrainHarvest
+  resourceType: 0
+  secondaryResourceType: 0
+  playerbattleData: {fileID: 0}
+  playerBattleSO: {fileID: 0}
+  canHarvest: 1
 --- !u!114 &1305009866229040731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,6 +357,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TerrainDamage
   damageAmount: 0
+--- !u!114 &7055874363079834501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7028147471938386253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db31626cd67381d4f9588ee4c793a6a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TerrainHideUnit
+  resourceType: 0
+  secondaryResourceType: 0
+  hiddenAlpha: 0.3
 --- !u!1001 &4828280972743497497
 PrefabInstance:
   m_ObjectHideFlags: 0
