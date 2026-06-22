@@ -20,7 +20,6 @@ public class ResearchTreeManager : MonoBehaviour
     private HashSet<string> unlockedNodeIds = new HashSet<string>();
     private ResearchNodeData currentlySelectedNode;
 
-    // 💡 ADD THIS EXACT LINE RIGHT HERE TO FIX THE ERROR!
     private PlayerSO targetPlayerSO; 
 
     private void Awake()
@@ -31,7 +30,6 @@ public class ResearchTreeManager : MonoBehaviour
 
     private void Start()
     {
-        // 💡 Look directly for your existing PlayerData script component instance!
         if (PlayerData.Instance != null && PlayerData.Instance.playerSO != null)
         {
             targetPlayerSO = PlayerData.Instance.playerSO;
@@ -80,7 +78,6 @@ public class ResearchTreeManager : MonoBehaviour
     {
         if (currentlySelectedNode == null) return;
 
-        // 💡 SAFETY CHECK: If the node is ALREADY unlocked, STOP immediately!
         if (IsNodeUnlocked(currentlySelectedNode.nodeId) || currentlySelectedNode.isUnlockedByDefault)
         {
             Debug.LogWarning($"Node {currentlySelectedNode.nodeDisplayName} is already unlocked!");
