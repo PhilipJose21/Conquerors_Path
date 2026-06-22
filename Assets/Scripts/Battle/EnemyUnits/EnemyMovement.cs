@@ -46,6 +46,17 @@ public class EnemyMovement : MonoBehaviour
         stateMachine = this.GetComponent<UnitStateMachine>();
     }
 
+    private bool IsPlayerHidden(GameObject p)
+    {
+        if (p == null) return false;
+        // Check for MoveUnit on children first, then parents for robustness
+        var mv = p.GetComponentInChildren<MoveUnit>();
+        if (mv == null) mv = p.GetComponentInParent<MoveUnit>();
+        bool hidden = mv != null && mv.isHidden;
+        
+        return hidden;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -66,20 +77,30 @@ public class EnemyMovement : MonoBehaviour
 
     public void Act()
     {
-        // Find nearest player unit
+        // Find nearest player unit (prefer unhidden players; if none unhidden, allow hidden)
         GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerUnit");
         if (players == null || players.Length == 0)
         {
-            // No player units present to target -> mark this enemy as finished for the turn
             endTurn = true;
             return;
         }
+
+        // Determine if any unhidden players exist
+        bool anyUnhidden = false;
+        foreach (var p in players) { if (!IsPlayerHidden(p)) { anyUnhidden = true; break; } }
+
+        
 
         Transform nearest = null;
         float bestDist = float.MaxValue;
         Vector3 myPos = unitObject != null ? unitObject.transform.position : transform.position;
         foreach (var p in players)
         {
+            if (anyUnhidden && IsPlayerHidden(p))
+            {
+                
+                continue; // skip hidden when unhidden exist
+            }
             float d = Vector3.Distance(myPos, p.transform.position);
             if (d < bestDist)
             {
@@ -100,6 +121,11 @@ public class EnemyMovement : MonoBehaviour
         float inRangeBest = float.MaxValue;
         foreach (var p in players)
         {
+            if (anyUnhidden && IsPlayerHidden(p))
+            {
+                
+                continue; // skip hidden when unhidden exist
+            }
             float d = Vector3.Distance(myPos, p.transform.position);
             if (d <= maxAttackDist && d < inRangeBest)
             {
@@ -111,21 +137,37 @@ public class EnemyMovement : MonoBehaviour
         var attackerComp = this.GetComponentInChildren<AttackPlayerUnit>();
         if (inRangeTarget != null)
         {
-            // There is at least one player in range -> attack the closest one
+            // There is at least one player in range -> attempt to attack. If the chosen
+            // inRangeTarget yields no valid attack (e.g., filtered out by AttackPlayerUnit),
+            // try other in-range players before giving up.
             if (attackerComp == null)
             {
-                Debug.Log("EnemyMovement.Act: no AttackPlayerUnit component found to perform attack");
                 return;
             }
             if (attackActions <= 0)
             {
-                Debug.Log("EnemyMovement.Act: no attackActions left");
                 return;
             }
-            Debug.Log($"EnemyMovement.Act: player in range -> attacking {inRangeTarget.name}");
+
+            // First try the primary target
             bool attacked = attackerComp.TryAttackAtPosition(inRangeTarget.position);
             if (attacked) return;
-            // If attack didn't find a valid target (colliders/components), we stop here.
+
+            // If the primary attempt failed, try other in-range players (respect hidden filtering)
+            foreach (var p in players)
+            {
+                if (anyUnhidden && IsPlayerHidden(p)) continue; // respect hidden filtering
+                if (p.transform == inRangeTarget) continue;
+                float d = Vector3.Distance(myPos, p.transform.position);
+                if (d <= maxAttackDist)
+                {
+                    
+                    attacked = attackerComp.TryAttackAtPosition(p.transform.position);
+                    if (attacked) return;
+                }
+            }
+
+            // No valid attack found among in-range players
             return;
         }
 
@@ -228,6 +270,7 @@ public class EnemyMovement : MonoBehaviour
             Vector3 localCenter = new Vector3((nx + 0.5f) * cs, 0f, (ny + 0.5f) * cs);
             Vector3 worldTarget = chosenGrid.transform.TransformPoint(localCenter);
             worldTarget.y = moveTransform.position.y;
+            
             MoveToPosition(worldTarget);
             // After moving, attempt an attack if we will be in range
             if (attackerComp != null && attackActions > 0)
@@ -264,12 +307,10 @@ public class EnemyMovement : MonoBehaviour
 
         if (attacker == null)
         {
-            Debug.Log("AttemptAttackAfterMove: no attacker available");
             yield break;
         }
         if (attackActions <= 0)
         {
-            Debug.Log("AttemptAttackAfterMove: no attackActions left after moving");
             yield break;
         }
         // Recompute distance after movement and only attack if within attackRange
@@ -287,7 +328,6 @@ public class EnemyMovement : MonoBehaviour
         }
         else
         {
-            Debug.Log("AttemptAttackAfterMove: target still out of range after moving");
         }
     }
 
@@ -326,7 +366,6 @@ public class EnemyMovement : MonoBehaviour
             var ti = c.GetComponentInParent<TerrainInteraction>();
             if (ti != null && ti.cannotMoveOn)
             {
-                Debug.Log("Enemy tried to land on non-walkable terrain! Blocked.");
                 return;
             }
         }
@@ -337,13 +376,11 @@ public class EnemyMovement : MonoBehaviour
 
         if (Vector3.Distance(moveTransform.position, target) <= stopCheckRadius)
         {
-            Debug.Log("Enemy destination is invalid or identical to current position. Action preserved.");
             return;
         }
 
         if (moveActions <= 0)
         {
-            Debug.Log("Enemy has no move actions available.");
             return;
         }
 

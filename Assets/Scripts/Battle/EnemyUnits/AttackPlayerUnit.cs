@@ -25,21 +25,64 @@ public class AttackPlayerUnit : MonoBehaviour
         float checkRadius = 0.6f;
         int available = moveComp != null ? moveComp.attackActions : 0;
         Collider[] hits = Physics.OverlapSphere(worldPos, checkRadius);
-        Debug.Log($"AttackPlayerUnit: Overlap hits={hits.Length}");
+        
+        // Collect candidate player hits and whether they are hidden
+        var candidates = new System.Collections.Generic.List<(UnitHealth health, GameObject owner, MoveUnit mover)>();
         foreach (var h in hits)
         {
-            // Attempt to find UnitHealth on the collider or its parents
             var health = h.GetComponentInParent<UnitHealth>();
             if (health == null)
             {
-                Debug.Log("  No UnitHealth on this hit");
                 continue;
             }
-
             var owner = health.gameObject;
-            bool isPlayer = owner.CompareTag("PlayerUnit") || owner.GetComponentInParent<MoveUnit>() != null;
-            Debug.Log($"  Found UnitHealth on {owner.name}, isPlayer={isPlayer}");
+            var mover = owner.GetComponentInChildren<MoveUnit>() ?? owner.GetComponentInParent<MoveUnit>();
+            bool isPlayer = owner.CompareTag("PlayerUnit") || mover != null;
             if (!isPlayer) continue;
+            candidates.Add((health, owner, mover));
+        }
+
+        if (candidates.Count == 0) return false;
+
+        // If there are any unhidden players anywhere in the scene, ignore hidden candidates
+        bool anyUnhiddenGlobal = false;
+        var allPlayers = GameObject.FindGameObjectsWithTag("PlayerUnit");
+        foreach (var p in allPlayers)
+        {
+            var mv = p.GetComponentInChildren<MoveUnit>() ?? p.GetComponentInParent<MoveUnit>();
+            if (mv == null || !mv.isHidden) { anyUnhiddenGlobal = true; break; }
+        }
+
+        
+
+        var targets = new System.Collections.Generic.List<(UnitHealth health, GameObject owner, MoveUnit mover)>();
+        foreach (var c in candidates)
+        {
+            if (anyUnhiddenGlobal && c.mover != null && c.mover.isHidden)
+            {
+                continue;
+            }
+            targets.Add(c);
+        }
+
+        // If no targets after filtering:
+        // - If there are unhidden players anywhere in the scene, do NOT attack hidden candidates here.
+        // - Otherwise (all players hidden), allow falling back to candidates.
+        //
+        if (targets.Count == 0)
+        {
+            if (anyUnhiddenGlobal)
+            {
+                return false;
+            }
+            targets.AddRange(candidates);
+        }
+
+        foreach (var entry in targets)
+        {
+            var health = entry.health;
+            var owner = entry.owner;
+            var playerMover = entry.mover;
 
             // If defender stands on terrain that grants attack-range immunity,
             // require adjacency to attack.
@@ -69,7 +112,7 @@ public class AttackPlayerUnit : MonoBehaviour
 
                 if (!adjacent)
                 {
-                    Debug.Log("Target is protected by terrain (attack-range immune). Must move adjacent to attack.");
+                
                     return false;
                 }
             }
@@ -94,20 +137,26 @@ public class AttackPlayerUnit : MonoBehaviour
         Collider[] hits = Physics.OverlapSphere(transform.position, radius);
         foreach (var h in hits)
         {
-            Debug.Log($"  Overlap hit: {h.gameObject.name} tag={h.gameObject.tag}");
             var health = h.GetComponentInParent<UnitHealth>();
             if (health == null)
             {
-                Debug.Log("  No UnitHealth on this hit");
+                
                 continue;
             }
             var owner = health.gameObject;
-            bool isPlayer = owner.CompareTag("PlayerUnit") || owner.GetComponentInParent<MoveUnit>() != null;
+            var mover = owner.GetComponentInParent<MoveUnit>();
+            bool isPlayer = owner.CompareTag("PlayerUnit") || mover != null;
             if (!isPlayer) continue;
+
+            // Gather nearby player candidates first
+            // (Simpler approach here: if this particular owner is hidden but there exists any unhidden player in scene, skip it)
+            bool anyUnhidden = false;
+            var allPlayers = GameObject.FindGameObjectsWithTag("PlayerUnit");
+            foreach (var p in allPlayers) { var mv = p.GetComponentInParent<MoveUnit>(); if (mv == null || !mv.isHidden) { anyUnhidden = true; break; } }
+            if (anyUnhidden && mover != null && mover.isHidden) continue;
 
             if (moveComp != null && moveComp.attackActions > 0)
             {
-                Debug.Log($"  CheckForPlayersInRange attacking {owner.name} for {dmg}");
                 health.TakeDamage(dmg);
                 moveComp.attackActions = Mathf.Max(0, moveComp.attackActions - 1);
                 return;
