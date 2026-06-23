@@ -13,7 +13,7 @@ public class TerrainHarvest : MonoBehaviour
 
     void Awake()
     {
-        playerbattleData = FindObjectOfType<PlayerData>();
+        playerbattleData = Object.FindFirstObjectByType<PlayerData>();
         terrainSOContainer = this.GetComponent<TerrainSOContainer>();
 
         terrainSO = terrainSOContainer.terrainData;
