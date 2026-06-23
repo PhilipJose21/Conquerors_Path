@@ -27,6 +27,8 @@ public class BuildingSystem : MonoBehaviour
 
     [SerializeField] private GameObject environmentParent;
 
+    private PlayerData playerData;
+
     private BuildingPreview preview;
 
     // Map of keys to use for quick selection. Extend this array to support more slots.
@@ -42,7 +44,8 @@ public class BuildingSystem : MonoBehaviour
 
     private void Awake()
     {
-        PlayerBattleSO battleSO = Object.FindFirstObjectByType<PlayerData>()?.playerBattleSO;
+        playerData = Object.FindFirstObjectByType<PlayerData>();
+        PlayerBattleSO battleSO = playerData?.playerBattleSO;
         if (battleSO != null && isBattleScene)        
         {
             buildingDataList = battleSO.playerUnits.ToList();
@@ -242,6 +245,10 @@ public class BuildingSystem : MonoBehaviour
         // Determine which grid to use for final placement
         // Prefer a grid that contains the full set of positions to ensure cells
         // are assigned to the correct grid when placing across boundaries.
+        // if ()
+        // {
+        //     //copy and paste the entire logic thats inside this Function
+        // }
         BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridForPositions(buildPosition) ?? targetGrid ?? grid;
 
         // Compute the exact snapped center in world space if we have a grid; otherwise use the preview position
