@@ -5,11 +5,11 @@ using UnityEngine.UI;
 public class BuildingInfoPanel : MonoBehaviour
 {
     // Common UI fields
-    public TextMeshProUGUI nameText;
     public Image iconImage;
+    public TextMeshProUGUI nameText;
     public TextMeshProUGUI descriptionText;
 
-    // Stats grid
+    // Stats grid (Now arranged in a single flat vertical list)
     public TextMeshProUGUI typeText;
     public TextMeshProUGUI mobilityText;
     public TextMeshProUGUI hpText;
@@ -54,7 +54,7 @@ public class BuildingInfoPanel : MonoBehaviour
         Setup(InfoPanelViewData.ForBuilding(data));
     }
 
-    // Support troops via a simple TroopData ScriptableObject (added separately)
+    // Support troops via a simple TroopData ScriptableObject
     public void Setup(TroopData troop)
     {
         if (troop == null) return;
@@ -68,14 +68,14 @@ public class BuildingInfoPanel : MonoBehaviour
 
         PopulateCommon(viewData.title, viewData.icon, viewData.description);
 
-        if (typeText != null) typeText.text = FormatStat("Type", viewData.type);
-        if (mobilityText != null) mobilityText.text = FormatStat("Mobility", viewData.mobility);
-        if (hpText != null) hpText.text = FormatStat("HP", viewData.hp);
-        if (resourceText != null) resourceText.text = FormatStat("Resources", viewData.resource);
-        if (damageText != null) damageText.text = FormatStat("Damage", viewData.damage);
-        if (unitCostText != null) unitCostText.text = FormatStat("Cost", viewData.unitCost);
-        if (attackRangeText != null) attackRangeText.text = FormatStat("Attack Range", viewData.attackRange);
-        if (upgradeCostText != null) upgradeCostText.text = FormatStat("Upgrade Cost", viewData.upgradeCost);
+        UpdateStatField(typeText, "Type", viewData.type);
+        UpdateStatField(mobilityText, "Mobility", viewData.mobility);
+        UpdateStatField(hpText, "HP", viewData.hp);
+        UpdateStatField(resourceText, "Resources", viewData.resource);
+        UpdateStatField(damageText, "Damage", viewData.damage);
+        UpdateStatField(unitCostText, "Cost", viewData.unitCost);
+        UpdateStatField(attackRangeText, "Attack Range", viewData.attackRange);
+        UpdateStatField(upgradeCostText, "Upgrade Cost", viewData.upgradeCost);
 
         ShowUpgradeAndDestroy(viewData.showUpgrade, viewData.showDestroy);
     }
@@ -84,12 +84,28 @@ public class BuildingInfoPanel : MonoBehaviour
     {
         if (nameText != null) nameText.text = name ?? "";
         if (iconImage != null) iconImage.sprite = icon;
-        if (descriptionText != null) descriptionText.text = description ?? "";
+        
+        if (descriptionText != null)
+        {
+            descriptionText.text = description ?? "";
+            descriptionText.gameObject.SetActive(!string.IsNullOrWhiteSpace(description));
+        }
     }
 
-    private static string FormatStat(string label, string value)
+    private void UpdateStatField(TextMeshProUGUI textField, string label, string value)
     {
-        return string.IsNullOrWhiteSpace(value) ? string.Empty : $"{label}: {value}";
+        if (textField == null) return;
+
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            // Instantly shuts off the GameObject so the Vertical Layout Group collapses the space!
+            textField.gameObject.SetActive(false);
+        }
+        else
+        {
+            textField.text = label == "Resources" ? value : $"{label}: {value}";
+            textField.gameObject.SetActive(true);
+        }
     }
 
     private void ShowUpgradeAndDestroy(bool showBoth)
@@ -134,7 +150,7 @@ public class InfoPanelViewData
             title = building != null ? building.Name : string.Empty,
             icon = building != null ? building.Icon : null,
             description = string.Empty,
-            resource = building != null ? $"Wood: {building.WoodCost}\nStone: {building.RockCost}\nFarm: {building.FarmCost}" : string.Empty,
+            resource = building != null ? $"Resources:\n• Wood: {building.WoodCost}\n• Stone: {building.RockCost}\n• Farm: {building.FarmCost}" : string.Empty,
             unitCost = building != null ? building.CoinCost.ToString() : string.Empty,
             upgradeCost = building != null ? building.EnergyCost.ToString() : string.Empty,
             showUpgrade = true,
@@ -149,7 +165,7 @@ public class InfoPanelViewData
             title = data != null ? data.Name : string.Empty,
             icon = data != null ? data.Icon : null,
             description = string.Empty,
-            resource = data != null ? $"Wood: {data.woodCost}\nStone: {data.rockCost}\nFarm: {data.farmCost}" : string.Empty,
+            resource = data != null ? $"Resources:\n• Wood: {data.woodCost}\n• Stone: {data.rockCost}\n• Farm: {data.farmCost}" : string.Empty,
             unitCost = data != null ? data.coinCost.ToString() : string.Empty,
             upgradeCost = data != null ? data.energyCost.ToString() : string.Empty,
             showUpgrade = true,
