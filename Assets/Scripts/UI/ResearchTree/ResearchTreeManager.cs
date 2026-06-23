@@ -101,11 +101,13 @@ public class ResearchTreeManager : MonoBehaviour
     }
 
     // Helper function to keep our screen counter synchronized
+    // Update Cost
     public void UpdateCurrencyHUD()
     {
         if (researchPointsText != null)
         {
             int currentResearchPoints = targetPlayerSO != null ? targetPlayerSO.researchPoints : 0;
+            int currentCoins = targetPlayerSO != null ? targetPlayerSO.coins : 0;
             researchPointsText.text = currentResearchPoints.ToString();
         }
     }

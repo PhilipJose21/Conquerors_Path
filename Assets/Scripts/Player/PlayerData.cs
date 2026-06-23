@@ -24,9 +24,23 @@ public class PlayerData : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if (playerBattleSO == null)
+        {
+            Debug.Log("No PlayerBattleSO");
+        }
+
     }
 
     void Update()
+    {
+        if (playerBattleSO != null)
+        {
+            updatePlayerMaterials();
+        }
+    }
+
+    public void updatePlayerMaterials()
     {
         playerWood = playerBattleSO.woodHarvestAmount;
         playerStone = playerBattleSO.stoneHarvestAmount;

@@ -29,10 +29,21 @@ public class BuildingSystem : MonoBehaviour
 
     private BuildingPreview preview;
 
+    // Map of keys to use for quick selection. Extend this array to support more slots.
+    private static readonly KeyCode[] numberKeyMap = new KeyCode[]
+    {
+        KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5,
+        KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0,
+        KeyCode.Keypad1, KeyCode.Keypad2, KeyCode.Keypad3, KeyCode.Keypad4, KeyCode.Keypad5,
+        KeyCode.Keypad6, KeyCode.Keypad7, KeyCode.Keypad8, KeyCode.Keypad9, KeyCode.Keypad0,
+        KeyCode.F1, KeyCode.F2, KeyCode.F3, KeyCode.F4, KeyCode.F5, KeyCode.F6,
+        KeyCode.F7, KeyCode.F8, KeyCode.F9, KeyCode.F10, KeyCode.F11, KeyCode.F12
+    };
+
     private void Awake()
     {
         PlayerBattleSO battleSO = Object.FindFirstObjectByType<PlayerData>()?.playerBattleSO;
-        if (battleSO != null)        
+        if (battleSO != null && isBattleScene)        
         {
             buildingDataList = battleSO.playerUnits.ToList();
         }
@@ -44,10 +55,18 @@ public class BuildingSystem : MonoBehaviour
         Vector3 mousePos = GetMouseWorldPosition();
 
         // Number keys switch selected building type even while previewing.
-        if (Input.GetKeyDown(KeyCode.Alpha1)) TrySelectBuilding(0, mousePos);
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) TrySelectBuilding(1, mousePos);
-        else if (Input.GetKeyDown(KeyCode.Alpha3)) TrySelectBuilding(2, mousePos);
-        else if (Input.GetKeyDown(KeyCode.Alpha4)) TrySelectBuilding(3, mousePos);
+        if (buildingDataList != null)
+        {
+            int max = Mathf.Min(buildingDataList.Count, numberKeyMap.Length);
+            for (int i = 0; i < max; i++)
+            {
+                if (Input.GetKeyDown(numberKeyMap[i]))
+                {
+                    TrySelectBuilding(i, mousePos);
+                    break;
+                }
+            }
+        }
 
 
         // If a preview exists, move and validate it.
