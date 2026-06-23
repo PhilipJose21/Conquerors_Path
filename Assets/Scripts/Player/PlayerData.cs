@@ -48,18 +48,17 @@ public class PlayerData : MonoBehaviour
 
     void Update()
     {
-        
+        updatePlayerMaterials();
     }
 
     public void updatePlayerMaterials()
     {
-        playerWoodResources += playerBattleSO.woodHarvestAmount;
-        playerStoneResources += playerBattleSO.stoneHarvestAmount;
-        playerFarmResources += playerBattleSO.farmHarvestAmount;
-        playerCoins += playerBattleSO.goldHarvestAmount;
-        playerBattleSO.woodHarvestAmount = 0;
-        playerBattleSO.stoneHarvestAmount = 0;
-        playerBattleSO.farmHarvestAmount = 0;
-        playerBattleSO.goldHarvestAmount = 0;
+        playerWoodResources = playerSO.woodResources;
+        playerStoneResources = playerSO.stoneResources;
+        playerFarmResources = playerSO.farmResources;
+        playerEnergyPoints = playerSO.energyPoints;
+        playerResearchPoints = playerSO.researchPoints;
+        playerGems = playerSO.gems;
+        playerCoins = playerSO.coins;
     }
 }

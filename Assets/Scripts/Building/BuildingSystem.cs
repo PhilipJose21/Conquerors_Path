@@ -28,6 +28,7 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private GameObject environmentParent;
 
     private PlayerData playerData;
+    private PlayerSO playerSO;
 
     private BuildingPreview preview;
 
@@ -45,6 +46,7 @@ public class BuildingSystem : MonoBehaviour
     private void Awake()
     {
         playerData = Object.FindFirstObjectByType<PlayerData>();
+        playerSO = playerData.playerSO;
         PlayerBattleSO battleSO = playerData?.playerBattleSO;
         if (battleSO != null && isBattleScene)        
         {
@@ -83,6 +85,17 @@ public class BuildingSystem : MonoBehaviour
         if (buildingDataList == null || index < 0 || index >= buildingDataList.Count) 
         {
             return; // Exits early, keeping isPlacing unchanged
+        }
+
+        
+        if (buildingDataList[index].coinCost > playerSO.coins||
+            buildingDataList[index].woodCost > playerSO.woodResources||
+            buildingDataList[index].rockCost > playerSO.stoneResources||
+            buildingDataList[index].farmCost > playerSO.farmResources
+            ||buildingDataList[index].energyCost > playerSO.energyPoints)
+        {
+            Debug.Log("Not enough resources to select this building.");
+            return;
         }
 
         // 2. TOGGLE FEATURE: If the same index is selected again, cancel/deselect placement
@@ -280,6 +293,8 @@ public class BuildingSystem : MonoBehaviour
             }
         }
 
+        decreaseResources(buildingDataIndex);
+
         Destroy(preview.gameObject);
         preview = null;
         isPlacing = false;
@@ -299,6 +314,15 @@ public class BuildingSystem : MonoBehaviour
 
         // After placing, ensure any selected-building UI is closed
         KingdomUIManager.Instance?.CloseObjectInfo();
+    }
+
+    public void decreaseResources(int index)
+    {
+        playerSO.coins -= buildingDataList[index].coinCost;
+        playerSO.woodResources -= buildingDataList[index].woodCost;
+        playerSO.stoneResources -= buildingDataList[index].rockCost;
+        playerSO.farmResources -= buildingDataList[index].farmCost;
+        playerSO.energyPoints -= buildingDataList[index].energyCost;
     }
 
     // Expose building data for UI code that wants to show costs
