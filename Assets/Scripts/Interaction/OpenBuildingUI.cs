@@ -30,6 +30,8 @@ public class OpenBuildingUI : MonoBehaviour
         if (building != null)
         {
             GameObject uiInstance = Instantiate(buildingUIPrefab, transformUI);
+
+            uiInstance.GetComponent<BuildingInformationPanel>().buildingData = this.GetComponent<BuildingStatContainer>().buildingStatsSO;
             return;
         }
 

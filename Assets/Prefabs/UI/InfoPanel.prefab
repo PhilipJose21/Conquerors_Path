@@ -2472,7 +2472,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6150449137715620874
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2681,7 +2681,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4003868535150098716}
-  - component: {fileID: 7441197561080507528}
+  - component: {fileID: 8194313150380381988}
   m_Layer: 5
   m_Name: InfoPanel
   m_TagString: Untagged
@@ -2710,7 +2710,7 @@ RectTransform:
   m_AnchoredPosition: {x: -101.89, y: 261.38}
   m_SizeDelta: {x: 421.12, y: 420.8}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7441197561080507528
+--- !u!114 &8194313150380381988
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2719,23 +2719,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 5152293298916296068}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8688768cb1fa0a9499133d9fcada6ca2, type: 3}
+  m_Script: {fileID: 11500000, guid: 0fcc0edd032efec45aceb91cb6346ed6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuildingInfoPanel
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingInformationPanel
   nameText: {fileID: 2134450506208476508}
-  iconImage: {fileID: 5769708646847238411}
   descriptionText: {fileID: 7330080550493811004}
-  typeText: {fileID: 7432752761624993492}
-  mobilityText: {fileID: 9111355588686494700}
-  hpText: {fileID: 3409436917580717518}
-  resourceText: {fileID: 4724395340772982720}
-  damageText: {fileID: 7847664078159908803}
-  unitCostText: {fileID: 7576086887415216144}
-  attackRangeText: {fileID: 2460567752687818911}
-  upgradeCostText: {fileID: 7361450653646494942}
-  upgradeButton: {fileID: 464117137127828200}
-  destroyRetireButton: {fileID: 4980525739260985711}
-  closeButton: {fileID: 4542413901476149716}
+  buildingInfoParent: {fileID: 7810113254402862850}
+  resourceOutputParent: {fileID: 922229502399288991}
+  resourceTypeParent: {fileID: 985632769978269517}
+  resourceTypeText: {fileID: 5534133859853338678}
+  resourceAmountText: {fileID: 6295056167449120263}
+  unitTypeParent: {fileID: 1931773929394588564}
+  hpParent: {fileID: 8757609610836014403}
+  damageParent: {fileID: 5839216781991443063}
+  attackRangeParent: {fileID: 4656564393146136524}
+  mobilityParent: {fileID: 6614768010804422356}
+  resourceCostParent: {fileID: 0}
+  unitCostParent: {fileID: 7503873282164037114}
+  unitInfoParent: {fileID: 4582157102820923351}
+  unitTypeText: {fileID: 0}
+  hpText: {fileID: 0}
+  damageText: {fileID: 0}
+  attackRangeText: {fileID: 0}
+  mobilityText: {fileID: 0}
+  resourceCostText: {fileID: 0}
+  unitCostText: {fileID: 0}
+  valueTextName: Value Text
+  buildingData: {fileID: 0}
+  unitData: {fileID: 0}
 --- !u!1 &5459538032850088410
 GameObject:
   m_ObjectHideFlags: 0

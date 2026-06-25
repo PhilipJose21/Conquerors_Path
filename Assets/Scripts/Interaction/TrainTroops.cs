@@ -8,10 +8,10 @@ public class TrainTroops : MonoBehaviour
     public List<TroopData> troopDataList;
     public GameObject troopButtonPrefab;
     public Transform troopButtonParent;
-    private bool isUIOpen = false;
+    // private bool isUIOpen = false;
 
     public void openTrainingUI()
     {
-
+        
     }
 }

@@ -4,27 +4,27 @@ public class PassiveResource : MonoBehaviour
 {
     // Component that periodically awards a resource to the player while active.
     // It increments a PlayerSO resource field every `resourceTimer` seconds.
-    public enum ResourceType
-    {
-        Wood,
-        Stone,
-        Farm,
-        Energy,
-        Research,
-        Gems,
-        Coins
-    }
-
-    public ResourceType resourceType;
+    public BuildingStatsSO.ResourceType resourceType;
     public PlayerData playerData => UnityEngine.Object.FindFirstObjectByType<PlayerData>();
     public PlayerSO playerSO => playerData.playerSO;
 
+    private BuildingStatsSO buildingStatsSO;
     public bool isActive;
     public int resourceAmount;
     private int totalResourceAmount;
     public float resourceTimer;
     public float currentTime;
 
+    void Awake()
+    {
+        buildingStatsSO = GetComponent<BuildingStatContainer>()?.buildingStatsSO;
+        if (buildingStatsSO != null)
+        {
+            resourceType = buildingStatsSO.resourceType;
+            resourceAmount = buildingStatsSO.resourceAmount;
+            resourceTimer = buildingStatsSO.resourceTimer;
+        }
+    }
 
     void Update()
     {
@@ -44,30 +44,30 @@ public class PassiveResource : MonoBehaviour
 
     
 
-    public void AddResource(ResourceType type)
+    public void AddResource(BuildingStatsSO.ResourceType type)
     {
         // Add the configured resource amount to the player's SO based on type.
         switch (type)
         {
-            case ResourceType.Wood:
+            case BuildingStatsSO.ResourceType.Wood:
                 playerSO.woodResources += resourceAmount;
                 break;
-            case ResourceType.Stone:
+            case BuildingStatsSO.ResourceType.Stone:
                 playerSO.stoneResources += resourceAmount;
                 break;
-            case ResourceType.Farm:
+            case BuildingStatsSO.ResourceType.Farm:
                 playerSO.farmResources += resourceAmount;
                 break;
-            case ResourceType.Energy:
+            case BuildingStatsSO.ResourceType.Energy:
                 playerSO.energyPoints += resourceAmount;
                 break;
-            case ResourceType.Research:
+            case BuildingStatsSO.ResourceType.Research:
                 playerSO.researchPoints += resourceAmount;
                 break;
-            case ResourceType.Gems:
+            case BuildingStatsSO.ResourceType.Gems:
                 playerSO.gems += resourceAmount;
                 break;
-            case ResourceType.Coins:
+            case BuildingStatsSO.ResourceType.Coins:
                 playerSO.coins += resourceAmount;
                 break;
         }
