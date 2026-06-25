@@ -160,6 +160,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClickObject
   mainCamera: {fileID: 0}
+  hoverScaleMultiplier: 1.05
+  scaleSpeed: 12
+  bounceDuration: 0.35
+  peakBounceScale: {x: 0.8, y: 1.35, z: 0.8}
 --- !u!1 &6032859875639384591
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,7 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a51036a5178cf94c86ff8a7cbe919cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpenBuildingUI
-  buildingUIPrefab: {fileID: 5035976004460821801, guid: 553fef961050f534ba597de4dfa6ab5c, type: 3}
+  buildingUIPrefab: {fileID: 5152293298916296068, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
   transformUI: {fileID: 0}
 --- !u!65 &1524658142921448788
 BoxCollider:

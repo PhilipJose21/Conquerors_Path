@@ -13,11 +13,6 @@ public class OpenBuildingUI : MonoBehaviour
             var go = GameObject.FindWithTag("ObjectInformationParent");
             if (go != null) transformUI = go.transform;
         }
-
-        if (buildingUIPrefab == null)
-        {
-            buildingUIPrefab = Resources.Load<GameObject>("UI/BuildingInfoPanel");
-        }
     }
     private void OnMouseDown()
     {
@@ -32,10 +27,9 @@ public class OpenBuildingUI : MonoBehaviour
     {
         // Route all building selections through the shared UI manager.
         var building = GetComponent<Building>() ?? GetComponentInParent<Building>();
-        if (building != null && KingdomUIManager.Instance != null)
+        if (building != null)
         {
-            KingdomUIManager.Instance.ShowObjectInfo(building);
-            isUIOpen = true;
+            GameObject uiInstance = Instantiate(buildingUIPrefab, transformUI);
             return;
         }
 

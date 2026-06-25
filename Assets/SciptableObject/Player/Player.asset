@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSO
   woodResources: 0
-  stoneResources: 0
-  farmResources: 0
+  stoneResources: 65
+  farmResources: 980
   energyPoints: 0
   researchPoints: 0
   gems: 0

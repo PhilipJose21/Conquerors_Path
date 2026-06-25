@@ -4,12 +4,12 @@ using UnityEngine.UI;
 
 public class BuildingInfoPanel : MonoBehaviour
 {
-    // Common UI fields
+    // Shared panel header fields.
     public TextMeshProUGUI nameText;
     public Image iconImage;
     public TextMeshProUGUI descriptionText;
 
-    // Stats grid
+    // Stat labels shown in the grid.
     public TextMeshProUGUI typeText;
     public TextMeshProUGUI mobilityText;
     public TextMeshProUGUI hpText;
@@ -26,6 +26,7 @@ public class BuildingInfoPanel : MonoBehaviour
 
     void Awake()
     {
+        // Try to auto-wire the close button if it was not assigned in the Inspector.
         if (closeButton == null)
         {
             var closeTransform = transform.Find("ExitButton") ?? transform.Find("CloseButton");
@@ -40,34 +41,36 @@ public class BuildingInfoPanel : MonoBehaviour
             Debug.LogWarning("BuildingInfoPanel: closeButton is not assigned and no ExitButton/CloseButton child was found.");
     }
 
-    // Setup from an instantiated Building instance
+    // Populate the panel from an instantiated Building in the scene.
     public void Setup(Building building)
     {
         if (building == null) return;
         Setup(InfoPanelViewData.ForBuilding(building));
     }
 
-    // Setup from BuildingData asset (e.g., when selecting from UI list)
+    // Populate the panel from a BuildingData asset, such as a selection list entry.
     public void Setup(BuildingData data)
     {
         if (data == null) return;
         Setup(InfoPanelViewData.ForBuilding(data));
     }
 
-    // Support troops via a simple TroopData ScriptableObject (added separately)
+    // Populate the panel from a TroopData asset.
     public void Setup(TroopData troop)
     {
         if (troop == null) return;
         Setup(InfoPanelViewData.ForTroop(troop));
     }
 
-    // Generic setup for any object type represented by InfoPanelViewData.
+    // Single rendering path used by all callers.
     public void Setup(InfoPanelViewData viewData)
     {
         if (viewData == null) return;
 
+        // Fill the shared header area first.
         PopulateCommon(viewData.title, viewData.icon, viewData.description);
 
+        // Fill stat rows only when data exists for that row.
         if (typeText != null) typeText.text = FormatStat("Type", viewData.type);
         if (mobilityText != null) mobilityText.text = FormatStat("Mobility", viewData.mobility);
         if (hpText != null) hpText.text = FormatStat("HP", viewData.hp);
@@ -80,6 +83,7 @@ public class BuildingInfoPanel : MonoBehaviour
         ShowUpgradeAndDestroy(viewData.showUpgrade, viewData.showDestroy);
     }
 
+    // Writes the common header fields shared by buildings and troops.
     private void PopulateCommon(string name, Sprite icon, string description)
     {
         if (nameText != null) nameText.text = name ?? "";
@@ -87,16 +91,19 @@ public class BuildingInfoPanel : MonoBehaviour
         if (descriptionText != null) descriptionText.text = description ?? "";
     }
 
+    // Hide empty rows instead of showing blank labels.
     private static string FormatStat(string label, string value)
     {
         return string.IsNullOrWhiteSpace(value) ? string.Empty : $"{label}: {value}";
     }
 
+    // Convenience overload when both buttons should share the same visibility.
     private void ShowUpgradeAndDestroy(bool showBoth)
     {
         ShowUpgradeAndDestroy(showBoth, showBoth);
     }
 
+    // Toggle the action buttons and the upgrade cost label together.
     private void ShowUpgradeAndDestroy(bool showUpgrade, bool showDestroy)
     {
         if (upgradeButton != null) upgradeButton.gameObject.SetActive(showUpgrade);
@@ -104,6 +111,7 @@ public class BuildingInfoPanel : MonoBehaviour
         if (destroyRetireButton != null) destroyRetireButton.gameObject.SetActive(showDestroy);
     }
 
+    // Close the info panel through the UI manager.
     private void OnClosePressed()
     {
         KingdomUIManager.Instance?.CloseObjectInfo();
@@ -113,9 +121,11 @@ public class BuildingInfoPanel : MonoBehaviour
 [System.Serializable]
 public class InfoPanelViewData
 {
+    // Common header content.
     public string title;
     public Sprite icon;
     public string description;
+    // Stat rows displayed by the panel.
     public string type;
     public string mobility;
     public string hp;
@@ -127,6 +137,7 @@ public class InfoPanelViewData
     public bool showUpgrade;
     public bool showDestroy;
 
+    // Convert a live Building instance into panel-friendly data.
     public static InfoPanelViewData ForBuilding(Building building)
     {
         return new InfoPanelViewData
@@ -142,6 +153,7 @@ public class InfoPanelViewData
         };
     }
 
+    // Convert a BuildingData asset into panel-friendly data.
     public static InfoPanelViewData ForBuilding(BuildingData data)
     {
         return new InfoPanelViewData
@@ -157,8 +169,10 @@ public class InfoPanelViewData
         };
     }
 
+    // Convert troop data into the same layout used by buildings.
     public static InfoPanelViewData ForTroop(TroopData troop)
     {
+        // Attack range is shown as a square grid size for the UI.
         int rangeSize = troop != null ? troop.attackRange * 2 + 1 : 0;
         return new InfoPanelViewData
         {
