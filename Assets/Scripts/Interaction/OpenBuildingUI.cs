@@ -14,14 +14,6 @@ public class OpenBuildingUI : MonoBehaviour
             if (go != null) transformUI = go.transform;
         }
     }
-    private void OnMouseDown()
-    {
-        BuildingSystem buildingSystem = FindFirstObjectByType<BuildingSystem>();
-        if (buildingSystem != null && buildingSystem.isPlacing)
-            return;
-
-        OpenUI();
-    }
 
     public void OpenUI()
     {
@@ -32,6 +24,7 @@ public class OpenBuildingUI : MonoBehaviour
             GameObject uiInstance = Instantiate(buildingUIPrefab, transformUI);
 
             uiInstance.GetComponent<BuildingInformationPanel>().buildingData = this.GetComponent<BuildingStatContainer>().buildingStatsSO;
+            uiInstance.GetComponent<BuildingInformationPanel>().gameObjectParent = building.gameObject;
             return;
         }
 

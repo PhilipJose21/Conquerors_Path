@@ -1378,7 +1378,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6973955493633414321}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 265481192588377475}
+        m_TargetAssemblyTypeName: BuildingInformationPanel, Assembly-CSharp
+        m_MethodName: destroyObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2545401920101931921
 GameObject:
   m_ObjectHideFlags: 0
@@ -2290,6 +2302,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fcc0edd032efec45aceb91cb6346ed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingInformationPanel
+  nameText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  gameObjectParent: {fileID: 0}
+  valueTextName: 
+  buildingInfoParent: {fileID: 0}
+  resourceOutputParent: {fileID: 0}
+  resourceTypeParent: {fileID: 0}
+  unitInfoParent: {fileID: 0}
+  unitTypeParent: {fileID: 0}
+  hpParent: {fileID: 0}
+  damageParent: {fileID: 0}
+  attackRangeParent: {fileID: 0}
+  mobilityParent: {fileID: 0}
+  unitCostParent: {fileID: 0}
+  buildingData: {fileID: 0}
+  unitData: {fileID: 0}
 --- !u!1 &3959414594965587378
 GameObject:
   m_ObjectHideFlags: 0

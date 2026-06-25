@@ -181,6 +181,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (20)
       objectReference: {fileID: 0}
@@ -242,6 +246,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (16)
@@ -305,6 +313,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (22)
       objectReference: {fileID: 0}
@@ -366,6 +378,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (23)
@@ -429,6 +445,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (12)
       objectReference: {fileID: 0}
@@ -490,6 +510,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (17)
@@ -553,6 +577,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (8)
       objectReference: {fileID: 0}
@@ -614,6 +642,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (7)
@@ -677,6 +709,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (19)
       objectReference: {fileID: 0}
@@ -738,6 +774,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (18)
@@ -801,6 +841,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (21)
       objectReference: {fileID: 0}
@@ -862,6 +906,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (10)
@@ -925,6 +973,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit
       objectReference: {fileID: 0}
@@ -986,6 +1038,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (11)
@@ -1049,6 +1105,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (9)
       objectReference: {fileID: 0}
@@ -1110,6 +1170,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (6)
@@ -1173,6 +1237,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (14)
       objectReference: {fileID: 0}
@@ -1234,6 +1302,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (4)
@@ -1297,6 +1369,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (2)
       objectReference: {fileID: 0}
@@ -1359,6 +1435,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (15)
       objectReference: {fileID: 0}
@@ -1420,6 +1500,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (1)
@@ -1484,27 +1568,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2220318657258244091, guid: dc0d98efa15f4b84a881afad07e7d4de, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.13733
+      value: 0.100219086
       objectReference: {fileID: 0}
     - target: {fileID: 2220318657258244091, guid: dc0d98efa15f4b84a881afad07e7d4de, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.13733
+      value: 0.10577019
       objectReference: {fileID: 0}
     - target: {fileID: 2220318657258244091, guid: dc0d98efa15f4b84a881afad07e7d4de, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.13733
+      value: 0.10577019
       objectReference: {fileID: 0}
     - target: {fileID: 2220318657258244091, guid: dc0d98efa15f4b84a881afad07e7d4de, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.164017e-12
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 2220318657258244091, guid: dc0d98efa15f4b84a881afad07e7d4de, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5099999
+      value: -0.034677
       objectReference: {fileID: 0}
     - target: {fileID: 2220318657258244091, guid: dc0d98efa15f4b84a881afad07e7d4de, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.0000009536743
+      value: 0.00000084409
       objectReference: {fileID: 0}
     - target: {fileID: 2220318657258244091, guid: dc0d98efa15f4b84a881afad07e7d4de, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1556,6 +1640,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (5)
@@ -1619,6 +1707,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (13)
       objectReference: {fileID: 0}
@@ -1681,6 +1773,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (3)
       objectReference: {fileID: 0}
@@ -1742,6 +1838,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3655836112397390635}
     m_Modifications:
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit (24)

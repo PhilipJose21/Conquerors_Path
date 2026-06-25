@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Castle
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   <Name>k__BackingField: Castle
-  <Size>k__BackingField: 3
+  <Size>k__BackingField: 25
   <Model>k__BackingField: {fileID: 1915748257449464270, guid: 4561aebfa72c06e46b3d33e4322f4b63, type: 3}
   <Icon>k__BackingField: {fileID: 0}
   <coinCost>k__BackingField: 0

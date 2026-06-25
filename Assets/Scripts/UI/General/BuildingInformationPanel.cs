@@ -3,9 +3,12 @@ using TMPro;
 
 public class BuildingInformationPanel : MonoBehaviour
 {
-    
+    public static BuildingInformationPanel Instance { get; private set; }
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI descriptionText;
+    public GameObject gameObjectParent;
+    
+    public string valueTextName;
 
     [Header("Building UI Elements")]
     public GameObject buildingInfoParent;
@@ -13,8 +16,8 @@ public class BuildingInformationPanel : MonoBehaviour
     public GameObject resourceTypeParent;
 
 
-    public TextMeshProUGUI resourceTypeText;
-    public TextMeshProUGUI resourceAmountText;
+    private TextMeshProUGUI resourceTypeText;
+    private TextMeshProUGUI resourceAmountText;
 
 
     [Header("Unit UI Elements")]
@@ -27,20 +30,27 @@ public class BuildingInformationPanel : MonoBehaviour
     public GameObject mobilityParent;
     public GameObject unitCostParent;
 
-    public TextMeshProUGUI unitTypeText;
-    public TextMeshProUGUI hpText;
-    public TextMeshProUGUI damageText;
-    public TextMeshProUGUI attackRangeText;
-    public TextMeshProUGUI mobilityText;
-    public TextMeshProUGUI unitCostText;
+    private TextMeshProUGUI unitTypeText;
+    private TextMeshProUGUI hpText;
+    private TextMeshProUGUI damageText;
+    private TextMeshProUGUI attackRangeText;
+    private TextMeshProUGUI mobilityText;
+    private TextMeshProUGUI unitCostText;
 
-    public string valueTextName;
 
     public BuildingStatsSO buildingData;
     public TroopData unitData;
 
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
+
         resourceTypeText = resourceTypeParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();
         resourceAmountText = resourceOutputParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();
         unitTypeText = unitTypeParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();
@@ -88,7 +98,20 @@ public class BuildingInformationPanel : MonoBehaviour
             mobilityText.text = unitData.mobility.ToString();
             unitCostText.text = unitData.unitCost.ToString();
         }
+    }
 
-        
+    public void closePanel()
+    {
+        Destroy(gameObject);
+    }
+
+    public void destroyObject()
+    {
+        Debug.Log("TEST");
+        if (gameObjectParent != null)
+        {
+            Destroy(gameObjectParent);
+        }
+        Destroy(gameObject);
     }
 }
