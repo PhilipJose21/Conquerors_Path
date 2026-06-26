@@ -152,4 +152,13 @@ public class PassiveResource : MonoBehaviour
     {
         resourceAmount *= 2;
     }
+
+    public void refundStats()
+    {
+        playerSO.woodResources += Mathf.RoundToInt(woodCost * 0.5f);
+        playerSO.stoneResources += Mathf.RoundToInt(rockCost * 0.5f);
+        playerSO.farmResources += Mathf.RoundToInt(farmCost * 0.5f);
+        playerSO.coins += Mathf.RoundToInt(coinCost * 0.5f);
+        playerSO.energyPoints += energyCost;
+    }
 }

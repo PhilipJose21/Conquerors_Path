@@ -6,7 +6,10 @@ using UnityEngine.SceneManagement;
 public class KingdomUIManager : MonoBehaviour
 {
     public static KingdomUIManager Instance { get; private set; }
+    [Header("Player Data")]
+    public PlayerSO playerSO;
 
+    [Header("Resource Text Fields")]
     // Resource text fields (can be assigned in inspector or found at runtime)
     public TextMeshProUGUI woodText;
     public TextMeshProUGUI stoneText;
@@ -25,6 +28,8 @@ public class KingdomUIManager : MonoBehaviour
     public GameObject troopSelectionPanel;
     [Header("Bag Panel")]
     public GameObject bagPanel;
+
+
 
     void Awake()
     {
@@ -68,6 +73,15 @@ public class KingdomUIManager : MonoBehaviour
         if (researchText == null) researchText = FindTMP("Canvas/ResourcePanel/ResearchText");
         if (gemsText == null) gemsText = FindTMP("Canvas/ResourcePanel/GemsText");
         if (coinsText == null) coinsText = FindTMP("Canvas/ResourcePanel/CoinsText");
+
+        playerSO = FindObjectOfType<PlayerData>()?.playerSO;
+
+    }
+
+    void Update()
+    {
+        researchText.text = playerSO.researchPoints.ToString();
+        energyText.text = playerSO.energyPoints.ToString();
     }
 
     private TextMeshProUGUI FindTMP(string path)

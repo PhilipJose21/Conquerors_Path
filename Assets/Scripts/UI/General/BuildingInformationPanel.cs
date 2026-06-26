@@ -122,6 +122,7 @@ public class BuildingInformationPanel : MonoBehaviour
     {
         if (gameObjectParent != null)
         {
+            passiveResource.refundStats();
             Destroy(gameObjectParent);
         }
         Destroy(gameObject);
