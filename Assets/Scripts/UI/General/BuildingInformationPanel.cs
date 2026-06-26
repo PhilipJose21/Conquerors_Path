@@ -43,6 +43,8 @@ public class BuildingInformationPanel : MonoBehaviour
     public BuildingData buildingData;
     public TroopData unitData;
 
+    private PassiveResource passiveResource;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -62,6 +64,14 @@ public class BuildingInformationPanel : MonoBehaviour
         attackRangeText = attackRangeParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();
         mobilityText = mobilityParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();
         unitCostText = unitCostParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();
+    }
+
+    void Start()
+    {
+        if (gameObjectParent != null)
+        {
+            passiveResource = gameObjectParent.GetComponentInChildren<PassiveResource>();
+        }
     }
 
     void Update()
@@ -85,7 +95,7 @@ public class BuildingInformationPanel : MonoBehaviour
             nameText.text = buildingStatsSO.buildingName;
             descriptionText.text = buildingStatsSO.description;
             resourceTypeText.text = buildingStatsSO.resourceType.ToString();
-            resourceAmountText.text = (buildingStatsSO.resourceAmount.ToString() + " %");
+            resourceAmountText.text = passiveResource.resourceAmount.ToString() + " %";
         }
 
         if (unitData != null && buildingStatsSO == null)
@@ -110,7 +120,6 @@ public class BuildingInformationPanel : MonoBehaviour
 
     public void destroyObject()
     {
-        Debug.Log("TEST");
         if (gameObjectParent != null)
         {
             Destroy(gameObjectParent);
@@ -120,16 +129,17 @@ public class BuildingInformationPanel : MonoBehaviour
 
     public void upgradeButton()
     {
-        PassiveResource passiveResource = gameObjectParent.GetComponent<PassiveResource>();
         if (passiveResource != null)
         {
             if (buildingStatsSO != null)
             {
                 passiveResource.upgradeBuilding();
+                SetUp(buildingStatsSO, null);
             }
             if (unitData != null)
             {
                 //upgrade unit logic
+                SetUp(null, unitData);
             }
         }
     }

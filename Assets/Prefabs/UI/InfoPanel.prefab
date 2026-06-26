@@ -433,7 +433,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 317021951852292870}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8194313150380381988}
+        m_TargetAssemblyTypeName: BuildingInformationPanel, Assembly-CSharp
+        m_MethodName: upgradeButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1204643797902784831
 GameObject:
   m_ObjectHideFlags: 0
@@ -2248,7 +2260,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Name
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2472,7 +2484,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6150449137715620874
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2725,6 +2737,7 @@ MonoBehaviour:
   nameText: {fileID: 2134450506208476508}
   descriptionText: {fileID: 7330080550493811004}
   gameObjectParent: {fileID: 0}
+  playerData: {fileID: 0}
   valueTextName: Value Text
   buildingInfoParent: {fileID: 7810113254402862850}
   resourceOutputParent: {fileID: 922229502399288991}
@@ -2736,6 +2749,7 @@ MonoBehaviour:
   attackRangeParent: {fileID: 4656564393146136524}
   mobilityParent: {fileID: 6614768010804422356}
   unitCostParent: {fileID: 7503873282164037114}
+  buildingStatsSO: {fileID: 0}
   buildingData: {fileID: 0}
   unitData: {fileID: 0}
 --- !u!1 &5459538032850088410
@@ -4043,7 +4057,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4368,7 +4382,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1760575345594437783
 RectTransform:
   m_ObjectHideFlags: 0

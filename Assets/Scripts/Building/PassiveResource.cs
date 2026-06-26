@@ -104,6 +104,7 @@ public class PassiveResource : MonoBehaviour
 
     public void upgradeBuilding()
     {
+        Debug.Log("Attempting to upgrade building...");
         if (playerSO.woodResources >= coinCost && playerSO.stoneResources >= rockCost && playerSO.farmResources >= farmCost && playerSO.coins >= coinCost)
         {
             playerSO.woodResources -= woodCost;
@@ -112,9 +113,7 @@ public class PassiveResource : MonoBehaviour
             playerSO.coins -= coinCost;
             level++;
             changeUpgradeCost();
-            Debug.Log("Level working");
         }
-        Debug.Log("upgradeBuilding");
     }
 
     public void changeUpgradeCost()
@@ -126,7 +125,6 @@ public class PassiveResource : MonoBehaviour
             rockCost = Mathf.RoundToInt(rockCost * 0.5f);
             farmCost = Mathf.RoundToInt(farmCost * 0.5f);
             coinCost = Mathf.RoundToInt(coinCost * 0.5f);
-            Debug.Log("Level up [1]");
             increaseStats();
         }
         //it will cost 100% of the original cost at level 2
@@ -136,7 +134,6 @@ public class PassiveResource : MonoBehaviour
             rockCost = buildingData.rockCost;
             farmCost = buildingData.farmCost;
             coinCost = buildingData.coinCost;
-            Debug.Log("Level up [2]");
             increaseStats();
         }
 
@@ -147,7 +144,6 @@ public class PassiveResource : MonoBehaviour
             rockCost = Mathf.RoundToInt(buildingData.rockCost * (1 + (level - 2) * 0.1f));
             farmCost = Mathf.RoundToInt(buildingData.farmCost * (1 + (level - 2) * 0.1f));
             coinCost = Mathf.RoundToInt(buildingData.coinCost * (1 + (level - 2) * 0.1f));
-            Debug.Log("Level up [3+]");
             increaseStats();
         }
     }
@@ -155,6 +151,5 @@ public class PassiveResource : MonoBehaviour
     public void increaseStats()
     {
         resourceAmount *= 2;
-        Debug.Log("Stats increased!");
     }
 }
