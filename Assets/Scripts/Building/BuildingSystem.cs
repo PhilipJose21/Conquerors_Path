@@ -17,6 +17,8 @@ public class BuildingSystem : MonoBehaviour
 
     public bool enableReinforcementCost = false;
 
+    public bool enableRemovingUnitFromArray = false;
+
     [SerializeField] private List<BuildingData> buildingDataList;
 
     [SerializeField] private BuildingPreview buildingGrid;
@@ -29,6 +31,7 @@ public class BuildingSystem : MonoBehaviour
 
     private PlayerData playerData;
     private PlayerSO playerSO;
+    private PlayerBattleSO playerBattleSO;
 
     private BuildingPreview preview;
 
@@ -47,11 +50,12 @@ public class BuildingSystem : MonoBehaviour
     {
         playerData = Object.FindFirstObjectByType<PlayerData>();
         playerSO = playerData.playerSO;
-        PlayerBattleSO battleSO = playerData?.playerBattleSO;
-        if (battleSO != null && isBattleScene)        
+        playerBattleSO = playerData?.playerBattleSO;
+        if (playerBattleSO != null && isBattleScene)        
         {
-            buildingDataList = battleSO.playerUnits.ToList();
+            buildingDataList = playerBattleSO.playerUnits.ToList();
         }
+
     }
 
     private void Update()
@@ -202,6 +206,8 @@ public class BuildingSystem : MonoBehaviour
                     Debug.Log($"Placement blocked by UI elements under pointer: {names}");
                     return;
                 }
+
+                // BATTLE SCENE PLACEMENT LOGIC
                 if (isBattleScene)
                 {
                     if (enableReinforcementCost)
@@ -224,9 +230,14 @@ public class BuildingSystem : MonoBehaviour
                             }
                         }
                     }
-                    
-                    buildingDataList.Remove(preview.Data);
-                    Object.FindFirstObjectByType<UnitButtonManager>()?.RefreshUnitButtons();
+                    if (enableRemovingUnitFromArray)
+                    {
+                        var playerUnitsList = playerBattleSO.playerUnits.ToList();
+                        playerUnitsList.Remove(buildingDataList[buildingDataIndex]);
+                        playerBattleSO.playerUnits = playerUnitsList.ToArray();
+                        buildingDataList.Remove(preview.Data);
+                        Object.FindFirstObjectByType<UnitButtonManager>()?.RefreshUnitButtons();
+                    }
                 }
 
                 PlaceBuilding(buildPosition, primaryGrid);

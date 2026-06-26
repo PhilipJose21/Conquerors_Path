@@ -21,7 +21,7 @@ MonoBehaviour:
   <rockCost>k__BackingField: 0
   <woodCost>k__BackingField: 0
   <gemCost>k__BackingField: 0
-  <energyCost>k__BackingField: 0
-  <unitCost>k__BackingField: 0
+  <energyCost>k__BackingField: 2
+  <unitCost>k__BackingField: 2
   <reinforcementCost>k__BackingField: 0
   <unitPrefab>k__BackingField: {fileID: 0}

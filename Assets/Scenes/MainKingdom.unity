@@ -15381,6 +15381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79329ae59bf8dc4f8d92a1f4e7048fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KingdomUIManager
+  playerSO: {fileID: 0}
   woodText: {fileID: 1968796339}
   stoneText: {fileID: 1493071542}
   farmText: {fileID: 1308704342}
