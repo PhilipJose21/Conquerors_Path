@@ -8,21 +8,49 @@ public class PassiveResource : MonoBehaviour
     public PlayerData playerData => UnityEngine.Object.FindFirstObjectByType<PlayerData>();
     public PlayerSO playerSO => playerData.playerSO;
 
-    private BuildingStatsSO buildingStatsSO;
+    public BuildingStatsSO buildingStatsSO;
+    public BuildingData buildingData; 
+    public int level = 1;
     public bool isActive;
     public int resourceAmount;
     private int totalResourceAmount;
     public float resourceTimer;
     public float currentTime;
 
+    public int coinCost;
+    public int farmCost;
+    public int rockCost;
+    public int woodCost;
+    public int gemCost;
+    public int energyCost;
+
     void Awake()
     {
-        buildingStatsSO = GetComponent<BuildingStatContainer>()?.buildingStatsSO;
+        
+    }
+
+    void Start()
+    {
+        BuildingStatContainer statContainer = GetComponent<BuildingStatContainer>();
+        
+        buildingStatsSO = statContainer?.buildingStatsSO;
+        buildingData = statContainer?.buildingData;
         if (buildingStatsSO != null)
         {
             resourceType = buildingStatsSO.resourceType;
             resourceAmount = buildingStatsSO.resourceAmount;
             resourceTimer = buildingStatsSO.resourceTimer;
+        }
+
+        if (buildingData != null)
+        {
+            coinCost = buildingData.coinCost;
+            farmCost = buildingData.farmCost;
+            rockCost = buildingData.rockCost;
+            woodCost = buildingData.woodCost;
+            gemCost = buildingData.gemCost;
+            energyCost = buildingData.energyCost;
+            changeUpgradeCost();
         }
     }
 
@@ -41,8 +69,6 @@ public class PassiveResource : MonoBehaviour
         }
         
     }
-
-    
 
     public void AddResource(BuildingStatsSO.ResourceType type)
     {
@@ -74,5 +100,61 @@ public class PassiveResource : MonoBehaviour
 
         // Track cumulative amount awarded (useful for stats/debugging)
         totalResourceAmount += resourceAmount;
+    }
+
+    public void upgradeBuilding()
+    {
+        if (playerSO.woodResources >= coinCost && playerSO.stoneResources >= rockCost && playerSO.farmResources >= farmCost && playerSO.coins >= coinCost)
+        {
+            playerSO.woodResources -= woodCost;
+            playerSO.stoneResources -= rockCost;
+            playerSO.farmResources -= farmCost;
+            playerSO.coins -= coinCost;
+            level++;
+            changeUpgradeCost();
+            Debug.Log("Level working");
+        }
+        Debug.Log("upgradeBuilding");
+    }
+
+    public void changeUpgradeCost()
+    {
+        //it will cost 50% of the original cost at level 1
+        if (level == 1)
+        {
+            woodCost = Mathf.RoundToInt(woodCost * 0.5f);
+            rockCost = Mathf.RoundToInt(rockCost * 0.5f);
+            farmCost = Mathf.RoundToInt(farmCost * 0.5f);
+            coinCost = Mathf.RoundToInt(coinCost * 0.5f);
+            Debug.Log("Level up [1]");
+            increaseStats();
+        }
+        //it will cost 100% of the original cost at level 2
+        else if (level == 2) 
+        {
+            woodCost = buildingData.woodCost;
+            rockCost = buildingData.rockCost;
+            farmCost = buildingData.farmCost;
+            coinCost = buildingData.coinCost;
+            Debug.Log("Level up [2]");
+            increaseStats();
+        }
+
+        //it will increase by 10% of the original cost for each level above 2
+        else if (level > 2)
+        {
+            woodCost = Mathf.RoundToInt(buildingData.woodCost * (1 + (level - 2) * 0.1f));
+            rockCost = Mathf.RoundToInt(buildingData.rockCost * (1 + (level - 2) * 0.1f));
+            farmCost = Mathf.RoundToInt(buildingData.farmCost * (1 + (level - 2) * 0.1f));
+            coinCost = Mathf.RoundToInt(buildingData.coinCost * (1 + (level - 2) * 0.1f));
+            Debug.Log("Level up [3+]");
+            increaseStats();
+        }
+    }
+
+    public void increaseStats()
+    {
+        resourceAmount *= 2;
+        Debug.Log("Stats increased!");
     }
 }

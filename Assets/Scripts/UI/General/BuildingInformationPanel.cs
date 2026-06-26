@@ -7,6 +7,7 @@ public class BuildingInformationPanel : MonoBehaviour
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI descriptionText;
     public GameObject gameObjectParent;
+    public PlayerSO playerData;
     
     public string valueTextName;
 
@@ -38,7 +39,8 @@ public class BuildingInformationPanel : MonoBehaviour
     private TextMeshProUGUI unitCostText;
 
 
-    public BuildingStatsSO buildingData;
+    public BuildingStatsSO buildingStatsSO;
+    public BuildingData buildingData;
     public TroopData unitData;
 
     void Awake()
@@ -50,6 +52,7 @@ public class BuildingInformationPanel : MonoBehaviour
         }
         Instance = this;
 
+        playerData = FindObjectOfType<PlayerData>().playerSO;
 
         resourceTypeText = resourceTypeParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();
         resourceAmountText = resourceOutputParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();
@@ -63,9 +66,9 @@ public class BuildingInformationPanel : MonoBehaviour
 
     void Update()
     {
-        if (buildingData != null)
+        if (buildingStatsSO != null)
         {
-            SetUp(buildingData, null);
+            SetUp(buildingStatsSO, null);
         }
         else if (unitData != null)
         {
@@ -73,19 +76,19 @@ public class BuildingInformationPanel : MonoBehaviour
         }
     }
 
-    public void SetUp(BuildingStatsSO buildingData, TroopData unitData)
+    public void SetUp(BuildingStatsSO buildingStatsSO, TroopData unitData)
     {
-        if (buildingData != null && unitData == null)
+        if (buildingStatsSO != null && unitData == null)
         {
             unitInfoParent.SetActive(false);
             buildingInfoParent.SetActive(true);
-            nameText.text = buildingData.buildingName;
-            descriptionText.text = buildingData.description;
-            resourceTypeText.text = buildingData.resourceType.ToString();
-            resourceAmountText.text = (buildingData.resourceAmount.ToString() + " %");
+            nameText.text = buildingStatsSO.buildingName;
+            descriptionText.text = buildingStatsSO.description;
+            resourceTypeText.text = buildingStatsSO.resourceType.ToString();
+            resourceAmountText.text = (buildingStatsSO.resourceAmount.ToString() + " %");
         }
 
-        if (unitData != null && buildingData == null)
+        if (unitData != null && buildingStatsSO == null)
         {
             buildingInfoParent.SetActive(false);
             unitInfoParent.SetActive(true);
@@ -113,5 +116,21 @@ public class BuildingInformationPanel : MonoBehaviour
             Destroy(gameObjectParent);
         }
         Destroy(gameObject);
+    }
+
+    public void upgradeButton()
+    {
+        PassiveResource passiveResource = gameObjectParent.GetComponent<PassiveResource>();
+        if (passiveResource != null)
+        {
+            if (buildingStatsSO != null)
+            {
+                passiveResource.upgradeBuilding();
+            }
+            if (unitData != null)
+            {
+                //upgrade unit logic
+            }
+        }
     }
 }

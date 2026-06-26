@@ -276,6 +276,13 @@ public class BuildingSystem : MonoBehaviour
         Building building = Instantiate(buildingPrefab, placePosition, placeRotation, environmentParent.transform);
         building.SetUp(preview.Data, preview.BuildingModel.Rotation);
 
+        // Transfer building data to the BuildingStatContainer
+        BuildingStatContainer statContainer = building.GetComponentInChildren<BuildingStatContainer>();
+        if (statContainer != null)
+        {
+            statContainer.buildingData = preview.Data;
+        }
+
         // Ensure setup didn't shift the transform unexpectedly
         building.transform.SetPositionAndRotation(placePosition, placeRotation);
 
