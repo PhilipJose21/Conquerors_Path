@@ -1935,6 +1935,7 @@ MonoBehaviour:
   isPlacing: 0
   isBattleScene: 1
   enableReinforcementCost: 0
+  enableRemovingUnitFromArray: 1
   buildingDataList: []
   buildingGrid: {fileID: 4571845357412621073, guid: e8e79a61d6e7a464ea1bac703c91a86c, type: 3}
   buildingPrefab: {fileID: 2050431222552286972, guid: 5e4acca1106e8b8479eee7ac24197c6a, type: 3}
@@ -3508,10 +3509,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   playerSO: {fileID: 11400000, guid: 11968b043e4f54e4aa60a402a854218e, type: 2}
   playerBattleSO: {fileID: 11400000, guid: 6456d1e7e49fd6c4db9c33c08c2d5e03, type: 2}
-  playerWood: 0
-  playerStone: 0
-  playerFarm: 0
-  playerGold: 0
+  playerWoodResources: 0
+  playerStoneResources: 0
+  playerFarmResources: 0
+  playerEnergyPoints: 0
+  playerResearchPoints: 0
+  playerGems: 0
+  playerCoins: 0
+  isBattleScene: 0
 --- !u!4 &1202145366
 Transform:
   m_ObjectHideFlags: 0
@@ -5830,8 +5835,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45f36db22b76cb841adac1ef285d9735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CellHighlighter
-  moveMaterial: {fileID: 0}
-  attackMaterial: {fileID: 0}
 --- !u!114 &2044518045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5844,9 +5847,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbb45ec1b8ba63c449c39a18e0e85732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HighlightTile
-  worldPosition: {x: 0, y: 0, z: 0}
-  isMove: 0
-  isAttack: 0
 --- !u!114 &2044518046
 MonoBehaviour:
   m_ObjectHideFlags: 0

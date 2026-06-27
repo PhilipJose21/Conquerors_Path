@@ -233,17 +233,22 @@ public class BuildingSystem : MonoBehaviour
                     if (enableRemovingUnitFromArray)
                     {
                         var playerUnitsList = playerBattleSO.playerUnits.ToList();
-                        playerUnitsList.Remove(buildingDataList[buildingDataIndex]);
+                        var playerUnitsStatsList = playerBattleSO.playerUnitStats.ToList();
+                        var selectedBuildingData = buildingDataList[buildingDataIndex];
+                        playerUnitsList.Remove(selectedBuildingData);
+                        if (selectedBuildingData != null && selectedBuildingData.unitPrefab != null)
+                        {
+                            playerUnitsStatsList.Remove(selectedBuildingData.unitPrefab);
+                        }
                         playerBattleSO.playerUnits = playerUnitsList;
+                        playerBattleSO.playerUnitStats = playerUnitsStatsList;
                         buildingDataList.Remove(preview.Data);
                         Object.FindFirstObjectByType<UnitButtonManager>()?.RefreshUnitButtons();
                     }
                 }
 
                 PlaceBuilding(buildPosition, primaryGrid);
-                buildingDataIndex = -1;
-                isPlacing = false;
-                KingdomUIManager.Instance?.CloseObjectInfo();
+                FinishPlacement();
             }
         }
         else
@@ -311,12 +316,10 @@ public class BuildingSystem : MonoBehaviour
             }
         }
 
-        decreaseResources(buildingDataIndex);
+        decreaseResources(preview != null ? preview.Data : null);
 
         Destroy(preview.gameObject);
         preview = null;
-        isPlacing = false;
-        buildingDataIndex = -1;
         // Extra cleanup: remove any lingering previews that might have been left behind
         var lingering = Object.FindObjectsByType<BuildingPreview>(FindObjectsSortMode.None);
         foreach (var lp in lingering)
@@ -334,13 +337,31 @@ public class BuildingSystem : MonoBehaviour
         KingdomUIManager.Instance?.CloseObjectInfo();
     }
 
-    public void decreaseResources(int index)
+    private void FinishPlacement()
     {
-        playerSO.coins -= buildingDataList[index].coinCost;
-        playerSO.woodResources -= buildingDataList[index].woodCost;
-        playerSO.stoneResources -= buildingDataList[index].rockCost;
-        playerSO.farmResources -= buildingDataList[index].farmCost;
-        playerSO.energyPoints -= buildingDataList[index].energyCost;
+        if (preview != null)
+        {
+            Destroy(preview.gameObject);
+            preview = null;
+        }
+
+        isPlacing = false;
+        buildingDataIndex = -1;
+        KingdomUIManager.Instance?.CloseObjectInfo();
+    }
+
+    public void decreaseResources(BuildingData buildingData)
+    {
+        if (playerSO == null || buildingData == null)
+        {
+            return;
+        }
+
+        playerSO.coins -= buildingData.coinCost;
+        playerSO.woodResources -= buildingData.woodCost;
+        playerSO.stoneResources -= buildingData.rockCost;
+        playerSO.farmResources -= buildingData.farmCost;
+        playerSO.energyPoints -= buildingData.energyCost;
     }
 
     // Expose building data for UI code that wants to show costs

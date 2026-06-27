@@ -6,6 +6,7 @@ public class TrainUpgradeTroopUI : MonoBehaviour
     public PlayerData playerData;
     private PlayerSO playerSO;
     private PlayerBattleSO playerBattleSO;
+    public GameObject unitTrainingPanel;
 
     public List<UnitSO> unitList;
 
@@ -41,6 +42,14 @@ public class TrainUpgradeTroopUI : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void openUnitTrainingPanel()
+    {
+        if (unitTrainingPanel != null)
+        {
+            unitTrainingPanel.SetActive(true);
+        }
     }
 
     public void addUnit()

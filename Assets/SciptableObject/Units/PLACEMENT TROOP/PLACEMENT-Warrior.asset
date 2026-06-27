@@ -16,7 +16,7 @@ MonoBehaviour:
   <Size>k__BackingField: 1
   <Model>k__BackingField: {fileID: 7492368166425539968, guid: 380b936b02095ae4bace49ffeef75cd5, type: 3}
   <Icon>k__BackingField: {fileID: 0}
-  <coinCost>k__BackingField: 1
+  <coinCost>k__BackingField: 0
   <farmCost>k__BackingField: 1
   <rockCost>k__BackingField: 0
   <woodCost>k__BackingField: 0

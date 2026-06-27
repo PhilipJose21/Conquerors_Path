@@ -14,16 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBattleSO
   playerUnits:
   - {fileID: 11400000, guid: 6aa22561e16bec640a78b10b8825064b, type: 2}
-  - {fileID: 11400000, guid: ddec126d5e5780140a61dda17dbbee35, type: 2}
-  - {fileID: 11400000, guid: ddec126d5e5780140a61dda17dbbee35, type: 2}
   - {fileID: 11400000, guid: 481560a86d9f3c247b8166ab56ad5a0f, type: 2}
-  - {fileID: 11400000, guid: bb69fcd3dbe8038468e2d0acb244478d, type: 2}
+  - {fileID: 11400000, guid: ddec126d5e5780140a61dda17dbbee35, type: 2}
   playerUnitStats:
   - {fileID: 11400000, guid: 237da6f91dc3a8840acccd4ca416268d, type: 2}
-  - {fileID: 11400000, guid: 28d18d86a945b5143838a668623a1d68, type: 2}
-  - {fileID: 11400000, guid: 28d18d86a945b5143838a668623a1d68, type: 2}
   - {fileID: 11400000, guid: 4bbd76910fc669144804d97c29155c58, type: 2}
-  - {fileID: 11400000, guid: 1c2e282f01baa904cb2df16f7c7544d8, type: 2}
+  - {fileID: 11400000, guid: 28d18d86a945b5143838a668623a1d68, type: 2}
   playerReinforcementCost: 3
   woodHarvestAmount: 0
   stoneHarvestAmount: 0
