@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingStatContainer
   buildingStatsSO: {fileID: 11400000, guid: 385be692efb3bf34ab40e50ba717d80a, type: 2}
+  buildingData: {fileID: 0}
 --- !u!114 &8512812881624744170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,10 +113,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PassiveResource
   resourceType: 2
+  buildingStatsSO: {fileID: 0}
+  buildingData: {fileID: 0}
+  level: 1
   isActive: 0
   resourceAmount: 1
   resourceTimer: 1
   currentTime: 0
+  coinCost: 0
+  farmCost: 0
+  rockCost: 0
+  woodCost: 0
+  gemCost: 0
+  energyCost: 0
 --- !u!65 &-1033801144095243950
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -149,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a51036a5178cf94c86ff8a7cbe919cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpenBuildingUI
-  buildingUIPrefab: {fileID: 5152293298916296068, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+  buildingUIPrefab: {fileID: 8420537435982676765, guid: fcaf640f7f0eac048befe823d41b0f6e, type: 3}
   transformUI: {fileID: 0}
 --- !u!1001 &862069630165844041
 PrefabInstance:

@@ -23,10 +23,28 @@ public class OpenBuildingUI : MonoBehaviour
         {
             GameObject uiInstance = Instantiate(buildingUIPrefab, transformUI);
             BuildingStatContainer statContainer = GetComponent<BuildingStatContainer>();
+            BuildingInformationPanel buildingInformationPanel = uiInstance.GetComponent<BuildingInformationPanel>();
 
-            uiInstance.GetComponent<BuildingInformationPanel>().buildingStatsSO = statContainer?.buildingStatsSO;
-            uiInstance.GetComponent<BuildingInformationPanel>().buildingData = statContainer?.buildingData;
-            uiInstance.GetComponent<BuildingInformationPanel>().gameObjectParent = building.gameObject;
+            if (buildingInformationPanel != null)
+            {
+                buildingInformationPanel.buildingStatsSO = statContainer?.buildingStatsSO;
+                buildingInformationPanel.buildingData = statContainer?.buildingData;
+                buildingInformationPanel.gameObjectParent = building.gameObject;
+            }
+            else
+            {
+                TrainUpgradeTroopUI trainUpgradeTroopUI = uiInstance.GetComponent<TrainUpgradeTroopUI>() ?? uiInstance.GetComponentInChildren<TrainUpgradeTroopUI>();
+                if (trainUpgradeTroopUI == null)
+                {
+                    trainUpgradeTroopUI = Object.FindFirstObjectByType<TrainUpgradeTroopUI>();
+                }
+
+                if (trainUpgradeTroopUI != null)
+                {
+                    trainUpgradeTroopUI.gameObjectParent = building.gameObject;
+                }
+            }
+
             return;
         }
 

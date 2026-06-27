@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class TrainUpgradeTroopUI : MonoBehaviour
 {
+    public GameObject gameObjectParent;
+    public PassiveResource passiveResource;
     public PlayerData playerData;
     private PlayerSO playerSO;
     private PlayerBattleSO playerBattleSO;
@@ -16,6 +18,7 @@ public class TrainUpgradeTroopUI : MonoBehaviour
     void Start()
     {
         playerData = Object.FindFirstObjectByType<PlayerData>();
+        passiveResource = gameObjectParent.GetComponentInChildren<PassiveResource>();
         if (playerData == null)
         {
             Debug.LogError("TrainUpgradeTroopUI: PlayerData was not found in scene.");
@@ -105,5 +108,25 @@ public class TrainUpgradeTroopUI : MonoBehaviour
         updatePlayerUnits();
         playerData.updateUnitList();
         Debug.Log("Success");
+    }
+
+    public void closeUnitTrainingPanel()
+    {
+        if (unitTrainingPanel != null)
+        {
+            unitTrainingPanel.SetActive(false);
+        }
+    }
+
+    public void closeTrainTroopPanel()
+    {
+        Destroy(gameObject);
+    }
+
+    public void destroyObject()
+    {
+        passiveResource.refundStats();
+        closeTrainTroopPanel();
+        Destroy(gameObjectParent);
     }
 }
