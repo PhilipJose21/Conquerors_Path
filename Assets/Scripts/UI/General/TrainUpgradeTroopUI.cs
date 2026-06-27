@@ -12,7 +12,7 @@ public class TrainUpgradeTroopUI : MonoBehaviour
 
     public List<UnitSO> unitList;
 
-    public List<UnitSO> playerUnits;
+    public List<GameObject> playerUnits;
 
     
     void Start()
@@ -38,7 +38,7 @@ public class TrainUpgradeTroopUI : MonoBehaviour
             playerBattleSO.playerUnitStats = new List<UnitSO>();
         }
 
-        playerUnits = playerBattleSO.playerUnitStats;
+        playerUnits = playerBattleSO.playerUnitPrefabs;
     }
 
     // Update is called once per frame
@@ -84,7 +84,8 @@ public class TrainUpgradeTroopUI : MonoBehaviour
 
     public void updatePlayerUnits()
     {
-        playerBattleSO.playerUnitStats = playerUnits;
+        //EXAMINE
+        playerBattleSO.playerUnitPrefabs = playerUnits;
     }
 
     public void checkUnitCost(UnitSO unit)
@@ -104,7 +105,7 @@ public class TrainUpgradeTroopUI : MonoBehaviour
         playerData.playerFarmResources -= unitResource.farmCost;
         playerData.playerCoins -= unitResource.coinCost;
 
-        playerUnits.Add(unitList[0]);
+        playerUnits.Add(unitList[0].buildingData.Model.gameObject);
         updatePlayerUnits();
         playerData.updateUnitList();
         Debug.Log("Success");

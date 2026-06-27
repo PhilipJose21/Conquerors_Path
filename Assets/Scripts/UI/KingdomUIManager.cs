@@ -229,8 +229,4 @@ public class KingdomUIManager : MonoBehaviour
         if (bagPanel != null)
             bagPanel.SetActive(!bagPanel.activeSelf);
     }
-    public void LoadTargetScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
-    }
 }

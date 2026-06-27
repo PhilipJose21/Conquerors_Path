@@ -86,6 +86,18 @@ public class MoveUnit : MonoBehaviour
 
 //THIS IS THE ONE
     //CLICK LOGIC
+
+    public void updateUnitData(UnitSOContainer container, UnitSO unitData)
+    {
+        if (container != null && unitData != null)
+        {
+            mobility = unitData.mobility + container.additionalMobility;
+            attackRange = unitData.attackRange + container.additionalAttackRange;
+            attackActions = unitData.attackPoints + container.additionalAttackPoints;
+            moveActions = unitData.movePoints + container.additionalMovePoints;
+        }
+    }
+
     public void Clicked(GameObject obj)
     {
         // If player clicked a highlighted tile, handle move/attack/harvest only if a player unit is selected

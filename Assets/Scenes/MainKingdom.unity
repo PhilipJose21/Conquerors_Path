@@ -5826,7 +5826,7 @@ GameObject:
   - component: {fileID: 642132449}
   - component: {fileID: 642132450}
   m_Layer: 0
-  m_Name: Click Object Manager
+  m_Name: ClickObjecty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

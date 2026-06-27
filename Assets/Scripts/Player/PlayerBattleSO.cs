@@ -6,6 +6,7 @@ public class PlayerBattleSO : ScriptableObject
 {
     public List<BuildingData> playerUnits;
     public List<UnitSO> playerUnitStats;
+    public List<GameObject> playerUnitPrefabs;
     public int playerReinforcementCost;
     public int woodHarvestAmount;
     public int stoneHarvestAmount;
