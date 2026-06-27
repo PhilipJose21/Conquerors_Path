@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4377dbf037eb34c97b2bbdd8c0ead6, type: 3}
   m_Name: Worker
   m_EditorClassIdentifier: Assembly-CSharp::UnitSO
+  buildingData: {fileID: 11400000, guid: bb69fcd3dbe8038468e2d0acb244478d, type: 2}
   unitName: Worker
   unitType: 2
   health: 5

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4377dbf037eb34c97b2bbdd8c0ead6, type: 3}
   m_Name: Scout
   m_EditorClassIdentifier: Assembly-CSharp::UnitSO
+  buildingData: {fileID: 11400000, guid: 481560a86d9f3c247b8166ab56ad5a0f, type: 2}
   unitName: Scout
   unitType: 2
   health: 3
@@ -21,5 +22,7 @@ MonoBehaviour:
   movePoints: 3
   attackPoints: 1
   unitCost: 3
+  harvestAmount: 0
   unitIcon: {fileID: 0}
   unitPrefab: {fileID: 0}
+  unitButtonPrefab: {fileID: 0}

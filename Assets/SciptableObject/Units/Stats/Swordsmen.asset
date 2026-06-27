@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4377dbf037eb34c97b2bbdd8c0ead6, type: 3}
   m_Name: Swordsmen
   m_EditorClassIdentifier: Assembly-CSharp::UnitSO
+  buildingData: {fileID: 11400000, guid: ddec126d5e5780140a61dda17dbbee35, type: 2}
   unitName: Swordsmen
   unitType: 0
   health: 8
@@ -21,5 +22,7 @@ MonoBehaviour:
   movePoints: 1
   attackPoints: 1
   unitCost: 3
+  harvestAmount: 0
   unitIcon: {fileID: 0}
   unitPrefab: {fileID: 0}
+  unitButtonPrefab: {fileID: 0}

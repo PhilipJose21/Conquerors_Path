@@ -54,7 +54,7 @@ public class BuildingInformationPanel : MonoBehaviour
         }
         Instance = this;
 
-        playerData = FindObjectOfType<PlayerData>().playerSO;
+        playerData = Object.FindFirstObjectByType<PlayerData>().playerSO;
 
         resourceTypeText = resourceTypeParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();
         resourceAmountText = resourceOutputParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();

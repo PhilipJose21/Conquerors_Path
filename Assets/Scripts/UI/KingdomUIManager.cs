@@ -74,7 +74,7 @@ public class KingdomUIManager : MonoBehaviour
         if (gemsText == null) gemsText = FindTMP("Canvas/ResourcePanel/GemsText");
         if (coinsText == null) coinsText = FindTMP("Canvas/ResourcePanel/CoinsText");
 
-        playerSO = FindObjectOfType<PlayerData>()?.playerSO;
+        playerSO = Object.FindFirstObjectByType<PlayerData>()?.playerSO;
 
     }
 
