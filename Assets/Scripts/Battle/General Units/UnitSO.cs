@@ -10,7 +10,7 @@ public class UnitSO : ScriptableObject
         Ranger,
         Support
     }
-
+    public BuildingData buildingData;
     public string unitName;
     public UnitType unitType;
     public int health;

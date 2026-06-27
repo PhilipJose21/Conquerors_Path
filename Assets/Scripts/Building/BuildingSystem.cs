@@ -234,7 +234,7 @@ public class BuildingSystem : MonoBehaviour
                     {
                         var playerUnitsList = playerBattleSO.playerUnits.ToList();
                         playerUnitsList.Remove(buildingDataList[buildingDataIndex]);
-                        playerBattleSO.playerUnits = playerUnitsList.ToArray();
+                        playerBattleSO.playerUnits = playerUnitsList;
                         buildingDataList.Remove(preview.Data);
                         Object.FindFirstObjectByType<UnitButtonManager>()?.RefreshUnitButtons();
                     }

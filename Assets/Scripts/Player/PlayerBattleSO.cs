@@ -1,9 +1,11 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [CreateAssetMenu()]
 public class PlayerBattleSO : ScriptableObject
 {
-    public BuildingData[] playerUnits;
+    public List<BuildingData> playerUnits;
+    public List<UnitSO> playerUnitStats;
     public int playerReinforcementCost;
     public int woodHarvestAmount;
     public int stoneHarvestAmount;

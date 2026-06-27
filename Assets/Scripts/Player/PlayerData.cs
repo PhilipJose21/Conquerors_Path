@@ -19,6 +19,28 @@ public class PlayerData : MonoBehaviour
 
     void Awake()
     {
+        if (playerBattleSO == null || playerBattleSO.playerUnitStats == null || playerBattleSO.playerUnits == null)
+        {
+            Debug.LogWarning("PlayerData Awake skipped: PlayerBattleSO or unit collections are not assigned.");
+            return;
+        }
+
+        while (playerBattleSO.playerUnits.Count < playerBattleSO.playerUnitStats.Count)
+        {
+            playerBattleSO.playerUnits.Add(null);
+        }
+
+        for (int i = 0; i < playerBattleSO.playerUnitStats.Count; i++)
+        {
+            if (playerBattleSO.playerUnitStats[i] != null && playerBattleSO.playerUnitStats[i].buildingData != null)
+            {
+                playerBattleSO.playerUnits[i] = playerBattleSO.playerUnitStats[i].buildingData;
+            }
+        }
+    }
+
+    void Start()
+    {
         if (Instance == null)
         {
             Instance = this;

@@ -17,7 +17,7 @@ public class UnitButtonManager : MonoBehaviour
         playerData = Object.FindFirstObjectByType<PlayerData>();
         playerBattleSO = playerData.playerBattleSO;
         buildingSystem = Object.FindFirstObjectByType<BuildingSystem>();
-        playerUnits = playerBattleSO.playerUnits;
+        playerUnits = playerBattleSO.playerUnits.ToArray();
         
         CreateUnitButtons();
     }
