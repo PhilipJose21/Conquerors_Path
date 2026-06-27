@@ -49,11 +49,19 @@ public class BuildingSystem : MonoBehaviour
     private void Awake()
     {
         playerData = Object.FindFirstObjectByType<PlayerData>();
-        playerSO = playerData.playerSO;
-        playerBattleSO = playerData?.playerBattleSO;
-        if (playerBattleSO != null && isBattleScene)        
+        if (playerData == null)
         {
-            buildingDataList = playerBattleSO.playerUnits.ToList();
+            Debug.LogWarning("BuildingSystem: PlayerData was not found.");
+            return;
+        }
+
+        playerSO = playerData.playerSO;
+        playerBattleSO = playerData.playerBattleSO;
+
+        if (isBattleScene && playerBattleSO != null)
+        {
+            playerData.updateUnitList();
+            buildingDataList = playerBattleSO.playerUnits;
         }
 
     }

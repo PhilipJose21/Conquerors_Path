@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99a167ec9bc33dc408ea2eaa2a1ababd, type: 3}
+  m_Name: PLACEMENT-Testing Unit
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingData
+  <Name>k__BackingField: Immortal Test Unit
+  <Size>k__BackingField: 1
+  <Model>k__BackingField: {fileID: 7492368166425539968, guid: 521686d21d6e0344c8587eea6c578ad6, type: 3}
+  <Icon>k__BackingField: {fileID: 0}
+  <coinCost>k__BackingField: 0
+  <farmCost>k__BackingField: 0
+  <rockCost>k__BackingField: 0
+  <woodCost>k__BackingField: 0
+  <gemCost>k__BackingField: 0
+  <energyCost>k__BackingField: 0
+  <unitCost>k__BackingField: 0
+  <reinforcementCost>k__BackingField: 1
+  <unitPrefab>k__BackingField: {fileID: 11400000, guid: d4488d40ea3a2bb43aae0a94302a99a7, type: 2}

@@ -82,6 +82,7 @@ public class PlayerData : MonoBehaviour
 
         for (int i = 0; i < playerBattleSO.playerUnitStats.Count; i++)
         {
+            // Ensure that the playerUnitsBuilding list has the same number of elements as playerUnitStats
             if (playerBattleSO.playerUnitStats[i] != null && playerBattleSO.playerUnitStats[i].buildingData != null)
             {
                 playerBattleSO.playerUnits[i] = playerBattleSO.playerUnitStats[i].buildingData;
