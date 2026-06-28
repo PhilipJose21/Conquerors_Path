@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class EnemyMovement : MonoBehaviour
 {
     public UnitSO unitData;
+    private UnitSOContainer unitContainer;
 
     [Header("Range (set per-unit or via UnitSO)")]
     public int mobility = 2; // Manhattan (diamond/cross) movement range
@@ -32,18 +33,24 @@ public class EnemyMovement : MonoBehaviour
 
     void Awake()
     {
-        UnitSOContainer container = this.GetComponent<UnitSOContainer>();
+        unitContainer = this.GetComponent<UnitSOContainer>();
         turnManager = Object.FindAnyObjectByType<TurnManager>();
-        if (container != null)
+        stateMachine = this.GetComponent<UnitStateMachine>();
+        SyncFromContainer();
+    }
+
+    public void SyncFromContainer()
+    {
+        if (unitContainer == null || unitContainer.unitData == null)
         {
-            unitData = container.unitData;
+            return;
         }
 
-        mobility = unitData != null ? unitData.mobility : mobility;
-        attackRange = unitData != null ? unitData.attackRange : attackRange;
-        attackActions = unitData != null ? unitData.attackPoints : attackActions;
-        moveActions = unitData != null ? unitData.movePoints : moveActions;
-        stateMachine = this.GetComponent<UnitStateMachine>();
+        unitData = unitContainer.unitData;
+        mobility = unitContainer.GetMobility();
+        attackRange = unitContainer.GetAttackRange();
+        attackActions = unitContainer.GetAttackPoints();
+        moveActions = unitContainer.GetMovePoints();
     }
 
     private bool IsPlayerHidden(GameObject p)

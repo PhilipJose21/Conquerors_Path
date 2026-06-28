@@ -242,14 +242,24 @@ public class BuildingSystem : MonoBehaviour
                     {
                         var playerUnitsList = playerBattleSO.playerUnits.ToList();
                         var playerUnitsStatsList = playerBattleSO.playerUnitStats.ToList();
+                        var playerUnitPrefabsList = playerBattleSO.playerUnitPrefabs.ToList();
                         var selectedBuildingData = buildingDataList[buildingDataIndex];
-                        playerUnitsList.Remove(selectedBuildingData);
-                        if (selectedBuildingData != null && selectedBuildingData.unitPrefab != null)
+                        int removeIndex = playerUnitsList.IndexOf(selectedBuildingData);
+                        if (removeIndex >= 0)
                         {
-                            playerUnitsStatsList.Remove(selectedBuildingData.unitPrefab);
+                            playerUnitsList.RemoveAt(removeIndex);
+                            if (removeIndex < playerUnitsStatsList.Count)
+                            {
+                                playerUnitsStatsList.RemoveAt(removeIndex);
+                            }
+                            if (removeIndex < playerUnitPrefabsList.Count)
+                            {
+                                playerUnitPrefabsList.RemoveAt(removeIndex);
+                            }
                         }
                         playerBattleSO.playerUnits = playerUnitsList;
                         playerBattleSO.playerUnitStats = playerUnitsStatsList;
+                        playerBattleSO.playerUnitPrefabs = playerUnitPrefabsList;
                         buildingDataList.Remove(preview.Data);
                         Object.FindFirstObjectByType<UnitButtonManager>()?.RefreshUnitButtons();
                     }

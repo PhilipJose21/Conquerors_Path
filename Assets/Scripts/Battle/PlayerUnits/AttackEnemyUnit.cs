@@ -4,20 +4,26 @@ public class AttackEnemyUnit : MonoBehaviour
 {
     private UnitSO unitData;
     private MoveUnit moveUnit;
+    private UnitSOContainer unitContainer;
     public int dmg;
 
     void Awake()
     {
-        UnitSOContainer container = this.GetComponent<UnitSOContainer>();
-        if (container != null)
-        {
-            unitData = container.unitData;
-            moveUnit = this.GetComponent<MoveUnit>();
-            
-            dmg = unitData != null ? unitData.damage : dmg;
-            // don't cache attackPoints here; read `moveUnit.attackActions` at attack time
-        }
+        unitContainer = this.GetComponent<UnitSOContainer>();
+        moveUnit = this.GetComponent<MoveUnit>();
+        SyncFromContainer();
     }    
+
+    public void SyncFromContainer()
+    {
+        if (unitContainer == null || unitContainer.unitData == null)
+        {
+            return;
+        }
+
+        unitData = unitContainer.unitData;
+        dmg = unitContainer.GetDamage();
+    }
 
     // Try to attack any enemy at the given world position (e.g., clicked tile).
     // Returns true if an enemy was found and "attacked".

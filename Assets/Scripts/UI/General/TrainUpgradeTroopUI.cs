@@ -33,11 +33,7 @@ public class TrainUpgradeTroopUI : MonoBehaviour
             return;
         }
 
-        if (playerBattleSO.playerUnitStats == null)
-        {
-            playerBattleSO.playerUnitStats = new List<UnitSO>();
-        }
-
+        playerBattleSO.EnsureRuntimeLists();
         playerUnits = playerBattleSO.playerUnitPrefabs;
     }
 
@@ -84,7 +80,6 @@ public class TrainUpgradeTroopUI : MonoBehaviour
 
     public void updatePlayerUnits()
     {
-        //EXAMINE
         playerBattleSO.playerUnitPrefabs = playerUnits;
     }
 
@@ -105,7 +100,8 @@ public class TrainUpgradeTroopUI : MonoBehaviour
         playerData.playerFarmResources -= unitResource.farmCost;
         playerData.playerCoins -= unitResource.coinCost;
 
-        playerUnits.Add(unitList[0].buildingData.Model.gameObject);
+        playerUnits.Add(unit.unitPrefab);
+        playerBattleSO.playerUnitStats.Add(unit.CreateRuntimeCopy());
         updatePlayerUnits();
         playerData.updateUnitList();
         Debug.Log("Success");

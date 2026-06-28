@@ -24,4 +24,14 @@ public class UnitSO : ScriptableObject
     public Sprite unitIcon;
     public GameObject unitPrefab;
     public GameObject unitButtonPrefab;
+
+    public UnitSO GetSourceUnit()
+    {
+        return this;
+    }
+
+    public UnitSO CreateRuntimeCopy()
+    {
+        return Instantiate(this);
+    }
 }

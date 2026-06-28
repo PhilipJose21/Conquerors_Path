@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class UnitHealth : MonoBehaviour
 {
     public UnitSO unitData;
+    private UnitSOContainer unitContainer;
     public int currentHealth;
     public int maxHealth;
 
@@ -14,17 +15,24 @@ public class UnitHealth : MonoBehaviour
 
     void Awake()
     {
-        UnitSOContainer container = this.GetComponent<UnitSOContainer>();
+        unitContainer = this.GetComponent<UnitSOContainer>();
         UnitStateMachine stateMachine = this.GetComponent<UnitStateMachine>();
         if (stateMachine != null)
         {
             currentUnitPhase = stateMachine.currentUnitPhase;
         }
-        if (container != null)
+        SyncFromContainer();
+    }
+
+    public void SyncFromContainer()
+    {
+        if (unitContainer == null || unitContainer.unitData == null)
         {
-            unitData = container.unitData;
+            return;
         }
-        maxHealth = unitData != null ? unitData.health : maxHealth;
+
+        unitData = unitContainer.unitData;
+        maxHealth = unitContainer.GetHealth();
         currentHealth = maxHealth;
     }
 

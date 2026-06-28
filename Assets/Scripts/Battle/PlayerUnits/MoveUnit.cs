@@ -5,6 +5,7 @@ using UnityEngine;
 public class MoveUnit : MonoBehaviour
 {
     public UnitSO unitData;
+    private UnitSOContainer unitContainer;
 
     private static int lastProcessedClickFrame = -1;
     private Camera mainCamera;
@@ -37,20 +38,12 @@ public class MoveUnit : MonoBehaviour
 
     void Awake()
     {
-        UnitSOContainer container = this.GetComponent<UnitSOContainer>();
+        unitContainer = this.GetComponent<UnitSOContainer>();
         turnManager = Object.FindAnyObjectByType<TurnManager>();
-        if (container != null)
-        {
-            unitData = container.unitData;
-        }
         if (mainCamera == null)
             mainCamera = Camera.main;
-
-        mobility = unitData != null ? unitData.mobility : mobility;
-        attackRange = unitData != null ? unitData.attackRange : attackRange;
-        attackActions = unitData != null ? unitData.attackPoints : attackActions;
-        moveActions = unitData != null ? unitData.movePoints : moveActions;
         stateMachine = this.GetComponent<UnitStateMachine>();
+        SyncFromContainer();
     }
 
     void Update()
@@ -86,6 +79,20 @@ public class MoveUnit : MonoBehaviour
 
 //THIS IS THE ONE
     //CLICK LOGIC
+
+    public void SyncFromContainer()
+    {
+        if (unitContainer == null || unitContainer.unitData == null)
+        {
+            return;
+        }
+
+        unitData = unitContainer.unitData;
+        mobility = unitContainer.GetMobility();
+        attackRange = unitContainer.GetAttackRange();
+        attackActions = unitContainer.GetAttackPoints();
+        moveActions = unitContainer.GetMovePoints();
+    }
 
     public void updateUnitData(UnitSOContainer container, UnitSO unitData)
     {

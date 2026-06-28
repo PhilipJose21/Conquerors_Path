@@ -4,20 +4,26 @@ public class HarvestResource : MonoBehaviour
 {
     private UnitSO unitData;
     private MoveUnit moveUnit;
+    private UnitSOContainer unitContainer;
     public int harvestAmount;
     //allo govener
     void Awake()
     {
-        UnitSOContainer container = this.GetComponent<UnitSOContainer>();
-        if (container != null)
-        {
-            unitData = container.unitData;
-            moveUnit = this.GetComponent<MoveUnit>();
-            
-            harvestAmount = unitData != null ? unitData.harvestAmount : harvestAmount;
-            // don't cache harvestActions here; read `moveUnit.harvestActions` at harvest time
-        }
+        unitContainer = this.GetComponent<UnitSOContainer>();
+        moveUnit = this.GetComponent<MoveUnit>();
+        SyncFromContainer();
     }    
+
+    public void SyncFromContainer()
+    {
+        if (unitContainer == null || unitContainer.unitData == null)
+        {
+            return;
+        }
+
+        unitData = unitContainer.unitData;
+        harvestAmount = unitContainer.GetHarvestAmount();
+    }
 
     // Try to harvest any resource at the given world position (e.g., clicked tile).
     // Returns true if a resource was found and "harvested".

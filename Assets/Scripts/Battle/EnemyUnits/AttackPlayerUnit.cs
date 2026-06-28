@@ -4,18 +4,26 @@ public class AttackPlayerUnit : MonoBehaviour
 {
     private UnitSO unitData;
     private EnemyMovement moveComp;
+    private UnitSOContainer unitContainer;
     public int dmg;
 
     void Awake()
     {
         // Find UnitSOContainer and EnemyMovement on this or parent objects so component can live on child objects
-        UnitSOContainer container = this.GetComponentInParent<UnitSOContainer>();
-        if (container != null)
-        {
-            unitData = container.unitData;
-            dmg = unitData != null ? unitData.damage : dmg;
-        }
+        unitContainer = this.GetComponentInParent<UnitSOContainer>();
+        SyncFromContainer();
         moveComp = this.GetComponentInParent<EnemyMovement>();
+    }
+
+    public void SyncFromContainer()
+    {
+        if (unitContainer == null || unitContainer.unitData == null)
+        {
+            return;
+        }
+
+        unitData = unitContainer.unitData;
+        dmg = unitContainer.GetDamage();
     }
 
     // Try to attack any player at the given world position (e.g., nearest player).

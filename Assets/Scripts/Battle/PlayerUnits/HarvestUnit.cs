@@ -4,19 +4,25 @@ public class HarvestUnit : MonoBehaviour
 {
     private UnitSO unitData;
     private MoveUnit moveUnit;
+    private UnitSOContainer unitContainer;
     public int harvestAmount;
 
     void Awake()
     {
-        UnitSOContainer container = this.GetComponent<UnitSOContainer>();
-        if (container != null)
+        unitContainer = this.GetComponent<UnitSOContainer>();
+        moveUnit = this.GetComponent<MoveUnit>();
+        SyncFromContainer();
+    }
+
+    public void SyncFromContainer()
+    {
+        if (unitContainer == null || unitContainer.unitData == null)
         {
-            unitData = container.unitData;
-            moveUnit = this.GetComponent<MoveUnit>();
-            
-            harvestAmount = unitData != null ? unitData.harvestAmount : harvestAmount;
-            // don't cache attackPoints here; read `moveUnit.attackActions` at attack time
+            return;
         }
+
+        unitData = unitContainer.unitData;
+        harvestAmount = unitContainer.GetHarvestAmount();
     }
 
     public bool TryToHarvestPosition(Vector3 worldPos)
