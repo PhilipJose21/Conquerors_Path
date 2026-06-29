@@ -11,10 +11,10 @@ public class MinimizedInspector : MonoBehaviour
     public GameObject toggleButton; 
 
     [Header("Detailed Fields (Hidden when Minimized)")]
+    public TextMeshProUGUI lvlText;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI healthText;
     public Image healthBarFill;
-    public GameObject statsContainer; 
     public TextMeshProUGUI attackText;
     public TextMeshProUGUI rangeText;
 
@@ -43,9 +43,9 @@ public class MinimizedInspector : MonoBehaviour
 
         if (unitIconImage != null) unitIconImage.sprite = unitData.unitIcon;
         if (nameText != null) nameText.text = unitData.unitName;
-        if (healthText != null) healthText.text = $"{currentHP} / {maxHP}";
+        if (healthText != null) healthText.text = $"Health: {currentHP} / {maxHP}";
         if (healthBarFill != null) healthBarFill.fillAmount = (float)currentHP / maxHP;
-        
+        // if (lvlText != null) lvlText.text = $"Lvl: {unitData.level}";
         if (attackText != null) attackText.text = $"Atk: {unitData.damage}";
         if (rangeText != null) rangeText.text = $"Range: {unitData.attackRange}x{unitData.attackRange}";
 
@@ -64,10 +64,10 @@ public class MinimizedInspector : MonoBehaviour
         // 🌟 ONLY toggle the stats sub-elements, do NOT touch the main panel or the exit button
         if (nameText != null) nameText.gameObject.SetActive(isExpanded);
         if (healthText != null) healthText.gameObject.SetActive(isExpanded);
-        if (statsContainer != null) statsContainer.SetActive(isExpanded);
         if (attackText != null) attackText.gameObject.SetActive(isExpanded);
         if (rangeText != null) rangeText.gameObject.SetActive(isExpanded);
-        
+        // if (lvlText != null) lvlText.gameObject.SetActive(isExpanded);
+
         if (healthBarFill != null && healthBarFill.transform.parent != null)
         {
             healthBarFill.transform.parent.gameObject.SetActive(isExpanded);

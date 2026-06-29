@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ac51e34cceea22408102a27e9aec896, type: 3}
   m_Name: PlayerBattle
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBattleSO
-  playerUnits:
-  - {fileID: 11400000, guid: 481560a86d9f3c247b8166ab56ad5a0f, type: 2}
+  playerUnits: []
   playerUnitStats: []
   playerReinforcementCost: 3
   woodHarvestAmount: 0
