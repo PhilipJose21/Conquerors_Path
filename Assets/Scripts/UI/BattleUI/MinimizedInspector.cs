@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class MinimizedInspector : MonoBehaviour
 {
@@ -50,6 +51,8 @@ public class MinimizedInspector : MonoBehaviour
         if (rangeText != null) rangeText.text = $"Range: {unitData.attackRange}x{unitData.attackRange}";
 
         SetExpandedState(false);
+
+        PlayPopAnimation();
     }
 
     public void ToggleExpand()
@@ -80,5 +83,34 @@ public class MinimizedInspector : MonoBehaviour
         isLockedOpen = false; // Release the lock
         isExpanded = false;
         gameObject.SetActive(false); // Cleanly turn off the panel
+    }
+
+    public void PlayPopAnimation()
+    {
+        StopAllCoroutines();
+        StartCoroutine(PopRoutine());
+    }
+
+    private IEnumerator PopRoutine()
+    {
+        RectTransform rect = GetComponent<RectTransform>();
+        
+        // Start tiny
+        rect.localScale = new Vector3(0.7f, 0.7f, 1f);
+        float time = 0f;
+        float duration = 0.2f; // Fast, snappy pop
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float percent = time / duration;
+            
+            // Custom smooth-out math curve
+            float scaleVal = Mathf.Lerp(0.7f, 1f, Mathf.Sin(percent * Mathf.PI * 0.5f));
+            rect.localScale = new Vector3(scaleVal, scaleVal, 1f);
+            yield return null;
+        }
+        
+        rect.localScale = Vector3.one;
     }
 }
