@@ -56,7 +56,9 @@ public class MoveUnit : MonoBehaviour
     void Update()
     {
         currentTurnPhase = turnManager != null ? turnManager.currentTurnPhase : turnPhase.PlayerTurn;
-        if (currentTurnPhase == turnPhase.PlayerTurn)
+
+        // Allow selection input during both PlayerTurn and SetupTurn
+        if (currentTurnPhase == turnPhase.PlayerTurn || currentTurnPhase == turnPhase.SetupTurn)
         {
             isPlayerTurn = true;
         }
@@ -66,11 +68,32 @@ public class MoveUnit : MonoBehaviour
         }
 
         DetectObjects();
-        if (Input.GetMouseButtonDown(0) && isPlayerTurn) // Left mouse button
+        if (Input.GetMouseButtonDown(0) && isPlayerTurn && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) // Left mouse button
         {
             if (rayHit && hit.collider != null)
             {
-                Clicked(hit.collider.gameObject);
+                GameObject clickedObject = hit.collider.gameObject;
+                Clicked(clickedObject);
+
+                // Try to find the health component on the clicked unit to populate our panel
+                UnitHealth healthComp = clickedObject.GetComponentInChildren<UnitHealth>() ?? clickedObject.GetComponentInParent<UnitHealth>();
+                
+                if (healthComp != null && healthComp.unitData != null)
+                {
+                    if (MinimizedInspector.Instance != null)
+                    {
+                        MinimizedInspector.Instance.ShowUnitStats(
+                            healthComp.unitData, 
+                            healthComp.currentHealth, 
+                            healthComp.maxHealth
+                        );
+                    }
+                }
+            }
+            else
+            {
+                // 🌟 FIXED: Removed MinimizedInspector.Instance.HidePanel() from here!
+                // Clicking empty tiles or UI buttons will no longer force-close your panel.
             }
         }
 
@@ -248,6 +271,7 @@ public class MoveUnit : MonoBehaviour
             {
                 clickedMove.isSelected = false;
                 if (ch != null) ch.ClearHighlights();
+
                 return;
             }
 
