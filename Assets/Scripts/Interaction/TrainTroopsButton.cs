@@ -10,19 +10,11 @@ public class TrainTroopsButton : MonoBehaviour
 
     public UnitSO.UnitType unitType;
 
-    [Header("For debugging purposes")]
-    public int level;
-    public int currentHealth;
-    public int currentDamage;
-    public int currentAttackRange;
-    public int currentMobility;
-    public int currentMovePoints;
-    public int currentAttackPoints;
-    public int currentHarvestAmount;
-
+    public GameObject confirmationPanel;
     private PlayerData playerData;
     private PlayerSO playerSO;
     private BuildingData unitCost;
+    
 
     void Start()
     {
@@ -35,14 +27,15 @@ public class TrainTroopsButton : MonoBehaviour
 
     void Update()
     {
-        level = unitToTrain.level;
-        currentHealth = unitToTrain.health;
-        currentDamage = unitToTrain.damage;
-        currentAttackRange = unitToTrain.attackRange;
-        currentMobility = unitToTrain.mobility;
-        currentMovePoints = unitToTrain.movePoints;
-        currentAttackPoints = unitToTrain.attackPoints;
-        currentHarvestAmount = unitToTrain.harvestAmount;
+
+    }
+
+    public void openConfirmationPanel()
+    {
+        if (confirmationPanel != null)
+        {
+            confirmationPanel.SetActive(true);
+        }
     }
 
     public void TrainUnit()
@@ -63,7 +56,7 @@ public class TrainTroopsButton : MonoBehaviour
             playerSO.stoneResources -= unitCost.rockCost;
             playerSO.farmResources -= unitCost.farmCost;
             playerSO.coins -= unitCost.coinCost;
-            
+
             Debug.Log("Unit Trained");
             unitToTrain.level += 1;
             checkType();
