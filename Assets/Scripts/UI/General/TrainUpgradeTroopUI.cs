@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class TrainUpgradeTroopUI : MonoBehaviour
 {
+    
+    public UnitSO.UnitType unitTrainingType; 
     public GameObject gameObjectParent;
     public PassiveResource passiveResource;
     public PlayerData playerData;
@@ -11,9 +13,11 @@ public class TrainUpgradeTroopUI : MonoBehaviour
     public GameObject unitTrainingPanel;
     public GameObject unitTrainingButtonPrefab;
     public Transform viewPort;
+    
     public List<UnitSO> unitList;
 
     public List<UnitSO> playerUnits;
+
 
     
     void Start()
@@ -60,8 +64,11 @@ public class TrainUpgradeTroopUI : MonoBehaviour
             }
             for (int i = 0; i < unitList.Count; i++)
             {
-                GameObject button = Instantiate(unitTrainingButtonPrefab, viewPort);
-                button.GetComponent<TrainTroopsButton>().unitToTrain = unitList[i];
+                if (unitList[i].unitType == unitTrainingType)
+                {
+                    GameObject button = Instantiate(unitTrainingButtonPrefab, viewPort);
+                    button.GetComponent<TrainTroopsButton>().unitToTrain = unitList[i];
+                }
             }
         }
     }
