@@ -19,7 +19,7 @@ MonoBehaviour:
   <coinCost>k__BackingField: 0
   <farmCost>k__BackingField: 0
   <rockCost>k__BackingField: 0
-  <woodCost>k__BackingField: 0
+  <woodCost>k__BackingField: 1
   <gemCost>k__BackingField: 0
   <energyCost>k__BackingField: 0
   <unitCost>k__BackingField: 0

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [CreateAssetMenu()]
 public class PlayerSO : ScriptableObject
@@ -10,5 +11,5 @@ public class PlayerSO : ScriptableObject
     public int researchPoints;
     public int gems;
     public int coins;
-    
+    public List<UnitSO> unlockedUnits;
 }

@@ -15,6 +15,7 @@ MonoBehaviour:
   buildingData: {fileID: 11400000, guid: 6aa22561e16bec640a78b10b8825064b, type: 2}
   unitName: Archer
   unitType: 1
+  level: 1
   health: 6
   damage: 3
   attackRange: 3

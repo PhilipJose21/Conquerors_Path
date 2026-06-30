@@ -13,6 +13,7 @@ public class UnitSO : ScriptableObject
     public BuildingData buildingData;
     public string unitName;
     public UnitType unitType;
+    public int level;
     public int health;
     public int damage;
     public int attackRange;
@@ -24,4 +25,12 @@ public class UnitSO : ScriptableObject
     public Sprite unitIcon;
     public GameObject unitPrefab;
     public GameObject unitButtonPrefab;
+
+    private void OnValidate()
+    {
+        if (level <= 0)
+        {
+            level = 1;
+        }
+    }
 }

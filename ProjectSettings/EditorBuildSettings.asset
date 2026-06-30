@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ResearchTree.unity
     guid: b2eec00ab7c39254a8c27766366b4e26
+  - enabled: 1
+    path: Assets/Scenes/BattleScene.unity
+    guid: 62a82f888e4185a4db0c58a4edd8c196
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

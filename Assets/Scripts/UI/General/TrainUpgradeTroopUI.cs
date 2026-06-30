@@ -9,7 +9,8 @@ public class TrainUpgradeTroopUI : MonoBehaviour
     private PlayerSO playerSO;
     private PlayerBattleSO playerBattleSO;
     public GameObject unitTrainingPanel;
-
+    public GameObject unitTrainingButtonPrefab;
+    public Transform viewPort;
     public List<UnitSO> unitList;
 
     public List<UnitSO> playerUnits;
@@ -39,6 +40,7 @@ public class TrainUpgradeTroopUI : MonoBehaviour
         }
 
         playerUnits = playerBattleSO.playerUnitStats;
+        unitList = playerSO.unlockedUnits;
     }
 
     // Update is called once per frame
@@ -47,11 +49,20 @@ public class TrainUpgradeTroopUI : MonoBehaviour
         
     }
 
-    public void openUnitTrainingPanel()
+    public void openUnitTrainingPanel()//opens list
     {
         if (unitTrainingPanel != null)
         {
             unitTrainingPanel.SetActive(true);
+            for (int i = 0; i < viewPort.childCount; i++)
+            {
+                Destroy(viewPort.GetChild(i).gameObject);
+            }
+            for (int i = 0; i < unitList.Count; i++)
+            {
+                GameObject button = Instantiate(unitTrainingButtonPrefab, viewPort);
+                button.GetComponent<TrainTroopsButton>().unitToTrain = unitList[i];
+            }
         }
     }
 
