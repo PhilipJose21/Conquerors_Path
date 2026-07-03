@@ -1,18 +1,26 @@
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class TrainUpgradeTroopUI : MonoBehaviour
 {
     
-    public UnitSO.UnitType unitTrainingType; 
+    private PassiveResource passiveResource;
+
     public GameObject gameObjectParent;
-    public PassiveResource passiveResource;
-    public PlayerData playerData;
+    private PlayerData playerData;
     private PlayerSO playerSO;
     private PlayerBattleSO playerBattleSO;
+
+    public UnitSO.UnitType unitTrainingType; 
+
     public GameObject unitTrainingPanel;
     public GameObject unitTrainingButtonPrefab;
+    public TextMeshProUGUI unitTrainingPanelTitle;
     public Transform viewPort;
+
+    public GameObject confirmPanel;
+    public GameObject mainPanel;
     
     public List<UnitSO> unitList;
 
@@ -42,7 +50,7 @@ public class TrainUpgradeTroopUI : MonoBehaviour
         {
             playerBattleSO.playerUnitStats = new List<UnitSO>();
         }
-
+        unitTrainingType = gameObjectParent.GetComponentInChildren<BuildingTrainingType>()?.unitTrainingType ?? UnitSO.UnitType.Melee;
         playerUnits = playerBattleSO.playerUnitStats;
         unitList = playerSO.unlockedUnits;
     }
@@ -53,7 +61,17 @@ public class TrainUpgradeTroopUI : MonoBehaviour
         
     }
 
-    public void openUnitTrainingPanel()//opens list
+    public void openUnitAddPanel()//opens list
+    {
+       fillTrainingPanel("Train Units");
+    }
+
+    public void openUnitUpgradePanel()//opens list
+    {
+        fillTrainingPanel("Upgrade Units");
+    }
+
+    public void fillTrainingPanel(string text)
     {
         if (unitTrainingPanel != null)
         {
@@ -70,6 +88,7 @@ public class TrainUpgradeTroopUI : MonoBehaviour
                     button.GetComponent<TrainTroopsButton>().unitToTrain = unitList[i];
                 }
             }
+            unitTrainingPanelTitle.text = text;
         }
     }
 
@@ -138,6 +157,8 @@ public class TrainUpgradeTroopUI : MonoBehaviour
 
     public void closeTrainTroopPanel()
     {
+        closeConfirmPanel();
+        closeUnitTrainingPanel();
         Destroy(gameObject);
     }
 
@@ -147,4 +168,17 @@ public class TrainUpgradeTroopUI : MonoBehaviour
         closeTrainTroopPanel();
         Destroy(gameObjectParent);
     }
+
+    public void openConfirmPanel()
+    {
+        confirmPanel.SetActive(true);
+        mainPanel.SetActive(false);
+    }
+
+    public void closeConfirmPanel()
+    {
+        confirmPanel.SetActive(false);
+        mainPanel.SetActive(true);
+    }
+    
 }
