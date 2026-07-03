@@ -15,32 +15,42 @@ public class UnitButtonManager : MonoBehaviour
     void Start()
     {
         playerData = Object.FindFirstObjectByType<PlayerData>();
-        playerBattleSO = playerData.playerBattleSO;
+        playerBattleSO = playerData != null ? playerData.playerBattleSO : null;
         buildingSystem = Object.FindFirstObjectByType<BuildingSystem>();
-        playerUnits = playerBattleSO.playerUnits.ToArray();
+        
+        if (playerBattleSO != null && playerBattleSO.playerUnits != null)
+        {
+            playerUnits = playerBattleSO.playerUnits.ToArray();
+        }
+
+        // TESTING FALLBACK: If the list is empty, make sure buttons still spawn for testing
+        if (playerUnits == null || playerUnits.Length == 0)
+        {
+            Debug.LogWarning("PlayerBattleSO units list is empty! Using raw asset array instead.");
+            // If you have an array assigned directly on this script component in the Inspector:
+            // playerUnits = someInspectorTestArray; 
+        }
         
         CreateUnitButtons();
     }
 
     public void RefreshUnitButtons()
-    {
-        foreach (Transform child in unitButtonContainer)
         {
-            Destroy(child.gameObject);
-        }
+            foreach (Transform child in unitButtonContainer)
+            {
+                Destroy(child.gameObject);
+            }
 
-        List<BuildingData> activeUnits = buildingSystem != null ? buildingSystem.GetLiveBuildings() : new List<BuildingData>();
-        if (activeUnits == null && playerBattleSO != null)
-        {
-            activeUnits = new List<BuildingData>(playerBattleSO.playerUnits);
-        }
+            // 1. Get live buildings from the system
+            List<BuildingData> activeUnits = buildingSystem != null ? buildingSystem.GetLiveBuildings() : null;
+            
+            // 2. FIX: If activeUnits is null OR it's just completely empty, fallback to your main player units list
+            if ((activeUnits == null || activeUnits.Count == 0) && playerBattleSO != null)
+            {
+                activeUnits = new List<BuildingData>(playerBattleSO.playerUnits);
+            }
 
-        if (activeUnits == null && playerBattleSO != null)
-        {
-           activeUnits = new List<BuildingData>(playerBattleSO.playerUnits);
-        }
-
-        if (activeUnits == null) return;
+            if (activeUnits == null) return;
 
         Dictionary<UnitSO, int> unitCounts = new Dictionary<UnitSO, int>();
 

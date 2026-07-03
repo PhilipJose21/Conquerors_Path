@@ -15,7 +15,7 @@ MonoBehaviour:
   <Name>k__BackingField: Scout
   <Size>k__BackingField: 1
   <Model>k__BackingField: {fileID: 7492368166425539968, guid: 33bfc6960f806f0418d1e4ca527451e7, type: 3}
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   <coinCost>k__BackingField: 0
   <farmCost>k__BackingField: 0
   <rockCost>k__BackingField: 0
