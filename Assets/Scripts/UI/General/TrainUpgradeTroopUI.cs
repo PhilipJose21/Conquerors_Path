@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.UI;
 
 public class TrainUpgradeTroopUI : MonoBehaviour
 {
@@ -63,12 +64,12 @@ public class TrainUpgradeTroopUI : MonoBehaviour
 
     public void openUnitAddPanel()//opens list
     {
-       fillTrainingPanel("Train Units");
+       fillTrainingPanel("Train");
     }
 
     public void openUnitUpgradePanel()//opens list
     {
-        fillTrainingPanel("Upgrade Units");
+        fillTrainingPanel("Upgrade");
     }
 
     public void fillTrainingPanel(string text)

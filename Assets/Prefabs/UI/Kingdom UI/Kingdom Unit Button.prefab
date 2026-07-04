@@ -322,15 +322,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TrainTroopsButton
   unitToTrain: {fileID: 0}
   unitNameText: {fileID: 6918452451194562834}
+  unitIconImage: {fileID: 7559432706170222801}
   unitType: 0
-  level: 0
-  currentHealth: 0
-  currentDamage: 0
-  currentAttackRange: 0
-  currentMobility: 0
-  currentMovePoints: 0
-  currentAttackPoints: 0
-  currentHarvestAmount: 0
+  confirmationPanel: {fileID: 0}
 --- !u!1 &6412669695826900516
 GameObject:
   m_ObjectHideFlags: 0

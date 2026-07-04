@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class TrainTroopsButton : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class TrainTroopsButton : MonoBehaviour
     //MAKE IS INSTANTIATE AND ATTATCH THE UNITSO HERE WHEN CLICKING THE OPEN UNIT LIST
     public UnitSO unitToTrain;
     public TextMeshProUGUI unitNameText;
+    public Image unitIconImage;
 
     public UnitSO.UnitType unitType;
 
@@ -23,6 +25,11 @@ public class TrainTroopsButton : MonoBehaviour
         unitType = unitToTrain.unitType;
         playerSO = playerData.playerSO;
         unitCost = unitToTrain.buildingData;
+        unitIconImage.sprite = unitToTrain.unitIcon;
+        if (unitToTrain.unitIcon == null)
+        {
+            Debug.LogWarning("TrainUpgradeTroopUI.fillTrainingPanel: Unit icon is not assigned for unit: " + unitToTrain.unitName);
+        }
     }
 
     void Update()
