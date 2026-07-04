@@ -14,6 +14,7 @@ public class TrainTroopsButton : MonoBehaviour
     public UnitSO.UnitType unitType;
 
     public GameObject confirmationPanel;
+    public TrainUpgradeTroopUI trainUpgradeTroopUI;
     private PlayerData playerData;
     private PlayerSO playerSO;
     private PlayerBattleSO playerBattleSO;
@@ -56,22 +57,18 @@ public class TrainTroopsButton : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-
-    }
-
     public void openConfirmationPanel()
     {
+        if (trainUpgradeTroopUI != null)
+        {
+            trainUpgradeTroopUI.SetPendingTroopAction(this);
+            return;
+        }
+
         if (confirmationPanel != null)
         {
             confirmationPanel.SetActive(true);
         }
-    }
-
-    public void GainUnit()
-    {
-
     }
 
     public void TrainUnit()
@@ -79,11 +76,16 @@ public class TrainTroopsButton : MonoBehaviour
         if (isUpgrading)
         {
             checkResources();
+            return;
         }
+
         if (isTraining)
         {
             addUnit();
+            return;
         }
+
+        Debug.LogWarning("TrainTroopsButton.TrainUnit: No action mode selected.");
     }
 
     public void addUnit()
@@ -267,7 +269,7 @@ public class TrainTroopsButton : MonoBehaviour
 
     public void increaseUnitCost(UnitSO unit)
     {
-        
+
     }
 
 

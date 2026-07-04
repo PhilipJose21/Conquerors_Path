@@ -123,7 +123,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7564095004138708150}
         m_TargetAssemblyTypeName: TrainTroopsButton, Assembly-CSharp
-        m_MethodName: TrainUnit
+        m_MethodName: openConfirmationPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -325,6 +325,9 @@ MonoBehaviour:
   unitIconImage: {fileID: 7559432706170222801}
   unitType: 0
   confirmationPanel: {fileID: 0}
+  trainUpgradeTroopUI: {fileID: 0}
+  isUpgrading: 0
+  isTraining: 0
 --- !u!1 &6412669695826900516
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,6 +27,8 @@ public class TrainUpgradeTroopUI : MonoBehaviour
 
     public List<UnitSO> playerUnits;
 
+    private TrainTroopsButton pendingTroopAction;
+
 
     
     void Start()
@@ -77,6 +79,7 @@ public class TrainUpgradeTroopUI : MonoBehaviour
     {
         if (unitTrainingPanel != null)
         {
+            pendingTroopAction = null;
             unitTrainingPanel.SetActive(true);
             for (int i = 0; i < viewPort.childCount; i++)
             {
@@ -89,6 +92,8 @@ public class TrainUpgradeTroopUI : MonoBehaviour
                     GameObject button = Instantiate(unitTrainingButtonPrefab, viewPort);
                     TrainTroopsButton trainButton = button.GetComponent<TrainTroopsButton>();
                     trainButton.unitToTrain = unitList[i];
+                    trainButton.confirmationPanel = confirmPanel;
+                    trainButton.trainUpgradeTroopUI = this;
                     trainButton.isTraining = isTraining;
                     trainButton.isUpgrading = isUpgrading;
                 }
@@ -134,13 +139,34 @@ public class TrainUpgradeTroopUI : MonoBehaviour
     public void openConfirmPanel()
     {
         confirmPanel.SetActive(true);
+        
         mainPanel.SetActive(false);
+    }
+
+    public void SetPendingTroopAction(TrainTroopsButton troopButton)
+    {
+        pendingTroopAction = troopButton;
+        openConfirmPanel();
     }
 
     public void closeConfirmPanel()
     {
         confirmPanel.SetActive(false);
         mainPanel.SetActive(true);
+        pendingTroopAction = null;
+    }
+
+    public void TRAINorUPGRADE()
+    {
+        if (pendingTroopAction == null)
+        {
+            Debug.LogWarning("TrainUpgradeTroopUI.TRAINorUPGRADE: No troop action selected.");
+            closeConfirmPanel();
+            return;
+        }
+
+        pendingTroopAction.TrainUnit();
+        closeConfirmPanel();
     }
     
 }

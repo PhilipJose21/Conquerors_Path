@@ -727,7 +727,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 420270254569235265}
         m_TargetAssemblyTypeName: TrainUpgradeTroopUI, Assembly-CSharp
-        m_MethodName: addUnit
+        m_MethodName: TRAINorUPGRADE
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
