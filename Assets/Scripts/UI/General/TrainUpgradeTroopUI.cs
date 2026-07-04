@@ -17,8 +17,11 @@ public class TrainUpgradeTroopUI : MonoBehaviour
 
     public GameObject unitTrainingPanel;
     public GameObject unitTrainingButtonPrefab;
+    public GameObject unitTrainingCostPrefab;
+
     public TextMeshProUGUI unitTrainingPanelTitle;
     public Transform viewPort;
+    public Transform viewPortCost;
 
     public GameObject confirmPanel;
     public GameObject mainPanel;
@@ -29,7 +32,10 @@ public class TrainUpgradeTroopUI : MonoBehaviour
 
     private TrainTroopsButton pendingTroopAction;
 
-
+    void Awake()
+    {
+        closeConfirmPanel();
+    }
     
     void Start()
     {
@@ -56,12 +62,6 @@ public class TrainUpgradeTroopUI : MonoBehaviour
         unitTrainingType = gameObjectParent.GetComponentInChildren<BuildingTrainingType>()?.unitTrainingType ?? UnitSO.UnitType.Melee;
         playerUnits = playerBattleSO.playerUnitStats;
         unitList = playerSO.unlockedUnits;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void openUnitAddPanel()//opens list
@@ -139,7 +139,7 @@ public class TrainUpgradeTroopUI : MonoBehaviour
     public void openConfirmPanel()
     {
         confirmPanel.SetActive(true);
-        
+        createCostList(pendingTroopAction.unitToTrain, viewPortCost);
         mainPanel.SetActive(false);
     }
 
@@ -169,4 +169,83 @@ public class TrainUpgradeTroopUI : MonoBehaviour
         closeConfirmPanel();
     }
     
+    public void createCostList(UnitSO unit, Transform costParent)
+    {
+        if (unit == null || unit.buildingData == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < costParent.childCount; i++)
+        {
+            Destroy(costParent.GetChild(i).gameObject);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject costPrefab = Instantiate(unitTrainingCostPrefab, costParent);
+            TextMeshProUGUI costText = costPrefab.GetComponentInChildren<TextMeshProUGUI>();
+            Image costImage = costPrefab.GetComponentInChildren<Image>();
+            int costValue = 0;
+
+            if (pendingTroopAction.isTraining)
+            {
+                switch (i)
+                {
+                    case 0:
+                        costValue = unit.buildingData.woodCost;
+                        // costImage.sprite = playerSO.woodIcon;
+                        break;
+                    case 1:
+                        costValue = unit.buildingData.rockCost;
+                        // costImage.sprite = playerSO.stoneIcon;
+                        break;
+                    case 2:
+                        costValue = unit.buildingData.farmCost;
+                        // costImage.sprite = playerSO.farmIcon;
+                        break;
+                    case 3:
+                        costValue = unit.buildingData.coinCost;
+                        // costImage.sprite = playerSO.coinIcon;
+                        break;
+                    default:
+                        Debug.LogWarning("TrainUpgradeTroopUI.createCostList: Invalid index for resource type.");
+                        break;
+                }
+            }
+            else if (pendingTroopAction.isUpgrading)
+            {
+                switch (i)
+                {
+                    case 0:
+                        costValue = unit.buildingData.woodCost * unit.level;
+                        // costImage.sprite = playerSO.woodIcon;
+                        break;
+                    case 1:
+                        costValue = unit.buildingData.rockCost * unit.level;
+                        // costImage.sprite = playerSO.stoneIcon;
+                        break;
+                    case 2:
+                        costValue = unit.buildingData.farmCost * unit.level;
+                        // costImage.sprite = playerSO.farmIcon;
+                        break;
+                    case 3:
+                        costValue = unit.buildingData.coinCost * unit.level;
+                        // costImage.sprite = playerSO.coinIcon;
+                        break;
+                    default:
+                        Debug.LogWarning("TrainUpgradeTroopUI.createCostList: Invalid index for resource type.");
+                        break;
+                }
+            }
+            
+
+            if (costValue <= 0)
+            {
+                Destroy(costPrefab);
+                continue;
+            }
+
+            costText.text = costValue.ToString();
+        }
+    }
 }
