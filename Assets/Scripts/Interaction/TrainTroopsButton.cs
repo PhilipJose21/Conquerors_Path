@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class TrainTroopsButton : MonoBehaviour
 {
@@ -15,15 +16,38 @@ public class TrainTroopsButton : MonoBehaviour
     public GameObject confirmationPanel;
     private PlayerData playerData;
     private PlayerSO playerSO;
+    private PlayerBattleSO playerBattleSO;
+    private List<UnitSO> playerUnits;
     private BuildingData unitCost;
     
+    public bool isUpgrading = false;
+    public bool isTraining = false;
 
     void Start()
     {
         playerData = Object.FindFirstObjectByType<PlayerData>();
+        if (playerData == null)
+        {
+            Debug.LogError("TrainTroopsButton: PlayerData was not found in scene.");
+            return;
+        }
+
+        if (unitToTrain == null)
+        {
+            Debug.LogError("TrainTroopsButton: unitToTrain is not assigned.");
+            return;
+        }
+
         unitNameText.text = unitToTrain.unitName;
         unitType = unitToTrain.unitType;
         playerSO = playerData.playerSO;
+        playerBattleSO = playerData.playerBattleSO;
+        if (playerBattleSO != null && playerBattleSO.playerUnitStats == null)
+        {
+            playerBattleSO.playerUnitStats = new List<UnitSO>();
+        }
+
+        playerUnits = playerBattleSO != null ? playerBattleSO.playerUnitStats : null;
         unitCost = unitToTrain.buildingData;
         unitIconImage.sprite = unitToTrain.unitIcon;
         if (unitToTrain.unitIcon == null)
@@ -45,9 +69,72 @@ public class TrainTroopsButton : MonoBehaviour
         }
     }
 
+    public void GainUnit()
+    {
+
+    }
+
     public void TrainUnit()
     {
-        checkResources();
+        if (isUpgrading)
+        {
+            checkResources();
+        }
+        if (isTraining)
+        {
+            addUnit();
+        }
+    }
+
+    public void addUnit()
+    {
+        if (playerBattleSO == null || playerUnits == null)
+        {
+            Debug.LogWarning("TrainTroopsButton.addUnit: Player unit list is not initialized.");
+            return;
+        }
+
+        if (unitToTrain == null)
+        {
+            Debug.LogWarning("TrainTroopsButton.addUnit: unitToTrain is not assigned.");
+            return;
+        }
+
+        checkUnitCost(unitToTrain);
+    }
+
+    public void checkUnitCost(UnitSO unit)
+    {
+        if (unit == null || unit.buildingData == null)
+        {
+            Debug.LogWarning("TrainTroopsButton.checkUnitCost: Unit or unit cost data is missing.");
+            return;
+        }
+
+        BuildingData unitResource = unit.buildingData;
+        if (unitResource.woodCost > playerData.playerWoodResources 
+        || unitResource.rockCost > playerData.playerStoneResources 
+        || unitResource.farmCost > playerData.playerFarmResources 
+        || unitResource.coinCost > playerData.playerCoins)
+        {
+            Debug.Log("Not enough resources to train unit: " + unit.unitName);
+            return;
+        }
+
+        playerData.playerWoodResources -= unitResource.woodCost;
+        playerData.playerStoneResources -= unitResource.rockCost;
+        playerData.playerFarmResources -= unitResource.farmCost;
+        playerData.playerCoins -= unitResource.coinCost;
+
+        playerUnits.Add(unit);
+        updatePlayerUnits();
+        playerData.updateUnitList();
+        Debug.Log("Unit trained: " + unit.unitName);
+    }
+
+    public void updatePlayerUnits()
+    {
+        playerBattleSO.playerUnitStats = playerUnits;
     }
 
     public void checkResources()
@@ -88,6 +175,7 @@ public class TrainTroopsButton : MonoBehaviour
                 increaseSupportStats(unitToTrain.level);
                 break;
         }
+
     }
 
     public void increaseMeleeStats(int level)
@@ -175,6 +263,11 @@ public class TrainTroopsButton : MonoBehaviour
             unitToTrain.movePoints += 1;
         }
         Debug.Log("SUPPORT SUCCESS");
+    }
+
+    public void increaseUnitCost(UnitSO unit)
+    {
+        
     }
 
 

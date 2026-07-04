@@ -64,15 +64,16 @@ public class TrainUpgradeTroopUI : MonoBehaviour
 
     public void openUnitAddPanel()//opens list
     {
-       fillTrainingPanel("Train");
+       fillTrainingPanel("Train", true, false);
+       
     }
 
     public void openUnitUpgradePanel()//opens list
     {
-        fillTrainingPanel("Upgrade");
+        fillTrainingPanel("Upgrade", false, true);
     }
 
-    public void fillTrainingPanel(string text)
+    public void fillTrainingPanel(string text, bool isTraining, bool isUpgrading)
     {
         if (unitTrainingPanel != null)
         {
@@ -86,27 +87,14 @@ public class TrainUpgradeTroopUI : MonoBehaviour
                 if (unitList[i].unitType == unitTrainingType)
                 {
                     GameObject button = Instantiate(unitTrainingButtonPrefab, viewPort);
-                    button.GetComponent<TrainTroopsButton>().unitToTrain = unitList[i];
+                    TrainTroopsButton trainButton = button.GetComponent<TrainTroopsButton>();
+                    trainButton.unitToTrain = unitList[i];
+                    trainButton.isTraining = isTraining;
+                    trainButton.isUpgrading = isUpgrading;
                 }
             }
             unitTrainingPanelTitle.text = text;
         }
-    }
-
-    public void addUnit()
-    {
-        if (playerBattleSO == null || playerUnits == null)
-        {
-            Debug.LogWarning("TrainUpgradeTroopUI.addUnit: Player unit list is not initialized.");
-            return;
-        }
-
-        if (unitList == null || unitList.Count == 0 || unitList[0] == null)
-        {
-            Debug.LogWarning("TrainUpgradeTroopUI.addUnit: unitList is empty or first unit is not assigned.");
-            return;
-        }
-        checkUnitCost(unitList[0]);
     }
 
     public void updateResources()
@@ -120,33 +108,6 @@ public class TrainUpgradeTroopUI : MonoBehaviour
         playerSO.coins = playerData.playerCoins;
     }
 
-    public void updatePlayerUnits()
-    {
-        playerBattleSO.playerUnitStats = playerUnits;
-    }
-
-    public void checkUnitCost(UnitSO unit)
-    {
-        BuildingData unitResource = unit.buildingData;
-        if (unitResource.woodCost > playerData.playerWoodResources 
-        || unitResource.rockCost > playerData.playerStoneResources 
-        || unitResource.farmCost > playerData.playerFarmResources 
-        || unitResource.coinCost > playerData.playerCoins)
-        {
-            Debug.Log("Not enough resources to train unit: " + unit.unitName);
-            return;
-        }
-
-        playerData.playerWoodResources -= unitResource.woodCost;
-        playerData.playerStoneResources -= unitResource.rockCost;
-        playerData.playerFarmResources -= unitResource.farmCost;
-        playerData.playerCoins -= unitResource.coinCost;
-
-        playerUnits.Add(unitList[0]);
-        updatePlayerUnits();
-        playerData.updateUnitList();
-        Debug.Log("Success");
-    }
 
     public void closeUnitTrainingPanel()
     {
