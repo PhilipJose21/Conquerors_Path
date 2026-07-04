@@ -11960,7 +11960,7 @@ MonoBehaviour:
 
     1/2/3/4 -> Buildings
 
-    R / T -> Rotate Left/Right
+    T/Y -> Rotate Left/Right
 
     Space
     + Lmb -> Drag Camera
@@ -12093,7 +12093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingSystem
   buildingDataIndex: 0
-  canRotate: 0
+  canRotate: 1
   isPlacing: 0
   isBattleScene: 0
   enableReinforcementCost: 0
