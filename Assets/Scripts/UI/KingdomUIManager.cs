@@ -105,7 +105,7 @@ public class KingdomUIManager : MonoBehaviour
         if (unitTrainingButton != null)    unitTrainingButton.onClick.AddListener(OpenUnitTrainingTab);
         if (miscButton != null) miscButton.onClick.AddListener(OpenMiscTab);
 
-        // Render resource panels on load and open Farms by default
+        // Render resource panels on load and open Farms by defaultn
         if (playerSO != null) ShowResourceValues(playerSO);
         OpenFarmsTab();
     }

@@ -5,33 +5,55 @@ using TMPro;
 [RequireComponent(typeof(Button))]
 public class BuildModeCard : MonoBehaviour
 {
-    [Header("Building Data Source of Truth")]
-    [SerializeField] private BuildingData buildingConfigData; 
+    [Header("GDD Scriptable Object Links")]
+    [SerializeField] private BuildingData placementData;      // Handles Grid Size & Cost for BuildingSystem
+    [SerializeField] private BuildingStatsSO productionStats; // Handles Names, Descriptions, & Timers
 
     [Header("UI Component Target Slots")]
     [SerializeField] private Image buildingIconImage;
-    [SerializeField] private TextMeshProUGUI countOrLevelText; 
+    [SerializeField] private TextMeshProUGUI titleText;
+    [SerializeField] private TextMeshProUGUI descriptionText;
+    [SerializeField] private TextMeshProUGUI gridSizeText;
+    [SerializeField] private TextMeshProUGUI costText;
 
     private BuildingSystem buildingSystem;
-    private BuildModeManager buildModeManager;
     private Button wholeCardButton;
 
     void Start()
     {
         buildingSystem = Object.FindFirstObjectByType<BuildingSystem>();
-        buildModeManager = Object.FindFirstObjectByType<BuildModeManager>();
         wholeCardButton = GetComponent<Button>();
 
-        if (buildingConfigData != null)
+        // 1. Pull Identity info from BuildingStatsSO
+        if (productionStats != null)
         {
-            if (buildingIconImage != null && buildingConfigData.Icon != null)
+            if (titleText != null) titleText.text = productionStats.buildingName;
+            if (descriptionText != null) descriptionText.text = productionStats.description;
+        }
+
+        // 2. Pull Cost, Size, and Icons from BuildingData
+        if (placementData != null)
+        {
+            if (buildingIconImage != null && placementData.Icon != null)
             {
-                buildingIconImage.sprite = buildingConfigData.Icon;
+                buildingIconImage.sprite = placementData.Icon;
             }
 
-            if (countOrLevelText != null)
+            if (gridSizeText != null)
             {
-                countOrLevelText.text = $"{buildingConfigData.Size}x{buildingConfigData.Size}";
+                // Explicitly rendering layout boundaries using the size integer
+                gridSizeText.text = $"Size: {placementData.Size}x{placementData.Size}";
+            }
+
+            if (costText != null)
+            {
+                string costString = "";
+                if (placementData.coinCost > 0) costString += $"{placementData.coinCost} Gold  ";
+                if (placementData.woodCost > 0) costString += $"{placementData.woodCost} Wood  ";
+                if (placementData.rockCost > 0) costString += $"{placementData.rockCost} Stone  ";
+                if (placementData.farmCost > 0) costString += $"{placementData.farmCost} Farm  ";
+                
+                costText.text = string.IsNullOrEmpty(costString) ? "Free to Build" : costString.TrimEnd();
             }
         }
 
@@ -43,16 +65,13 @@ public class BuildModeCard : MonoBehaviour
 
     private void OnCardClicked()
     {
-        if (buildingConfigData == null) return;
+        if (placementData == null) return;
 
         if (buildingSystem != null)
         {
-            buildingSystem.SelectBuildingByData(buildingConfigData);
-            
-            if (buildModeManager != null)
-            {
-                buildModeManager.ToggleBuildMode();
-            }
+            // Successfully passes the exact scriptable object type your grid architecture demands!
+            buildingSystem.SelectBuildingByData(placementData);
+            KingdomUIManager.Instance?.ToggleBuildMode();
         }
     }
 }

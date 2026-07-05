@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99a167ec9bc33dc408ea2eaa2a1ababd, type: 3}
-  m_Name: House
+  m_Name: Big House
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
-  <Name>k__BackingField: House
-  <Size>k__BackingField: 1
+  <Name>k__BackingField: Big House
+  <Size>k__BackingField: 4
   <Model>k__BackingField: {fileID: 1915748257449464270, guid: e18c451318b0670419c0751ad32d4cfc, type: 3}
   <Icon>k__BackingField: {fileID: 0}
   <coinCost>k__BackingField: 0
