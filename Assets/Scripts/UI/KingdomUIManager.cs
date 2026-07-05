@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 public class KingdomUIManager : MonoBehaviour
 {
     public static KingdomUIManager Instance { get; private set; }
+    
     [Header("Player Data")]
     public PlayerSO playerSO;
 
     [Header("Resource Text Fields")]
-    // Resource text fields (can be assigned in inspector or found at runtime)
     public TextMeshProUGUI woodText;
     public TextMeshProUGUI stoneText;
     public TextMeshProUGUI farmText;
@@ -19,17 +19,40 @@ public class KingdomUIManager : MonoBehaviour
     public TextMeshProUGUI gemsText;
     public TextMeshProUGUI coinsText;
 
-    // Object info / building panel
+    [Header("Object Info / Building Panel")]
     public Transform objectInfoParent;
     public GameObject buildingInfoPrefab;
     [SerializeField] private GameObject currentObjectInfoPanel;
     [SerializeField] private bool currentObjectInfoPanelIsInstantiated;
+    
     [Header("Troop Selection Panel")]
     public GameObject troopSelectionPanel;
+    
     [Header("Bag Panel")]
     public GameObject bagPanel;
 
+    [Header("Build Mode Panel Components")]
+    [SerializeField] private GameObject buildModePanel;
+    [SerializeField] private Button buildModeToggleButton; // The main Build Mode HUD Button
 
+    [Header("Build Mode Category Buttons")]
+    [SerializeField] private Button farmsButton;
+    [SerializeField] private Button unitTrainingButton;
+    [SerializeField] private Button miscButton;
+
+    [Header("Build Mode Sub Category Scroll Panels")]
+    [SerializeField] private GameObject farmsBuildPanel;
+    [SerializeField] private GameObject unitTrainingBuildPanel;
+    [SerializeField] private GameObject miscBuildPanel;
+
+    [Header("Build Mode Visual Settings")]
+    [Range(0f, 1f)] 
+    [SerializeField] private float inactiveAlphaOrDim = 0.4f; 
+
+    private Color originalFarmsColor;
+    private Color originalUnitTrainingColor;
+    private Color originalMiscColor;
+    private bool colorsCached = false;
 
     void Awake()
     {
@@ -40,20 +63,17 @@ public class KingdomUIManager : MonoBehaviour
         }
         Instance = this;
 
-        // Find object info parent by tag if not set
         if (objectInfoParent == null)
         {
             var go = GameObject.FindWithTag("ObjectInformationParent");
             if (go != null) objectInfoParent = go.transform;
         }
 
-        // Load building info prefab from Resources as fallback
         if (buildingInfoPrefab == null)
         {
             buildingInfoPrefab = Resources.Load<GameObject>("UI/BuildingInfoPanel");
         }
 
-        // If the panel already exists in the scene hierarchy, reuse it instead of instantiating a second copy.
         if (currentObjectInfoPanel == null && objectInfoParent != null)
         {
             var existingPanel = objectInfoParent.GetComponentInChildren<BuildingInfoPanel>(true);
@@ -65,7 +85,6 @@ public class KingdomUIManager : MonoBehaviour
             }
         }
 
-        // Try to find resource text fields by common paths if not assigned
         if (woodText == null) woodText = FindTMP("Canvas/ResourcePanel/WoodText");
         if (stoneText == null) stoneText = FindTMP("Canvas/ResourcePanel/StoneText");
         if (farmText == null) farmText = FindTMP("Canvas/ResourcePanel/FarmText");
@@ -75,13 +94,29 @@ public class KingdomUIManager : MonoBehaviour
         if (coinsText == null) coinsText = FindTMP("Canvas/ResourcePanel/CoinsText");
 
         playerSO = Object.FindFirstObjectByType<PlayerData>()?.playerSO;
+    }
 
+    void Start()
+    {
+        // Setup Build Mode Event Listeners natively
+        if (buildModeToggleButton != null) buildModeToggleButton.onClick.AddListener(ToggleBuildMode);
+        
+        if (farmsButton != null)   farmsButton.onClick.AddListener(OpenFarmsTab);
+        if (unitTrainingButton != null)    unitTrainingButton.onClick.AddListener(OpenUnitTrainingTab);
+        if (miscButton != null) miscButton.onClick.AddListener(OpenMiscTab);
+
+        // Render resource panels on load and open Farms by default
+        if (playerSO != null) ShowResourceValues(playerSO);
+        OpenFarmsTab();
     }
 
     void Update()
     {
-        researchText.text = playerSO.researchPoints.ToString();
-        energyText.text = playerSO.energyPoints.ToString();
+        if (playerSO != null)
+        {
+            if (researchText != null) researchText.text = playerSO.researchPoints.ToString();
+            if (energyText != null) energyText.text = playerSO.energyPoints.ToString();
+        }
     }
 
     private TextMeshProUGUI FindTMP(string path)
@@ -89,6 +124,71 @@ public class KingdomUIManager : MonoBehaviour
         var go = GameObject.Find(path);
         return go != null ? go.GetComponent<TextMeshProUGUI>() : null;
     }
+
+    // --- BUILD MODE TOGGLE & CATEGORY SELECTION ---
+
+    public void ToggleBuildMode()
+    {
+        if (buildModePanel == null) return;
+
+        bool isCurrentlyActive = buildModePanel.activeSelf;
+        buildModePanel.SetActive(!isCurrentlyActive);
+    }
+
+    public void OpenFarmsTab()
+    {
+        if (farmsBuildPanel != null)   farmsBuildPanel.SetActive(true);
+        if (unitTrainingBuildPanel != null)    unitTrainingBuildPanel.SetActive(false);
+        if (miscBuildPanel != null) miscBuildPanel.SetActive(false);
+
+        SetActiveTabVisuals(farmsButton);
+    }
+
+    public void OpenUnitTrainingTab()
+    {
+        if (farmsBuildPanel != null)   farmsBuildPanel.SetActive(false);
+        if (unitTrainingBuildPanel != null)    unitTrainingBuildPanel.SetActive(true);
+        if (miscBuildPanel != null) miscBuildPanel.SetActive(false);
+
+        SetActiveTabVisuals(unitTrainingButton);
+    }
+
+    public void OpenMiscTab()
+    {
+        if (farmsBuildPanel != null)   farmsBuildPanel.SetActive(false);
+        if (unitTrainingBuildPanel != null)    unitTrainingBuildPanel.SetActive(false);
+        if (miscBuildPanel != null) miscBuildPanel.SetActive(true);
+
+        SetActiveTabVisuals(miscButton);
+    }
+
+    private void CacheOriginalColors()
+    {
+        if (colorsCached) return;
+
+        if (farmsButton != null)   originalFarmsColor = farmsButton.image.color;
+        if (unitTrainingButton != null)    originalUnitTrainingColor = unitTrainingButton.image.color;
+        if (miscButton != null) originalMiscColor = miscButton.image.color;
+
+        colorsCached = true;
+    }
+
+    private void SetActiveTabVisuals(Button activeBtn)
+    {
+        CacheOriginalColors();
+
+        // Multiplies the original colors by a dim fraction for background tabs
+        if (farmsButton != null)   farmsButton.image.color = originalFarmsColor * new Color(inactiveAlphaOrDim, inactiveAlphaOrDim, inactiveAlphaOrDim, 1f);
+        if (unitTrainingButton != null)    unitTrainingButton.image.color = originalUnitTrainingColor * new Color(inactiveAlphaOrDim, inactiveAlphaOrDim, inactiveAlphaOrDim, 1f);
+        if (miscButton != null) miscButton.image.color = originalMiscColor * new Color(inactiveAlphaOrDim, inactiveAlphaOrDim, inactiveAlphaOrDim, 1f);
+
+        // Restores full original beauty to only the active slot
+        if (activeBtn == farmsButton && farmsButton != null)     farmsButton.image.color = originalFarmsColor;
+        if (activeBtn == unitTrainingButton && unitTrainingButton != null)       unitTrainingButton.image.color = originalUnitTrainingColor;
+        if (activeBtn == miscButton && miscButton != null) miscButton.image.color = originalMiscColor;
+    }
+
+    // --- EXISTING HOOKS AND WORKFLOWS ---
 
     public void ShowResourceValues(PlayerSO playerSO)
     {
@@ -190,7 +290,7 @@ public class KingdomUIManager : MonoBehaviour
 
         return panel;
     }
-    // Troop selection panel methods
+
     public void OpenTroopSelectionPanel()
     {
         Debug.Log("Opening troop selection panel");
@@ -210,6 +310,7 @@ public class KingdomUIManager : MonoBehaviour
         if (troopSelectionPanel != null)
             troopSelectionPanel.SetActive(!troopSelectionPanel.activeSelf);
     }
+
     public void OpenBagPanel()
     {
         Debug.Log("Opening bag panel");
@@ -229,6 +330,7 @@ public class KingdomUIManager : MonoBehaviour
         if (bagPanel != null)
             bagPanel.SetActive(!bagPanel.activeSelf);
     }
+
     public void LoadTargetScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
