@@ -11,7 +11,10 @@ public class PlayerBattleSO : ScriptableObject
     public int stoneHarvestAmount;
     public int farmHarvestAmount;
     public int goldHarvestAmount;
-    public List<string> levelsCompleted;
+
+    public LevelSO currentLevel;
+    public List<LevelSO> unlockedLevels;
+    public List<LevelSO> completedLevels;
 
 
 //THIS PART IS NOT TRUSTED, MAY REMOVE IN THE FUTURE
@@ -77,6 +80,15 @@ public class PlayerBattleSO : ScriptableObject
         finally
         {
             isSyncingLists = false;
+        }
+
+        for (int i = 0; i < unlockedLevels.Count; i++)
+        {
+            unlockedLevels[i].isUnlocked = true;
+        }
+        for (int i = 0; i < completedLevels.Count; i++)
+        {
+            completedLevels[i].isCompleted = true;
         }
     }
 

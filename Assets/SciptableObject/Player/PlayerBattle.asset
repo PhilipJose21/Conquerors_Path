@@ -27,3 +27,7 @@ MonoBehaviour:
   stoneHarvestAmount: 0
   farmHarvestAmount: 0
   goldHarvestAmount: 0
+  currentLevel: {fileID: 0}
+  unlockedLevels:
+  - {fileID: 11400000, guid: b7ec2cf5d134b934cbac154ffc686655, type: 2}
+  completedLevels: []

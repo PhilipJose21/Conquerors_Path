@@ -13,13 +13,31 @@ public class LevelsUnlocked : MonoBehaviour
 
     [Header("Level Data")]
     public List<WorldSO> worlds;
-    public List<string> levelsUnlocked;
-    public List<string> levelsCompleted;
+    private List<LevelSO> levels;
+    public List<LevelSO> levelsUnlocked;
+    public List<LevelSO> levelsCompleted;
 
     void Awake()
     {
         playerBattleSO = FindObjectOfType<PlayerData>().playerBattleSO;
+        levelsUnlocked.Clear();
+        levelsCompleted.Clear();
 
+        for (int i = 0; i < worlds.Count; i++)
+        {
+            levels = worlds[i].levels;
+            for (int j = 0; j < levels.Count; j++)
+            {
+                if (levels[j].isUnlocked && !levelsUnlocked.Contains(levels[j]))
+                {
+                    levelsUnlocked.Add(levels[j]);
+                }
+                if (levels[j].isCompleted && !levelsCompleted.Contains(levels[j]))
+                {
+                    levelsCompleted.Add(levels[j]);
+                }
+            }
+        }
     }
 
     void Start()
@@ -30,6 +48,25 @@ public class LevelsUnlocked : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        for (int i = 0; i < worlds.Count; i++)
+        {
+            levels = worlds[i].levels;
+            for (int j = 0; j < levels.Count; j++)
+            {
+                if (levels[j].isCompleted)
+                {
+                    if (j + 1 >= levels.Count)
+                    {
+                        continue;
+                    }
+
+                    levels[j + 1].isUnlocked = true;
+                    if (levels[j + 1].isUnlocked && !levelsUnlocked.Contains(levels[j + 1]))
+                    {
+                        levelsUnlocked.Add(levels[j + 1]);
+                    }
+                }
+            }
+        }
     }
 }

@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelSO
   levelName: {fileID: 11400000, guid: 3418f3738a541d7468649575fc4c697e, type: 2}
   levelImage: {fileID: 0}
-  level: 1
+  levelSceneName: Plains 3
+  level: 3
+  isUnlocked: 0
+  isCompleted: 0

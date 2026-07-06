@@ -15,18 +15,51 @@ public class ObjButton : MonoBehaviour
     public GameObject infoPanelPrefab;
     public Image levelImage;
 
-
+	[Header("Button Materials")]
+	public GameObject buttonObject;
+    public Material lockedMaterial;
+    public Material unlockedMaterial;
+    public Material completedMaterial;
+	private Renderer buttonRenderer;
 
 	private void Awake()
 	{
 		GameObject infoPanel = GameObject.Find("InfoPanel");
+		buttonObject = this.gameObject;
 		if (infoPanel != null)
 		{
 			infoPanelTransform = infoPanel.transform;
             infoPanelPrefab = infoPanelTransform.Find("Main").gameObject;
             infoPanelPrefab.SetActive(false);
 		}
+
+		if (buttonObject != null)
+		{
+			buttonRenderer = buttonObject.GetComponent<Renderer>();
+		}
+
 		originalScale = transform.localScale;
+	}
+
+	void Update()
+	{
+		if (buttonRenderer == null || levelData == null)
+		{
+			return;
+		}
+
+		if (levelData.isCompleted)
+		{
+			buttonRenderer.material = completedMaterial;
+		}
+		else if (levelData.isUnlocked)
+		{
+			buttonRenderer.material = unlockedMaterial;
+		}
+		else
+		{
+			buttonRenderer.material = lockedMaterial;
+		}
 	}
 
 	private void OnMouseEnter()
@@ -44,6 +77,10 @@ public class ObjButton : MonoBehaviour
 
 	private void OnMouseDown()
 	{
+		if (!levelData.isUnlocked)
+		{
+			return;
+		}
 		openLevelInfo();
 		StartBounce();
 	}
@@ -59,7 +96,10 @@ public class ObjButton : MonoBehaviour
         infoPanelPrefab.transform.Find("WorldTxt").GetComponent<TextMeshProUGUI>().text = levelData.levelName.worldName;
         infoPanelPrefab.transform.Find("LevelTxt").GetComponent<TextMeshProUGUI>().text = levelData.level.ToString();
         infoPanelPrefab.transform.Find("LevelImg").GetComponent<Image>().sprite = levelData.levelImage;
-        infoPanelPrefab.transform.Find("Continue").GetComponent<LoadLevel>().sceneName = levelData.levelName.sceneNames[levelData.level - 1];
+        infoPanelPrefab.transform.Find("Continue").GetComponent<LoadLevel>().sceneName = levelData.levelSceneName;
+		
+		PlayerBattleSO playerBattleSO = FindObjectOfType<PlayerData>().playerBattleSO;
+		playerBattleSO.currentLevel = levelData;
     }
 
 	private void StartBounce()

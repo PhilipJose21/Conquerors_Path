@@ -16,13 +16,14 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &6749436718247802823
-RectTransform:
+--- !u!4 &6749436718247802823
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2166726771326915993}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,11 +33,6 @@ RectTransform:
   - {fileID: 7561906982556036300}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6998605123790209037
 GameObject:
   m_ObjectHideFlags: 0
@@ -67,7 +63,7 @@ Transform:
   m_GameObject: {fileID: 6998605123790209037}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1805.5461, y: -1398.88, z: -0.38176268}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.2054205, y: 0.35681787, z: 1.2656914}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -274,7 +270,7 @@ Transform:
   m_GameObject: {fileID: 8734341724492375783}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1805.5461, y: -1398.8799, z: -0.38176268}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.95950055, y: 1.0074755, z: 1.0074755}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -355,6 +351,10 @@ MonoBehaviour:
   infoPanelTransform: {fileID: 0}
   infoPanelPrefab: {fileID: 0}
   levelImage: {fileID: 0}
+  buttonObject: {fileID: 0}
+  lockedMaterial: {fileID: 2100000, guid: 08d00eba8310b95429c3f09df4944a6b, type: 2}
+  unlockedMaterial: {fileID: 2100000, guid: f48667568c7864f4d9b9b9b1955b87d1, type: 2}
+  completedMaterial: {fileID: 2100000, guid: 69eff4fe9b1de204a9485e4df9e399e5, type: 2}
 --- !u!65 &828453592231147486
 BoxCollider:
   m_ObjectHideFlags: 0

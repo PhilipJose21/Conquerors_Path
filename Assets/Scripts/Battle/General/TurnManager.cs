@@ -35,11 +35,18 @@ public class TurnManager : MonoBehaviour
     private bool transitionPending = false;
     private bool isEnemyTurnProcessing = false;
     private PlayerData playerData;
+    private PlayerBattleSO playerBattleData;
     
     void Awake()
     {
         buildingSystem = Object.FindFirstObjectByType<BuildingSystem>();
         playerData = Object.FindFirstObjectByType<PlayerData>();
+        if (playerData != null)
+        {
+            playerBattleData = playerData.playerBattleSO;
+        }
+        gameOverScreen.SetActive(false);
+        victoryScreen.SetActive(false);
     }
 
     void Start()
@@ -92,21 +99,23 @@ public class TurnManager : MonoBehaviour
 
     private void RecordCompletedLevel()
     {
-        if (playerData == null || playerData.playerBattleSO == null)
+        if (playerBattleData.currentLevel == null)
         {
             return;
         }
 
-        if (playerData.playerBattleSO.levelsCompleted == null)
+        playerBattleData.currentLevel.isCompleted = true;
+        playerBattleData.currentLevel.isUnlocked = true;
+        if (!playerBattleData.completedLevels.Contains(playerBattleData.currentLevel))
         {
-            playerData.playerBattleSO.levelsCompleted = new List<string>();
+            playerBattleData.completedLevels.Add(playerBattleData.currentLevel);
         }
 
-        string sceneName = SceneManager.GetActiveScene().name;
-        if (!playerData.playerBattleSO.levelsCompleted.Contains(sceneName))
+        if (!playerBattleData.unlockedLevels.Contains(playerBattleData.currentLevel))
         {
-            playerData.playerBattleSO.levelsCompleted.Add(sceneName);
+            playerBattleData.unlockedLevels.Add(playerBattleData.currentLevel);
         }
+        playerBattleData.currentLevel = null;
     }
 
     public void checkTurnPhase()
