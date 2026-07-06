@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public enum turnPhase
 {
@@ -33,10 +34,12 @@ public class TurnManager : MonoBehaviour
     private Coroutine transitionCoroutine;
     private bool transitionPending = false;
     private bool isEnemyTurnProcessing = false;
+    private PlayerData playerData;
     
     void Awake()
     {
         buildingSystem = Object.FindFirstObjectByType<BuildingSystem>();
+        playerData = Object.FindFirstObjectByType<PlayerData>();
     }
 
     void Start()
@@ -61,6 +64,7 @@ public class TurnManager : MonoBehaviour
             else if (enemyUnits == null || enemyUnits.Length == 0)
             {
                 currentTurnPhase = turnPhase.PlayerWin;
+                RecordCompletedLevel();
                 victoryScreen.SetActive(true);
                 HideTurnScreens(); // Clean up UI instantly
                 return;
@@ -83,6 +87,25 @@ public class TurnManager : MonoBehaviour
         {
             StopCoroutine(transitionCoroutine);
             transitionPending = false;
+        }
+    }
+
+    private void RecordCompletedLevel()
+    {
+        if (playerData == null || playerData.playerBattleSO == null)
+        {
+            return;
+        }
+
+        if (playerData.playerBattleSO.levelsCompleted == null)
+        {
+            playerData.playerBattleSO.levelsCompleted = new List<string>();
+        }
+
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (!playerData.playerBattleSO.levelsCompleted.Contains(sceneName))
+        {
+            playerData.playerBattleSO.levelsCompleted.Add(sceneName);
         }
     }
 

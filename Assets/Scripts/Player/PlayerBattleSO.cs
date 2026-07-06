@@ -11,6 +11,7 @@ public class PlayerBattleSO : ScriptableObject
     public int stoneHarvestAmount;
     public int farmHarvestAmount;
     public int goldHarvestAmount;
+    public List<string> levelsCompleted;
 
 
 //THIS PART IS NOT TRUSTED, MAY REMOVE IN THE FUTURE
