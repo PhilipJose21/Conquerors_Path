@@ -23,6 +23,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Battle Scene/World 1/Plain_1.unity
     guid: 11f8d724d106ece4e917e9ceb5e79d3e
+  - enabled: 1
+    path: Assets/Scenes/Battle Scene/World 1/Plain_2.unity
+    guid: f3f01d10bb5e3624eb26248f920bdb11
+  - enabled: 1
+    path: Assets/Scenes/Battle Scene/World 1/Plain_3.unity
+    guid: f78ca8f5990f4854698ac97f503d3818
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

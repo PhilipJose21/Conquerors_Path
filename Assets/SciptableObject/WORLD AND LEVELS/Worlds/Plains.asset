@@ -17,3 +17,9 @@ MonoBehaviour:
   worldLevelScene: BattleScene
   sceneNames:
   - Plain_1
+  - Plain_2
+  - Plain_3
+  levels:
+  - {fileID: 11400000, guid: b7ec2cf5d134b934cbac154ffc686655, type: 2}
+  - {fileID: 11400000, guid: a467da0818e28c04b9756575693d2971, type: 2}
+  - {fileID: 11400000, guid: 558f2f8e3eef6f44b908d729a30d8901, type: 2}

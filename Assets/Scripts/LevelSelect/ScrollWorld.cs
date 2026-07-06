@@ -8,6 +8,7 @@ public class ScrollWorld : MonoBehaviour
 {
     
     public GameObject worldSelectPanel;
+    public GameObject levelInfoPanel;
     public List<GameObject> levelSelectPanel;
     public List<WorldSO> imagesPrefab;
     public List<Image> buttonImageObjects;
@@ -77,6 +78,7 @@ public class ScrollWorld : MonoBehaviour
         {
             worldSelectPanel.SetActive(true);
             levelSelectPanel[currentIndex].SetActive(false);
+            levelInfoPanel.SetActive(false);
         }
     }
 }

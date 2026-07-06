@@ -10,4 +10,5 @@ public class WorldSO : ScriptableObject
     public Sprite worldImage;
     public string worldLevelScene;
     public List<string> sceneNames;
+    public List<LevelSO> levels;
 }

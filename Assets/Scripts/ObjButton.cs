@@ -50,6 +50,11 @@ public class ObjButton : MonoBehaviour
 
     public void openLevelInfo()
     {
+		if (infoPanelTransform != null)
+		{
+			infoPanelTransform.gameObject.SetActive(true);
+		}
+
         infoPanelPrefab.SetActive(true);
         infoPanelPrefab.transform.Find("WorldTxt").GetComponent<TextMeshProUGUI>().text = levelData.levelName.worldName;
         infoPanelPrefab.transform.Find("LevelTxt").GetComponent<TextMeshProUGUI>().text = levelData.level.ToString();
