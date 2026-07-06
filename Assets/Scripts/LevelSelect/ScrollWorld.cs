@@ -6,14 +6,32 @@ using UnityEngine.SceneManagement;
 
 public class ScrollWorld : MonoBehaviour
 {
-    public List<LevelSO> imagesPrefab;
+    
+    public GameObject worldSelectPanel;
+    public List<GameObject> levelSelectPanel;
+    public List<WorldSO> imagesPrefab;
     public List<Image> buttonImageObjects;
     public TextMeshProUGUI worldNameText;
     public int currentIndex = 0;
 
+    void Awake()
+    {
+        for (int i = 0; i < levelSelectPanel.Count; i++)
+        {
+            levelSelectPanel[i].SetActive(false);
+        }
+        worldSelectPanel.SetActive(true);
+    }
+
     void Start()
     {
         UpdateImages();
+    }
+
+    public void openLevelSelect()
+    {
+        worldSelectPanel.SetActive(false);
+        levelSelectPanel[currentIndex].SetActive(true);
     }
 
     public void loadLevel()
@@ -47,5 +65,18 @@ public class ScrollWorld : MonoBehaviour
         buttonImageObjects[2].sprite = imagesPrefab[(currentIndex + 1) % imagesPrefab.Count].worldImage;
 
         worldNameText.text = imagesPrefab[currentIndex].worldName;
+    }
+
+    public void BackButton()
+    {
+        if (worldSelectPanel.activeSelf)
+        {
+            SceneManager.LoadScene("MainKingdom");
+        }
+        else
+        {
+            worldSelectPanel.SetActive(true);
+            levelSelectPanel[currentIndex].SetActive(false);
+        }
     }
 }
