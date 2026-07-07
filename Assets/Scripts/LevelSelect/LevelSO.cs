@@ -11,6 +11,12 @@ public class LevelSO : ScriptableObject
     public bool isUnlocked;
     public bool isCompleted;
 
+    [Header("Reward")]
+    public bool rewardClaimed;
+    public int energyPointsReward;
+    public int gemsReward;
+    public int coinsReward;
+
     private void OnEnable()
     {
         UpdateUnlockState();

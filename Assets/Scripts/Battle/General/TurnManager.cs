@@ -36,6 +36,7 @@ public class TurnManager : MonoBehaviour
     private bool isEnemyTurnProcessing = false;
     private PlayerData playerData;
     private PlayerBattleSO playerBattleData;
+    private PlayerSO playerSO;
     
     void Awake()
     {
@@ -44,6 +45,7 @@ public class TurnManager : MonoBehaviour
         if (playerData != null)
         {
             playerBattleData = playerData.playerBattleSO;
+            playerSO = playerData.playerSO;
         }
         gameOverScreen.SetActive(false);
         victoryScreen.SetActive(false);
@@ -115,6 +117,17 @@ public class TurnManager : MonoBehaviour
         {
             playerBattleData.unlockedLevels.Add(playerBattleData.currentLevel);
         }
+        if (!playerBattleData.currentLevel.rewardClaimed)
+        {
+            playerSO.energyPoints += playerBattleData.currentLevel.energyPointsReward;
+            Debug.Log("Rewarded " + playerBattleData.currentLevel.energyPointsReward + " energy points.");
+            playerSO.gems += playerBattleData.currentLevel.gemsReward;
+            Debug.Log("Rewarded " + playerBattleData.currentLevel.gemsReward + " gems.");
+            playerSO.coins += playerBattleData.currentLevel.coinsReward;
+            Debug.Log("Rewarded " + playerBattleData.currentLevel.coinsReward + " coins.");
+            playerBattleData.currentLevel.rewardClaimed = true;
+        }
+        
         playerBattleData.currentLevel = null;
     }
 
