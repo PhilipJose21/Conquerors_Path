@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a167ec9bc33dc408ea2eaa2a1ababd, type: 3}
   m_Name: Dock
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
-  <Name>k__BackingField: Research Lab
+  <Name>k__BackingField: Dock
   <Size>k__BackingField: 3
   <Model>k__BackingField: {fileID: 1915748257449464270, guid: 4561aebfa72c06e46b3d33e4322f4b63, type: 3}
   <Icon>k__BackingField: {fileID: 0}
