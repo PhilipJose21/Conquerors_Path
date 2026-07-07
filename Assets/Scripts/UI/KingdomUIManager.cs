@@ -49,10 +49,20 @@ public class KingdomUIManager : MonoBehaviour
     [Range(0f, 1f)] 
     [SerializeField] private float inactiveAlphaOrDim = 0.4f; 
 
+    [Header("Build Mode Smooth Animation Settings")]
+    [SerializeField] private float slideDuration = 0.25f; 
+    [SerializeField] private AnimationCurve slideCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
     private Color originalFarmsColor;
     private Color originalUnitTrainingColor;
     private Color originalMiscColor;
     private bool colorsCached = false;
+
+    // Animation tracking variables
+    private Coroutine slideCoroutine;
+    private Vector2 panelHiddenPosition;
+    private Vector2 panelShownPosition;
+    private RectTransform buildModeRectTransform;
 
     [Header("Scene Management")]
     public string worldSelectScenename = "Level Select";
@@ -108,8 +118,11 @@ public class KingdomUIManager : MonoBehaviour
         if (unitTrainingButton != null)    unitTrainingButton.onClick.AddListener(OpenUnitTrainingTab);
         if (miscButton != null) miscButton.onClick.AddListener(OpenMiscTab);
 
-        // Render resource panels on load and open Farms by defaultn
+        // Render resource panels on load and open Farms by default
         if (playerSO != null) ShowResourceValues(playerSO);
+        
+        // Cache our starting UI layout locations before turning panels on/off
+        InitializeAnimationCoordinates();
         OpenFarmsTab();
     }
 
@@ -128,15 +141,66 @@ public class KingdomUIManager : MonoBehaviour
         return go != null ? go.GetComponent<TextMeshProUGUI>() : null;
     }
 
-    // --- BUILD MODE TOGGLE & CATEGORY SELECTION ---
+    // --- ANIMATED SLIDE UP & DOWN SYSTEM ---
 
-    public void ToggleBuildMode()
+    private void InitializeAnimationCoordinates()
     {
         if (buildModePanel == null) return;
 
-        bool isCurrentlyActive = buildModePanel.activeSelf;
-        buildModePanel.SetActive(!isCurrentlyActive);
+        buildModeRectTransform = buildModePanel.GetComponent<RectTransform>();
+        if (buildModeRectTransform != null)
+        {
+            panelShownPosition = buildModeRectTransform.anchoredPosition;
+            
+            panelHiddenPosition = new Vector2(panelShownPosition.x, panelShownPosition.y - buildModeRectTransform.rect.height - 150f);
+
+            if (!buildModePanel.activeSelf)
+            {
+                buildModeRectTransform.anchoredPosition = panelHiddenPosition;
+            }
+        }
     }
+
+    public void ToggleBuildMode()
+    {
+        if (buildModePanel == null || buildModeRectTransform == null) return;
+
+        if (slideCoroutine != null) StopCoroutine(slideCoroutine);
+
+        if (!buildModePanel.activeSelf || buildModeRectTransform.anchoredPosition == panelHiddenPosition)
+        {
+            buildModePanel.SetActive(true);
+            slideCoroutine = StartCoroutine(SlidePanel(buildModeRectTransform.anchoredPosition, panelShownPosition, true));
+        }
+        else
+        {
+            slideCoroutine = StartCoroutine(SlidePanel(buildModeRectTransform.anchoredPosition, panelHiddenPosition, false));
+        }
+    }
+
+    private System.Collections.IEnumerator SlidePanel(Vector2 startPos, Vector2 endPos, bool keepActiveAtEnd)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < slideDuration)
+        {
+            elapsedTime += Time.unscaledDeltaTime; 
+            float t = elapsedTime / slideDuration;
+            float curvedT = slideCurve.Evaluate(t);
+
+            buildModeRectTransform.anchoredPosition = Vector2.Lerp(startPos, endPos, curvedT);
+            yield return null;
+        }
+
+        buildModeRectTransform.anchoredPosition = endPos;
+
+        if (!keepActiveAtEnd)
+        {
+            buildModePanel.SetActive(false);
+        }
+    }
+
+    // --- BUILD MODE CATEGORY SELECTION ---
 
     public void OpenFarmsTab()
     {
@@ -311,7 +375,13 @@ public class KingdomUIManager : MonoBehaviour
     {
         Debug.Log("Toggling troop selection panel");
         if (troopSelectionPanel != null)
-            troopSelectionPanel.SetActive(!troopSelectionPanel.activeSelf);
+            boxPanelState(!troopSelectionPanel.activeSelf);
+    }
+
+    private void boxPanelState(bool state)
+    {
+        if (troopSelectionPanel != null)
+            troopSelectionPanel.SetActive(state);
     }
 
     public void OpenBagPanel()
