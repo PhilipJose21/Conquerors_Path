@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   <Name>k__BackingField: Sparing Grounds
   <Size>k__BackingField: 9
-  <Model>k__BackingField: {fileID: 0}
+  <Model>k__BackingField: {fileID: 1915748257449464270, guid: b6088977b24467a4ca3588de807e162a, type: 3}
   <Icon>k__BackingField: {fileID: 0}
   <coinCost>k__BackingField: 0
   <farmCost>k__BackingField: 0
