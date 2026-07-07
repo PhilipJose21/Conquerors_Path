@@ -11,6 +11,7 @@ public class UnitHealth : MonoBehaviour
 
     public unitPhase currentUnitPhase;
     public GameObject playerUnit;
+    private bool isHealthUIHidden;
 
     void Awake()
     {
@@ -39,6 +40,21 @@ public class UnitHealth : MonoBehaviour
             currentHealth = 0;
             Die();
         }
+    }
+
+    public void SetHealthUIHidden(bool hidden)
+    {
+        isHealthUIHidden = hidden;
+
+        if (healthBarFill != null)
+        {
+            healthBarFill.enabled = !hidden;
+        }
+    }
+
+    public bool IsHealthUIHidden()
+    {
+        return isHealthUIHidden;
     }
 
     public void TakeDamage(int damage)

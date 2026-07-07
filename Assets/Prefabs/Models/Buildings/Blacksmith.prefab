@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e08563adee0da3549b92ff639c14d49b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingTrainingType
-  unitTrainingType: 1
+  unitTrainingType: 0
 --- !u!1001 &862069630165844041
 PrefabInstance:
   m_ObjectHideFlags: 0

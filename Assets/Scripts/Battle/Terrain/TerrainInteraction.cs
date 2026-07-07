@@ -57,5 +57,10 @@ public class TerrainInteraction : MonoBehaviour
         return unitVisibility;
     }
 
+    public bool IsFogTerrain()
+    {
+        return terrainData != null && terrainData.terrainName == "Fog";
+    }
+
 
 }

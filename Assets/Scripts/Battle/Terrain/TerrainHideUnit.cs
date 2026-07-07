@@ -52,6 +52,7 @@ public class TerrainHideUnit : MonoBehaviour
             Renderer otherRenderer = other.GetComponentInChildren<Renderer>();
             
             EnemyMovement enemyMovement = other.GetComponent<EnemyMovement>();
+            UnitHealth unitHealth = other.GetComponentInChildren<UnitHealth>();
             if (otherRenderer != null)
             {
                 Material mat = otherRenderer.material; // creates instance if needed
@@ -69,6 +70,10 @@ public class TerrainHideUnit : MonoBehaviour
             {
                 enemyMovement.isHidden = true;
             }
+            if (unitHealth != null)
+            {
+                unitHealth.SetHealthUIHidden(true);
+            }
             Debug.Log("Enemy entered the terrain and is now hidden.");
         }
    }
@@ -81,6 +86,7 @@ public class TerrainHideUnit : MonoBehaviour
 
             MoveUnit moveUnit = other.GetComponent<MoveUnit>();
             EnemyMovement enemyMovement = other.GetComponent<EnemyMovement>();
+            UnitHealth unitHealth = other.GetComponentInChildren<UnitHealth>();
 
             if (otherRenderer != null)
             {
@@ -102,6 +108,10 @@ public class TerrainHideUnit : MonoBehaviour
             if (enemyMovement != null)
             {
                 enemyMovement.isHidden = false;
+            }
+            if (unitHealth != null)
+            {
+                unitHealth.SetHealthUIHidden(false);
             }
         }
     }

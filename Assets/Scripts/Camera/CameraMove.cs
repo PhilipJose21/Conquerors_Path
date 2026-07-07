@@ -15,7 +15,7 @@ public class CameraMove : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.Space))
+        if (Input.GetMouseButton(0) && (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftAlt)))
         {
             Difference = (Camera.main.ScreenToWorldPoint(Input.mousePosition)) - Camera.main.transform.position;
             if (drag == false)

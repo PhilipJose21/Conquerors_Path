@@ -32,6 +32,7 @@ public class BuildingSystem : MonoBehaviour
     private PlayerData playerData;
     private PlayerSO playerSO;
     private PlayerBattleSO playerBattleSO;
+    private UnitButtonManager unitButtonManager;
 
     private BuildingPreview preview;
 
@@ -57,6 +58,7 @@ public class BuildingSystem : MonoBehaviour
 
         playerSO = playerData.playerSO;
         playerBattleSO = playerData.playerBattleSO;
+        unitButtonManager = Object.FindFirstObjectByType<UnitButtonManager>();
 
         if (isBattleScene && playerBattleSO != null)
         {
@@ -79,7 +81,18 @@ public class BuildingSystem : MonoBehaviour
             {
                 if (Input.GetKeyDown(numberKeyMap[i]))
                 {
-                    TrySelectBuilding(i, mousePos);
+                    if (isBattleScene && unitButtonManager != null && unitButtonManager.TryGetBuildingDataAtSlot(i, out BuildingData battleBuildingData))
+                    {
+                        SelectBuildingByData(battleBuildingData);
+                    }
+                    else if (isBattleScene)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        TrySelectBuilding(i, mousePos);
+                    }
                     break;
                 }
             }
@@ -99,16 +112,18 @@ public class BuildingSystem : MonoBehaviour
             return; // Exits early, keeping isPlacing unchanged
         }
 
-        
-        if (buildingDataList[index].coinCost > playerSO.coins||
+        if (!isBattleScene){
+            if (buildingDataList[index].coinCost > playerSO.coins||
             buildingDataList[index].woodCost > playerSO.woodResources||
             buildingDataList[index].rockCost > playerSO.stoneResources||
             buildingDataList[index].farmCost > playerSO.farmResources
             ||buildingDataList[index].energyCost > playerSO.energyPoints)
-        {
-            Debug.Log("Not enough resources to select this building.");
-            return;
+            {
+                Debug.Log("Not enough resources to select this building.");
+                return;
+            }
         }
+        
 
         // 2. TOGGLE FEATURE: If the same index is selected again, cancel/deselect placement
         if (isPlacing && buildingDataIndex == index)

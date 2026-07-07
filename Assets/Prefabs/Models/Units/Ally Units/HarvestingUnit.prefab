@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5f7e235abd90f244971b547dc79a947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitSOContainer
-  unitData: {fileID: 11400000, guid: 237da6f91dc3a8840acccd4ca416268d, type: 2}
+  unitData: {fileID: 11400000, guid: 1c2e282f01baa904cb2df16f7c7544d8, type: 2}
 --- !u!114 &7473405283178477117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +167,7 @@ MonoBehaviour:
   stateMachine: {fileID: 0}
   isPlayerTurn: 0
   isSelected: 0
+  isHidden: 0
   unitObject: {fileID: 0}
 --- !u!114 &6020906171987382805
 MonoBehaviour:

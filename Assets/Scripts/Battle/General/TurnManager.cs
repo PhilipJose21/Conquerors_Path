@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public enum turnPhase
 {
@@ -33,10 +34,21 @@ public class TurnManager : MonoBehaviour
     private Coroutine transitionCoroutine;
     private bool transitionPending = false;
     private bool isEnemyTurnProcessing = false;
+    private PlayerData playerData;
+    private PlayerBattleSO playerBattleData;
+    private PlayerSO playerSO;
     
     void Awake()
     {
         buildingSystem = Object.FindFirstObjectByType<BuildingSystem>();
+        playerData = Object.FindFirstObjectByType<PlayerData>();
+        if (playerData != null)
+        {
+            playerBattleData = playerData.playerBattleSO;
+            playerSO = playerData.playerSO;
+        }
+        gameOverScreen.SetActive(false);
+        victoryScreen.SetActive(false);
     }
 
     void Start()
@@ -61,6 +73,7 @@ public class TurnManager : MonoBehaviour
             else if (enemyUnits == null || enemyUnits.Length == 0)
             {
                 currentTurnPhase = turnPhase.PlayerWin;
+                RecordCompletedLevel();
                 victoryScreen.SetActive(true);
                 HideTurnScreens(); // Clean up UI instantly
                 return;
@@ -84,6 +97,38 @@ public class TurnManager : MonoBehaviour
             StopCoroutine(transitionCoroutine);
             transitionPending = false;
         }
+    }
+
+    private void RecordCompletedLevel()
+    {
+        if (playerBattleData.currentLevel == null)
+        {
+            return;
+        }
+
+        playerBattleData.currentLevel.isCompleted = true;
+        playerBattleData.currentLevel.isUnlocked = true;
+        if (!playerBattleData.completedLevels.Contains(playerBattleData.currentLevel))
+        {
+            playerBattleData.completedLevels.Add(playerBattleData.currentLevel);
+        }
+
+        if (!playerBattleData.unlockedLevels.Contains(playerBattleData.currentLevel))
+        {
+            playerBattleData.unlockedLevels.Add(playerBattleData.currentLevel);
+        }
+        if (!playerBattleData.currentLevel.rewardClaimed)
+        {
+            playerSO.energyPoints += playerBattleData.currentLevel.energyPointsReward;
+            Debug.Log("Rewarded " + playerBattleData.currentLevel.energyPointsReward + " energy points.");
+            playerSO.gems += playerBattleData.currentLevel.gemsReward;
+            Debug.Log("Rewarded " + playerBattleData.currentLevel.gemsReward + " gems.");
+            playerSO.coins += playerBattleData.currentLevel.coinsReward;
+            Debug.Log("Rewarded " + playerBattleData.currentLevel.coinsReward + " coins.");
+            playerBattleData.currentLevel.rewardClaimed = true;
+        }
+        
+        playerBattleData.currentLevel = null;
     }
 
     public void checkTurnPhase()

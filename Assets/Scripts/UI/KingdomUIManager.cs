@@ -54,6 +54,9 @@ public class KingdomUIManager : MonoBehaviour
     private Color originalMiscColor;
     private bool colorsCached = false;
 
+    [Header("Scene Management")]
+    public string worldSelectScenename = "Level Select";
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -334,5 +337,10 @@ public class KingdomUIManager : MonoBehaviour
     public void LoadTargetScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void loadWorldSelectScene()
+    {
+        SceneManager.LoadScene(worldSelectScenename);
     }
 }

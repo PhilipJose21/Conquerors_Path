@@ -16,11 +16,11 @@ public class RotateEnvironment : MonoBehaviour
     // Update handles input for rotating and resetting the environment parent.
     void Update()
     {
-        if (Input.GetKey(KeyCode.R))
+        if (Input.GetKey(KeyCode.T))
         {
             RotateEnvironmentObject(true);
         }
-        if (Input.GetKey(KeyCode.T))
+        if (Input.GetKey(KeyCode.Y))
         {
             RotateEnvironmentObject(false);
         }

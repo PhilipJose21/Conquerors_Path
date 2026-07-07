@@ -93,6 +93,8 @@ public class CellHighlighter : MonoBehaviour
             return;
         }
 
+        HashSet<TerrainInteraction> clearedFogTerrains = new HashSet<TerrainInteraction>();
+
         // If a grid contains the unit, include that grid. Also include any other
         // grids that have at least one cell within the unit's mobility/attack range
         // so highlights span adjacent grids. If no grid contains the unit, use all.
@@ -193,6 +195,8 @@ public class CellHighlighter : MonoBehaviour
                     ht.isMove = inMove;
                     ht.isAttack = inAttack;
 
+                    TryClearFogTerrainAt(worldPos, cellSize * 0.35f, clearedFogTerrains);
+
                     tiles.Add(tile);
                 }
             }
@@ -217,5 +221,26 @@ public class CellHighlighter : MonoBehaviour
         tp.y = currentUnit.transform.position.y;
         currentUnit.transform.position = tp;
         return true;
+    }
+
+    private void TryClearFogTerrainAt(Vector3 worldPos, float radius, HashSet<TerrainInteraction> clearedFogTerrains)
+    {
+        Collider[] hits = Physics.OverlapSphere(worldPos, radius);
+        foreach (var hit in hits)
+        {
+            TerrainInteraction terrainInteraction = hit.GetComponentInParent<TerrainInteraction>();
+            if (terrainInteraction == null || !terrainInteraction.IsFogTerrain())
+            {
+                continue;
+            }
+
+            if (clearedFogTerrains.Contains(terrainInteraction))
+            {
+                continue;
+            }
+
+            clearedFogTerrains.Add(terrainInteraction);
+            Destroy(terrainInteraction.gameObject);
+        }
     }
 }

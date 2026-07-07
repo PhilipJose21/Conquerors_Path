@@ -1,5 +1,7 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class TrainTroopsButton : MonoBehaviour
 {
@@ -7,31 +9,76 @@ public class TrainTroopsButton : MonoBehaviour
     //MAKE IS INSTANTIATE AND ATTATCH THE UNITSO HERE WHEN CLICKING THE OPEN UNIT LIST
     public UnitSO unitToTrain;
     public TextMeshProUGUI unitNameText;
+    public Image unitIconImage;
 
     public UnitSO.UnitType unitType;
 
     public GameObject confirmationPanel;
+    public TrainUpgradeTroopUI trainUpgradeTroopUI;
     private PlayerData playerData;
     private PlayerSO playerSO;
+    private PlayerBattleSO playerBattleSO;
+    private List<UnitSO> playerUnits;
     private BuildingData unitCost;
     
+    public bool isUpgrading = false;
+    public bool isTraining = false;
+
+
+    public int woodCost;
+    public int rockCost;
+    public int farmCost;
+    public int coinCost;
+
 
     void Start()
     {
         playerData = Object.FindFirstObjectByType<PlayerData>();
+        if (playerData == null)
+        {
+            Debug.LogError("TrainTroopsButton: PlayerData was not found in scene.");
+            return;
+        }
+
+        if (unitToTrain == null)
+        {
+            Debug.LogError("TrainTroopsButton: unitToTrain is not assigned.");
+            return;
+        }
+
         unitNameText.text = unitToTrain.unitName;
         unitType = unitToTrain.unitType;
         playerSO = playerData.playerSO;
+        playerBattleSO = playerData.playerBattleSO;
+        if (playerBattleSO != null && playerBattleSO.playerUnitStats == null)
+        {
+            playerBattleSO.playerUnitStats = new List<UnitSO>();
+        }
+
+        playerUnits = playerBattleSO != null ? playerBattleSO.playerUnitStats : null;
         unitCost = unitToTrain.buildingData;
-    }
+        unitIconImage.sprite = unitToTrain.unitIcon;
+        if (unitToTrain.unitIcon == null)
+        {
+            Debug.LogWarning("TrainUpgradeTroopUI.fillTrainingPanel: Unit icon is not assigned for unit: " + unitToTrain.unitName);
+        }
 
-    void Update()
-    {
 
+        woodCost = unitCost.woodCost;
+        rockCost = unitCost.rockCost;
+        farmCost = unitCost.farmCost;
+        coinCost = unitCost.coinCost;
+        increaseUnitCost(unitToTrain);
     }
 
     public void openConfirmationPanel()
     {
+        if (trainUpgradeTroopUI != null)
+        {
+            trainUpgradeTroopUI.SetPendingTroopAction(this);
+            return;
+        }
+
         if (confirmationPanel != null)
         {
             confirmationPanel.SetActive(true);
@@ -40,9 +87,78 @@ public class TrainTroopsButton : MonoBehaviour
 
     public void TrainUnit()
     {
-        checkResources();
+        if (isUpgrading)
+        {
+            checkResources();
+            return;
+        }
+
+        if (isTraining)
+        {
+            addUnit();
+            return;
+        }
+
+        Debug.LogWarning("TrainTroopsButton.TrainUnit: No action mode selected.");
     }
 
+    public void addUnit()
+    {
+        if (playerBattleSO == null || playerUnits == null)
+        {
+            Debug.LogWarning("TrainTroopsButton.addUnit: Player unit list is not initialized.");
+            return;
+        }
+
+        if (unitToTrain == null)
+        {
+            Debug.LogWarning("TrainTroopsButton.addUnit: unitToTrain is not assigned.");
+            return;
+        }
+
+        checkUnitCost(unitToTrain);
+    }
+
+//FOR ADDING UNITS
+    public void checkUnitCost(UnitSO unit)
+    {
+        if (unit == null || unit.buildingData == null)
+        {
+            Debug.LogWarning("TrainTroopsButton.checkUnitCost: Unit or unit cost data is missing.");
+            return;
+        }
+
+        BuildingData unitResource = unit.buildingData;
+        if (unitResource.woodCost > playerSO.woodResources 
+        || unitResource.rockCost > playerSO.stoneResources 
+        || unitResource.farmCost > playerSO.farmResources 
+        || unitResource.coinCost > playerSO.coins)
+        {
+            Debug.Log("Not enough resources to train unit: " + unit.unitName);
+            return;
+        }
+
+        playerSO.woodResources -= unitResource.woodCost;
+        playerSO.stoneResources -= unitResource.rockCost;
+        playerSO.farmResources -= unitResource.farmCost;
+        playerSO.coins -= unitResource.coinCost;
+
+        playerData.updatePlayerMaterials();
+
+        playerUnits.Add(unit);
+        updatePlayerUnits();
+        playerData.updateUnitList();
+        Debug.Log("Unit trained: " + unit.unitName);
+        Debug.Log("ADDING UNITS: Remaining Resources - Wood: " + playerData.playerWoodResources + ", Rock: " + playerData.playerStoneResources + ", Farm: " + playerData.playerFarmResources + ", Coins: " + playerData.playerCoins);
+    }
+
+    public void updatePlayerUnits()
+    {
+        playerBattleSO.playerUnitStats = playerUnits;
+    }
+
+
+//FOR UPGRADING UNITS
     public void checkResources()
     {
         if (unitToTrain.level > 10)
@@ -50,14 +166,21 @@ public class TrainTroopsButton : MonoBehaviour
             return;
         }
 
-        if (unitCost.woodCost <= playerSO.woodResources && unitCost.rockCost <= playerSO.stoneResources && unitCost.farmCost <= playerSO.farmResources && unitCost.coinCost <= playerSO.coins)
+        if (woodCost <= playerSO.woodResources 
+        && rockCost <= playerSO.stoneResources 
+        && farmCost <= playerSO.farmResources 
+        && coinCost <= playerSO.coins)
         {
-            playerSO.woodResources -= unitCost.woodCost;
-            playerSO.stoneResources -= unitCost.rockCost;
-            playerSO.farmResources -= unitCost.farmCost;
-            playerSO.coins -= unitCost.coinCost;
+            playerSO.woodResources -= woodCost;
+            playerSO.stoneResources -= rockCost;
+            playerSO.farmResources -= farmCost;
+            playerSO.coins -= coinCost;
+
+            playerData.updatePlayerMaterials();
 
             Debug.Log("Unit Trained");
+            Debug.Log("UPGRADING UNITS: Remaining Resources - Wood: " + playerSO.woodResources + ", Rock: " + playerSO.stoneResources + ", Farm: " + playerSO.farmResources + ", Coins: " + playerSO.coins);
+
             unitToTrain.level += 1;
             checkType();
         }
@@ -81,6 +204,8 @@ public class TrainTroopsButton : MonoBehaviour
                 increaseSupportStats(unitToTrain.level);
                 break;
         }
+        increaseUnitCost(unitToTrain);
+
     }
 
     public void increaseMeleeStats(int level)
@@ -170,5 +295,13 @@ public class TrainTroopsButton : MonoBehaviour
         Debug.Log("SUPPORT SUCCESS");
     }
 
-
+    public void increaseUnitCost(UnitSO unit)
+    {
+        //multiplies the cost of the unit by its level to increase the cost for each upgrade
+        //might tweak in the future
+        woodCost = (unit.buildingData.woodCost * unit.level);
+        rockCost = (unit.buildingData.rockCost * unit.level);
+        farmCost = (unit.buildingData.farmCost * unit.level);
+        coinCost = (unit.buildingData.coinCost * unit.level);
+    }
 }
