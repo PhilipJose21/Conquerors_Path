@@ -143,7 +143,7 @@ public class InfoPanel : MonoBehaviour
 
     public void closePanel()
     {
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     public void destroyObject()
