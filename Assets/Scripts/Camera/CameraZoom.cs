@@ -15,11 +15,11 @@ public class CameraZoom : MonoBehaviour
 
     private void Update()
     {
-        if(Input.mouseScrollDelta.y > 0 && cam.orthographicSize > MinSize && Input.GetKey(KeyCode.Space))
+        if(Input.mouseScrollDelta.y > 0 && cam.orthographicSize > MinSize && (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftAlt)))
         {
             cam.orthographicSize -= ZoomChange * Time.deltaTime * SmoothChange;
         }
-        else if(Input.mouseScrollDelta.y < 0 && cam.orthographicSize < MaxSize && Input.GetKey(KeyCode.Space))
+        else if(Input.mouseScrollDelta.y < 0 && cam.orthographicSize < MaxSize && (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftAlt)))
         {
             cam.orthographicSize += ZoomChange * Time.deltaTime * SmoothChange;
         }
