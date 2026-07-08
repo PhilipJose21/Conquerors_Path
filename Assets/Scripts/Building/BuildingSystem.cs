@@ -70,10 +70,6 @@ public class BuildingSystem : MonoBehaviour
 
     private void Start()
     {
-        if (!isBattleScene)
-        {
-            KingdomSaveManager.Instance?.RestoreInto(this);
-        }
     }
 
     private void OnDisable()
@@ -445,7 +441,7 @@ public class BuildingSystem : MonoBehaviour
             : null;
 
         Vector3 placePosition = savedBuilding.worldPosition;
-        Quaternion placeRotation = Quaternion.Euler(0f, savedBuilding.rootRotation, 0f);
+        Quaternion placeRotation = Quaternion.identity;
 
         Building building = Instantiate(buildingPrefab, placePosition, placeRotation, environmentParent.transform);
         building.SetUp(buildingData, savedBuilding.rotation);
@@ -466,7 +462,7 @@ public class BuildingSystem : MonoBehaviour
         BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridForPositions(occupiedPositions) ?? grid;
         if (primaryGrid != null)
         {
-            building.transform.SetPositionAndRotation(placePosition, Quaternion.Euler(0f, savedBuilding.rootRotation, 0f));
+            building.transform.SetPositionAndRotation(placePosition, Quaternion.identity);
         }
 
         foreach (Vector3 position in occupiedPositions)

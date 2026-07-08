@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class KingdomSaveManager : MonoBehaviour
 {
@@ -72,6 +73,8 @@ public class KingdomSaveManager : MonoBehaviour
 
         CaptureDefaults();
 
+        SceneManager.sceneLoaded += HandleSceneLoaded;
+
         if (ShouldUseDiskPersistence())
         {
             LoadFromDisk();
@@ -80,6 +83,8 @@ public class KingdomSaveManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        SceneManager.sceneLoaded -= HandleSceneLoaded;
+
         if (Instance == this)
         {
             Instance = null;
@@ -132,12 +137,6 @@ public class KingdomSaveManager : MonoBehaviour
     {
         if (buildingSystem == null || buildingSystem.isBattleScene)
         {
-            return;
-        }
-
-        if (buildingSnapshots.Count > 0)
-        {
-            SyncCurrentKingdomFromSnapshots();
             return;
         }
 
@@ -310,6 +309,27 @@ public class KingdomSaveManager : MonoBehaviour
         }
 
         buildingSystem.RestoreKingdomState(currentKingdom);
+    }
+
+    private void HandleSceneLoaded(Scene scene, LoadSceneMode loadMode)
+    {
+        if (!HasSavedKingdom)
+        {
+            return;
+        }
+
+        StartCoroutine(RestoreKingdomAfterSceneLoad());
+    }
+
+    private System.Collections.IEnumerator RestoreKingdomAfterSceneLoad()
+    {
+        yield return null;
+
+        BuildingSystem[] buildingSystems = FindObjectsByType<BuildingSystem>(FindObjectsSortMode.None);
+        foreach (BuildingSystem buildingSystem in buildingSystems)
+        {
+            RestoreInto(buildingSystem);
+        }
     }
 
     private void OnApplicationPause(bool pauseStatus)
