@@ -24,6 +24,8 @@ public class PassiveResource : MonoBehaviour
     public int gemCost;
     public int energyCost;
 
+    private bool hasLoadedSavedState;
+
     void Awake()
     {
         
@@ -35,11 +37,21 @@ public class PassiveResource : MonoBehaviour
         
         buildingStatsSO = statContainer?.buildingStatsSO;
         buildingData = statContainer?.buildingData;
+
         if (buildingStatsSO != null)
         {
             resourceType = buildingStatsSO.resourceType;
-            resourceAmount = buildingStatsSO.resourceAmount;
             resourceTimer = buildingStatsSO.resourceTimer;
+        }
+
+        if (hasLoadedSavedState)
+        {
+            return;
+        }
+
+        if (buildingStatsSO != null)
+        {
+            resourceAmount = buildingStatsSO.resourceAmount;
         }
 
         if (buildingData != null)
@@ -160,5 +172,42 @@ public class PassiveResource : MonoBehaviour
         playerSO.farmResources += Mathf.RoundToInt(farmCost * 0.5f);
         playerSO.coins += Mathf.RoundToInt(coinCost * 0.5f);
         playerSO.energyPoints += energyCost;
+    }
+
+    public PassiveResourceSaveData CaptureSaveData()
+    {
+        return new PassiveResourceSaveData
+        {
+            level = level,
+            isActive = isActive,
+            resourceAmount = resourceAmount,
+            currentTime = currentTime,
+            coinCost = coinCost,
+            farmCost = farmCost,
+            rockCost = rockCost,
+            woodCost = woodCost,
+            gemCost = gemCost,
+            energyCost = energyCost
+        };
+    }
+
+    public void ApplySaveData(PassiveResourceSaveData saveData)
+    {
+        if (saveData == null)
+        {
+            return;
+        }
+
+        hasLoadedSavedState = true;
+        level = saveData.level;
+        isActive = saveData.isActive;
+        resourceAmount = saveData.resourceAmount;
+        currentTime = saveData.currentTime;
+        coinCost = saveData.coinCost;
+        farmCost = saveData.farmCost;
+        rockCost = saveData.rockCost;
+        woodCost = saveData.woodCost;
+        gemCost = saveData.gemCost;
+        energyCost = saveData.energyCost;
     }
 }

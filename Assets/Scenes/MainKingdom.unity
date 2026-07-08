@@ -14177,6 +14177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a2dccd81e125845a8b8adb9fdffc5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
+  defaultPlayerSO: {fileID: 11400000, guid: 18efb63fa5e5cd348a4f222ef7bbca6c, type: 2}
   playerSO: {fileID: 11400000, guid: 11968b043e4f54e4aa60a402a854218e, type: 2}
   playerBattleSO: {fileID: 11400000, guid: 6456d1e7e49fd6c4db9c33c08c2d5e03, type: 2}
   playerWoodResources: 0

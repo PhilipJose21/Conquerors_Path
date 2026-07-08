@@ -19,20 +19,10 @@ public class LevelSO : ScriptableObject
 
     private void OnEnable()
     {
-        UpdateUnlockState();
     }
 
     private void OnValidate()
     {
-        UpdateUnlockState();
         levelSceneName = name;
-    }
-
-    private void UpdateUnlockState()
-    {
-        if (level == 1)
-        {
-            isUnlocked = true;
-        }
     }
 }

@@ -18,3 +18,7 @@ MonoBehaviour:
   level: 2
   isUnlocked: 0
   isCompleted: 0
+  rewardClaimed: 0
+  energyPointsReward: 0
+  gemsReward: 0
+  coinsReward: 0

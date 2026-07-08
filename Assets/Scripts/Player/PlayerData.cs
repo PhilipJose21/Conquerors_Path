@@ -5,6 +5,7 @@ public class PlayerData : MonoBehaviour
     public static PlayerData Instance { get; private set; }
 
     [Header("Core Scriptable Object References")]
+    public PlayerSO defaultPlayerSO;
     public PlayerSO playerSO;
     public PlayerBattleSO playerBattleSO;
 
@@ -45,6 +46,11 @@ public class PlayerData : MonoBehaviour
         playerResearchPoints = playerSO.researchPoints;
         playerGems = playerSO.gems;
         playerCoins = playerSO.coins;
+        KingdomSaveManager.Instance?.RegisterPlayerData(playerSO, playerBattleSO, defaultPlayerSO);
+        if (!Application.isEditor)
+        {
+            KingdomSaveManager.Instance?.ApplyLoadedPlayerData();
+        }
         if (playerBattleSO != null && isBattleScene)
         {
             updatePlayerMaterials();

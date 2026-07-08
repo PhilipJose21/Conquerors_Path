@@ -1954,6 +1954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fec52ba5def8097499a473917a5eea6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoadLevel
+  loadCurrentLevel: 0
   sceneName: 
 --- !u!1 &830410397
 GameObject:
@@ -4250,7 +4251,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2000589470
 RectTransform:
   m_ObjectHideFlags: 0

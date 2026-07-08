@@ -136,6 +136,7 @@ public class ResearchTreeManager : MonoBehaviour
     }
     public void LoadTargetScene(string sceneName)
     {
+        KingdomSaveManager.Instance?.SaveCurrentKingdom();
         SceneManager.LoadScene(sceneName);
     }
 }
