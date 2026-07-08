@@ -140,6 +140,7 @@ public class KingdomSaveManager : MonoBehaviour
         registeredDefaultPlayerSO = defaultPlayerSO;
 
         CaptureDefaults();
+        EnsureDefaultPlayerData();
 
         if (hasLoadedFromDisk)
         {
@@ -276,9 +277,11 @@ public class KingdomSaveManager : MonoBehaviour
         string path = GetSaveFilePath();
         if (!File.Exists(path))
         {
+            EnsureDefaultPlayerData();
             hasLoadedFromDisk = true;
             return;
         }
+
         string json = File.ReadAllText(path);
         GameSaveData loadedSave = JsonUtility.FromJson<GameSaveData>(json);
         if (loadedSave != null)
@@ -286,6 +289,8 @@ public class KingdomSaveManager : MonoBehaviour
             currentPlayer = loadedSave.player ?? new PlayerSaveData();
             currentKingdom = loadedSave.kingdom ?? new SaveKingdomData();
         }
+
+        EnsureDefaultPlayerData();
 
         hasLoadedFromDisk = true;
     }
@@ -398,6 +403,45 @@ public class KingdomSaveManager : MonoBehaviour
             coins = source.coins,
             unlockedUnitKeys = source.unlockedUnitKeys != null ? new List<string>(source.unlockedUnitKeys) : new List<string>()
         };
+    }
+
+    private void EnsureDefaultPlayerData()
+    {
+        if (!ShouldUseDefaultPlayerData(currentPlayer))
+        {
+            return;
+        }
+
+        PlayerSaveData defaultPlayerSnapshot = playerDefaults.Count > 0
+            ? playerDefaults[0]
+            : CapturePlayerSnapshot(registeredDefaultPlayerSO != null ? registeredDefaultPlayerSO : registeredPlayerSO);
+
+        if (ShouldUseDefaultPlayerData(defaultPlayerSnapshot))
+        {
+            return;
+        }
+
+        currentPlayer = ClonePlayerSaveData(defaultPlayerSnapshot);
+    }
+
+    private bool ShouldUseDefaultPlayerData(PlayerSaveData playerData)
+    {
+        if (playerData == null)
+        {
+            return true;
+        }
+
+        bool hasNoResources = playerData.woodResources == 0
+            && playerData.stoneResources == 0
+            && playerData.farmResources == 0
+            && playerData.energyPoints == 0
+            && playerData.researchPoints == 0
+            && playerData.gems == 0
+            && playerData.coins == 0;
+
+        bool hasNoUnits = playerData.unlockedUnitKeys == null || playerData.unlockedUnitKeys.Count == 0;
+
+        return hasNoResources && hasNoUnits;
     }
 
     private void ApplyCapturedPlayerSnapshot(PlayerSaveData snapshot)

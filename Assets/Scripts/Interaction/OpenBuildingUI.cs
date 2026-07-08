@@ -33,7 +33,7 @@ public class OpenBuildingUI : MonoBehaviour
             }
             else
             {
-                TrainUpgradeTroopUI trainUpgradeTroopUI = uiInstance.GetComponent<TrainUpgradeTroopUI>() ?? uiInstance.GetComponentInChildren<TrainUpgradeTroopUI>();
+                TrainUpgradeTroopUI trainUpgradeTroopUI = uiInstance.GetComponent<TrainUpgradeTroopUI>() ?? uiInstance.GetComponentInChildren<TrainUpgradeTroopUI>(true);
                 if (trainUpgradeTroopUI == null)
                 {
                     trainUpgradeTroopUI = Object.FindFirstObjectByType<TrainUpgradeTroopUI>();
