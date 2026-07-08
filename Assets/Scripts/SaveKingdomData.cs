@@ -25,6 +25,8 @@ public class SaveKingdomData
 public class SavedBuildingData
 {
 	public string buildingKey;
+	public Vector3 worldPosition;
+	public float rootRotation;
 	public float rotation;
 	public List<Vector3> occupiedPositions = new List<Vector3>();
 	public PassiveResourceSaveData passiveResource = new PassiveResourceSaveData();

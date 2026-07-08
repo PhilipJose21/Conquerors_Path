@@ -13,7 +13,7 @@ public class BuildingModel : MonoBehaviour
     private void Awake()
     {
         // Cache all child units that define the building's occupied cells.
-        shapeUnits = GetComponentsInChildren<BuildingShapeUnit>();
+        shapeUnits = GetComponentsInChildren<BuildingShapeUnit>(true);
     }
 
     public void Rotate(float rotationStep)
