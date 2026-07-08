@@ -81,15 +81,6 @@ public class PlayerBattleSO : ScriptableObject
         {
             isSyncingLists = false;
         }
-
-        for (int i = 0; i < unlockedLevels.Count; i++)
-        {
-            unlockedLevels[i].isUnlocked = true;
-        }
-        for (int i = 0; i < completedLevels.Count; i++)
-        {
-            completedLevels[i].isCompleted = true;
-        }
     }
 
     private void SyncListCounts()

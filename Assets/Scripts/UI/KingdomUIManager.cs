@@ -406,11 +406,13 @@ public class KingdomUIManager : MonoBehaviour
 
     public void LoadTargetScene(string sceneName)
     {
+        KingdomSaveManager.Instance?.SaveCurrentKingdom();
         SceneManager.LoadScene(sceneName);
     }
 
     public void loadWorldSelectScene()
     {
+        KingdomSaveManager.Instance?.SaveCurrentKingdom();
         SceneManager.LoadScene(worldSelectScenename);
     }
 }

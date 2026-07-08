@@ -22,6 +22,10 @@ public class ScrollWorld : MonoBehaviour
             levelSelectPanel[i].SetActive(false);
         }
         worldSelectPanel.SetActive(true);
+        if (levelInfoPanel != null)
+        {
+            levelInfoPanel.SetActive(false);
+        }
     }
 
     void Start()
@@ -37,6 +41,7 @@ public class ScrollWorld : MonoBehaviour
 
     public void loadLevel()
     {
+        KingdomSaveManager.Instance?.SaveCurrentKingdom();
         SceneManager.LoadScene(imagesPrefab[currentIndex].worldLevelScene);
     }
 
@@ -70,6 +75,8 @@ public class ScrollWorld : MonoBehaviour
 
     public void BackButton()
     {
+        KingdomSaveManager.Instance?.SaveCurrentKingdom();
+
         if (worldSelectPanel.activeSelf)
         {
             SceneManager.LoadScene("MainKingdom");

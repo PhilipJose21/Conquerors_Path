@@ -68,6 +68,22 @@ public class BuildingSystem : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        if (!isBattleScene)
+        {
+            KingdomSaveManager.Instance?.RestoreInto(this);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (!isBattleScene)
+        {
+            KingdomSaveManager.Instance?.CaptureFrom(this);
+        }
+    }
+
     private void Update()
     {
         // Check input and update the active preview each frame.
@@ -358,6 +374,128 @@ public class BuildingSystem : MonoBehaviour
 
         // After placing, ensure any selected-building UI is closed
         KingdomUIManager.Instance?.CloseObjectInfo();
+    }
+
+    public SaveKingdomData CaptureKingdomState()
+    {
+        SaveKingdomData saveData = new SaveKingdomData();
+
+        if (environmentParent == null)
+        {
+            return saveData;
+        }
+
+        Building[] placedBuildings = environmentParent.GetComponentsInChildren<Building>(true);
+        foreach (Building building in placedBuildings)
+        {
+            if (building == null || !building.HasData)
+            {
+                continue;
+            }
+
+            BuildingModel model = building.GetComponentInChildren<BuildingModel>();
+            List<Vector3> occupiedPositions = model != null ? model.GetAllBuildingPosition() : new List<Vector3>();
+            if (occupiedPositions.Count == 0)
+            {
+                continue;
+            }
+
+            saveData.buildings.Add(new SavedBuildingData
+            {
+                buildingKey = building.Name,
+                rotation = model != null ? model.Rotation : building.transform.eulerAngles.y,
+                occupiedPositions = new List<Vector3>(occupiedPositions),
+                passiveResource = building.GetComponentInChildren<PassiveResource>()?.CaptureSaveData() ?? new PassiveResourceSaveData()
+            });
+        }
+
+        return saveData;
+    }
+
+    public void RestoreKingdomState(SaveKingdomData saveData)
+    {
+        if (saveData == null || saveData.buildings == null)
+        {
+            return;
+        }
+
+        ClearPlacedBuildings();
+
+        foreach (SavedBuildingData savedBuilding in saveData.buildings)
+        {
+            RestoreBuilding(savedBuilding);
+        }
+    }
+
+    private void RestoreBuilding(SavedBuildingData savedBuilding)
+    {
+        if (savedBuilding == null || savedBuilding.occupiedPositions == null || savedBuilding.occupiedPositions.Count == 0)
+        {
+            return;
+        }
+
+        BuildingData buildingData = FindBuildingDataByKey(savedBuilding.buildingKey);
+        if (buildingData == null || buildingPrefab == null || environmentParent == null)
+        {
+            return;
+        }
+
+        BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridForPositions(savedBuilding.occupiedPositions) ?? grid;
+        Vector3 placePosition = GetSnappedCenterPosition(savedBuilding.occupiedPositions, primaryGrid);
+        Quaternion placeRotation = primaryGrid != null ? primaryGrid.transform.rotation : Quaternion.identity;
+
+        Building building = Instantiate(buildingPrefab, placePosition, placeRotation, environmentParent.transform);
+        building.SetUp(buildingData, savedBuilding.rotation);
+        building.transform.SetPositionAndRotation(placePosition, placeRotation);
+
+        BuildingStatContainer statContainer = building.GetComponentInChildren<BuildingStatContainer>();
+        if (statContainer != null)
+        {
+            statContainer.buildingData = buildingData;
+        }
+
+        foreach (Vector3 position in savedBuilding.occupiedPositions)
+        {
+            BuildingGrid posGrid = BuildingGridManager.Instance.FindGridAtPosition(position) ?? primaryGrid ?? grid;
+            if (posGrid != null)
+            {
+                posGrid.SetBuildingAtWorldPosition(building, position);
+            }
+        }
+
+        PassiveResource passiveResource = building.GetComponentInChildren<PassiveResource>();
+        if (passiveResource != null)
+        {
+            passiveResource.ApplySaveData(savedBuilding.passiveResource);
+            passiveResource.isActive = true;
+        }
+    }
+
+    public void ClearPlacedBuildings()
+    {
+        if (environmentParent == null)
+        {
+            return;
+        }
+
+        Building[] placedBuildings = environmentParent.GetComponentsInChildren<Building>(true);
+        foreach (Building building in placedBuildings)
+        {
+            if (building != null)
+            {
+                Destroy(building.gameObject);
+            }
+        }
+    }
+
+    private BuildingData FindBuildingDataByKey(string buildingKey)
+    {
+        if (buildingDataList == null || string.IsNullOrWhiteSpace(buildingKey))
+        {
+            return null;
+        }
+
+        return buildingDataList.FirstOrDefault(data => data != null && (data.Name == buildingKey || data.name == buildingKey));
     }
 
     private void FinishPlacement()

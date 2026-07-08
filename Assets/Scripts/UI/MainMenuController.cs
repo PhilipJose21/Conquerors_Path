@@ -13,6 +13,7 @@ public class MainMenuController : MonoBehaviour
     {
         Debug.Log("Loading Main Kingdom Scene...");
         // Make sure your MainKingdomScene is added to Build Settings!
+        KingdomSaveManager.Instance?.SaveCurrentKingdom();
         SceneManager.LoadScene(mainKingdomSceneName);
     }
 

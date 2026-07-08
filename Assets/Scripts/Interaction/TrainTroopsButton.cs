@@ -55,6 +55,8 @@ public class TrainTroopsButton : MonoBehaviour
             playerBattleSO.playerUnitStats = new List<UnitSO>();
         }
 
+        KingdomSaveManager.Instance?.RegisterAvailableUnit(unitToTrain);
+
         playerUnits = playerBattleSO != null ? playerBattleSO.playerUnitStats : null;
         unitCost = unitToTrain.buildingData;
         unitIconImage.sprite = unitToTrain.unitIcon;
@@ -69,6 +71,8 @@ public class TrainTroopsButton : MonoBehaviour
         farmCost = unitCost.farmCost;
         coinCost = unitCost.coinCost;
         increaseUnitCost(unitToTrain);
+
+        KingdomSaveManager.Instance?.ApplyLoadedPlayerData();
     }
 
     public void openConfirmationPanel()

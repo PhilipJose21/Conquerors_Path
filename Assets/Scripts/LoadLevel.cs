@@ -16,6 +16,7 @@ public class LoadLevel : MonoBehaviour
 
     public void LoadLevelScene()
     {
+        KingdomSaveManager.Instance?.SaveCurrentKingdom();
         SceneManager.LoadScene(sceneName);
     }
 }
