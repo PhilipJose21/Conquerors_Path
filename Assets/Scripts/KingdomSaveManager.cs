@@ -88,6 +88,12 @@ public class KingdomSaveManager : MonoBehaviour
 
     public void SaveCurrentKingdom()
     {
+        BuildingSystem buildingSystem = FindCurrentKingdomBuildingSystem();
+        if (buildingSystem != null)
+        {
+            CaptureFrom(buildingSystem);
+        }
+
         SyncCurrentKingdomFromSnapshots();
 
         CapturePlayerData();
@@ -124,12 +130,6 @@ public class KingdomSaveManager : MonoBehaviour
     {
         if (buildingSystem == null || buildingSystem.isBattleScene)
         {
-            return;
-        }
-
-        if (buildingSnapshots.Count > 0)
-        {
-            SyncCurrentKingdomFromSnapshots();
             return;
         }
 
