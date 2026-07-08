@@ -94,6 +94,8 @@ public class KingdomSaveManager : MonoBehaviour
             CaptureFrom(buildingSystem);
         }
 
+        RefreshPassiveResourceSnapshotsFromScene();
+        
         SyncCurrentKingdomFromSnapshots();
 
         CapturePlayerData();
@@ -130,6 +132,12 @@ public class KingdomSaveManager : MonoBehaviour
     {
         if (buildingSystem == null || buildingSystem.isBattleScene)
         {
+            return;
+        }
+
+        if (buildingSnapshots.Count > 0)
+        {
+            SyncCurrentKingdomFromSnapshots();
             return;
         }
 
@@ -676,6 +684,36 @@ public class KingdomSaveManager : MonoBehaviour
             occupiedPositions = positions,
             passiveResource = passiveResource != null ? passiveResource.CaptureSaveData() : new PassiveResourceSaveData()
         };
+    }
+
+    private void RefreshPassiveResourceSnapshotsFromScene()
+    {
+        Building[] placedBuildings = FindObjectsByType<Building>(FindObjectsSortMode.None);
+        foreach (Building building in placedBuildings)
+        {
+            if (building == null || !building.HasData)
+            {
+                continue;
+            }
+
+            PassiveResource passiveResource = building.GetComponentInChildren<PassiveResource>(true);
+            if (passiveResource == null)
+            {
+                continue;
+            }
+
+            SavedBuildingData liveSnapshot = CreateBuildingSnapshot(building);
+            int snapshotIndex = buildingSnapshots.FindIndex(existing => IsSameBuilding(existing, liveSnapshot));
+
+            if (snapshotIndex >= 0)
+            {
+                buildingSnapshots[snapshotIndex].passiveResource = passiveResource.CaptureSaveData();
+            }
+            else
+            {
+                buildingSnapshots.Add(liveSnapshot);
+            }
+        }
     }
 
     private void SyncCurrentKingdomFromSnapshots()
