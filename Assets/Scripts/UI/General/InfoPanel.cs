@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI; // ADDED: Necessary namespace for working with the Image component
 
 public class InfoPanel : MonoBehaviour
 {
@@ -11,19 +12,19 @@ public class InfoPanel : MonoBehaviour
     
     public string valueTextName;
 
+    [Header("Global UI Elements")]
+    public Image troopIconImage; // ADDED: Drag the layout image placeholder here!
+
     [Header("Building UI Elements")]
     public GameObject buildingInfoParent;
     public GameObject resourceOutputParent;
     public GameObject resourceTypeParent;
 
-
     private TextMeshProUGUI resourceTypeText;
     private TextMeshProUGUI resourceAmountText;
 
-
     [Header("Unit UI Elements")]
     public GameObject unitInfoParent;
-
     public GameObject unitTypeParent;
     public GameObject hpParent;
     public GameObject damageParent;
@@ -37,7 +38,6 @@ public class InfoPanel : MonoBehaviour
     private TextMeshProUGUI attackRangeText;
     private TextMeshProUGUI mobilityText;
     private TextMeshProUGUI unitCostText;
-
 
     public BuildingStatsSO buildingStatsSO;
     public BuildingData buildingData;
@@ -88,20 +88,33 @@ public class InfoPanel : MonoBehaviour
 
     public void SetUp(BuildingStatsSO buildingStatsSO, TroopData unitData)
     {
+        // Cache the incoming references locally so your data fields match up perfectly!
+        this.buildingStatsSO = buildingStatsSO;
+        this.unitData = unitData;
+
         if (buildingStatsSO != null && unitData == null)
         {
             unitInfoParent.SetActive(false);
             buildingInfoParent.SetActive(true);
+            
+            // Hide the troop icon when viewing a structure panel layout card
+            if (troopIconImage != null) troopIconImage.gameObject.SetActive(false);
+
             nameText.text = buildingStatsSO.buildingName;
             descriptionText.text = buildingStatsSO.description;
             resourceTypeText.text = buildingStatsSO.resourceType.ToString();
-            resourceAmountText.text = passiveResource.resourceAmount.ToString() + " %";
+            
+            if (passiveResource != null && resourceAmountText != null)
+            {
+                resourceAmountText.text = passiveResource.resourceAmount.ToString() + " %";
+            }
         }
 
         if (unitData != null && buildingStatsSO == null)
         {
             buildingInfoParent.SetActive(false);
             unitInfoParent.SetActive(true);
+            
             nameText.text = unitData.unitName;
             descriptionText.text = unitData.description;
             unitTypeText.text = unitData.unitType.ToString();
@@ -110,6 +123,21 @@ public class InfoPanel : MonoBehaviour
             attackRangeText.text = unitData.attackRange.ToString();
             mobilityText.text = unitData.mobility.ToString();
             unitCostText.text = unitData.unitCost.ToString();
+
+            // UPDATED: Dynamically handle updating your unit profile image asset
+            if (troopIconImage != null)
+            {
+                // Note: Change 'unitIcon' to whatever variable name you defined inside UnitData.cs!
+                if (unitData.unitIcon != null) 
+                {
+                    troopIconImage.gameObject.SetActive(true);
+                    troopIconImage.sprite = unitData.unitIcon;
+                }
+                else
+                {
+                    troopIconImage.gameObject.SetActive(false); 
+                }
+            }
         }
     }
 

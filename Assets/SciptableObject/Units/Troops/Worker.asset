@@ -16,7 +16,7 @@ MonoBehaviour:
   unitType: 2
   description: Instead of attacking enemies, they attack Terrains to harvest their
     resources.
-  unitIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  unitIcon: {fileID: 21300000, guid: 895e6da931243c64ebd9e29a47b2ac93, type: 3}
   health: 4
   damage: 1
   mobility: 3
