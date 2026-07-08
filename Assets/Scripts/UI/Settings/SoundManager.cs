@@ -1,9 +1,13 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement; // ADDED: Necessary namespace for tracking scene shifts
 
 public class SoundManager : MonoBehaviour
 {
+    // ADDED: Global Singleton Instance
+    public static SoundManager Instance { get; private set; }
+
     [Header("Buttons")]
     [SerializeField] private Button saveVolumes;
 
@@ -14,6 +18,11 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private Slider masterSlider;
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider sfxSlider;
+
+    [Header("Persistent Music Source Hooks")]
+    [SerializeField] private AudioSource musicAudioSource; // ADDED: Drag your BGM AudioSource slot here
+    public AudioClip mainKingdomMusic;                     // ADDED: Kingdom BGM track
+    public AudioClip levelSelectMusic;                    // ADDED: Map selection BGM track
 
     private AudioSource sfxAudioSource;
 
@@ -27,6 +36,38 @@ public class SoundManager : MonoBehaviour
     private const string SFXVOLUME    = "sfxVolume";
     private const string MUTEPREF     = "isMuted";
 
+    private void Awake()
+    {
+        // ADDED: Singleton Pattern with DontDestroyOnLoad logic execution
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject); // Ensures the script doesn't die when scenes shift!
+
+        // Instantly verify music track routing layer properties are defined
+        if (musicAudioSource == null)
+        {
+            musicAudioSource = GetComponent<AudioSource>();
+            if (musicAudioSource == null) musicAudioSource = gameObject.AddComponent<AudioSource>();
+        }
+        musicAudioSource.loop = true;
+    }
+
+    private void OnEnable()
+    {
+        // ADDED: Subscribe to scene load handler event loops
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        // ADDED: Unsubscribe when disabled to safeguard your project memory lanes
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     private void Start()
     {
         LoadVolumeParams();
@@ -36,9 +77,8 @@ public class SoundManager : MonoBehaviour
             sfxAudioSource = transform.GetChild(1).GetComponent<AudioSource>();
         }
 
-        if (masterSlider != null) masterSlider.value = masterVol;
-        if (musicSlider != null) musicSlider.value = musicVol;
-        if (sfxSlider != null) sfxSlider.value = sfxVol;
+        // Apply loaded sliders layout configurations safely
+        UpdateSlidersUI();
 
         // Apply loaded parameters straight to the Audio Mixer upon startup
         MasterVolume(masterVol);
@@ -50,6 +90,59 @@ public class SoundManager : MonoBehaviour
         {
             saveVolumes.onClick.AddListener(SaveVolumeParams);
         }
+
+        // Initialize music clip processing rules for whatever scene was entered first
+        EvaluateSceneBGM(SceneManager.GetActiveScene().name);
+    }
+
+    // ADDED: Unified Scene Loader Router Event Callback Trigger hook
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        EvaluateSceneBGM(scene.name);
+        
+        UpdateSlidersUI();
+    }
+
+    // ADDED: Centralized background tracking logic analyzer processing
+    private void EvaluateSceneBGM(string sceneName)
+    {
+        switch (sceneName)
+        {
+            case "MainMenu": 
+                PlayBGM(mainKingdomMusic); 
+                break;
+            case "MainKingdom":
+                PlayBGM(mainKingdomMusic);
+                break;
+
+            case "Level Select": 
+                PlayBGM(levelSelectMusic);
+                break;
+        }
+    }
+
+    // ADDED: Track selector wrapper optimization routine
+    private void PlayBGM(AudioClip trackClip)
+    {
+        if (trackClip == null || musicAudioSource == null) return;
+        
+        // Prevent jarring re-triggers if the correct track is already playing
+        if (musicAudioSource.clip == trackClip && musicAudioSource.isPlaying) return;
+
+        musicAudioSource.clip = trackClip;
+        musicAudioSource.Play();
+    }
+
+    // ADDED: Extracted method helper to auto-find new settings layout objects on load
+    private void UpdateSlidersUI()
+    {
+        if (masterSlider == null) masterSlider = GameObject.Find("masterSlider")?.GetComponent<Slider>();
+        if (musicSlider == null) musicSlider = GameObject.Find("musicSlider")?.GetComponent<Slider>();
+        if (sfxSlider == null) sfxSlider = GameObject.Find("sfxSlider")?.GetComponent<Slider>();
+
+        if (masterSlider != null) { masterSlider.value = masterVol; masterSlider.onValueChanged.RemoveAllListeners(); masterSlider.onValueChanged.AddListener(MasterVolume); }
+        if (musicSlider != null) { musicSlider.value = musicVol; musicSlider.onValueChanged.RemoveAllListeners(); musicSlider.onValueChanged.AddListener(MusicVolume); }
+        if (sfxSlider != null) { sfxSlider.value = sfxVol; sfxSlider.onValueChanged.RemoveAllListeners(); sfxSlider.onValueChanged.AddListener(SFXVolume); }
     }
 
     private void SaveVolumeParams()
@@ -76,7 +169,9 @@ public class SoundManager : MonoBehaviour
 
         if (!isMuted && audioMixer != null)
         {
-            audioMixer.SetFloat(MASTERVOLUME, Mathf.Log10(value) * 20f);
+            // Protect Log10 scale mapping metrics against absolute zeroes to avoid errors
+            float dB = value > 0.0001f ? Mathf.Log10(value) * 20f : -80f;
+            audioMixer.SetFloat(MASTERVOLUME, dB);
         }
     }
 
@@ -85,7 +180,8 @@ public class SoundManager : MonoBehaviour
         musicVol = value;
         if (audioMixer != null)
         {
-            audioMixer.SetFloat(MUSICVOLUME, Mathf.Log10(value) * 20f);
+            float dB = value > 0.0001f ? Mathf.Log10(value) * 20f : -80f;
+            audioMixer.SetFloat(MUSICVOLUME, dB);
         }
     }
 
@@ -94,7 +190,8 @@ public class SoundManager : MonoBehaviour
         sfxVol = value;
         if (audioMixer != null)
         {
-            audioMixer.SetFloat(SFXVOLUME, Mathf.Log10(value) * 20f);
+            float dB = value > 0.0001f ? Mathf.Log10(value) * 20f : -80f;
+            audioMixer.SetFloat(SFXVOLUME, dB);
         }
     }
 
