@@ -19,11 +19,9 @@ public class KingdomUIManager : MonoBehaviour
     public TextMeshProUGUI gemsText;
     public TextMeshProUGUI coinsText;
 
-    [Header("Object Info / Building Panel")]
-    public Transform objectInfoParent;
-    public GameObject buildingInfoPrefab;
-    [SerializeField] private GameObject currentObjectInfoPanel;
-    [SerializeField] private bool currentObjectInfoPanelIsInstantiated;
+    [Header("Object Info / Building Panel (In-Scene Reference)")]
+    [Tooltip("Drag the existing InfoPanel from your Hierarchy straight into this slot!")]
+    public InfoPanel sceneInfoPanel;
     
     [Header("Troop Selection Panel")]
     public GameObject troopSelectionPanel;
@@ -76,26 +74,10 @@ public class KingdomUIManager : MonoBehaviour
         }
         Instance = this;
 
-        if (objectInfoParent == null)
+        // Fallback lookup if you forget to drag it into the inspector slot
+        if (sceneInfoPanel == null)
         {
-            var go = GameObject.FindWithTag("ObjectInformationParent");
-            if (go != null) objectInfoParent = go.transform;
-        }
-
-        if (buildingInfoPrefab == null)
-        {
-            buildingInfoPrefab = Resources.Load<GameObject>("UI/BuildingInfoPanel");
-        }
-
-        if (currentObjectInfoPanel == null && objectInfoParent != null)
-        {
-            var existingPanel = objectInfoParent.GetComponentInChildren<BuildingInfoPanel>(true);
-            if (existingPanel != null)
-            {
-                currentObjectInfoPanel = existingPanel.gameObject;
-                currentObjectInfoPanelIsInstantiated = false;
-                currentObjectInfoPanel.SetActive(false);
-            }
+            sceneInfoPanel = Object.FindFirstObjectByType<InfoPanel>(FindObjectsInactive.Include);
         }
 
         if (woodText == null) woodText = FindTMP("Canvas/ResourcePanel/WoodText");
@@ -111,19 +93,19 @@ public class KingdomUIManager : MonoBehaviour
 
     void Start()
     {
-        // Setup Build Mode Event Listeners natively
         if (buildModeToggleButton != null) buildModeToggleButton.onClick.AddListener(ToggleBuildMode);
         
         if (farmsButton != null)   farmsButton.onClick.AddListener(OpenFarmsTab);
         if (unitTrainingButton != null)    unitTrainingButton.onClick.AddListener(OpenUnitTrainingTab);
         if (miscButton != null) miscButton.onClick.AddListener(OpenMiscTab);
 
-        // Render resource panels on load and open Farms by default
         if (playerSO != null) ShowResourceValues(playerSO);
         
-        // Cache our starting UI layout locations before turning panels on/off
         InitializeAnimationCoordinates();
         OpenFarmsTab();
+
+        // Ensure the info panel starts closed when the game boots
+        if (sceneInfoPanel != null) sceneInfoPanel.gameObject.SetActive(false);
     }
 
     void Update()
@@ -151,7 +133,6 @@ public class KingdomUIManager : MonoBehaviour
         if (buildModeRectTransform != null)
         {
             panelShownPosition = buildModeRectTransform.anchoredPosition;
-            
             panelHiddenPosition = new Vector2(panelShownPosition.x, panelShownPosition.y - buildModeRectTransform.rect.height - 150f);
 
             if (!buildModePanel.activeSelf)
@@ -244,18 +225,16 @@ public class KingdomUIManager : MonoBehaviour
     {
         CacheOriginalColors();
 
-        // Multiplies the original colors by a dim fraction for background tabs
         if (farmsButton != null)   farmsButton.image.color = originalFarmsColor * new Color(inactiveAlphaOrDim, inactiveAlphaOrDim, inactiveAlphaOrDim, 1f);
         if (unitTrainingButton != null)    unitTrainingButton.image.color = originalUnitTrainingColor * new Color(inactiveAlphaOrDim, inactiveAlphaOrDim, inactiveAlphaOrDim, 1f);
         if (miscButton != null) miscButton.image.color = originalMiscColor * new Color(inactiveAlphaOrDim, inactiveAlphaOrDim, inactiveAlphaOrDim, 1f);
 
-        // Restores full original beauty to only the active slot
         if (activeBtn == farmsButton && farmsButton != null)     farmsButton.image.color = originalFarmsColor;
         if (activeBtn == unitTrainingButton && unitTrainingButton != null)       unitTrainingButton.image.color = originalUnitTrainingColor;
         if (activeBtn == miscButton && miscButton != null) miscButton.image.color = originalMiscColor;
     }
 
-    // --- EXISTING HOOKS AND WORKFLOWS ---
+    // --- CLEANED SHOW/HIDE FLOWS ---
 
     public void ShowResourceValues(PlayerSO playerSO)
     {
@@ -271,137 +250,74 @@ public class KingdomUIManager : MonoBehaviour
 
     public void ShowSelectedBuilding(BuildingData data)
     {
-        if (data == null) return;
-        var panel = EnsureObjectInfoPanel();
-        if (panel != null)
-        {
-            currentObjectInfoPanel.SetActive(true);
-            panel.Setup(data);
-        }
+        if (data == null || sceneInfoPanel == null) return;
+        
+        sceneInfoPanel.gameObject.SetActive(true);
+        sceneInfoPanel.buildingData = data; 
+        sceneInfoPanel.SetUp(null, null);
     }
 
     public void ShowSelectedTroop(TroopData troop)
     {
-        if (troop == null) return;
-        var panel = EnsureObjectInfoPanel();
-        if (panel != null)
-        {
-            currentObjectInfoPanel.SetActive(true);
-            panel.Setup(troop);
-        }
+        if (troop == null || sceneInfoPanel == null) return;
+        
+        sceneInfoPanel.gameObject.SetActive(true);
+        sceneInfoPanel.SetUp(null, troop);
     }
 
     public void ShowObjectInfo(Building building)
     {
-        if (building == null) return;
+        if (building == null || sceneInfoPanel == null) return;
 
-        var panel = EnsureObjectInfoPanel();
-
-        if (panel != null)
-        {
-            currentObjectInfoPanel.SetActive(true);
-            panel.Setup(building);
-        }
+        sceneInfoPanel.gameObject.SetActive(true);
+        sceneInfoPanel.SetUp(null, null); 
     }
 
     public void CloseObjectInfo()
     {
-        if (currentObjectInfoPanel == null)
-            return;
-
-        if (currentObjectInfoPanelIsInstantiated)
+        if (sceneInfoPanel != null)
         {
-            Destroy(currentObjectInfoPanel);
-            currentObjectInfoPanel = null;
-            currentObjectInfoPanelIsInstantiated = false;
-        }
-        else
-        {
-            currentObjectInfoPanel.SetActive(false);
+            sceneInfoPanel.gameObject.SetActive(false);
         }
     }
 
-    public bool IsObjectInfoOpen => currentObjectInfoPanel != null;
+    public bool IsObjectInfoOpen => sceneInfoPanel != null && sceneInfoPanel.gameObject.activeSelf;
 
-    private BuildingInfoPanel EnsureObjectInfoPanel()
-    {
-        if (currentObjectInfoPanel != null)
-        {
-            var existingPanel = currentObjectInfoPanel.GetComponent<BuildingInfoPanel>();
-            if (existingPanel != null)
-            {
-                return existingPanel;
-            }
-        }
-
-        if (objectInfoParent == null)
-        {
-            Debug.LogWarning("KingdomUIManager: missing objectInfoParent.");
-            return null;
-        }
-
-        if (buildingInfoPrefab == null)
-        {
-            Debug.LogWarning("KingdomUIManager: missing buildingInfoPrefab.");
-            return null;
-        }
-
-        currentObjectInfoPanel = Instantiate(buildingInfoPrefab, objectInfoParent, false);
-        currentObjectInfoPanelIsInstantiated = true;
-
-        var panel = currentObjectInfoPanel.GetComponent<BuildingInfoPanel>();
-        if (panel == null)
-        {
-            Debug.LogWarning("KingdomUIManager: buildingInfoPrefab does not have BuildingInfoPanel on the root.");
-        }
-
-        return panel;
-    }
+    // --- OTHER PANELS SYSTEM ---
 
     public void OpenTroopSelectionPanel()
     {
-        Debug.Log("Opening troop selection panel");
-        if (troopSelectionPanel != null)
-            troopSelectionPanel.SetActive(true);
+        if (troopSelectionPanel != null) troopSelectionPanel.SetActive(true);
     }
 
     public void CloseTroopSelectionPanel()
     {
-        if (troopSelectionPanel != null)
-            troopSelectionPanel.SetActive(false);
+        if (troopSelectionPanel != null) troopSelectionPanel.SetActive(false);
     }
 
     public void ToggleTroopSelectionPanel()
     {
-        Debug.Log("Toggling troop selection panel");
-        if (troopSelectionPanel != null)
-            boxPanelState(!troopSelectionPanel.activeSelf);
+        if (troopSelectionPanel != null) boxPanelState(!troopSelectionPanel.activeSelf);
     }
 
     private void boxPanelState(bool state)
     {
-        if (troopSelectionPanel != null)
-            troopSelectionPanel.SetActive(state);
+        if (troopSelectionPanel != null) troopSelectionPanel.SetActive(state);
     }
 
     public void OpenBagPanel()
     {
-        Debug.Log("Opening bag panel");
-        if (bagPanel != null && !bagPanel.activeSelf)
-            bagPanel.SetActive(true);
+        if (bagPanel != null && !bagPanel.activeSelf) bagPanel.SetActive(true);
     }
 
     public void CloseBagPanel()
     {
-        if (bagPanel != null && bagPanel.activeSelf)
-            bagPanel.SetActive(false);
+        if (bagPanel != null && bagPanel.activeSelf) bagPanel.SetActive(false);
     }
 
     public void ToggleBagPanel()
     {
-        Debug.Log("Toggling bag panel");
-        if (bagPanel != null)
-            bagPanel.SetActive(!bagPanel.activeSelf);
+        if (bagPanel != null) bagPanel.SetActive(!bagPanel.activeSelf);
     }
 
     public void LoadTargetScene(string sceneName)

@@ -1,9 +1,9 @@
 using UnityEngine;
 using TMPro;
 
-public class BuildingInformationPanel : MonoBehaviour
+public class InfoPanel : MonoBehaviour
 {
-    public static BuildingInformationPanel Instance { get; private set; }
+    public static InfoPanel Instance { get; private set; }
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI descriptionText;
     public GameObject gameObjectParent;
@@ -115,7 +115,7 @@ public class BuildingInformationPanel : MonoBehaviour
 
     public void closePanel()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     public void destroyObject()
@@ -125,7 +125,7 @@ public class BuildingInformationPanel : MonoBehaviour
             passiveResource.refundStats();
             Destroy(gameObjectParent);
         }
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     public void upgradeButton()
