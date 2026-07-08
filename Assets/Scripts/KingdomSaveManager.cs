@@ -91,15 +91,22 @@ public class KingdomSaveManager : MonoBehaviour
         }
     }
 
-    public void SaveCurrentKingdom()
+   public void SaveCurrentKingdom()
     {
         BuildingSystem buildingSystem = FindCurrentKingdomBuildingSystem();
+        bool capturedFromSystem = false;
+
         if (buildingSystem != null)
         {
             CaptureFrom(buildingSystem);
+            capturedFromSystem = true; // Mark that we successfully saved the whole state cleanly
         }
 
-        RefreshPassiveResourceSnapshotsFromScene();
+        // Only run this fallback if the main BuildingSystem wasn't available in the scene
+        if (!capturedFromSystem)
+        {
+            RefreshPassiveResourceSnapshotsFromScene();
+        }
         
         SyncCurrentKingdomFromSnapshots();
 
@@ -141,9 +148,16 @@ public class KingdomSaveManager : MonoBehaviour
         }
 
         SaveKingdomData capturedKingdom = buildingSystem.CaptureKingdomState();
+        
+        // If it returned null, it means it aborted to safeguard your actual data
+        if (capturedKingdom == null)
+        {
+            return; 
+        }
+
         buildingSnapshots.Clear();
 
-        if (capturedKingdom != null && capturedKingdom.buildings != null)
+        if (capturedKingdom.buildings != null)
         {
             buildingSnapshots.AddRange(capturedKingdom.buildings);
         }
