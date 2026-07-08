@@ -24,13 +24,25 @@ public class ObjButton : MonoBehaviour
 
 	private void Awake()
 	{
-		GameObject infoPanel = GameObject.Find("InfoPanel");
+		GameObject infoPanel = FindLoadedObjectByName("InfoPanel");
 		buttonObject = this.gameObject;
 		if (infoPanel != null)
 		{
 			infoPanelTransform = infoPanel.transform;
-            infoPanelPrefab = infoPanelTransform.Find("Main").gameObject;
-            infoPanelPrefab.SetActive(false);
+			Transform mainPanel = infoPanelTransform.Find("Main");
+			if (mainPanel != null)
+			{
+				infoPanelPrefab = mainPanel.gameObject;
+				infoPanelPrefab.SetActive(false);
+			}
+			else
+			{
+				Debug.LogWarning("ObjButton: InfoPanel found, but Main child was not found.");
+			}
+		}
+		else
+		{
+			Debug.LogWarning("ObjButton: InfoPanel was not found in the loaded scene.");
 		}
 
 		if (buttonObject != null)
@@ -87,6 +99,12 @@ public class ObjButton : MonoBehaviour
 
     public void openLevelInfo()
     {
+		if (infoPanelTransform == null || infoPanelPrefab == null || levelData == null)
+		{
+			Debug.LogWarning("ObjButton: Cannot open level info panel because the panel or level data is missing.");
+			return;
+		}
+
 		if (infoPanelTransform != null)
 		{
 			infoPanelTransform.gameObject.SetActive(true);
@@ -101,6 +119,30 @@ public class ObjButton : MonoBehaviour
 		PlayerBattleSO playerBattleSO = FindObjectOfType<PlayerData>().playerBattleSO;
 		playerBattleSO.currentLevel = levelData;
     }
+
+	private GameObject FindLoadedObjectByName(string objectName)
+	{
+		GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+		foreach (GameObject candidate in allObjects)
+		{
+			if (candidate == null)
+			{
+				continue;
+			}
+
+			if (candidate.name != objectName)
+			{
+				continue;
+			}
+
+			if (candidate.scene.IsValid())
+			{
+				return candidate;
+			}
+		}
+
+		return null;
+	}
 
 	private void StartBounce()
 	{
