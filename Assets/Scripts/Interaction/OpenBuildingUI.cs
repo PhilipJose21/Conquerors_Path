@@ -23,13 +23,13 @@ public class OpenBuildingUI : MonoBehaviour
         {
             GameObject uiInstance = Instantiate(buildingUIPrefab, transformUI);
             BuildingStatContainer statContainer = GetComponent<BuildingStatContainer>();
-            BuildingInformationPanel buildingInformationPanel = uiInstance.GetComponent<BuildingInformationPanel>();
+            InfoPanel infoPanel = uiInstance.GetComponent<InfoPanel>();
 
-            if (buildingInformationPanel != null)
+            if (infoPanel != null)
             {
-                buildingInformationPanel.buildingStatsSO = statContainer?.buildingStatsSO;
-                buildingInformationPanel.buildingData = statContainer?.buildingData;
-                buildingInformationPanel.gameObjectParent = building.gameObject;
+                infoPanel.buildingStatsSO = statContainer?.buildingStatsSO;
+                infoPanel.buildingData = statContainer?.buildingData;
+                infoPanel.gameObjectParent = building.gameObject;
             }
             else
             {

@@ -15,7 +15,7 @@ MonoBehaviour:
   unitName: Ranged
   unitType: 1
   description: They shoot.
-  unitIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  unitIcon: {fileID: 21300000, guid: a4bf8b87d29ec114e8af76579e3f7ace, type: 3}
   health: 5
   damage: 3
   mobility: 3

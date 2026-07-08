@@ -15,7 +15,7 @@ MonoBehaviour:
   unitName: Scouts
   unitType: 2
   description: They patrol.
-  unitIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  unitIcon: {fileID: 21300000, guid: e6f06b6a4f1bc59498235faac5d3a9d6, type: 3}
   health: 4
   damage: 1
   mobility: 3
