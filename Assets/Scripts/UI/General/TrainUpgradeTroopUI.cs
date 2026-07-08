@@ -30,6 +30,8 @@ public class TrainUpgradeTroopUI : MonoBehaviour
 
     public List<UnitSO> playerUnits;
 
+    private ScrollRect unitTrainingScrollRect;
+
     private TrainTroopsButton pendingTroopAction;
 
     void Awake()
@@ -40,7 +42,7 @@ public class TrainUpgradeTroopUI : MonoBehaviour
     void Start()
     {
         playerData = Object.FindFirstObjectByType<PlayerData>();
-        passiveResource = gameObjectParent.GetComponentInChildren<PassiveResource>();
+        passiveResource = gameObjectParent != null ? gameObjectParent.GetComponentInChildren<PassiveResource>(true) : null;
         if (playerData == null)
         {
             Debug.LogError("TrainUpgradeTroopUI: PlayerData was not found in scene.");
@@ -59,7 +61,16 @@ public class TrainUpgradeTroopUI : MonoBehaviour
         {
             playerBattleSO.playerUnitStats = new List<UnitSO>();
         }
-        unitTrainingType = gameObjectParent.GetComponentInChildren<BuildingTrainingType>()?.unitTrainingType ?? UnitSO.UnitType.Melee;
+
+        unitTrainingScrollRect = unitTrainingPanel != null ? unitTrainingPanel.GetComponentInChildren<ScrollRect>(true) : null;
+        if (unitTrainingScrollRect != null && unitTrainingScrollRect.content == null && viewPort is RectTransform viewportRect)
+        {
+            unitTrainingScrollRect.content = viewportRect;
+        }
+
+        unitTrainingType = gameObjectParent != null
+            ? gameObjectParent.GetComponentInChildren<BuildingTrainingType>(true)?.unitTrainingType ?? UnitSO.UnitType.Melee
+            : UnitSO.UnitType.Melee;
         playerUnits = playerBattleSO.playerUnitStats;
         unitList = playerSO.unlockedUnits;
     }
@@ -77,29 +88,106 @@ public class TrainUpgradeTroopUI : MonoBehaviour
 
     public void fillTrainingPanel(string text, bool isTraining, bool isUpgrading)
     {
-        if (unitTrainingPanel != null)
+        if (unitTrainingPanel == null)
         {
-            pendingTroopAction = null;
-            unitTrainingPanel.SetActive(true);
-            for (int i = 0; i < viewPort.childCount; i++)
+            Debug.LogWarning("TrainUpgradeTroopUI.fillTrainingPanel: unitTrainingPanel is not assigned.");
+            return;
+        }
+
+        pendingTroopAction = null;
+        unitTrainingPanel.SetActive(true);
+
+        if (playerSO != null)
+        {
+            unitList = playerSO.unlockedUnits;
+        }
+
+        if (gameObjectParent != null)
+        {
+            unitTrainingType = gameObjectParent.GetComponentInChildren<BuildingTrainingType>(true)?.unitTrainingType ?? unitTrainingType;
+        }
+
+        if (viewPort == null || unitTrainingButtonPrefab == null || unitTrainingPanelTitle == null)
+        {
+            Debug.LogError("TrainUpgradeTroopUI.fillTrainingPanel: Missing viewport, button prefab, or title reference.");
+            return;
+        }
+
+        Transform buttonParent = unitTrainingScrollRect != null && unitTrainingScrollRect.content != null
+            ? unitTrainingScrollRect.content
+            : viewPort;
+
+        for (int i = buttonParent.childCount - 1; i >= 0; i--)
+        {
+            Destroy(buttonParent.GetChild(i).gameObject);
+        }
+
+        if (unitList == null)
+        {
+            Debug.LogWarning("TrainUpgradeTroopUI.fillTrainingPanel: unitList is null.");
+            unitTrainingPanelTitle.text = text;
+            return;
+        }
+
+        for (int i = 0; i < unitList.Count; i++)
+        {
+            UnitSO unit = unitList[i];
+            if (unit == null)
             {
-                Destroy(viewPort.GetChild(i).gameObject);
+                continue;
             }
+
+            if (unit.unitType != unitTrainingType)
+            {
+                continue;
+            }
+
+            GameObject button = Instantiate(unitTrainingButtonPrefab, buttonParent);
+            TrainTroopsButton trainButton = button.GetComponent<TrainTroopsButton>();
+            if (trainButton == null)
+            {
+                Debug.LogError("TrainUpgradeTroopUI.fillTrainingPanel: Button prefab is missing TrainTroopsButton.");
+                Destroy(button);
+                continue;
+            }
+
+            trainButton.unitToTrain = unit;
+            trainButton.confirmationPanel = confirmPanel;
+            trainButton.trainUpgradeTroopUI = this;
+            trainButton.isTraining = isTraining;
+            trainButton.isUpgrading = isUpgrading;
+        }
+
+        if (buttonParent.childCount == 0)
+        {
+            Debug.LogWarning($"TrainUpgradeTroopUI.fillTrainingPanel: No units matched type {unitTrainingType}. Falling back to all unlocked units.");
+
             for (int i = 0; i < unitList.Count; i++)
             {
-                if (unitList[i].unitType == unitTrainingType)
+                UnitSO unit = unitList[i];
+                if (unit == null)
                 {
-                    GameObject button = Instantiate(unitTrainingButtonPrefab, viewPort);
-                    TrainTroopsButton trainButton = button.GetComponent<TrainTroopsButton>();
-                    trainButton.unitToTrain = unitList[i];
-                    trainButton.confirmationPanel = confirmPanel;
-                    trainButton.trainUpgradeTroopUI = this;
-                    trainButton.isTraining = isTraining;
-                    trainButton.isUpgrading = isUpgrading;
+                    continue;
                 }
+
+                GameObject button = Instantiate(unitTrainingButtonPrefab, buttonParent);
+                TrainTroopsButton trainButton = button.GetComponent<TrainTroopsButton>();
+                if (trainButton == null)
+                {
+                    Debug.LogError("TrainUpgradeTroopUI.fillTrainingPanel: Button prefab is missing TrainTroopsButton.");
+                    Destroy(button);
+                    continue;
+                }
+
+                trainButton.unitToTrain = unit;
+                trainButton.confirmationPanel = confirmPanel;
+                trainButton.trainUpgradeTroopUI = this;
+                trainButton.isTraining = isTraining;
+                trainButton.isUpgrading = isUpgrading;
             }
-            unitTrainingPanelTitle.text = text;
         }
+
+        unitTrainingPanelTitle.text = text;
     }
 
     public void updateResources()

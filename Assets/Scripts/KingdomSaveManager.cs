@@ -18,6 +18,7 @@ public class KingdomSaveManager : MonoBehaviour
     private readonly List<PlayerSaveData> playerDefaults = new List<PlayerSaveData>();
     private readonly List<LevelSnapshot> levelDefaults = new List<LevelSnapshot>();
     private readonly List<UnitSnapshot> unitDefaults = new List<UnitSnapshot>();
+    private readonly List<SavedBuildingData> buildingSnapshots = new List<SavedBuildingData>();
     private bool hasLoadedFromDisk;
 
     [Serializable]
@@ -93,6 +94,10 @@ public class KingdomSaveManager : MonoBehaviour
             CaptureFrom(buildingSystem);
         }
 
+        RefreshPassiveResourceSnapshotsFromScene();
+        
+        SyncCurrentKingdomFromSnapshots();
+
         CapturePlayerData();
 
         if (ShouldUseDiskPersistence())
@@ -130,7 +135,58 @@ public class KingdomSaveManager : MonoBehaviour
             return;
         }
 
-        currentKingdom = buildingSystem.CaptureKingdomState();
+        if (buildingSnapshots.Count > 0)
+        {
+            SyncCurrentKingdomFromSnapshots();
+            return;
+        }
+
+        SaveKingdomData capturedKingdom = buildingSystem.CaptureKingdomState();
+        buildingSnapshots.Clear();
+
+        if (capturedKingdom != null && capturedKingdom.buildings != null)
+        {
+            buildingSnapshots.AddRange(capturedKingdom.buildings);
+        }
+
+        SyncCurrentKingdomFromSnapshots();
+    }
+
+    public void RegisterPlacedBuilding(Building building, List<Vector3> occupiedPositions = null)
+    {
+        if (building == null)
+        {
+            return;
+        }
+
+        SavedBuildingData snapshot = CreateBuildingSnapshot(building, occupiedPositions);
+        if (snapshot == null)
+        {
+            return;
+        }
+
+        int existingIndex = buildingSnapshots.FindIndex(existing => IsSameBuilding(existing, snapshot));
+        if (existingIndex >= 0)
+        {
+            buildingSnapshots[existingIndex] = snapshot;
+        }
+        else
+        {
+            buildingSnapshots.Add(snapshot);
+        }
+
+        SyncCurrentKingdomFromSnapshots();
+    }
+
+    public void RemovePlacedBuilding(Building building)
+    {
+        if (building == null)
+        {
+            return;
+        }
+
+        buildingSnapshots.RemoveAll(snapshot => snapshot != null && snapshot.buildingKey == building.Name && ArePositionsClose(snapshot.worldPosition, building.transform.position));
+        SyncCurrentKingdomFromSnapshots();
     }
 
     public void RegisterPlayerData(PlayerSO playerSO, PlayerBattleSO playerBattleSO, PlayerSO defaultPlayerSO = null)
@@ -140,6 +196,7 @@ public class KingdomSaveManager : MonoBehaviour
         registeredDefaultPlayerSO = defaultPlayerSO;
 
         CaptureDefaults();
+        EnsureDefaultPlayerData();
 
         if (hasLoadedFromDisk)
         {
@@ -276,16 +333,25 @@ public class KingdomSaveManager : MonoBehaviour
         string path = GetSaveFilePath();
         if (!File.Exists(path))
         {
+            EnsureDefaultPlayerData();
             hasLoadedFromDisk = true;
             return;
         }
+
         string json = File.ReadAllText(path);
         GameSaveData loadedSave = JsonUtility.FromJson<GameSaveData>(json);
         if (loadedSave != null)
         {
             currentPlayer = loadedSave.player ?? new PlayerSaveData();
             currentKingdom = loadedSave.kingdom ?? new SaveKingdomData();
+            buildingSnapshots.Clear();
+            if (currentKingdom.buildings != null)
+            {
+                buildingSnapshots.AddRange(currentKingdom.buildings);
+            }
         }
+
+        EnsureDefaultPlayerData();
 
         hasLoadedFromDisk = true;
     }
@@ -400,6 +466,45 @@ public class KingdomSaveManager : MonoBehaviour
         };
     }
 
+    private void EnsureDefaultPlayerData()
+    {
+        if (!ShouldUseDefaultPlayerData(currentPlayer))
+        {
+            return;
+        }
+
+        PlayerSaveData defaultPlayerSnapshot = playerDefaults.Count > 0
+            ? playerDefaults[0]
+            : CapturePlayerSnapshot(registeredDefaultPlayerSO != null ? registeredDefaultPlayerSO : registeredPlayerSO);
+
+        if (ShouldUseDefaultPlayerData(defaultPlayerSnapshot))
+        {
+            return;
+        }
+
+        currentPlayer = ClonePlayerSaveData(defaultPlayerSnapshot);
+    }
+
+    private bool ShouldUseDefaultPlayerData(PlayerSaveData playerData)
+    {
+        if (playerData == null)
+        {
+            return true;
+        }
+
+        bool hasNoResources = playerData.woodResources == 0
+            && playerData.stoneResources == 0
+            && playerData.farmResources == 0
+            && playerData.energyPoints == 0
+            && playerData.researchPoints == 0
+            && playerData.gems == 0
+            && playerData.coins == 0;
+
+        bool hasNoUnits = playerData.unlockedUnitKeys == null || playerData.unlockedUnitKeys.Count == 0;
+
+        return hasNoResources && hasNoUnits;
+    }
+
     private void ApplyCapturedPlayerSnapshot(PlayerSaveData snapshot)
     {
         if (registeredPlayerSO == null || snapshot == null)
@@ -482,6 +587,8 @@ public class KingdomSaveManager : MonoBehaviour
 
     private void SaveToDisk()
     {
+        SyncCurrentKingdomFromSnapshots();
+
         GameSaveData saveData = new GameSaveData
         {
             player = currentPlayer ?? new PlayerSaveData(),
@@ -557,5 +664,78 @@ public class KingdomSaveManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    private SavedBuildingData CreateBuildingSnapshot(Building building, List<Vector3> occupiedPositions = null)
+    {
+        BuildingModel buildingModel = building.GetComponentInChildren<BuildingModel>(true);
+        PassiveResource passiveResource = building.GetComponentInChildren<PassiveResource>(true);
+
+        List<Vector3> positions = occupiedPositions != null && occupiedPositions.Count > 0
+            ? new List<Vector3>(occupiedPositions)
+            : buildingModel != null ? buildingModel.GetAllBuildingPosition() : new List<Vector3>();
+
+        return new SavedBuildingData
+        {
+            buildingKey = building.Name,
+            worldPosition = building.transform.position,
+            rootRotation = building.transform.eulerAngles.y,
+            rotation = buildingModel != null ? buildingModel.Rotation : building.transform.eulerAngles.y,
+            occupiedPositions = positions,
+            passiveResource = passiveResource != null ? passiveResource.CaptureSaveData() : new PassiveResourceSaveData()
+        };
+    }
+
+    private void RefreshPassiveResourceSnapshotsFromScene()
+    {
+        Building[] placedBuildings = FindObjectsByType<Building>(FindObjectsSortMode.None);
+        foreach (Building building in placedBuildings)
+        {
+            if (building == null || !building.HasData)
+            {
+                continue;
+            }
+
+            PassiveResource passiveResource = building.GetComponentInChildren<PassiveResource>(true);
+            if (passiveResource == null)
+            {
+                continue;
+            }
+
+            SavedBuildingData liveSnapshot = CreateBuildingSnapshot(building);
+            int snapshotIndex = buildingSnapshots.FindIndex(existing => IsSameBuilding(existing, liveSnapshot));
+
+            if (snapshotIndex >= 0)
+            {
+                buildingSnapshots[snapshotIndex].passiveResource = passiveResource.CaptureSaveData();
+            }
+            else
+            {
+                buildingSnapshots.Add(liveSnapshot);
+            }
+        }
+    }
+
+    private void SyncCurrentKingdomFromSnapshots()
+    {
+        currentKingdom = new SaveKingdomData
+        {
+            buildings = new List<SavedBuildingData>(buildingSnapshots)
+        };
+    }
+
+    private static bool IsSameBuilding(SavedBuildingData existing, SavedBuildingData incoming)
+    {
+        if (existing == null || incoming == null)
+        {
+            return false;
+        }
+
+        return existing.buildingKey == incoming.buildingKey && ArePositionsClose(existing.worldPosition, incoming.worldPosition);
+    }
+
+    private static bool ArePositionsClose(Vector3 a, Vector3 b)
+    {
+        return Vector3.SqrMagnitude(a - b) < 0.0001f;
     }
 }

@@ -372,6 +372,8 @@ public class BuildingSystem : MonoBehaviour
             passiveResource.currentTime = 0f;
         }
 
+        KingdomSaveManager.Instance?.RegisterPlacedBuilding(building, buildPosition);
+
         // After placing, ensure any selected-building UI is closed
         KingdomUIManager.Instance?.CloseObjectInfo();
     }
@@ -395,17 +397,15 @@ public class BuildingSystem : MonoBehaviour
 
             BuildingModel model = building.GetComponentInChildren<BuildingModel>();
             List<Vector3> occupiedPositions = model != null ? model.GetAllBuildingPosition() : new List<Vector3>();
-            if (occupiedPositions.Count == 0)
-            {
-                continue;
-            }
 
             saveData.buildings.Add(new SavedBuildingData
             {
                 buildingKey = building.Name,
+                worldPosition = building.transform.position,
+                rootRotation = building.transform.eulerAngles.y,
                 rotation = model != null ? model.Rotation : building.transform.eulerAngles.y,
                 occupiedPositions = new List<Vector3>(occupiedPositions),
-                passiveResource = building.GetComponentInChildren<PassiveResource>()?.CaptureSaveData() ?? new PassiveResourceSaveData()
+                passiveResource = building.GetComponentInChildren<PassiveResource>(true)?.CaptureSaveData() ?? new PassiveResourceSaveData()
             });
         }
 
@@ -429,7 +429,7 @@ public class BuildingSystem : MonoBehaviour
 
     private void RestoreBuilding(SavedBuildingData savedBuilding)
     {
-        if (savedBuilding == null || savedBuilding.occupiedPositions == null || savedBuilding.occupiedPositions.Count == 0)
+        if (savedBuilding == null)
         {
             return;
         }
@@ -440,9 +440,12 @@ public class BuildingSystem : MonoBehaviour
             return;
         }
 
-        BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridForPositions(savedBuilding.occupiedPositions) ?? grid;
-        Vector3 placePosition = GetSnappedCenterPosition(savedBuilding.occupiedPositions, primaryGrid);
-        Quaternion placeRotation = primaryGrid != null ? primaryGrid.transform.rotation : Quaternion.identity;
+        List<Vector3> occupiedPositions = savedBuilding.occupiedPositions != null && savedBuilding.occupiedPositions.Count > 0
+            ? new List<Vector3>(savedBuilding.occupiedPositions)
+            : null;
+
+        Vector3 placePosition = savedBuilding.worldPosition;
+        Quaternion placeRotation = Quaternion.Euler(0f, savedBuilding.rootRotation, 0f);
 
         Building building = Instantiate(buildingPrefab, placePosition, placeRotation, environmentParent.transform);
         building.SetUp(buildingData, savedBuilding.rotation);
@@ -454,7 +457,19 @@ public class BuildingSystem : MonoBehaviour
             statContainer.buildingData = buildingData;
         }
 
-        foreach (Vector3 position in savedBuilding.occupiedPositions)
+        if (occupiedPositions == null || occupiedPositions.Count == 0)
+        {
+            BuildingModel model = building.GetComponentInChildren<BuildingModel>(true);
+            occupiedPositions = model != null ? model.GetAllBuildingPosition() : new List<Vector3> { building.transform.position };
+        }
+
+        BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridForPositions(occupiedPositions) ?? grid;
+        if (primaryGrid != null)
+        {
+            building.transform.SetPositionAndRotation(placePosition, Quaternion.Euler(0f, savedBuilding.rootRotation, 0f));
+        }
+
+        foreach (Vector3 position in occupiedPositions)
         {
             BuildingGrid posGrid = BuildingGridManager.Instance.FindGridAtPosition(position) ?? primaryGrid ?? grid;
             if (posGrid != null)
@@ -463,7 +478,7 @@ public class BuildingSystem : MonoBehaviour
             }
         }
 
-        PassiveResource passiveResource = building.GetComponentInChildren<PassiveResource>();
+        PassiveResource passiveResource = building.GetComponentInChildren<PassiveResource>(true);
         if (passiveResource != null)
         {
             passiveResource.ApplySaveData(savedBuilding.passiveResource);
