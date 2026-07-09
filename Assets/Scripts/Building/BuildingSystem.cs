@@ -272,7 +272,7 @@ public class BuildingSystem : MonoBehaviour
                             TurnManager turnManagerScript = Object.FindFirstObjectByType<TurnManager>();
                             if (costUpdate.unitReinforcementCost >= unitRefCost 
                                 && turnManagerScript != null 
-                                && turnManagerScript.currentTurnPhase == turnPhase.PlayerTurn)
+                                && (turnManagerScript.currentTurnPhase == turnPhase.PlayerTurn || turnManagerScript.currentTurnPhase == turnPhase.SetupTurn))
                             {
                                 costUpdate.unitReinforcementCost -= unitRefCost;
                             }

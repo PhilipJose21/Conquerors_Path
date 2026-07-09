@@ -61,7 +61,6 @@ public class TurnManager : MonoBehaviour
         // 1. Check Win/Loss conditions FIRST before handling any phase logic
         if (currentTurnPhase != turnPhase.SetupTurn && currentTurnPhase != turnPhase.PlayerWin && currentTurnPhase != turnPhase.EnemyWin)
         {
-            
             updateUnitLists();
             if (playerUnits == null || playerUnits.Length == 0)
             {
@@ -87,7 +86,6 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    // Helper method to make sure turn banners are stripped away on Win/Loss
     private void HideTurnScreens()
     {
         if (playerTurnScreen != null) playerTurnScreen.SetActive(false);
@@ -101,10 +99,13 @@ public class TurnManager : MonoBehaviour
 
     private void RecordCompletedLevel()
     {
-        if (playerBattleData.currentLevel == null)
+        if (playerBattleData == null || playerBattleData.currentLevel == null)
         {
             return;
         }
+
+        // --- NEW: Return surviving troops to inventory right upon winning ---
+        ReturnTroopsToInventory();
 
         playerBattleData.currentLevel.isCompleted = true;
         playerBattleData.currentLevel.isUnlocked = true;
@@ -131,14 +132,45 @@ public class TurnManager : MonoBehaviour
         playerBattleData.currentLevel = null;
     }
 
+    // --- NEW METHOD: Restores surviving units to the persistent scriptable object collections ---
+    private void ReturnTroopsToInventory()
+    {
+        if (playerUnits == null || playerUnits.Length == 0) return;
+        if (playerBattleData == null || playerBattleData.playerUnitStats == null) return;
+
+        foreach (GameObject unit in playerUnits)
+        {
+            if (unit == null) continue;
+
+            // Extract the MoveUnit component from the scene object
+            MoveUnit moveUnitComp = unit.GetComponentInChildren<MoveUnit>() ?? unit.GetComponentInParent<MoveUnit>();
+            
+            if (moveUnitComp != null && moveUnitComp.unitData != null)
+            {
+                UnitSO survivingUnitData = moveUnitComp.unitData;
+
+                // Add the unit back to the collection (adjust logic if you want duplicates or single tracking)
+                playerBattleData.playerUnitStats.Add(survivingUnitData);
+                Debug.Log($"[Inventory] Returned surviving unit to inventory: {survivingUnitData.unitName}");
+            }
+        }
+
+        // Force PlayerData to dynamically synchronize and rebuild the companion lists immediately
+        if (playerData != null)
+        {
+            playerData.updateUnitList();
+        }
+    }
+
     public void checkTurnPhase()
     {
         switch (currentTurnPhase)
         {
             case turnPhase.SetupTurn:
                 if (buildingSystem != null)
+                {
                     buildingSystem.gameObject.SetActive(true);
-                    buildingSystem.enableReinforcementCost = false;
+                }
 
                 if (placementPhase == false)
                 {
@@ -155,7 +187,6 @@ public class TurnManager : MonoBehaviour
                     if (moveUnit != null)
                     {
                         buildingSystem.gameObject.SetActive(true);
-                        buildingSystem.enableReinforcementCost = true;
                         moveUnit.moveActions = moveUnit.unitData != null ? moveUnit.unitData.movePoints : moveUnit.moveActions;
                         moveUnit.attackActions = moveUnit.unitData != null ? moveUnit.unitData.attackPoints : moveUnit.attackActions;
                     }
@@ -251,7 +282,6 @@ public class TurnManager : MonoBehaviour
 
     private System.Collections.IEnumerator TransitionCoroutine(turnPhase newPhase)
     {
-        // Safety Check: If a win/loss occurred right as this triggered, abort.
         if (currentTurnPhase == turnPhase.PlayerWin || currentTurnPhase == turnPhase.EnemyWin)
         {
             HideTurnScreens();
@@ -271,7 +301,6 @@ public class TurnManager : MonoBehaviour
 
         yield return new WaitForSeconds(transitionTime);
 
-        // Safety Check: Did a unit die via a status effect/hazard during the wait time?
         if (currentTurnPhase == turnPhase.PlayerWin || currentTurnPhase == turnPhase.EnemyWin)
         {
             HideTurnScreens();
@@ -289,7 +318,6 @@ public class TurnManager : MonoBehaviour
     {
         for (int i = 0; i < enemyUnits.Length; i++)
         {
-            // Abort processing the sequence if the player won mid-enemy turn (e.g., counter-attack)
             if (currentTurnPhase == turnPhase.PlayerWin || currentTurnPhase == turnPhase.EnemyWin)
             {
                 isEnemyTurnProcessing = false;
