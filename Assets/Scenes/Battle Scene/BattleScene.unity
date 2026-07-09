@@ -131,10 +131,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Water Terrain
       objectReference: {fileID: 0}
-    - target: {fileID: 2294885873708185969, guid: cde41762e1198084c9eabbbcf79386f3, type: 3}
-      propertyPath: terrainData
-      value: 
-      objectReference: {fileID: 11400000, guid: 8de5be30ea4cd9b4c9e90018dde96ab6, type: 2}
     - target: {fileID: 6856685851909274277, guid: cde41762e1198084c9eabbbcf79386f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.5481066
@@ -379,10 +375,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5993368318551866162}
     m_Modifications:
-    - target: {fileID: 2470298195495587215, guid: 688d739d0fee26e44a8f9fb4e5c54dfb, type: 3}
-      propertyPath: terrainData
-      value: 
-      objectReference: {fileID: 11400000, guid: f9abb5eea9ecd724e9bfd0f1e9ffb04e, type: 2}
     - target: {fileID: 3701317533606163811, guid: 688d739d0fee26e44a8f9fb4e5c54dfb, type: 3}
       propertyPath: m_Name
       value: Forest Terrain
@@ -485,10 +477,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6413490163547324720, guid: ddd07cfbaa648b94886154ad94a2d858, type: 3}
-      propertyPath: terrainData
-      value: 
-      objectReference: {fileID: 11400000, guid: 5d113642a30de0c4191b1c1eb0c7f312, type: 2}
     - target: {fileID: 6788074682060655513, guid: ddd07cfbaa648b94886154ad94a2d858, type: 3}
       propertyPath: m_Name
       value: Tree Terrain

@@ -27,6 +27,7 @@ public class MoveUnit : MonoBehaviour
     [Header("States")]
     private Coroutine moveCoroutine;
     private TurnManager turnManager;
+    private RotateEnvironment rotateEnv;
     public turnPhase currentTurnPhase;
     public UnitStateMachine stateMachine;
     public bool isPlayerTurn;
@@ -39,6 +40,7 @@ public class MoveUnit : MonoBehaviour
     {
         UnitSOContainer container = this.GetComponent<UnitSOContainer>();
         turnManager = Object.FindAnyObjectByType<TurnManager>();
+        rotateEnv = Object.FindAnyObjectByType<RotateEnvironment>();
         if (container != null)
         {
             unitData = container.unitData;
@@ -55,6 +57,10 @@ public class MoveUnit : MonoBehaviour
 
     void Update()
     {
+        if (rotateEnv != null && rotateEnv.IsRotating)
+        {
+            return;
+        }
         currentTurnPhase = turnManager != null ? turnManager.currentTurnPhase : turnPhase.PlayerTurn;
 
         // Only allow selection input during PlayerTurn (not SetupTurn)
@@ -475,60 +481,6 @@ public class MoveUnit : MonoBehaviour
 
         Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
     }
-
-//     public void MoveToPosition(Vector3 target)
-//     {
-//         var moveTransform = unitObject != null ? unitObject.transform : transform;
-//         BuildingGrid[] grids = UnityEngine.Object.FindObjectsByType<BuildingGrid>(UnityEngine.FindObjectsSortMode.None);
-//         BuildingGrid grid = null;
-//         if (grids != null && grids.Length > 0)
-//         {
-//             foreach (var g in grids)
-//             {
-//                 if (g.ContainsWorldPosition(moveTransform.position))
-//                 {
-//                     grid = g;
-//                     break;
-//                 }
-//             }
-//             if (grid == null) grid = grids[0];
-//         }
-
-//         if (grid != null)
-//         {
-//             (int sx, int sy) = grid.WorldToGridPosition(moveTransform.position);
-//             (int ex, int ey) = grid.WorldToGridPosition(target);
-//             var path = GetCellsOnLine(sx, sy, ex, ey);
-//             for (int pi = 1; pi < path.Count; pi++)
-//             {
-//                 var cell = path[pi];
-//                 int x = cell.x; int y = cell.y;
-//                 Vector3 localCenter = new Vector3((x + 0.5f) * grid.CellSize, 0.01f, (y + 0.5f) * grid.CellSize);
-//                 Vector3 worldCenter = grid.transform.TransformPoint(localCenter);
-//                 Collider[] cols = Physics.OverlapSphere(worldCenter, grid.CellSize * 0.35f);
-//                 foreach (var c in cols)
-//                 {
-//                     var ti = c.GetComponentInParent<TerrainInteraction>();
-//                     if (ti != null && ti.CantWalkThrough())
-//                     {
-//                         target = worldCenter;
-//                         goto FoundBlockingTerrain;
-//                     }
-//                 }
-//             }
-//         }
-// FoundBlockingTerrain:
-//         target.y = moveTransform.position.y;
-//         if (moveActions <= 0)
-//         {
-//             Debug.Log("No move actions available.");
-//             return;
-//         }
-//         moveActions = Mathf.Max(0, moveActions - 1);
-
-//         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
-//         moveCoroutine = StartCoroutine(MoveRoutine(target));
-//     }
 
     public void MoveToPosition(Vector3 target)
     {

@@ -190,8 +190,8 @@ public class CellHighlighter : MonoBehaviour
 
                     // Attach tile metadata for click handling
                     var ht = tile.AddComponent<HighlightTile>();
-                    // store the actual world position (after parenting) for click handling
-                    ht.worldPosition = tile.transform.position;
+                    // worldPosition is now a live property (tile.transform.position),
+                    // so it always stays correct even if the environment rotates later.
                     ht.isMove = inMove;
                     ht.isAttack = inAttack;
 
