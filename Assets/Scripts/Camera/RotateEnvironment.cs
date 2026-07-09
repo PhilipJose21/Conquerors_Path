@@ -20,6 +20,12 @@ public class RotateEnvironment : MonoBehaviour
         // Reset the flag at the start of every frame
         IsRotating = false;
 
+        // Lock environment rotation while any unit is animating movement.
+        if (MoveUnit.AnyUnitMoving)
+        {
+            return;
+        }
+
         if (Input.GetKey(KeyCode.T))
         {
             RotateEnvironmentObject(true);

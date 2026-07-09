@@ -34,7 +34,38 @@ public class MoveUnit : MonoBehaviour
     public bool isSelected;
     public bool isHidden;
 
+    private static int movingUnitCount = 0;
+    public static bool AnyUnitMoving => movingUnitCount > 0;
+    public bool IsMoving => isMoving;
+    private bool isMoving;
+
     public GameObject unitObject;
+
+    private void OnDisable()
+    {
+        SetMovingState(false);
+    }
+
+    private void OnDestroy()
+    {
+        SetMovingState(false);
+    }
+
+    private void SetMovingState(bool moving)
+    {
+        if (isMoving == moving)
+            return;
+
+        isMoving = moving;
+        if (moving)
+        {
+            movingUnitCount++;
+        }
+        else
+        {
+            movingUnitCount = Mathf.Max(0, movingUnitCount - 1);
+        }
+    }
 
     void Awake()
     {
@@ -561,8 +592,15 @@ public class MoveUnit : MonoBehaviour
         // Safe to consume action and move
         moveActions = Mathf.Max(0, moveActions - 1);
 
-        if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+        if (moveCoroutine != null)
+        {
+            StopCoroutine(moveCoroutine);
+            moveCoroutine = null;
+            SetMovingState(false);
+        }
+
         moveCoroutine = StartCoroutine(MoveRoutine(target));
+        SetMovingState(true);
     }
 
     private List<Vector2Int> GetCellsOnLine(int x0, int y0, int x1, int y1)
@@ -606,5 +644,6 @@ public class MoveUnit : MonoBehaviour
         }
         moveTransform.position = target;
         moveCoroutine = null;
+        SetMovingState(false);
     }
 }
