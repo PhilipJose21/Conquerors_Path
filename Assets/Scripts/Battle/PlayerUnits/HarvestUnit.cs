@@ -43,7 +43,11 @@ public class HarvestUnit : MonoBehaviour
             {
                 var owner = harvest.gameObject;
                 bool isTerrain = owner.CompareTag("Terrain") || owner.GetComponentInParent<TerrainHarvest>() != null;
-                if (isTerrain)
+                // Only accept it as a harvest target if it's actually harvestable —
+                // otherwise decorative terrain (e.g. trees with resourceType None)
+                // would swallow the click and block movement onto that cell.
+                bool isActuallyHarvestable = harvest.canHarvest && harvest.resourceType != TerrainSO.ResourceType.None;
+                if (isTerrain && isActuallyHarvestable)
                 {
                     targetTerrain = harvest;
                 }
@@ -94,6 +98,7 @@ public class HarvestUnit : MonoBehaviour
             var owner = harvest.gameObject;
             bool isTerrain = owner.CompareTag("Terrain") || owner.GetComponentInParent<TerrainHarvest>() != null;
             if (!isTerrain) continue;
+            if (!harvest.canHarvest || harvest.resourceType == TerrainSO.ResourceType.None) continue;
 
             if (moveUnit != null && moveUnit.attackActions > 0)
             {

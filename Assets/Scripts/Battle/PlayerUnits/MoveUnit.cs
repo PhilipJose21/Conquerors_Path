@@ -542,8 +542,7 @@ public class MoveUnit : MonoBehaviour
             foreach (var c in targetCols)
             {
                 var ti = c.GetComponentInParent<TerrainInteraction>();
-                // Assuming your TerrainInteraction script uses a custom check or your specific variable/method like CantWalkThrough()
-                if (ti != null && ti.CantMoveOn())
+                if (ti != null && TerrainMatchesCell(grid, ti.transform.position, tx, ty) && ti.CantMoveOn())
                 {
                     Debug.Log("Movement declined: Target cell is blocked by non-walkable terrain.");
                     return; // EXIT EARLY: Do not consume moveActions, do not move
@@ -565,7 +564,7 @@ public class MoveUnit : MonoBehaviour
                 foreach (var c in cols)
                 {
                     var ti = c.GetComponentInParent<TerrainInteraction>();
-                    if (ti != null && ti.CantWalkThrough())
+                    if (ti != null && TerrainMatchesCell(grid, ti.transform.position, x, y) && ti.CantWalkThrough())
                     {
                         target = worldCenter;
                         goto FoundBlockingTerrain;
@@ -645,5 +644,13 @@ public class MoveUnit : MonoBehaviour
         moveTransform.position = target;
         moveCoroutine = null;
         SetMovingState(false);
+    }
+
+    private bool TerrainMatchesCell(BuildingGrid grid, Vector3 terrainWorldPosition, int gx, int gy)
+    {
+        if (grid == null) return false;
+
+        (int terrainX, int terrainY) = grid.WorldToGridPosition(terrainWorldPosition);
+        return terrainX == gx && terrainY == gy;
     }
 }
