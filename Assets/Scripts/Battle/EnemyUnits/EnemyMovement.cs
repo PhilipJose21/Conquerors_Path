@@ -199,7 +199,7 @@ public class EnemyMovement : MonoBehaviour
             int nx = sx;
             int ny = sy;
             
-            // BFS to find the closest reachable unoccupied cell to target
+            // BFS to find the closest reachable landing cell to target
             int bestX = sx;
             int bestY = sy;
             int minDistToTarget = Mathf.Abs(sx - tx) + Mathf.Abs(sy - ty);
@@ -219,22 +219,12 @@ public class EnemyMovement : MonoBehaviour
                 int cy = curr.y;
                 int cdist = curr.dist;
 
-                // Check if this terrain tile allows landing
-                bool canLandOnTerrain = true;
-                Vector3 checkWorldPos = chosenGrid.transform.TransformPoint(new Vector3((cx + 0.5f) * cs, 0.01f, (cy + 0.5f) * cs));
-                Collider[] terrainCols = Physics.OverlapSphere(checkWorldPos, cs * 0.35f);
-                foreach (var c in terrainCols)
-                {
-                    var ti = c.GetComponentInParent<TerrainInteraction>();
-                    if (ti != null && ti.cannotMoveOn)
-                    {
-                        canLandOnTerrain = false;
-                        break;
-                    }
-                }
+                bool terrainBlocksCell = IsCellBlockedByTerrain(chosenGrid, cx, cy);
+                bool unitBlocksCell = IsCellOccupiedByUnit(chosenGrid, cx, cy);
 
-                // Only consider this cell as a destination option if it can be safely landed on
-                if (canLandOnTerrain)
+                // Only consider this cell as a destination option if it can be safely landed on.
+                // Units no longer block traversal, but they still block landing.
+                if (!terrainBlocksCell && !unitBlocksCell)
                 {
                     int distToTarget = Mathf.Abs(cx - tx) + Mathf.Abs(cy - ty);
                     if (distToTarget < minDistToTarget)
@@ -255,7 +245,7 @@ public class EnemyMovement : MonoBehaviour
                         if (!visited.Contains((nxtX, nxtY)))
                         {
                             visited.Add((nxtX, nxtY));
-                            if (!IsCellOccupied(chosenGrid, nxtX, nxtY))
+                            if (!IsCellBlockedByTerrain(chosenGrid, nxtX, nxtY))
                             {
                                 queue.Enqueue((nxtX, nxtY, cdist + 1));
                             }
@@ -410,11 +400,11 @@ public class EnemyMovement : MonoBehaviour
         Act();
     }
 
-    private bool IsCellOccupied(BuildingGrid grid, int gx, int gy)
+    private bool IsCellBlockedByTerrain(BuildingGrid grid, int gx, int gy)
     {
         if (grid == null) return false;
 
-        // Check against completely solid block obstacles (like walls) instead of canMoveOn
+        // Check against terrain that should block traversal.
         float cs = grid.CellSize;
         Vector3 localCenter = new Vector3((gx + 0.5f) * cs, 0.01f, (gy + 0.5f) * cs);
         Vector3 worldCenter = grid.transform.TransformPoint(localCenter);
@@ -422,33 +412,35 @@ public class EnemyMovement : MonoBehaviour
         foreach (var c in terrainCols)
         {
             var ti = c.GetComponentInParent<TerrainInteraction>();
-            // If the script contains an explicit CantWalkThrough check, respect it
-            if (ti != null && System.Array.Exists(ti.GetType().GetMethods(), m => m.Name == "CantWalkThrough"))
+            if (ti != null && (ti.cannotMoveOn || ti.CantWalkThrough()))
             {
-                if (ti.CantWalkThrough()) return true;
+                return true;
             }
         }
 
-        // Check against other enemy units
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("EnemyUnit");
-        if (enemies != null)
-        {
-            foreach (var e in enemies)
-            {
-                if (e == this.gameObject || (unitObject != null && e == unitObject)) continue;
-                (int ex, int ey) = grid.WorldToGridPosition(e.transform.position);
-                if (ex == gx && ey == gy) return true;
-            }
-        }
+        return false;
+    }
 
-        // Check against player units
-        GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerUnit");
-        if (players != null)
+    private bool IsCellOccupiedByUnit(BuildingGrid grid, int gx, int gy)
+    {
+        if (grid == null) return false;
+
+        float cs = grid.CellSize;
+        Vector3 localCenter = new Vector3((gx + 0.5f) * cs, 0.01f, (gy + 0.5f) * cs);
+        Vector3 worldCenter = grid.transform.TransformPoint(localCenter);
+        Collider[] terrainCols = Physics.OverlapSphere(worldCenter, cs * 0.35f);
+        foreach (var c in terrainCols)
         {
-            foreach (var p in players)
+            var enemy = c.GetComponentInParent<EnemyMovement>();
+            if (enemy != null && enemy != this)
             {
-                (int px, int py) = grid.WorldToGridPosition(p.transform.position);
-                if (px == gx && py == gy) return true;
+                return true;
+            }
+
+            var player = c.GetComponentInParent<MoveUnit>();
+            if (player != null)
+            {
+                return true;
             }
         }
 

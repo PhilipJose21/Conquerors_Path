@@ -121,6 +121,7 @@ public class AttackPlayerUnit : MonoBehaviour
             {
                 health.TakeDamage(dmg);
                 moveComp.attackActions = Mathf.Max(0, moveComp.attackActions - 1);
+                Debug.Log("Enemy " + unitData.unitName);
                 return true;
             }
             else
