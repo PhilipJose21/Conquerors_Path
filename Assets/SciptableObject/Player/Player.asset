@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSO
   woodResources: 50
   stoneResources: 50
-  farmResources: 519
-  energyPoints: 18
+  farmResources: 1064
+  energyPoints: 99985
   researchPoints: 50
   gems: 50
   coins: 50

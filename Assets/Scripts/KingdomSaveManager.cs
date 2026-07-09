@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class KingdomSaveManager : MonoBehaviour
 {
@@ -72,6 +73,8 @@ public class KingdomSaveManager : MonoBehaviour
 
         CaptureDefaults();
 
+        SceneManager.sceneLoaded += HandleSceneLoaded;
+
         if (ShouldUseDiskPersistence())
         {
             LoadFromDisk();
@@ -80,21 +83,30 @@ public class KingdomSaveManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        SceneManager.sceneLoaded -= HandleSceneLoaded;
+
         if (Instance == this)
         {
             Instance = null;
         }
     }
 
-    public void SaveCurrentKingdom()
+   public void SaveCurrentKingdom()
     {
         BuildingSystem buildingSystem = FindCurrentKingdomBuildingSystem();
+        bool capturedFromSystem = false;
+
         if (buildingSystem != null)
         {
             CaptureFrom(buildingSystem);
+            capturedFromSystem = true; // Mark that we successfully saved the whole state cleanly
         }
 
-        RefreshPassiveResourceSnapshotsFromScene();
+        // Only run this fallback if the main BuildingSystem wasn't available in the scene
+        if (!capturedFromSystem)
+        {
+            RefreshPassiveResourceSnapshotsFromScene();
+        }
         
         SyncCurrentKingdomFromSnapshots();
 
@@ -135,16 +147,17 @@ public class KingdomSaveManager : MonoBehaviour
             return;
         }
 
-        if (buildingSnapshots.Count > 0)
+        SaveKingdomData capturedKingdom = buildingSystem.CaptureKingdomState();
+        
+        // If it returned null, it means it aborted to safeguard your actual data
+        if (capturedKingdom == null)
         {
-            SyncCurrentKingdomFromSnapshots();
-            return;
+            return; 
         }
 
-        SaveKingdomData capturedKingdom = buildingSystem.CaptureKingdomState();
         buildingSnapshots.Clear();
 
-        if (capturedKingdom != null && capturedKingdom.buildings != null)
+        if (capturedKingdom.buildings != null)
         {
             buildingSnapshots.AddRange(capturedKingdom.buildings);
         }
@@ -310,6 +323,27 @@ public class KingdomSaveManager : MonoBehaviour
         }
 
         buildingSystem.RestoreKingdomState(currentKingdom);
+    }
+
+    private void HandleSceneLoaded(Scene scene, LoadSceneMode loadMode)
+    {
+        if (!HasSavedKingdom)
+        {
+            return;
+        }
+
+        StartCoroutine(RestoreKingdomAfterSceneLoad());
+    }
+
+    private System.Collections.IEnumerator RestoreKingdomAfterSceneLoad()
+    {
+        yield return null;
+
+        BuildingSystem[] buildingSystems = FindObjectsByType<BuildingSystem>(FindObjectsSortMode.None);
+        foreach (BuildingSystem buildingSystem in buildingSystems)
+        {
+            RestoreInto(buildingSystem);
+        }
     }
 
     private void OnApplicationPause(bool pauseStatus)

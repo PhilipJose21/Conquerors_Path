@@ -70,19 +70,21 @@ public class BuildingSystem : MonoBehaviour
 
     private void Start()
     {
-        if (!isBattleScene)
-        {
-            KingdomSaveManager.Instance?.RestoreInto(this);
-        }
     }
 
     private void OnDisable()
+{
+    if (!isBattleScene)
     {
-        if (!isBattleScene)
+        // Only capture state if we actually have an environment parent populated
+        // to prevent accidentally overwriting the save with an empty list during cleanups.
+        Building[] placedBuildings = environmentParent != null ? environmentParent.GetComponentsInChildren<Building>(true) : null;
+        if (placedBuildings != null && placedBuildings.Length > 0)
         {
             KingdomSaveManager.Instance?.CaptureFrom(this);
         }
     }
+}
 
     private void Update()
     {
@@ -387,7 +389,24 @@ public class BuildingSystem : MonoBehaviour
             return saveData;
         }
 
+        // 1. Store the active rotation so we can restore it later
+        Vector3 originalRotation = environmentParent.transform.eulerAngles;
+
+        // 2. Force the environment rotation back to 0 so positions match the default grid alignment
+        environmentParent.transform.rotation = Quaternion.identity;
+
         Building[] placedBuildings = environmentParent.GetComponentsInChildren<Building>(true);
+        
+        // Safety check to prevent data loss
+        if (placedBuildings.Length == 0 && KingdomSaveManager.Instance != null && KingdomSaveManager.Instance.HasSavedKingdom)
+        {
+            Debug.LogWarning("BuildingSystem: Detected 0 live buildings but SaveManager has data. Aborting save snapshot.");
+            
+            // Restore rotation before exiting early!
+            environmentParent.transform.eulerAngles = originalRotation;
+            return null; 
+        }
+
         foreach (Building building in placedBuildings)
         {
             if (building == null || !building.HasData)
@@ -398,16 +417,20 @@ public class BuildingSystem : MonoBehaviour
             BuildingModel model = building.GetComponentInChildren<BuildingModel>();
             List<Vector3> occupiedPositions = model != null ? model.GetAllBuildingPosition() : new List<Vector3>();
 
+            // Because environmentParent is at 0 rotation, building.transform.position is now completely accurate
             saveData.buildings.Add(new SavedBuildingData
             {
                 buildingKey = building.Name,
                 worldPosition = building.transform.position,
-                rootRotation = building.transform.eulerAngles.y,
+                rootRotation = 0f, // Keeping it clean at zero baseline
                 rotation = model != null ? model.Rotation : building.transform.eulerAngles.y,
                 occupiedPositions = new List<Vector3>(occupiedPositions),
                 passiveResource = building.GetComponentInChildren<PassiveResource>(true)?.CaptureSaveData() ?? new PassiveResourceSaveData()
             });
         }
+
+        // 3. Restore the environment back to its original rotation smoothly
+        environmentParent.transform.eulerAngles = originalRotation;
 
         return saveData;
     }
@@ -429,27 +452,21 @@ public class BuildingSystem : MonoBehaviour
 
     private void RestoreBuilding(SavedBuildingData savedBuilding)
     {
-        if (savedBuilding == null)
-        {
-            return;
-        }
+        if (savedBuilding == null) return;
 
         BuildingData buildingData = FindBuildingDataByKey(savedBuilding.buildingKey);
-        if (buildingData == null || buildingPrefab == null || environmentParent == null)
-        {
-            return;
-        }
+        if (buildingData == null || buildingPrefab == null || environmentParent == null) return;
 
         List<Vector3> occupiedPositions = savedBuilding.occupiedPositions != null && savedBuilding.occupiedPositions.Count > 0
             ? new List<Vector3>(savedBuilding.occupiedPositions)
             : null;
 
+        // Instantiate directly at the recorded world position relative to the environment's setup
         Vector3 placePosition = savedBuilding.worldPosition;
-        Quaternion placeRotation = Quaternion.Euler(0f, savedBuilding.rootRotation, 0f);
+        Quaternion placeRotation = Quaternion.Euler(0, savedBuilding.rotation, 0);
 
         Building building = Instantiate(buildingPrefab, placePosition, placeRotation, environmentParent.transform);
         building.SetUp(buildingData, savedBuilding.rotation);
-        building.transform.SetPositionAndRotation(placePosition, placeRotation);
 
         BuildingStatContainer statContainer = building.GetComponentInChildren<BuildingStatContainer>();
         if (statContainer != null)
@@ -466,8 +483,11 @@ public class BuildingSystem : MonoBehaviour
         BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridForPositions(occupiedPositions) ?? grid;
         if (primaryGrid != null)
         {
-            building.transform.SetPositionAndRotation(placePosition, Quaternion.Euler(0f, savedBuilding.rootRotation, 0f));
+            // Re-snap to clean positions based on the saved unrotated tracking
+            placePosition = GetSnappedCenterPosition(occupiedPositions, primaryGrid);
         }
+
+        building.transform.position = placePosition;
 
         foreach (Vector3 position in occupiedPositions)
         {
