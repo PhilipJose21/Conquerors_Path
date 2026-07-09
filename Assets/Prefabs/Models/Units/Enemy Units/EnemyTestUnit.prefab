@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 5162118495126467530}
   - component: {fileID: 4726884657711364169}
   - component: {fileID: 1269248568777704000}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TestUnitModel
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 2295165078543630765}
   - component: {fileID: 6438535385800186070}
   - component: {fileID: 7492368166425539968}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EnemyTestUnit
   m_TagString: EnemyUnit
   m_Icon: {fileID: 0}
@@ -297,7 +297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7995383878960746915}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -334,7 +334,7 @@ GameObject:
   - component: {fileID: 7422695407567533727}
   - component: {fileID: 7157696317104797339}
   - component: {fileID: 116592530269078392}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -423,7 +423,7 @@ GameObject:
   - component: {fileID: 7075555005480491703}
   - component: {fileID: 6149333665761070583}
   - component: {fileID: 1732855781858706931}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -524,6 +524,10 @@ PrefabInstance:
     - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_Name
       value: BuildingShapeUnit
+      objectReference: {fileID: 0}
+    - target: {fileID: 1089396437038772057, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7910461020077472752, guid: 20446d0a6ba63ac4ba37ba84533dba02, type: 3}
       propertyPath: m_LocalPosition.x

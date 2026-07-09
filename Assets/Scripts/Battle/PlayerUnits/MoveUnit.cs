@@ -57,8 +57,8 @@ public class MoveUnit : MonoBehaviour
     {
         currentTurnPhase = turnManager != null ? turnManager.currentTurnPhase : turnPhase.PlayerTurn;
 
-        // Allow selection input during both PlayerTurn and SetupTurn
-        if (currentTurnPhase == turnPhase.PlayerTurn || currentTurnPhase == turnPhase.SetupTurn)
+        // Only allow selection input during PlayerTurn (not SetupTurn)
+        if (currentTurnPhase == turnPhase.PlayerTurn)
         {
             isPlayerTurn = true;
         }
@@ -415,6 +415,7 @@ public class MoveUnit : MonoBehaviour
     
 
     // FIXED DECTECT OBJECTS LAYER PIERCING LOGIC
+// FIXED DETECT OBJECTS LAYER PIERCING LOGIC
     public void DetectObjects()
     {
         if (lastProcessedClickFrame == Time.frameCount)
@@ -432,15 +433,13 @@ public class MoveUnit : MonoBehaviour
         rayHit = false;
         hit = default;
 
-        // Step 1: Look through all objects hit to find Units or Grid Highlights first
+        // --- STEP 1: PRIORITIZE HIGHLIGHT TILES (ACTION INPUTS) ---
+        // If a unit is selected and we are clicking an active highlight tile, 
+        // we MUST process the tile command, even if a player unit is standing on it.
         foreach (var h in hits)
         {
             GameObject g = h.collider.gameObject;
-            if (g.GetComponent<MoveUnit>() != null || 
-                g.GetComponent<HighlightTile>() != null || 
-                g.GetComponentInParent<EnemyMovement>() != null ||
-                g.CompareTag("PlayerUnit") || 
-                g.CompareTag("EnemyUnit"))
+            if (g.GetComponent<HighlightTile>() != null)
             {
                 hit = h;
                 rayHit = true;
@@ -448,7 +447,26 @@ public class MoveUnit : MonoBehaviour
             }
         }
 
-        // Step 2: If we didn't hit a gameplay system/unit, fall back to whatever was closest (like Terrain)
+        // --- STEP 2: FALLBACK TO SELECTION (UNITS / ENEMIES) ---
+        // If we didn't hit a HighlightTile, look for standard units to select or attack directly
+        if (!rayHit)
+        {
+            foreach (var h in hits)
+            {
+                GameObject g = h.collider.gameObject;
+                if (g.GetComponent<MoveUnit>() != null || 
+                    g.GetComponentInParent<EnemyMovement>() != null ||
+                    g.CompareTag("PlayerUnit") || 
+                    g.CompareTag("EnemyUnit"))
+                {
+                    hit = h;
+                    rayHit = true;
+                    break;
+                }
+            }
+        }
+
+        // Step 3: If we didn't hit a gameplay system/unit, fall back to whatever was closest (like Terrain)
         if (!rayHit && hits.Length > 0)
         {
             hit = hits[0];

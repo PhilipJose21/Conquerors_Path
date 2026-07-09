@@ -239,6 +239,7 @@ public class CellHighlighter : MonoBehaviour
                 continue;
             }
 
+
             clearedFogTerrains.Add(terrainInteraction);
             Destroy(terrainInteraction.gameObject);
         }

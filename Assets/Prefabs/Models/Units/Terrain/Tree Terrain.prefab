@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 8288695669337880106}
   - component: {fileID: 6950665576482453187}
   m_Layer: 7
-  m_Name: Bush Terrain
+  m_Name: Tree Terrain
   m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

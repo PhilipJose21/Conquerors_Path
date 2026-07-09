@@ -11,6 +11,11 @@ public class ReinforcementCostUpdate : MonoBehaviour
     {
         playerBattleSO = Object.FindFirstObjectByType<PlayerData>().playerBattleSO;
         buildingSystem = Object.FindFirstObjectByType<BuildingSystem>();
+        if (playerBattleSO.currentLevel == null)
+        {
+            Debug.LogWarning("Current level is not set in PlayerBattleSO.");
+            return;
+        }
         unitReinforcementCost = playerBattleSO.currentLevel.levelReinforcementCost + playerBattleSO.playerReinforcementCost;
     }
 

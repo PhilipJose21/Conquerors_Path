@@ -21,33 +21,63 @@ public class HarvestUnit : MonoBehaviour
 
     public bool TryToHarvestPosition(Vector3 worldPos)
     {
-        float checkRadius = 0.6f; // small radius to detect enemy colliders inside the cell
+        float checkRadius = 0.6f; 
         Collider[] hits = Physics.OverlapSphere(worldPos, checkRadius);
+
+        TerrainHarvest targetTerrain = null;
+        GameObject enemyUnit = null; // Placeholder for your enemy detection method
+
+        // STEP 1: Scan all hits to categorize what is in the cell
         foreach (var h in hits)
         {
-            // Try to find a TerrainHarvest on the collider or one of its parents (covers child colliders)
+            // Check if it's an Enemy Unit (Adjust this condition to match your team/faction setup)
+            if (h.CompareTag("Enemy")) 
+            {
+                enemyUnit = h.gameObject;
+                break; // Found an enemy! We can stop looking because enemy takes top priority.
+            }
+
+            // Check if it's a Terrain Harvest source
             var harvest = h.GetComponentInParent<TerrainHarvest>();
             if (harvest != null)
             {
-                // Ensure this harvest belongs to an enemy unit
                 var owner = harvest.gameObject;
                 bool isTerrain = owner.CompareTag("Terrain") || owner.GetComponentInParent<TerrainHarvest>() != null;
-                if (!isTerrain) continue;
-
-                if (moveUnit != null && moveUnit.attackActions > 0)
+                if (isTerrain)
                 {
-                    harvest.HarvestResource(harvestAmount);
-                    moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
+                    targetTerrain = harvest;
                 }
-                else
-                {
-                    // If no MoveUnit present, still attempt with local attackPoints fallback
-                }
+            }
+        }
 
+        // STEP 2: Execute action based on priority
+        
+        // Scenario A: An Enemy is standing there -> Attack them instead of harvesting
+        if (enemyUnit != null)
+        {
+            if (moveUnit != null && moveUnit.attackActions > 0)
+            {
+                // TODO: Call your attack logic here, e.g.:
+                // enemyUnit.GetComponent<Health>().TakeDamage(damageAmount);
+                
+                moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
                 CellHighlighter.Instance?.ClearHighlights();
                 return true;
             }
         }
+        // Scenario B: No enemy found, but valid Terrain is present -> Harvest it (Player units ignored)
+        else if (targetTerrain != null)
+        {
+            if (moveUnit != null && moveUnit.attackActions > 0)
+            {
+                targetTerrain.HarvestResource(harvestAmount);
+                moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
+            }
+
+            CellHighlighter.Instance?.ClearHighlights();
+            return true;
+        }
+
         return false;
     }
 
