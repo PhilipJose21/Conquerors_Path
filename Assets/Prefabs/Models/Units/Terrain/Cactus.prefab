@@ -59,7 +59,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 993692904825539467}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.499648, y: 1.01, z: 1.5014168}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -308,7 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db64859f08b54c541825a75e0e8137d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TerrainSOContainer
-  terrainData: {fileID: 11400000, guid: 5d113642a30de0c4191b1c1eb0c7f312, type: 2}
+  terrainData: {fileID: 11400000, guid: e01b25ce729784f478735f16f9a271e9, type: 2}
 --- !u!114 &7018785084799696180
 MonoBehaviour:
   m_ObjectHideFlags: 0

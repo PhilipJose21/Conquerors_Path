@@ -18,7 +18,7 @@ MonoBehaviour:
   secondaryResourceType: 0
   unitVisibility: 1
   disruptsMovement: 1
-  attackRangeImmune: 0
+  attackRangeImmune: 1
   cannotMoveOn: 0
   terrainDamage: 0
   specialConditions: 

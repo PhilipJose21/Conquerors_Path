@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TerrainSO
   terrainName: Cactus
   terrainPrefab: {fileID: 0}
-  resourceType: 2
+  resourceType: 3
   secondaryResourceType: 0
   unitVisibility: 0
-  disruptsMovement: 0
+  disruptsMovement: 1
   attackRangeImmune: 0
   cannotMoveOn: 0
   terrainDamage: 5

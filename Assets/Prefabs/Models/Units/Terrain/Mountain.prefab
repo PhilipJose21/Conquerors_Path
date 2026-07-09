@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 8288695669337880106}
   - component: {fileID: 6950665576482453187}
   m_Layer: 7
-  m_Name: Tree Terrain
+  m_Name: Mountain
   m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -225,7 +225,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6146521165466870565}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &6504737062278656762
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -251,7 +251,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 83603a95fe0d87e46b0f595fe3be07f3, type: 2}
+  - {fileID: 2100000, guid: 6eda3ce176238b14f9de5d9fa5e84017, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -308,7 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db64859f08b54c541825a75e0e8137d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TerrainSOContainer
-  terrainData: {fileID: 11400000, guid: f9d3e0e5440a9c444994a426ce7c4e54, type: 2}
+  terrainData: {fileID: 11400000, guid: f892c1b8d28798a489bcc347e932ae6f, type: 2}
 --- !u!114 &7084794039265949332
 MonoBehaviour:
   m_ObjectHideFlags: 0

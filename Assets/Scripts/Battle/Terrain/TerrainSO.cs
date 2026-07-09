@@ -29,6 +29,4 @@ public class TerrainSO : ScriptableObject
     public bool cannotMoveOn;
     public int terrainDamage;
     public string specialConditions;
-    public int terrainHazardDamage;
-    
 }

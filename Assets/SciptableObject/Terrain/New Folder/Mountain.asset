@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60371bcc297f71b4e81ce2f583c38947, type: 3}
-  m_Name: Tree
+  m_Name: Mountain
   m_EditorClassIdentifier: Assembly-CSharp::TerrainSO
-  terrainName: 
+  terrainName: Mountain
   terrainPrefab: {fileID: 0}
-  resourceType: 1
-  secondaryResourceType: 0
+  resourceType: 2
+  secondaryResourceType: 7
   unitVisibility: 0
-  disruptsMovement: 0
+  disruptsMovement: 1
   attackRangeImmune: 1
   cannotMoveOn: 0
   terrainDamage: 0
