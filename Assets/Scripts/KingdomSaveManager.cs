@@ -47,6 +47,14 @@ public class KingdomSaveManager : MonoBehaviour
     }
 
     public bool HasSavedKingdom => currentKingdom != null && currentKingdom.buildings.Count > 0;
+    public bool IsSaveFileEmpty
+    {
+        get
+        {
+            string path = Path.Combine(Application.persistentDataPath, SaveFileName);
+            return !File.Exists(path);
+        }
+    }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Bootstrap()
@@ -122,7 +130,10 @@ public class KingdomSaveManager : MonoBehaviour
     {
         CaptureDefaults();
         RestoreDefaults();
+        
         currentKingdom = new SaveKingdomData();
+        buildingSnapshots.Clear(); 
+
         PlayerSaveData defaultPlayerSnapshot = playerDefaults.Count > 0
             ? playerDefaults[0]
             : CapturePlayerSnapshot(registeredDefaultPlayerSO != null ? registeredDefaultPlayerSO : registeredPlayerSO);
@@ -641,7 +652,7 @@ public class KingdomSaveManager : MonoBehaviour
 
     private bool ShouldUseDiskPersistence()
     {
-        return !Application.isEditor;
+        return true; 
     }
 
     private string GetUnitSaveKey(UnitSO unitSO)

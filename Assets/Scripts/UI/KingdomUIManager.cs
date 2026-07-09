@@ -51,6 +51,10 @@ public class KingdomUIManager : MonoBehaviour
     [SerializeField] private float slideDuration = 0.25f; 
     [SerializeField] private AnimationCurve slideCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
+    [Header("Settings")]
+    [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private Button settingsButton;
+
     private Color originalFarmsColor;
     private Color originalUnitTrainingColor;
     private Color originalMiscColor;
@@ -318,6 +322,21 @@ public class KingdomUIManager : MonoBehaviour
     public void ToggleBagPanel()
     {
         if (bagPanel != null) bagPanel.SetActive(!bagPanel.activeSelf);
+    }
+
+    public void OpenSettingsPanel()
+    {
+        if (settingsPanel != null) settingsPanel.SetActive(true);
+    }
+
+    public void CloseSettingsPanel()
+    {
+        if (settingsPanel != null) settingsPanel.SetActive(false);
+    }
+    
+    public void ToggleSettingsPanel()
+    {
+        if (settingsPanel != null) settingsPanel.SetActive(!settingsPanel.activeSelf);
     }
 
     public void LoadTargetScene(string sceneName)

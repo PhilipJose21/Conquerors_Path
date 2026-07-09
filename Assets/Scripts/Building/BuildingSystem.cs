@@ -70,21 +70,33 @@ public class BuildingSystem : MonoBehaviour
 
     private void Start()
     {
+        // Check if the Main Menu told us that a brand new game loop is initializing
+        if (PlayerPrefs.GetInt("IsNewGameLoading", 0) == 1)
+        {
+            // 1. Consume and clear out the flag immediately so it doesn't loop next time
+            PlayerPrefs.SetInt("IsNewGameLoading", 0);
+            PlayerPrefs.Save();
+
+            // 2. Call your pre-existing clean up routine to clear the map layouts
+            ClearPlacedBuildings();
+            
+            Debug.Log("<color=cyan><b>BuildingSystem: Clean slate initialized. Old physical structures wiped!</b></color>");
+        }
     }
 
     private void OnDisable()
-{
-    if (!isBattleScene)
     {
-        // Only capture state if we actually have an environment parent populated
-        // to prevent accidentally overwriting the save with an empty list during cleanups.
-        Building[] placedBuildings = environmentParent != null ? environmentParent.GetComponentsInChildren<Building>(true) : null;
-        if (placedBuildings != null && placedBuildings.Length > 0)
+        if (!isBattleScene)
         {
-            KingdomSaveManager.Instance?.CaptureFrom(this);
+            // Only capture state if we actually have an environment parent populated
+            // to prevent accidentally overwriting the save with an empty list during cleanups.
+            Building[] placedBuildings = environmentParent != null ? environmentParent.GetComponentsInChildren<Building>(true) : null;
+            if (placedBuildings != null && placedBuildings.Length > 0)
+            {
+                KingdomSaveManager.Instance?.CaptureFrom(this);
+            }
         }
     }
-}
 
     private void Update()
     {
@@ -508,12 +520,23 @@ public class BuildingSystem : MonoBehaviour
 
     public void ClearPlacedBuildings()
     {
+        // AUTOMATIC FALLBACK: If the slot wasn't dragged in via the Inspector, 
+        // find the "Environment" container dynamically by its hierarchy name!
         if (environmentParent == null)
         {
+            environmentParent = GameObject.Find("Environment");
+        }
+
+        // Ultimate safety check
+        if (environmentParent == null)
+        {
+            Debug.LogError("BuildingSystem: Could not find any Environment Parent container object in the scene layout!");
             return;
         }
 
         Building[] placedBuildings = environmentParent.GetComponentsInChildren<Building>(true);
+        Debug.Log($"BuildingSystem: Found {placedBuildings.Length} structures to destroy.");
+
         foreach (Building building in placedBuildings)
         {
             if (building != null)
