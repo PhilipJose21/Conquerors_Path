@@ -1,11 +1,10 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement; // ADDED: Necessary namespace for tracking scene shifts
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
-    // ADDED: Global Singleton Instance
     public static SoundManager Instance { get; private set; }
 
     [Header("Buttons")]
@@ -20,34 +19,40 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private Slider sfxSlider;
 
     [Header("Persistent Music Source Hooks")]
-    [SerializeField] private AudioSource musicAudioSource; // ADDED: Drag your BGM AudioSource slot here
-    public AudioClip mainKingdomMusic;                     // ADDED: Kingdom BGM track
-    public AudioClip levelSelectMusic;                    // ADDED: Map selection BGM track
+    [SerializeField] private AudioSource musicAudioSource; 
+    public AudioClip mainKingdomMusic;                     
+    public AudioClip levelSelectMusic;                    
 
     private AudioSource sfxAudioSource;
 
     private float masterVol;
     private float musicVol;
     private float sfxVol;
-    private bool isMuted = false;
+
+    // UPDATED: Individual channel mute variables
+    private bool isMasterMuted = false;
+    private bool isMusicMuted = false;
+    private bool isSfxMuted = false;
 
     private const string MASTERVOLUME = "masterVolume";
     private const string MUSICVOLUME  = "musicVolume";
     private const string SFXVOLUME    = "sfxVolume";
-    private const string MUTEPREF     = "isMuted";
+    
+    // UPDATED: Keys for tracking individual channel mutes
+    private const string MASTERMUTEP_PREF = "masterMuted";
+    private const string MUSICMUTEP_PREF  = "musicMuted";
+    private const string SFXMUTEP_PREF    = "sfxMuted";
 
     private void Awake()
     {
-        // ADDED: Singleton Pattern with DontDestroyOnLoad logic execution
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Ensures the script doesn't die when scenes shift!
+        DontDestroyOnLoad(gameObject); 
 
-        // Instantly verify music track routing layer properties are defined
         if (musicAudioSource == null)
         {
             musicAudioSource = GetComponent<AudioSource>();
@@ -56,17 +61,8 @@ public class SoundManager : MonoBehaviour
         musicAudioSource.loop = true;
     }
 
-    private void OnEnable()
-    {
-        // ADDED: Subscribe to scene load handler event loops
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        // ADDED: Unsubscribe when disabled to safeguard your project memory lanes
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
+    private void OnEnable() { SceneManager.sceneLoaded += OnSceneLoaded; }
+    private void OnDisable() { SceneManager.sceneLoaded -= OnSceneLoaded; }
 
     private void Start()
     {
@@ -77,72 +73,64 @@ public class SoundManager : MonoBehaviour
             sfxAudioSource = transform.GetChild(1).GetComponent<AudioSource>();
         }
 
-        // Apply loaded sliders layout configurations safely
-        UpdateSlidersUI();
-
-        // Apply loaded parameters straight to the Audio Mixer upon startup
+        // Apply loaded parameters to Mixer groups
         MasterVolume(masterVol);
         MusicVolume(musicVol);
         SFXVolume(sfxVol);
-        ToggleMute(isMuted);
 
-        if (saveVolumes != null)
-        {
-            saveVolumes.onClick.AddListener(SaveVolumeParams);
-        }
+        // Force explicit updates to handle loaded mute states on boot
+        ToggleMasterMute(isMasterMuted);
+        ToggleMusicMute(isMusicMuted);
+        ToggleSFXMute(isSfxMuted);
 
-        // Initialize music clip processing rules for whatever scene was entered first
+        if (saveVolumes != null) saveVolumes.onClick.AddListener(SaveVolumeParams);
+
         EvaluateSceneBGM(SceneManager.GetActiveScene().name);
     }
 
-    // ADDED: Unified Scene Loader Router Event Callback Trigger hook
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         EvaluateSceneBGM(scene.name);
-        
-        UpdateSlidersUI();
     }
 
-    // ADDED: Centralized background tracking logic analyzer processing
     private void EvaluateSceneBGM(string sceneName)
     {
         switch (sceneName)
         {
-            case "MainMenu": 
-                PlayBGM(mainKingdomMusic); 
-                break;
+            case "MainMenu":
             case "MainKingdom":
                 PlayBGM(mainKingdomMusic);
                 break;
-
-            case "Level Select": 
+            case "Level Select":
                 PlayBGM(levelSelectMusic);
                 break;
         }
     }
 
-    // ADDED: Track selector wrapper optimization routine
     private void PlayBGM(AudioClip trackClip)
     {
         if (trackClip == null || musicAudioSource == null) return;
-        
-        // Prevent jarring re-triggers if the correct track is already playing
         if (musicAudioSource.clip == trackClip && musicAudioSource.isPlaying) return;
-
         musicAudioSource.clip = trackClip;
         musicAudioSource.Play();
     }
 
-    // ADDED: Extracted method helper to auto-find new settings layout objects on load
-    private void UpdateSlidersUI()
+    // UPDATED: Central registration system handles all three individual toggles
+    public void BindRuntimeSliders(Slider master, Slider music, Slider sfx, Toggle masterMute, Toggle musicMute, Toggle sfxMute)
     {
-        if (masterSlider == null) masterSlider = GameObject.Find("masterSlider")?.GetComponent<Slider>();
-        if (musicSlider == null) musicSlider = GameObject.Find("musicSlider")?.GetComponent<Slider>();
-        if (sfxSlider == null) sfxSlider = GameObject.Find("sfxSlider")?.GetComponent<Slider>();
+        masterSlider = master;
+        musicSlider = music;
+        sfxSlider = sfx;
 
+        // Sliders binding loop
         if (masterSlider != null) { masterSlider.value = masterVol; masterSlider.onValueChanged.RemoveAllListeners(); masterSlider.onValueChanged.AddListener(MasterVolume); }
         if (musicSlider != null) { musicSlider.value = musicVol; musicSlider.onValueChanged.RemoveAllListeners(); musicSlider.onValueChanged.AddListener(MusicVolume); }
         if (sfxSlider != null) { sfxSlider.value = sfxVol; sfxSlider.onValueChanged.RemoveAllListeners(); sfxSlider.onValueChanged.AddListener(SFXVolume); }
+
+        // Toggles binding loop
+        if (masterMute != null) { masterMute.isOn = isMasterMuted; masterMute.onValueChanged.RemoveAllListeners(); masterMute.onValueChanged.AddListener(ToggleMasterMute); }
+        if (musicMute != null) { musicMute.isOn = isMusicMuted; musicMute.onValueChanged.RemoveAllListeners(); musicMute.onValueChanged.AddListener(ToggleMusicMute); }
+        if (sfxMute != null) { sfxMute.isOn = isSfxMuted; sfxMute.onValueChanged.RemoveAllListeners(); sfxMute.onValueChanged.AddListener(ToggleSFXMute); }
     }
 
     private void SaveVolumeParams()
@@ -150,9 +138,11 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.SetFloat(MASTERVOLUME, masterVol);
         PlayerPrefs.SetFloat(MUSICVOLUME, musicVol);
         PlayerPrefs.SetFloat(SFXVOLUME, sfxVol);
-        PlayerPrefs.SetInt(MUTEPREF, isMuted ? 1 : 0); 
+        PlayerPrefs.SetInt(MASTERMUTEP_PREF, isMasterMuted ? 1 : 0);
+        PlayerPrefs.SetInt(MUSICMUTEP_PREF, isMusicMuted ? 1 : 0);
+        PlayerPrefs.SetInt(SFXMUTEP_PREF, isSfxMuted ? 1 : 0);
         PlayerPrefs.Save();
-        Debug.Log("Audio configuration preferences saved successfully!");
+        Debug.Log("Audio configuration saved successfully!");
     }
 
     private void LoadVolumeParams()
@@ -160,16 +150,16 @@ public class SoundManager : MonoBehaviour
         masterVol = PlayerPrefs.GetFloat(MASTERVOLUME, 1f);
         musicVol  = PlayerPrefs.GetFloat(MUSICVOLUME, 1f);
         sfxVol    = PlayerPrefs.GetFloat(SFXVOLUME, 1f);
-        isMuted   = PlayerPrefs.GetInt(MUTEPREF, 0) == 1; 
+        isMasterMuted = PlayerPrefs.GetInt(MASTERMUTEP_PREF, 0) == 1;
+        isMusicMuted  = PlayerPrefs.GetInt(MUSICMUTEP_PREF, 0) == 1;
+        isSfxMuted    = PlayerPrefs.GetInt(SFXMUTEP_PREF, 0) == 1;
     }
 
     public void MasterVolume(float value)
     {
         masterVol = value;
-
-        if (!isMuted && audioMixer != null)
+        if (!isMasterMuted && audioMixer != null)
         {
-            // Protect Log10 scale mapping metrics against absolute zeroes to avoid errors
             float dB = value > 0.0001f ? Mathf.Log10(value) * 20f : -80f;
             audioMixer.SetFloat(MASTERVOLUME, dB);
         }
@@ -178,7 +168,7 @@ public class SoundManager : MonoBehaviour
     public void MusicVolume(float value)
     {
         musicVol = value;
-        if (audioMixer != null)
+        if (!isMusicMuted && audioMixer != null)
         {
             float dB = value > 0.0001f ? Mathf.Log10(value) * 20f : -80f;
             audioMixer.SetFloat(MUSICVOLUME, dB);
@@ -188,28 +178,41 @@ public class SoundManager : MonoBehaviour
     public void SFXVolume(float value)
     {
         sfxVol = value;
-        if (audioMixer != null)
+        if (!isSfxMuted && audioMixer != null)
         {
             float dB = value > 0.0001f ? Mathf.Log10(value) * 20f : -80f;
             audioMixer.SetFloat(SFXVOLUME, dB);
         }
     }
 
-    public void ToggleMute(bool muteState)
+    // UPDATED: Independent mute controls per channel
+    public void ToggleMasterMute(bool muteState)
     {
-        isMuted = muteState;
-
+        isMasterMuted = muteState;
         if (audioMixer != null)
         {
-            if (isMuted)
-            {
-                audioMixer.SetFloat(MASTERVOLUME, -80f);
-            }
-            else
-            {
-                MasterVolume(masterVol);
-            }
+            if (isMasterMuted) audioMixer.SetFloat(MASTERVOLUME, -80f);
+            else MasterVolume(masterVol);
         }
-        Debug.Log("Master Audio Mute State updated: " + isMuted);
+    }
+
+    public void ToggleMusicMute(bool muteState)
+    {
+        isMusicMuted = muteState;
+        if (audioMixer != null)
+        {
+            if (isMusicMuted) audioMixer.SetFloat(MUSICVOLUME, -80f);
+            else MusicVolume(musicVol);
+        }
+    }
+
+    public void ToggleSFXMute(bool muteState)
+    {
+        isSfxMuted = muteState;
+        if (audioMixer != null)
+        {
+            if (isSfxMuted) audioMixer.SetFloat(SFXVOLUME, -80f);
+            else SFXVolume(sfxVol);
+        }
     }
 }
