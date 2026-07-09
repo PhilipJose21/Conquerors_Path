@@ -15,3 +15,7 @@ MonoBehaviour:
   worldName: Desert
   worldImage: {fileID: 21300000, guid: 4e4667ad7aa3a3d4eb1eda6ec696bbb4, type: 3}
   worldLevelScene: Plain_Level_Select
+  levels:
+  - {fileID: 11400000, guid: 92d7c774ddadf644ba2edbd1cae77d37, type: 2}
+  - {fileID: 11400000, guid: 6c8f8a2e4e4ec2f4b8c0dc5955e949c1, type: 2}
+  - {fileID: 11400000, guid: b0ed0ec3e933a8e4d95eb44149749909, type: 2}

@@ -29,6 +29,24 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Battle Scene/World 1/Plains 3.unity
     guid: f78ca8f5990f4854698ac97f503d3818
+  - enabled: 1
+    path: Assets/Scenes/Battle Scene/World 2/Desert 1.unity
+    guid: 0ba7ff2224b8a4e4586a00ddcaf80714
+  - enabled: 1
+    path: Assets/Scenes/Battle Scene/World 2/Desert 2.unity
+    guid: d56763907753a5a45b153839b8550fbf
+  - enabled: 1
+    path: Assets/Scenes/Battle Scene/World 2/Desert 3.unity
+    guid: 9aaa4d9c210c2ed4792ba7ba2c74e7a4
+  - enabled: 1
+    path: Assets/Scenes/Battle Scene/World 3/Mountain 1.unity
+    guid: bb3b78b41a90cf24c8061df5eabac5cb
+  - enabled: 1
+    path: Assets/Scenes/Battle Scene/World 3/Mountain 2.unity
+    guid: 28f71f812d224b34795672c2a80ec1e0
+  - enabled: 1
+    path: Assets/Scenes/Battle Scene/World 3/Mountain 3.unity
+    guid: d7865130386c61a42a0b39625a878437
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

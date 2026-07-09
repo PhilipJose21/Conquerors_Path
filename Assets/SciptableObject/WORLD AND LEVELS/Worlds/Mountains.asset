@@ -15,3 +15,7 @@ MonoBehaviour:
   worldName: Mountains
   worldImage: {fileID: 21300000, guid: 6089c011b17984744a13ef2c30e76039, type: 3}
   worldLevelScene: Plain_Level_Select
+  levels:
+  - {fileID: 11400000, guid: ce1eebb8c0e55c8449405c9d61f1f00d, type: 2}
+  - {fileID: 11400000, guid: 78c79b2c9d27e48468bbf564efd2bc01, type: 2}
+  - {fileID: 11400000, guid: 23254b1b12c6d5d4ea386661803cb791, type: 2}
