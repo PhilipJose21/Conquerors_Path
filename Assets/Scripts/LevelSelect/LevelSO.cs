@@ -10,6 +10,7 @@ public class LevelSO : ScriptableObject
     public int level;
     public bool isUnlocked;
     public bool isCompleted;
+    public int levelReinforcementCost;
 
     [Header("Reward")]
     public bool rewardClaimed;

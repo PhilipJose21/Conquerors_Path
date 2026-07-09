@@ -11,7 +11,7 @@ public class ReinforcementCostUpdate : MonoBehaviour
     {
         playerBattleSO = Object.FindFirstObjectByType<PlayerData>().playerBattleSO;
         buildingSystem = Object.FindFirstObjectByType<BuildingSystem>();
-        unitReinforcementCost = playerBattleSO.playerReinforcementCost;
+        unitReinforcementCost = playerBattleSO.currentLevel.levelReinforcementCost + playerBattleSO.playerReinforcementCost;
     }
 
     void Update()
