@@ -193,24 +193,59 @@ public class EnemyMovement : MonoBehaviour
             int delta = Mathf.Abs(sx - tx) + Mathf.Abs(sy - ty);
             if (delta <= attackRange) return; // already in range
 
-            int moveCells = Mathf.Min(mobility, Mathf.Max(0, delta - attackRange));
+            // Use the unit's full mobility as the BFS search budget rather than capping it
+            // to the straight-line distance to the target. Capping by straight-line distance
+            // assumes an unobstructed path; when terrain/units block the direct route, that
+            // cap starves the BFS of the extra steps it needs to detour around the obstacle,
+            // causing the unit to find no better cell than its current one and stand still
+            // (which is what produced the pile-up behind blocked tiles).
+            int moveCells = mobility;
             if (moveCells <= 0) return;
 
             int nx = sx;
             int ny = sy;
-            
-            // BFS to find the closest reachable landing cell to target
+
+            float cs = chosenGrid.CellSize;
+
+            // Build a "true" path-distance map by flood-filling outward from the target,
+            // respecting blocked terrain. Straight-line (Manhattan) distance can't see
+            // obstacles, so a cell that is technically further "as the crow flies" can
+            // still be the correct next step if it's on the only route around a blocked
+            // patch of tiles. This gives every reachable cell its real walking distance
+            // to the target instead of a straight-line guess.
+            const int maxPathSearchRadius = 30; // safety cap so this can't run away on huge grids
+            var distFromTarget = new Dictionary<(int x, int y), int>();
+            {
+                var pathQueue = new Queue<(int x, int y, int dist)>();
+                pathQueue.Enqueue((tx, ty, 0));
+                distFromTarget[(tx, ty)] = 0;
+                (int dx, int dy)[] dirs4 = new (int, int)[] { (0, 1), (1, 0), (0, -1), (-1, 0) };
+                while (pathQueue.Count > 0)
+                {
+                    var curr = pathQueue.Dequeue();
+                    if (curr.dist >= maxPathSearchRadius) continue;
+                    foreach (var dir in dirs4)
+                    {
+                        var next = (curr.x + dir.dx, curr.y + dir.dy);
+                        if (distFromTarget.ContainsKey(next)) continue;
+                        if (IsCellBlockedByTerrain(chosenGrid, next.Item1, next.Item2)) continue;
+                        distFromTarget[next] = curr.dist + 1;
+                        pathQueue.Enqueue((next.Item1, next.Item2, curr.dist + 1));
+                    }
+                }
+            }
+
+            // BFS to find the reachable landing cell (within this unit's mobility) that has
+            // the shortest TRUE path distance to the target, using the map built above.
             int bestX = sx;
             int bestY = sy;
-            int minDistToTarget = Mathf.Abs(sx - tx) + Mathf.Abs(sy - ty);
+            int minDistToTarget = distFromTarget.TryGetValue((sx, sy), out var startDist) ? startDist : delta;
 
             Queue<(int x, int y, int dist)> queue = new Queue<(int x, int y, int dist)>();
             HashSet<(int x, int y)> visited = new HashSet<(int x, int y)>();
 
             queue.Enqueue((sx, sy, 0));
             visited.Add((sx, sy));
-
-            float cs = chosenGrid.CellSize;
 
             while (queue.Count > 0)
             {
@@ -226,7 +261,11 @@ public class EnemyMovement : MonoBehaviour
                 // Units no longer block traversal, but they still block landing.
                 if (!terrainBlocksCell && !unitBlocksCell)
                 {
-                    int distToTarget = Mathf.Abs(cx - tx) + Mathf.Abs(cy - ty);
+                    int distToTarget = distFromTarget.TryGetValue((cx, cy), out var pathDist)
+                        ? pathDist
+                        // Cell wasn't covered by the flood fill (outside search radius / isolated) -
+                        // heavily deprioritize it rather than treating it as attractive.
+                        : (Mathf.Abs(cx - tx) + Mathf.Abs(cy - ty)) + maxPathSearchRadius;
                     if (distToTarget < minDistToTarget)
                     {
                         minDistToTarget = distToTarget;
