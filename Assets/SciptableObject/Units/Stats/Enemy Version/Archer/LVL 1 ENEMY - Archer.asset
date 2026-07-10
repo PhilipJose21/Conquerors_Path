@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b4377dbf037eb34c97b2bbdd8c0ead6, type: 3}
-  m_Name: ENEMY - Swordsmen
+  m_Name: LVL 1 ENEMY - Archer
   m_EditorClassIdentifier: Assembly-CSharp::UnitSO
-  buildingData: {fileID: 11400000, guid: ddec126d5e5780140a61dda17dbbee35, type: 2}
-  unitName: Swordsmen
-  unitType: 0
+  buildingData: {fileID: 11400000, guid: 6aa22561e16bec640a78b10b8825064b, type: 2}
+  unitName: Archer
+  unitType: 1
   level: 1
-  health: 8
-  damage: 6
-  attackRange: 1
-  mobility: 3
+  health: 6
+  damage: 3
+  attackRange: 3
+  mobility: 2
   movePoints: 1
   attackPoints: 1
   unitCost: 3
