@@ -15,5 +15,5 @@ MonoBehaviour:
   buildingName: Small House
   description: Small House
   resourceType: 7
-  resourceAmount: 1
+  resourceAmount: 10
   resourceTimer: 1
