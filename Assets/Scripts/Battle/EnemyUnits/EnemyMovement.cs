@@ -27,6 +27,8 @@ public class EnemyMovement : MonoBehaviour
     public bool endTurn;
     public bool isHidden;
 
+    private readonly HashSet<TerrainHideUnit> activeFogTerrains = new HashSet<TerrainHideUnit>();
+
     public GameObject unitObject;
     private bool hasActedThisTurn = false;
 
@@ -55,6 +57,29 @@ public class EnemyMovement : MonoBehaviour
         bool hidden = mv != null && mv.isHidden;
         
         return hidden;
+    }
+
+    public void EnterFog(TerrainHideUnit terrainHideUnit)
+    {
+        if (terrainHideUnit == null)
+        {
+            return;
+        }
+
+        activeFogTerrains.Add(terrainHideUnit);
+        isHidden = activeFogTerrains.Count > 0;
+    }
+
+    public bool ExitFog(TerrainHideUnit terrainHideUnit)
+    {
+        if (terrainHideUnit == null)
+        {
+            return isHidden;
+        }
+
+        activeFogTerrains.Remove(terrainHideUnit);
+        isHidden = activeFogTerrains.Count > 0;
+        return isHidden;
     }
 
     // Update is called once per frame

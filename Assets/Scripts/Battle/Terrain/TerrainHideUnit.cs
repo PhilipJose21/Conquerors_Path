@@ -23,120 +23,110 @@ public class TerrainHideUnit : MonoBehaviour
         }
     }
 
+    private static void SetAlpha(Renderer targetRenderer, float alpha)
+    {
+        if (targetRenderer == null)
+        {
+            return;
+        }
+
+        Material mat = targetRenderer.material;
+        Color currentColor = mat.color;
+        currentColor.a = alpha;
+        mat.color = currentColor;
+    }
+
+    private static Renderer GetUnitRenderer(Component unitRoot)
+    {
+        return unitRoot != null ? unitRoot.GetComponentInChildren<Renderer>() : null;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        MoveUnit moveUnit = other.GetComponentInParent<MoveUnit>();
+        if (moveUnit != null || other.CompareTag("Player") || other.CompareTag("PlayerUnit"))
         {
-            Renderer otherRenderer = other.GetComponentInChildren<Renderer>();
-            MoveUnit moveUnit = other.GetComponent<MoveUnit>();
-            if (otherRenderer != null)
-            {
-                Material mat = otherRenderer.material; // creates instance if needed
-                Color currentColor = mat.color;
-                currentColor.a = hiddenAlpha; // Set the alpha to the hidden value
-                mat.color = currentColor;
-            }
-            else
-            {
-                Debug.Log("No Renderer found on the entered unit to hide.");
-            }
+            Renderer otherRenderer = GetUnitRenderer(moveUnit != null ? moveUnit : other.GetComponentInParent<MoveUnit>());
+            SetAlpha(otherRenderer, hiddenAlpha);
 
             if (moveUnit != null)
             {
-                moveUnit.isHidden = true;
+                moveUnit.EnterFog(this);
             }
         }
 
-        else if (other.CompareTag("Enemy"))
+        else
         {
-            Renderer otherRenderer = other.GetComponentInChildren<Renderer>();
-            
-            EnemyMovement enemyMovement = other.GetComponent<EnemyMovement>();
-            UnitHealth unitHealth = other.GetComponentInChildren<UnitHealth>();
-            if (otherRenderer != null)
+            EnemyMovement enemyMovement = other.GetComponentInParent<EnemyMovement>();
+            if (enemyMovement != null || other.CompareTag("Enemy") || other.CompareTag("EnemyUnit"))
             {
-                Material mat = otherRenderer.material; // creates instance if needed
-                Color currentColor = mat.color;
-                currentColor.a = 0; // Set the alpha to the hidden value
-                mat.color = currentColor;
-            }
-            
-            else
-            {
-                Debug.Log("No Renderer found on the entered unit to hide.");
-            }
+                Renderer otherRenderer = GetUnitRenderer(enemyMovement != null ? enemyMovement : other.GetComponentInParent<EnemyMovement>());
+                UnitHealth unitHealth = enemyMovement != null ? enemyMovement.GetComponentInChildren<UnitHealth>() : other.GetComponentInChildren<UnitHealth>();
+                SetAlpha(otherRenderer, 0f);
 
-            if (enemyMovement != null)
-            {
-                enemyMovement.isHidden = true;
+                if (enemyMovement != null)
+                {
+                    enemyMovement.EnterFog(this);
+                }
+                if (unitHealth != null)
+                {
+                    unitHealth.SetHealthUIHidden(true);
+                }
+                Debug.Log("Enemy entered the terrain and is now hidden.");
             }
-            if (unitHealth != null)
-            {
-                unitHealth.SetHealthUIHidden(true);
-            }
-            Debug.Log("Enemy entered the terrain and is now hidden.");
         }
    }
 
    private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
+        MoveUnit moveUnit = other.GetComponentInParent<MoveUnit>();
+        if (moveUnit != null || other.CompareTag("Player") || other.CompareTag("PlayerUnit"))
         {
-            MoveUnit moveUnit = other.GetComponent<MoveUnit>();
             if (moveUnit != null)
             {
-                moveUnit.isHidden = true;
+                moveUnit.EnterFog(this);
             }
         }
-        else if (other.CompareTag("Enemy"))
+        else
         {
-            EnemyMovement enemyMovement = other.GetComponent<EnemyMovement>();
-            UnitHealth unitHealth = other.GetComponentInChildren<UnitHealth>();
-            if (enemyMovement != null)
+            EnemyMovement enemyMovement = other.GetComponentInParent<EnemyMovement>();
+            if (enemyMovement != null || other.CompareTag("Enemy") || other.CompareTag("EnemyUnit"))
             {
-                enemyMovement.isHidden = true;
-            }
-            if (unitHealth != null)
-            {
-                unitHealth.SetHealthUIHidden(true);
+                if (enemyMovement != null)
+                {
+                    enemyMovement.EnterFog(this);
+                }
+                UnitHealth unitHealth = enemyMovement != null ? enemyMovement.GetComponentInChildren<UnitHealth>() : other.GetComponentInChildren<UnitHealth>();
+                if (unitHealth != null)
+                {
+                    unitHealth.SetHealthUIHidden(true);
+                }
             }
         }
     }
 
    private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
+        MoveUnit moveUnit = other.GetComponentInParent<MoveUnit>();
+        EnemyMovement enemyMovement = other.GetComponentInParent<EnemyMovement>();
+
+        if (moveUnit != null || enemyMovement != null || other.CompareTag("Player") || other.CompareTag("PlayerUnit") || other.CompareTag("Enemy") || other.CompareTag("EnemyUnit"))
         {
-            Renderer otherRenderer = other.GetComponentInChildren<Renderer>();
-
-            MoveUnit moveUnit = other.GetComponent<MoveUnit>();
-            EnemyMovement enemyMovement = other.GetComponent<EnemyMovement>();
-            UnitHealth unitHealth = other.GetComponentInChildren<UnitHealth>();
-
-            if (otherRenderer != null)
-            {
-                // Always restore to fully opaque
-                Material mat = otherRenderer.material;
-                Color currentColor = mat.color;
-                currentColor.a = 1f;
-                mat.color = currentColor;
-            }
-            else
-            {
-                Debug.LogWarning("No Renderer found on the unit to restore visibility.");
-            }
-
+            Renderer otherRenderer = GetUnitRenderer(moveUnit != null ? moveUnit : enemyMovement);
             if (moveUnit != null)
             {
-                moveUnit.isHidden = false;
+                bool stillHidden = moveUnit.ExitFog(this);
+                SetAlpha(otherRenderer, stillHidden ? hiddenAlpha : 1f);
             }
             if (enemyMovement != null)
             {
-                enemyMovement.isHidden = false;
-            }
-            if (unitHealth != null)
-            {
-                unitHealth.SetHealthUIHidden(false);
+                bool stillHidden = enemyMovement.ExitFog(this);
+                SetAlpha(otherRenderer, stillHidden ? 0f : 1f);
+                UnitHealth unitHealth = enemyMovement.GetComponentInChildren<UnitHealth>();
+                if (unitHealth != null)
+                {
+                    unitHealth.SetHealthUIHidden(stillHidden);
+                }
             }
         }
     }

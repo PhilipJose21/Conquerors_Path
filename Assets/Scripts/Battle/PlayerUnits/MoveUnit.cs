@@ -34,6 +34,8 @@ public class MoveUnit : MonoBehaviour
     public bool isSelected;
     public bool isHidden;
 
+    private readonly HashSet<TerrainHideUnit> activeFogTerrains = new HashSet<TerrainHideUnit>();
+
     private static int movingUnitCount = 0;
     public static bool AnyUnitMoving => movingUnitCount > 0;
     public bool IsMoving => isMoving;
@@ -65,6 +67,29 @@ public class MoveUnit : MonoBehaviour
         {
             movingUnitCount = Mathf.Max(0, movingUnitCount - 1);
         }
+    }
+
+    public void EnterFog(TerrainHideUnit terrainHideUnit)
+    {
+        if (terrainHideUnit == null)
+        {
+            return;
+        }
+
+        activeFogTerrains.Add(terrainHideUnit);
+        isHidden = activeFogTerrains.Count > 0;
+    }
+
+    public bool ExitFog(TerrainHideUnit terrainHideUnit)
+    {
+        if (terrainHideUnit == null)
+        {
+            return isHidden;
+        }
+
+        activeFogTerrains.Remove(terrainHideUnit);
+        isHidden = activeFogTerrains.Count > 0;
+        return isHidden;
     }
 
     void Awake()
