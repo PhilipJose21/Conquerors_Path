@@ -137,20 +137,9 @@ public class MoveUnit : MonoBehaviour
                 GameObject clickedObject = hit.collider.gameObject;
                 Clicked(clickedObject);
 
-                // Try to find the health component on the clicked unit to populate our panel
-                UnitHealth healthComp = clickedObject.GetComponentInChildren<UnitHealth>() ?? clickedObject.GetComponentInParent<UnitHealth>();
-                
-                if (healthComp != null && healthComp.unitData != null)
-                {
-                    if (MinimizedInspector.Instance != null)
-                    {
-                        MinimizedInspector.Instance.ShowUnitStats(
-                            healthComp.unitData, 
-                            healthComp.currentHealth, 
-                            healthComp.maxHealth
-                        );
-                    }
-                }
+                // NOTE: inspector-panel display used to also happen here, duplicating
+                // the toggle-aware version in OnMouseDown and causing ShowUnitStats to
+                // run twice per click. That's handled in OnMouseDown now.
             }
         }
 
@@ -179,13 +168,32 @@ public class MoveUnit : MonoBehaviour
                 return;
             }
 
-            // Detect if an enemy occupies the tile
+            // Detect if an enemy occupies the tile.
+            // IMPORTANT: don't rely on the collider's own tag — on most unit
+            // prefabs the Collider lives on a child mesh object while the
+            // "EnemyUnit" tag/EnemyMovement script sit on the root. Climb the
+            // hierarchy the same way AttackEnemyUnit.TryAttackAtPosition does,
+            // otherwise this silently reports "no enemy here" and the unit
+            // walks straight onto the enemy's tile instead of attacking.
             float checkRadius = 0.4f;
             bool enemyPresent = false;
             Collider[] hits = Physics.OverlapSphere(ht.worldPosition, checkRadius);
             foreach (var h in hits)
             {
                 if (h.CompareTag("EnemyUnit")) { enemyPresent = true; break; }
+
+                var enemyHealth = h.GetComponentInParent<UnitHealth>();
+                GameObject owner = enemyHealth != null ? enemyHealth.gameObject : null;
+                if (owner == null)
+                {
+                    var enemyMove = h.GetComponentInParent<EnemyMovement>();
+                    owner = enemyMove != null ? enemyMove.gameObject : null;
+                }
+                if (owner != null && (owner.CompareTag("EnemyUnit") || owner.GetComponentInParent<EnemyMovement>() != null))
+                {
+                    enemyPresent = true;
+                    break;
+                }
             }
 
             var selectedMove = selected.GetComponent<MoveUnit>();
@@ -220,7 +228,16 @@ public class MoveUnit : MonoBehaviour
                 }
             }
 
-            // 3. No attack/harvest action taken — perform move only if the selected unit has remaining moveActions
+            // 3. Never allow walking onto a tile that's occupied by an enemy.
+            // (This can happen when the tile is inside the move diamond but outside
+            // the attack-range square, so it wasn't caught by step 1 above.)
+            if (enemyPresent)
+            {
+                Debug.Log("Tile occupied by enemy and out of attack range — cannot move there.");
+                return;
+            }
+
+            // 4. No attack/harvest action taken — perform move only if the selected unit has remaining moveActions
             if (selectedMove != null && selectedMove.canMove && selectedMove.moveActions > 0)
             {
                 if (CellHighlighter.Instance != null)
@@ -729,21 +746,6 @@ public class MoveUnit : MonoBehaviour
                     );
                 }
             }
-        }
-
-        // 3. Process Live Tactical Highlight Routing
-        if (isPlayerTurn)
-        {
-            GameObject targetSelectionObject = transform.parent != null ? transform.parent.gameObject : gameObject;
-            
-            Debug.Log($"[TACTICAL TURN ACTIVE] Passing selection root '{targetSelectionObject.name}' to highlight engine.[cite: 8]");
-            
-            // Pass the corrected object identity context into your original selection logic[cite: 8]
-            Clicked(targetSelectionObject);
-        }
-        else
-        {
-            Debug.Log("[SETUP STATE] Highlights suppressed cleanly. Ready for deployment.[cite: 8]");
         }
     }
 }
