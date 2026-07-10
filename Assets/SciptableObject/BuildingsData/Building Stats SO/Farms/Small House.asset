@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BuildingStatsSO
   buildingName: Small House
   description: Small House
-  resourceType: 3
+  resourceType: 7
   resourceAmount: 1
   resourceTimer: 1

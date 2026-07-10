@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 476bcf6d28461e84a95dd01de2a572f4, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSO
-  woodResources: 50
-  stoneResources: 50
-  farmResources: 1064
-  energyPoints: 99985
+  woodResources: 1000
+  stoneResources: 1000
+  farmResources: 1664
+  energyPoints: 99950
   researchPoints: 50
   gems: 50
-  coins: 50
+  coins: 48906
   unlockedUnits:
   - {fileID: 11400000, guid: 237da6f91dc3a8840acccd4ca416268d, type: 2}
   - {fileID: 11400000, guid: 28d18d86a945b5143838a668623a1d68, type: 2}

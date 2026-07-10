@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   <Name>k__BackingField: Training Grounds
   <Size>k__BackingField: 9
-  <Model>k__BackingField: {fileID: 1915748257449464270, guid: b6088977b24467a4ca3588de807e162a, type: 3}
+  <Model>k__BackingField: {fileID: 1915748257449464270, guid: 16a4fbd84bcfa5e419b032e405113c27, type: 3}
   <Icon>k__BackingField: {fileID: 0}
-  <coinCost>k__BackingField: 0
-  <farmCost>k__BackingField: 0
-  <rockCost>k__BackingField: 0
-  <woodCost>k__BackingField: 0
-  <gemCost>k__BackingField: 0
-  <energyCost>k__BackingField: 0
+  <coinCost>k__BackingField: 150
+  <farmCost>k__BackingField: 10
+  <rockCost>k__BackingField: 10
+  <woodCost>k__BackingField: 10
+  <gemCost>k__BackingField: 10
+  <energyCost>k__BackingField: 5
   <unitCost>k__BackingField: 0
   <reinforcementCost>k__BackingField: 0
   <unitPrefab>k__BackingField: {fileID: 0}

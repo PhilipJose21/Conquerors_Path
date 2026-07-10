@@ -45,9 +45,10 @@ public class BuildModeCard : MonoBehaviour
 
         if (buildingSystem != null)
         {
-            buildingSystem.SelectBuildingByData(placementData);
-            
-            KingdomUIManager.Instance?.ToggleBuildMode();
+            if (buildingSystem.SelectBuildingByData(placementData))
+            {
+                KingdomUIManager.Instance?.ToggleBuildMode();
+            }
         }
     }
 }

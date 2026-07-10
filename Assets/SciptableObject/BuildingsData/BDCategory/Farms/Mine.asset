@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   <Name>k__BackingField: Mine
   <Size>k__BackingField: 9
-  <Model>k__BackingField: {fileID: 1915748257449464270, guid: e18c451318b0670419c0751ad32d4cfc, type: 3}
+  <Model>k__BackingField: {fileID: 1915748257449464270, guid: 311438782a74f58499ee936d50b06092, type: 3}
   <Icon>k__BackingField: {fileID: 0}
-  <coinCost>k__BackingField: 0
-  <farmCost>k__BackingField: 10
-  <rockCost>k__BackingField: 0
-  <woodCost>k__BackingField: 0
+  <coinCost>k__BackingField: 100
+  <farmCost>k__BackingField: 0
+  <rockCost>k__BackingField: 10
+  <woodCost>k__BackingField: 5
   <gemCost>k__BackingField: 0
   <energyCost>k__BackingField: 2
   <unitCost>k__BackingField: 2

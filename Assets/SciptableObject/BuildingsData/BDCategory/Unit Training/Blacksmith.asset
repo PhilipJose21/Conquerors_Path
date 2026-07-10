@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Blacksmith
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   <Name>k__BackingField: Blacksmith
-  <Size>k__BackingField: 6
+  <Size>k__BackingField: 4
   <Model>k__BackingField: {fileID: 1915748257449464270, guid: b6088977b24467a4ca3588de807e162a, type: 3}
   <Icon>k__BackingField: {fileID: 0}
-  <coinCost>k__BackingField: 0
+  <coinCost>k__BackingField: 300
   <farmCost>k__BackingField: 0
-  <rockCost>k__BackingField: 0
-  <woodCost>k__BackingField: 0
+  <rockCost>k__BackingField: 15
+  <woodCost>k__BackingField: 15
   <gemCost>k__BackingField: 0
-  <energyCost>k__BackingField: 0
+  <energyCost>k__BackingField: 5
   <unitCost>k__BackingField: 0
   <reinforcementCost>k__BackingField: 0
   <unitPrefab>k__BackingField: {fileID: 0}

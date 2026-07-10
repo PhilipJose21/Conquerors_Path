@@ -134,12 +134,12 @@ public class BuildingSystem : MonoBehaviour
     }
 
     // Select a building by index and (re)create the preview at the given position.
-    private void TrySelectBuilding(int index, Vector3 position)
+    private bool TrySelectBuilding(int index, Vector3 position)
     {
         // 1. Guard Clause: Verify index bounds before anything else
         if (buildingDataList == null || index < 0 || index >= buildingDataList.Count) 
         {
-            return; // Exits early, keeping isPlacing unchanged
+            return false; // Exits early, keeping isPlacing unchanged
         }
 
         if (!isBattleScene){
@@ -149,8 +149,8 @@ public class BuildingSystem : MonoBehaviour
             buildingDataList[index].farmCost > playerSO.farmResources
             ||buildingDataList[index].energyCost > playerSO.energyPoints)
             {
-                Debug.Log("Not enough resources to select this building.");
-                return;
+                Debug.Log("Not enough resources to select this building." + buildingDataList[index].Name);
+                return false;
             }
         }
         
@@ -159,7 +159,7 @@ public class BuildingSystem : MonoBehaviour
         if (isPlacing && buildingDataIndex == index)
         {
             CancelPlacement();
-            return;
+            return true;
         }
 
         isPlacing = true;
@@ -178,6 +178,8 @@ public class BuildingSystem : MonoBehaviour
         }
         // Notify UI manager about the selected building (if present)
         // KingdomUIManager.Instance?.ShowSelectedBuilding(buildingDataList[buildingDataIndex]);
+
+        return true;
     }
 
     // Public entry for UI buttons to select a building by index.
@@ -421,7 +423,7 @@ public class BuildingSystem : MonoBehaviour
 
         foreach (Building building in placedBuildings)
         {
-            if (building == null || !building.HasData)
+            if (building == null || !building.HasData || building.PersistThroughLoads)
             {
                 continue;
             }
@@ -468,6 +470,11 @@ public class BuildingSystem : MonoBehaviour
 
         BuildingData buildingData = FindBuildingDataByKey(savedBuilding.buildingKey);
         if (buildingData == null || buildingPrefab == null || environmentParent == null) return;
+
+        if (HasPersistentBuilding(buildingData))
+        {
+            return;
+        }
 
         List<Vector3> occupiedPositions = savedBuilding.occupiedPositions != null && savedBuilding.occupiedPositions.Count > 0
             ? new List<Vector3>(savedBuilding.occupiedPositions)
@@ -539,7 +546,7 @@ public class BuildingSystem : MonoBehaviour
 
         foreach (Building building in placedBuildings)
         {
-            if (building != null)
+            if (building != null && !building.PersistThroughLoads && building.gameObject.GetComponentInChildren<BuildingStatContainer>(true)?.buildingStatsSO?.buildingName != "Castle")
             {
                 Destroy(building.gameObject);
             }
@@ -554,6 +561,31 @@ public class BuildingSystem : MonoBehaviour
         }
 
         return buildingDataList.FirstOrDefault(data => data != null && (data.Name == buildingKey || data.name == buildingKey));
+    }
+
+    private bool HasPersistentBuilding(BuildingData buildingData)
+    {
+        if (buildingData == null)
+        {
+            return false;
+        }
+
+        GameObject parent = ResolveEnvironmentParent();
+        if (parent == null)
+        {
+            return false;
+        }
+
+        Building[] placedBuildings = parent.GetComponentsInChildren<Building>(true);
+        foreach (Building building in placedBuildings)
+        {
+            if (building != null && building.PersistThroughLoads && building.HasData && building.Name == buildingData.Name)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void FinishPlacement()
@@ -615,6 +647,16 @@ public class BuildingSystem : MonoBehaviour
         worldCenter.y = targetGrid.transform.position.y;
         return worldCenter;
     }
+
+    private GameObject ResolveEnvironmentParent()
+    {
+        if (environmentParent == null)
+        {
+            environmentParent = GameObject.Find("Environment");
+        }
+
+        return environmentParent;
+    }
     
     private Vector3 GetMouseWorldPosition()
     {
@@ -635,18 +677,67 @@ public class BuildingSystem : MonoBehaviour
         return newPreview;
     }
 
-    public void SelectBuildingByData(BuildingData data)
+    public bool SelectBuildingByData(BuildingData data)
     {
-        if (buildingDataList == null || data == null) return;
+        if (buildingDataList == null || data == null) return false;
+
         int index = buildingDataList.IndexOf(data);
         if (index >= 0)
         {
-            TrySelectBuilding(index, GetMouseWorldPosition());
+            return TrySelectBuilding(index, GetMouseWorldPosition());
         }
+
+        return false;
     }
 
     public List<BuildingData> GetLiveBuildings()
     {
         return buildingDataList;
+    }
+
+    public bool CanPlaceBuilding(BuildingData data)
+    {
+        return data != null && !HasPlacedBuilding(data);
+    }
+
+    public bool IsBuildingPlaced(BuildingData data)
+    {
+        return HasPlacedBuilding(data);
+    }
+
+    private bool HasPlacedBuilding(BuildingData data)
+    {
+        if (data == null)
+        {
+            return false;
+        }
+
+        GameObject parent = ResolveEnvironmentParent();
+        if (parent == null)
+        {
+            return false;
+        }
+
+        Building[] placedBuildings = parent.GetComponentsInChildren<Building>(true);
+        foreach (Building building in placedBuildings)
+        {
+            if (building == null)
+            {
+                continue;
+            }
+
+            BuildingStatContainer statContainer = building.GetComponentInChildren<BuildingStatContainer>(true);
+            if (statContainer != null && statContainer.buildingData == data)
+            {
+                return true;
+            }
+
+            if (building.HasData && building.Name == data.Name)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

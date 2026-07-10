@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Range FIeld
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   <Name>k__BackingField: Range Field
-  <Size>k__BackingField: 8
-  <Model>k__BackingField: {fileID: 1915748257449464270, guid: b6088977b24467a4ca3588de807e162a, type: 3}
+  <Size>k__BackingField: 9
+  <Model>k__BackingField: {fileID: 1915748257449464270, guid: b30e266be4f5cfc47906e0430a47d7dc, type: 3}
   <Icon>k__BackingField: {fileID: 0}
   <coinCost>k__BackingField: 0
   <farmCost>k__BackingField: 0
   <rockCost>k__BackingField: 0
   <woodCost>k__BackingField: 0
   <gemCost>k__BackingField: 0
-  <energyCost>k__BackingField: 0
+  <energyCost>k__BackingField: 5
   <unitCost>k__BackingField: 0
   <reinforcementCost>k__BackingField: 0
   <unitPrefab>k__BackingField: {fileID: 0}

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90402378939ec8341bb37cace8a49810, type: 3}
-  m_Name: Mine
+  m_Name: Bowyer
   m_EditorClassIdentifier: Assembly-CSharp::BuildingStatsSO
-  buildingName: Mine
-  description: Minecraft!
-  resourceType: 2
-  resourceAmount: 10
-  resourceTimer: 10
+  buildingName: Bowyer
+  description: Bowyer
+  resourceType: 0
+  resourceAmount: 0
+  resourceTimer: 0

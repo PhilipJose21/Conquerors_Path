@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: -1254735274301716287}
   - component: {fileID: -1936643875974198992}
   m_Layer: 0
-  m_Name: Mine 1
+  m_Name: Small House
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,7 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e4ef843e907aae4184ca11b9661b064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingStatContainer
-  buildingStatsSO: {fileID: 11400000, guid: 65a742ec1af745845aa348d58c7b6d07, type: 2}
+  buildingStatsSO: {fileID: 11400000, guid: b43f7554c2c64b24ba112e26b6841301, type: 2}
+  buildingData: {fileID: 0}
 --- !u!114 &4381709770458237799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,11 +109,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e7a8dafc8c08474c8e6a1e31a1e85bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PassiveResource
-  resourceType: 1
+  resourceType: 7
+  buildingStatsSO: {fileID: 0}
+  buildingData: {fileID: 0}
+  level: 1
   isActive: 0
   resourceAmount: 1
   resourceTimer: 1
   currentTime: 0
+  coinCost: 0
+  farmCost: 0
+  rockCost: 0
+  woodCost: 0
+  gemCost: 0
+  energyCost: 0
 --- !u!114 &-1254735274301716287
 MonoBehaviour:
   m_ObjectHideFlags: 0

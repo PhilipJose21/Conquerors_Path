@@ -19,8 +19,10 @@ public class Building : MonoBehaviour
     private BuildingModel model;
     private BuildingData data;
     [SerializeField] private Vector3 manualOffset;
+    [SerializeField] private bool persistThroughLoads;
 
     public bool HasData => data != null;
+    public bool PersistThroughLoads => persistThroughLoads;
 
     /// <summary>
     /// Initialize this Building with the provided data and rotation.
