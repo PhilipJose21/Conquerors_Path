@@ -37,6 +37,8 @@ public class MinimizedInspector : MonoBehaviour
 
     public void ShowUnitStats(UnitSO unitData, int currentHP, int maxHP)
     {
+        Debug.Log("ShowUnitStats reached");
+
         if (unitData == null) return;
         Debug.Log($"[UI Update] Unit Name: '{unitData.unitName}', Atk: {unitData.damage}, Icon Sprite Name: {unitData.unitIcon?.name}");
         gameObject.SetActive(true);
@@ -53,6 +55,7 @@ public class MinimizedInspector : MonoBehaviour
         SetExpandedState(false);
 
         PlayPopAnimation();
+
     }
 
     public void ToggleExpand()
