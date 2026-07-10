@@ -20,6 +20,6 @@ MonoBehaviour:
   isCompleted: 0
   levelReinforcementCost: 3
   rewardClaimed: 0
-  energyPointsReward: 0
-  gemsReward: 0
-  coinsReward: 0
+  energyPointsReward: 20
+  gemsReward: 100
+  coinsReward: 2000
