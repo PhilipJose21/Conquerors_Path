@@ -328,6 +328,10 @@ MonoBehaviour:
   trainUpgradeTroopUI: {fileID: 0}
   isUpgrading: 0
   isTraining: 0
+  woodCost: 0
+  rockCost: 0
+  farmCost: 0
+  coinCost: 0
 --- !u!1 &6412669695826900516
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.381132, g: 0.381132, b: 0.381132, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

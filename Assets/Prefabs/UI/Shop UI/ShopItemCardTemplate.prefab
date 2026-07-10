@@ -540,7 +540,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 10e1ccfa7b4827045a4c3e09a007c97c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -565,11 +565,15 @@ MonoBehaviour:
   cardType: 0
   itemName: 5,000 Coins
   itemDescription: Coins galore!
+  itemIcon: {fileID: 0}
+  unitData: {fileID: 0}
   rewardAmount: 5000
-  costAmount: 100
+  gemCost: 50
+  realMoneyPriceTag: $0.99
   titleText: {fileID: 5632507118458433867}
   descriptionText: {fileID: 1099466567445757897}
   costButtonText: {fileID: 7237062985056430323}
+  cardIconImage: {fileID: 0}
 --- !u!1 &7732646458240123040
 GameObject:
   m_ObjectHideFlags: 0
