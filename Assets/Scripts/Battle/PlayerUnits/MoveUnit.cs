@@ -127,11 +127,6 @@ public class MoveUnit : MonoBehaviour
                     }
                 }
             }
-            else
-            {
-                // 🌟 FIXED: Removed MinimizedInspector.Instance.HidePanel() from here!
-                // Clicking empty tiles or UI buttons will no longer force-close your panel.
-            }
         }
 
         if (isSelected == true)
@@ -473,14 +468,36 @@ public class MoveUnit : MonoBehaviour
         // --- STEP 1: PRIORITIZE HIGHLIGHT TILES (ACTION INPUTS) ---
         // If a unit is selected and we are clicking an active highlight tile, 
         // we MUST process the tile command, even if a player unit is standing on it.
-        foreach (var h in hits)
+        //
+        // EXCEPTION: a selected unit always stands on one of its own highlight
+        // tiles (distance 0 is always within its own range). If the closest
+        // thing the ray actually hits is that selected unit itself, let the
+        // unit take priority instead of the tile underneath it — otherwise
+        // clicking your own unit to deselect it always gets swallowed as a
+        // "move onto the same tile" action instead.
+        GameObject selectedUnit = CellHighlighter.Instance != null ? CellHighlighter.Instance.CurrentUnit : null;
+        bool closestIsSelectedUnit = false;
+        if (hits.Length > 0 && selectedUnit != null)
         {
-            GameObject g = h.collider.gameObject;
-            if (g.GetComponent<HighlightTile>() != null)
+            GameObject closestObj = hits[0].collider.gameObject;
+            MoveUnit closestMove = closestObj.GetComponent<MoveUnit>() ?? closestObj.GetComponentInParent<MoveUnit>();
+            if (closestMove != null && closestMove.gameObject == selectedUnit)
             {
-                hit = h;
-                rayHit = true;
-                break;
+                closestIsSelectedUnit = true;
+            }
+        }
+
+        if (!closestIsSelectedUnit)
+        {
+            foreach (var h in hits)
+            {
+                GameObject g = h.collider.gameObject;
+                if (g.GetComponent<HighlightTile>() != null)
+                {
+                    hit = h;
+                    rayHit = true;
+                    break;
+                }
             }
         }
 

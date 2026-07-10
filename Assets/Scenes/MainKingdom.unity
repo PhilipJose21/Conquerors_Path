@@ -5982,8 +5982,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraZoom
   ZoomChange: 20
-  SmoothChange: 1
-  MinSize: 8
+  SmoothChange: 3
+  MinSize: 1
   MaxSize: 10
 --- !u!114 &330585550
 MonoBehaviour:
