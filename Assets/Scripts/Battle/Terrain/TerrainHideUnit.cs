@@ -78,6 +78,31 @@ public class TerrainHideUnit : MonoBehaviour
         }
    }
 
+   private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            MoveUnit moveUnit = other.GetComponent<MoveUnit>();
+            if (moveUnit != null)
+            {
+                moveUnit.isHidden = true;
+            }
+        }
+        else if (other.CompareTag("Enemy"))
+        {
+            EnemyMovement enemyMovement = other.GetComponent<EnemyMovement>();
+            UnitHealth unitHealth = other.GetComponentInChildren<UnitHealth>();
+            if (enemyMovement != null)
+            {
+                enemyMovement.isHidden = true;
+            }
+            if (unitHealth != null)
+            {
+                unitHealth.SetHealthUIHidden(true);
+            }
+        }
+    }
+
    private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player") || other.CompareTag("Enemy"))
