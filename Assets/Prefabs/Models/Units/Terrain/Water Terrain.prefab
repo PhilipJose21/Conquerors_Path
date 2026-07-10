@@ -351,21 +351,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5312389761984477967}
     m_Modifications:
+    - target: {fileID: 2987590930247959318, guid: 960b269cf951bfb4baaa37255368b49f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b2bb9145904e3b946a888ef8f54c39b9, type: 2}
     - target: {fileID: 3636360309669913283, guid: 960b269cf951bfb4baaa37255368b49f, type: 3}
       propertyPath: m_Name
       value: water location treasure Island
       objectReference: {fileID: 0}
     - target: {fileID: 4124491058673629305, guid: 960b269cf951bfb4baaa37255368b49f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.026785502
+      value: 0.033198472
       objectReference: {fileID: 0}
     - target: {fileID: 4124491058673629305, guid: 960b269cf951bfb4baaa37255368b49f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.026785502
+      value: 0.033198472
       objectReference: {fileID: 0}
     - target: {fileID: 4124491058673629305, guid: 960b269cf951bfb4baaa37255368b49f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.026785502
+      value: 0.033198472
       objectReference: {fileID: 0}
     - target: {fileID: 4124491058673629305, guid: 960b269cf951bfb4baaa37255368b49f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -381,7 +385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4124491058673629305, guid: 960b269cf951bfb4baaa37255368b49f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.70710367
       objectReference: {fileID: 0}
     - target: {fileID: 4124491058673629305, guid: 960b269cf951bfb4baaa37255368b49f, type: 3}
       propertyPath: m_LocalRotation.x
@@ -389,7 +393,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4124491058673629305, guid: 960b269cf951bfb4baaa37255368b49f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.70711
       objectReference: {fileID: 0}
     - target: {fileID: 4124491058673629305, guid: 960b269cf951bfb4baaa37255368b49f, type: 3}
       propertyPath: m_LocalRotation.z
@@ -401,7 +405,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4124491058673629305, guid: 960b269cf951bfb4baaa37255368b49f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -269.999
       objectReference: {fileID: 0}
     - target: {fileID: 4124491058673629305, guid: 960b269cf951bfb4baaa37255368b49f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

@@ -417,7 +417,7 @@ PrefabInstance:
     - target: {fileID: 4106103168730293512, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 3d1603cceae7dff41b7beab0b810d1a1, type: 2}
+      objectReference: {fileID: 2100000, guid: a8134ddcd3a4669469b2abe12c75e336, type: 2}
     - target: {fileID: 7002105727683063726, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -500,7 +500,7 @@ PrefabInstance:
     - target: {fileID: 4106103168730293512, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 3d1603cceae7dff41b7beab0b810d1a1, type: 2}
+      objectReference: {fileID: 2100000, guid: a8134ddcd3a4669469b2abe12c75e336, type: 2}
     - target: {fileID: 7002105727683063726, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -583,7 +583,7 @@ PrefabInstance:
     - target: {fileID: 4106103168730293512, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 3d1603cceae7dff41b7beab0b810d1a1, type: 2}
+      objectReference: {fileID: 2100000, guid: a8134ddcd3a4669469b2abe12c75e336, type: 2}
     - target: {fileID: 7002105727683063726, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -666,7 +666,7 @@ PrefabInstance:
     - target: {fileID: 4106103168730293512, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 3d1603cceae7dff41b7beab0b810d1a1, type: 2}
+      objectReference: {fileID: 2100000, guid: a8134ddcd3a4669469b2abe12c75e336, type: 2}
     - target: {fileID: 7002105727683063726, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -749,7 +749,7 @@ PrefabInstance:
     - target: {fileID: 4106103168730293512, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 3d1603cceae7dff41b7beab0b810d1a1, type: 2}
+      objectReference: {fileID: 2100000, guid: a8134ddcd3a4669469b2abe12c75e336, type: 2}
     - target: {fileID: 7002105727683063726, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -902,7 +902,7 @@ PrefabInstance:
     - target: {fileID: 4106103168730293512, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 3d1603cceae7dff41b7beab0b810d1a1, type: 2}
+      objectReference: {fileID: 2100000, guid: a8134ddcd3a4669469b2abe12c75e336, type: 2}
     - target: {fileID: 7002105727683063726, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -985,7 +985,7 @@ PrefabInstance:
     - target: {fileID: 4106103168730293512, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 3d1603cceae7dff41b7beab0b810d1a1, type: 2}
+      objectReference: {fileID: 2100000, guid: a8134ddcd3a4669469b2abe12c75e336, type: 2}
     - target: {fileID: 7002105727683063726, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1068,7 +1068,7 @@ PrefabInstance:
     - target: {fileID: 4106103168730293512, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 3d1603cceae7dff41b7beab0b810d1a1, type: 2}
+      objectReference: {fileID: 2100000, guid: a8134ddcd3a4669469b2abe12c75e336, type: 2}
     - target: {fileID: 7002105727683063726, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: m_Enabled
       value: 0
