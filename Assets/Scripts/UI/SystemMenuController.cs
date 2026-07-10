@@ -1,14 +1,25 @@
 using UnityEngine;
+using UnityEngine.SceneManagement; // Required for changing scenes
 
 public class SystemMenuController : MonoBehaviour
 {
     [Header("Menu Buttons Container")]
     [SerializeField] private GameObject menuButtonsParent; 
 
+    [Header("Surrender Confirmation Overlay")]
+    [SerializeField] private GameObject surrenderConfirmationPanel; 
+
     private bool isMenuOpen = true;
     private bool isMuted = false;
 
-    // Element 3: Main toggle button logic
+    private void Start()
+    {
+        if (surrenderConfirmationPanel != null)
+        {
+            surrenderConfirmationPanel.SetActive(false);
+        }
+    }
+
     public void ToggleMenuVisibility()
     {
         isMenuOpen = !isMenuOpen;
@@ -19,7 +30,6 @@ public class SystemMenuController : MonoBehaviour
         Debug.Log("Menu toggled. Visible: " + isMenuOpen);
     }
 
-    // Element 8: Advanced Settings
     public void OpenAdvancedSettings()
     {
         Debug.Log("Opening Advanced Settings Panel...");
@@ -31,26 +41,38 @@ public class SystemMenuController : MonoBehaviour
     {
         isMuted = !isMuted;
         
-        // Mute master volume depends on your audio engine setup (AudioListener or custom SoundManager)
         AudioListener.pause = isMuted; 
         
         Debug.Log("Audio Mute State Toggled! Is Muted: " + isMuted);
     }
 
-    // Element 10: Surrender Behavior
     public void ExecuteSurrender()
     {
-        Debug.Log("Player chooses to Surrender! Ending match...");
+        Debug.Log("Player clicked Surrender. Showing confirmation panel...");
 
-        // Connect straight to your project's TurnManager framework to trigger a loss state
-        TurnManager turnManager = Object.FindAnyObjectByType<TurnManager>();
-        if (turnManager != null)
+        if (surrenderConfirmationPanel != null)
         {
-            // If your TurnManager has a defeat screen or game over trigger, fire it right here!
-            // e.g., turnManager.TriggerGameOver(false);
-            
-            // For now, let's look at your screen references:
-            Debug.Log("Loading Defeat/Game Over Screen UI...");
+            surrenderConfirmationPanel.SetActive(true);
+        }
+    }
+
+    public void ConfirmSurrenderYes()
+    {
+        Debug.Log("Surrender Confirmed! Saving data and returning to Main Kingdom...");
+
+        KingdomSaveManager.Instance?.SaveCurrentKingdom();
+
+        SceneManager.LoadScene("MainKingdom");
+    }
+
+    // NEW: Triggered by the "NO" button on the confirmation panel
+    public void ConfirmSurrenderNo()
+    {
+        Debug.Log("Surrender Cancelled. Returning to game menu.");
+
+        if (surrenderConfirmationPanel != null)
+        {
+            surrenderConfirmationPanel.SetActive(false);
         }
     }
 }

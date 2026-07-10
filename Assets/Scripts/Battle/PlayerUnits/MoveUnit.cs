@@ -653,4 +653,55 @@ public class MoveUnit : MonoBehaviour
         (int terrainX, int terrainY) = grid.WorldToGridPosition(terrainWorldPosition);
         return terrainX == gx && terrainY == gy;
     }
+
+    private void OnMouseDown()
+    {
+        // 1. Maintain complete protection against clicking through UI buttons
+        if (UnityEngine.EventSystems.EventSystem.current != null && 
+            UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) 
+            return;
+
+        Debug.Log($"[INPUT REGISTERED] Unit clicked: {gameObject.name}");
+
+        UnitHealth healthComp = GetComponent<UnitHealth>();
+        if (healthComp != null && healthComp.unitData != null)
+        {
+            if (MinimizedInspector.Instance != null)
+            {
+                // 🌟 TOGGLE LOGIC: Check if the panel is ALREADY open AND displaying this exact unit
+                if (MinimizedInspector.Instance.gameObject.activeSelf && 
+                    MinimizedInspector.Instance.nameText != null && 
+                    MinimizedInspector.Instance.nameText.text == healthComp.unitData.unitName)
+                {
+                    Debug.Log($"[TOGGLE] '{healthComp.unitData.unitName}' clicked again. Closing inspector panel...");
+                    MinimizedInspector.Instance.CloseInspector(); // Cleanly turns it off[cite: 7]
+                }
+                else
+                {
+                    Debug.Log($"[TOGGLE] Opening inspector panel for '{healthComp.unitData.unitName}'...[cite: 7]");
+                    // Otherwise, show/update it normally[cite: 7]
+                    MinimizedInspector.Instance.ShowUnitStats(
+                        healthComp.unitData, 
+                        healthComp.currentHealth, 
+                        healthComp.maxHealth
+                    );
+                }
+            }
+        }
+
+        // 3. Process Live Tactical Highlight Routing
+        if (isPlayerTurn)
+        {
+            GameObject targetSelectionObject = transform.parent != null ? transform.parent.gameObject : gameObject;
+            
+            Debug.Log($"[TACTICAL TURN ACTIVE] Passing selection root '{targetSelectionObject.name}' to highlight engine.[cite: 8]");
+            
+            // Pass the corrected object identity context into your original selection logic[cite: 8]
+            Clicked(targetSelectionObject);
+        }
+        else
+        {
+            Debug.Log("[SETUP STATE] Highlights suppressed cleanly. Ready for deployment.[cite: 8]");
+        }
+    }
 }

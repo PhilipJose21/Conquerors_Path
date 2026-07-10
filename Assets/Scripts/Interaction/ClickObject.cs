@@ -71,6 +71,7 @@ public class ClickObject : MonoBehaviour
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             return;
 
+        
         // Find the script on this object or its parent wrapper layer
         OpenBuildingUI buildingUI = obj.GetComponentInParent<OpenBuildingUI>();
         if (buildingUI != null)

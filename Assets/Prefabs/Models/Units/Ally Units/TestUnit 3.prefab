@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4768082269113202741}
   m_Layer: 6
   m_Name: TestUnitModel
-  m_TagString: Player
+  m_TagString: PlayerUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
