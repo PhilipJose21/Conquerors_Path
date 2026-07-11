@@ -19,6 +19,8 @@ public class BuildingSystem : MonoBehaviour
 
     public bool enableRemovingUnitFromArray = false;
 
+    public bool enableKeypads = false;
+
     [SerializeField] private List<BuildingData> buildingDataList;
 
     [SerializeField] private BuildingPreview buildingGrid;
@@ -109,7 +111,7 @@ public class BuildingSystem : MonoBehaviour
             int max = Mathf.Min(buildingDataList.Count, numberKeyMap.Length);
             for (int i = 0; i < max; i++)
             {
-                if (Input.GetKeyDown(numberKeyMap[i]))
+                if (Input.GetKeyDown(numberKeyMap[i]) && enableKeypads)
                 {
                     if (isBattleScene && unitButtonManager != null && unitButtonManager.TryGetBuildingDataAtSlot(i, out BuildingData battleBuildingData))
                     {

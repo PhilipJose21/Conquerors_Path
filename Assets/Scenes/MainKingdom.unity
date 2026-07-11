@@ -22701,17 +22701,14 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Controls:
 
-    1/2/3/4 -> Buildings
-
     T/Y -> Rotate Left/Right
 
+    Space + Lmb -> Drag Camera
+
     Space
-    + Lmb -> Drag Camera
+    + ScrollWheel -> Zoom In and Out
 
-    Space + ScrollWheel -> Zoom In and Out
-
-    Space +
-    Rmb -> Reset Camera/Rotation Position'
+    Space + Rmb -> Reset Camera/Rotation Position'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
   m_sharedMaterial: {fileID: -4464829965060106944, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
@@ -22877,6 +22874,7 @@ MonoBehaviour:
   isBattleScene: 0
   enableReinforcementCost: 0
   enableRemovingUnitFromArray: 0
+  enableKeypads: 0
   buildingDataList:
   - {fileID: 11400000, guid: c0e556533ebe892468208580ebbe5ef0, type: 2}
   - {fileID: 11400000, guid: c206c910a41e5b644b6fb2ada845fb64, type: 2}
