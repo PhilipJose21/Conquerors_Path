@@ -9356,6 +9356,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1357165601}
   - {fileID: 1610048591}
   - {fileID: 1438582228}
   - {fileID: 1329864345}
@@ -10117,6 +10118,7 @@ MonoBehaviour:
   isBattleScene: 1
   enableReinforcementCost: 1
   enableRemovingUnitFromArray: 1
+  enableKeypads: 0
   buildingDataList: []
   buildingGrid: {fileID: 4571845357412621073, guid: e8e79a61d6e7a464ea1bac703c91a86c, type: 3}
   buildingPrefab: {fileID: 2050431222552286972, guid: 5e4acca1106e8b8479eee7ac24197c6a, type: 3}
@@ -12320,11 +12322,11 @@ Transform:
   m_GameObject: {fileID: 1357165600}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 2, z: 10}
+  m_LocalPosition: {x: -0.41394043, y: 3, z: -1.5205078}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2102964851}
+  m_Father: {fileID: 1023475412}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &1357165602
 MonoBehaviour:
@@ -18822,7 +18824,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 375166180}
-  - {fileID: 1357165601}
   - {fileID: 1060887938}
   m_Father: {fileID: 1874228728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
