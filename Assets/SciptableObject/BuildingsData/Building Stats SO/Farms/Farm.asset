@@ -16,4 +16,4 @@ MonoBehaviour:
   description: Farm farm away
   resourceType: 3
   resourceAmount: 10
-  resourceTimer: 10
+  resourceTimer: 5

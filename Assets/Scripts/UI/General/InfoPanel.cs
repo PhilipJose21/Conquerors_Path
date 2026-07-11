@@ -49,7 +49,14 @@ public class InfoPanel : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
+            // Don't destroy on sight. A "duplicate" InfoPanel usually means something
+            // (an inactive scene object activating late, a stray Instantiate elsewhere)
+            // claimed the Instance slot before this one got a chance to. Destroying
+            // blindly here is exactly what caused the persistent scene panel to wipe
+            // itself out during an activation-order race. Log it and back off instead -
+            // whichever object got here first keeps ownership, this one just stays inert.
+            Debug.LogWarning($"InfoPanel: duplicate instance detected on '{gameObject.name}'. " +
+                $"Keeping existing Instance on '{Instance.gameObject.name}' and leaving this one alone.", this);
             return;
         }
         Instance = this;
@@ -143,7 +150,7 @@ public class InfoPanel : MonoBehaviour
 
     public void closePanel()
     {
-        Destroy(gameObject);
+        this.gameObject.SetActive(false);
     }
 
     public void destroyObject()

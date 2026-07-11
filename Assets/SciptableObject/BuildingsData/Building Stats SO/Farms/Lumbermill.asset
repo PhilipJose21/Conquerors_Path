@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BuildingStatsSO
   buildingName: Lumbermill
   description: This is a lumbermill
-  resourceType: 3
-  resourceAmount: 1
-  resourceTimer: 1
+  resourceType: 1
+  resourceAmount: 10
+  resourceTimer: 5
