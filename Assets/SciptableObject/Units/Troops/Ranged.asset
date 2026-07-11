@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e627f14df1246df4784917414f4e84a7, type: 3}
   m_Name: Ranged
   m_EditorClassIdentifier: Assembly-CSharp::TroopData
+  unitStats: {fileID: 11400000, guid: 237da6f91dc3a8840acccd4ca416268d, type: 2}
   unitName: Ranged
   unitType: 1
   description: They shoot.

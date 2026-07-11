@@ -7,6 +7,17 @@ public class MoveUnit : MonoBehaviour
     public UnitSO unitData;
 
     private static int lastProcessedClickFrame = -1;
+    // Guards against Clicked() being invoked more than once per frame.
+    // Every unit in the scene runs its own Update()/DetectObjects(), but only
+    // the first instance processed each frame actually recomputes the shared
+    // raycast (see lastProcessedClickFrame above) — every other instance's
+    // rayHit/hit fields are stale leftovers from whenever THAT instance last
+    // ran the raycast. Without this guard, a single mouse click could call
+    // Clicked() once with the correct (fresh) target and again with stale
+    // targets from other units, causing selection/highlight state to be
+    // toggled or overwritten unpredictably (e.g. selecting a unit whose
+    // highlights don't match the unit that was actually clicked).
+    private static int lastHandledClickFrame = -1;
     private Camera mainCamera;
 
     private Material originalMaterial;
@@ -132,8 +143,9 @@ public class MoveUnit : MonoBehaviour
         DetectObjects();
         if (Input.GetMouseButtonDown(0) && isPlayerTurn && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) // Left mouse button
         {
-            if (rayHit && hit.collider != null)
+            if (rayHit && hit.collider != null && lastHandledClickFrame != Time.frameCount)
             {
+                lastHandledClickFrame = Time.frameCount;
                 GameObject clickedObject = hit.collider.gameObject;
                 Clicked(clickedObject);
 
@@ -196,6 +208,32 @@ public class MoveUnit : MonoBehaviour
                 }
             }
 
+            // Detect if a different friendly unit occupies the tile. Units can never
+            // stack on the same cell, so a highlighted move tile that happens to have
+            // an ally standing on it must be blocked the same way an enemy tile is —
+            // otherwise the selected unit ends up walking straight onto a teammate.
+            // (Climb to the root via MoveUnit the same way the enemy check climbs via
+            // UnitHealth/EnemyMovement, since colliders often live on child meshes.)
+            //
+            // NOTE: don't gate this behind a "PlayerUnit" tag check — elsewhere in
+            // this file (see the container-fallback branch below) having a MoveUnit
+            // component is itself treated as sufficient proof a GameObject is a
+            // player unit, since the tag isn't guaranteed to be set on the same
+            // object the collider lives on. Requiring the tag here caused this
+            // check to silently fail and never flag the ally as present.
+            bool alliedPresent = false;
+            foreach (var h in hits)
+            {
+                var allyMove = h.GetComponentInParent<MoveUnit>();
+                if (allyMove == null) continue;
+
+                // Don't block on the selected unit's own colliders.
+                if (allyMove.gameObject == selected) continue;
+
+                alliedPresent = true;
+                break;
+            }
+
             var selectedMove = selected.GetComponent<MoveUnit>();
             var attacker = selected.GetComponent<AttackEnemyUnit>();
             var harvester = selected.GetComponent<HarvestUnit>(); // Grab the harvester component
@@ -234,6 +272,14 @@ public class MoveUnit : MonoBehaviour
             if (enemyPresent)
             {
                 Debug.Log("Tile occupied by enemy and out of attack range — cannot move there.");
+                return;
+            }
+
+            // 3b. Never allow walking onto a tile that's occupied by another
+            // player unit — units cannot stack on the same cell.
+            if (alliedPresent)
+            {
+                Debug.Log("Tile occupied by another of your units — cannot move there.");
                 return;
             }
 

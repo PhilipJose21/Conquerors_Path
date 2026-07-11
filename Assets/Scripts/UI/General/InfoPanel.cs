@@ -119,6 +119,8 @@ public class InfoPanel : MonoBehaviour
 
         if (unitData != null && buildingStatsSO == null)
         {
+            unitData.SyncUnitStats();
+
             buildingInfoParent.SetActive(false);
             unitInfoParent.SetActive(true);
             

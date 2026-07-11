@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4377dbf037eb34c97b2bbdd8c0ead6, type: 3}
   m_Name: Blade Dancer
   m_EditorClassIdentifier: Assembly-CSharp::UnitSO
-  buildingData: {fileID: 0}
+  buildingData: {fileID: 11400000, guid: 761eb2c96fb4fd84fa86c598e2b68905, type: 2}
   unitName: Blade Dancer
   unitType: 0
   level: 1
   health: 6
   damage: 8
-  attackRange: 3
-  mobility: 7
+  attackRange: 1
+  mobility: 5
   movePoints: 0
   attackPoints: 0
   unitCost: 3
