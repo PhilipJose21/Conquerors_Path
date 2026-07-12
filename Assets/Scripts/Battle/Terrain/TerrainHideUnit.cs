@@ -10,7 +10,8 @@ public class TerrainHideUnit : MonoBehaviour
 
     [Range(0, 1)] public float hiddenAlpha = 0.3f; // Alpha value when the unit is hidden
 
-    // No longer track original alpha; always restore to fully opaque on exit
+    private readonly HashSet<MoveUnit> containedPlayerUnits = new HashSet<MoveUnit>();
+    private readonly HashSet<EnemyMovement> containedEnemyUnits = new HashSet<EnemyMovement>();
 
     void Awake()
     {
@@ -52,6 +53,7 @@ public class TerrainHideUnit : MonoBehaviour
             if (moveUnit != null)
             {
                 moveUnit.EnterFog(this);
+                containedPlayerUnits.Add(moveUnit);
             }
         }
 
@@ -67,6 +69,7 @@ public class TerrainHideUnit : MonoBehaviour
                 if (enemyMovement != null)
                 {
                     enemyMovement.EnterFog(this);
+                    containedEnemyUnits.Add(enemyMovement);
                 }
                 if (unitHealth != null)
                 {
@@ -115,11 +118,13 @@ public class TerrainHideUnit : MonoBehaviour
             Renderer otherRenderer = GetUnitRenderer(moveUnit != null ? moveUnit : enemyMovement);
             if (moveUnit != null)
             {
+                containedPlayerUnits.Remove(moveUnit);
                 bool stillHidden = moveUnit.ExitFog(this);
                 SetAlpha(otherRenderer, stillHidden ? hiddenAlpha : 1f);
             }
             if (enemyMovement != null)
             {
+                containedEnemyUnits.Remove(enemyMovement);
                 bool stillHidden = enemyMovement.ExitFog(this);
                 SetAlpha(otherRenderer, stillHidden ? 0f : 1f);
                 UnitHealth unitHealth = enemyMovement.GetComponentInChildren<UnitHealth>();
@@ -130,5 +135,28 @@ public class TerrainHideUnit : MonoBehaviour
             }
         }
     }
-}
 
+    private void OnDisable()
+    {
+        foreach (MoveUnit moveUnit in containedPlayerUnits)
+        {
+            if (moveUnit == null) continue;
+            bool stillHidden = moveUnit.ExitFog(this);
+            SetAlpha(GetUnitRenderer(moveUnit), stillHidden ? hiddenAlpha : 1f);
+        }
+        containedPlayerUnits.Clear();
+
+        foreach (EnemyMovement enemyMovement in containedEnemyUnits)
+        {
+            if (enemyMovement == null) continue;
+            bool stillHidden = enemyMovement.ExitFog(this);
+            SetAlpha(GetUnitRenderer(enemyMovement), stillHidden ? 0f : 1f);
+            UnitHealth unitHealth = enemyMovement.GetComponentInChildren<UnitHealth>();
+            if (unitHealth != null)
+            {
+                unitHealth.SetHealthUIHidden(stillHidden);
+            }
+        }
+        containedEnemyUnits.Clear();
+    }
+}

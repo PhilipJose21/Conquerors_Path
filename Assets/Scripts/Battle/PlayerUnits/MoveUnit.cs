@@ -180,13 +180,6 @@ public class MoveUnit : MonoBehaviour
                 return;
             }
 
-            // Detect if an enemy occupies the tile.
-            // IMPORTANT: don't rely on the collider's own tag — on most unit
-            // prefabs the Collider lives on a child mesh object while the
-            // "EnemyUnit" tag/EnemyMovement script sit on the root. Climb the
-            // hierarchy the same way AttackEnemyUnit.TryAttackAtPosition does,
-            // otherwise this silently reports "no enemy here" and the unit
-            // walks straight onto the enemy's tile instead of attacking.
             float checkRadius = 0.4f;
             bool enemyPresent = false;
             Collider[] hits = Physics.OverlapSphere(ht.worldPosition, checkRadius);
@@ -208,19 +201,6 @@ public class MoveUnit : MonoBehaviour
                 }
             }
 
-            // Detect if a different friendly unit occupies the tile. Units can never
-            // stack on the same cell, so a highlighted move tile that happens to have
-            // an ally standing on it must be blocked the same way an enemy tile is —
-            // otherwise the selected unit ends up walking straight onto a teammate.
-            // (Climb to the root via MoveUnit the same way the enemy check climbs via
-            // UnitHealth/EnemyMovement, since colliders often live on child meshes.)
-            //
-            // NOTE: don't gate this behind a "PlayerUnit" tag check — elsewhere in
-            // this file (see the container-fallback branch below) having a MoveUnit
-            // component is itself treated as sufficient proof a GameObject is a
-            // player unit, since the tag isn't guaranteed to be set on the same
-            // object the collider lives on. Requiring the tag here caused this
-            // check to silently fail and never flag the ally as present.
             bool alliedPresent = false;
             foreach (var h in hits)
             {
@@ -303,7 +283,6 @@ public class MoveUnit : MonoBehaviour
 
             return;
         }
-        ////////THIS IS THE ONE
 
         //===== ATTACKING ENEMIES DIRECTLY =====
         // If player clicked an enemy directly (or a child collider), attempt attack only if a player unit is selected
@@ -450,7 +429,7 @@ public class MoveUnit : MonoBehaviour
             return;
         }
 
-        // --- NEW TERRAIN INTERACTION FALLBACK ---
+        //  TERRAIN INTERACTION FALLBACK
         // If the click pierced through everything else and we are down to just the terrain layer, 
         // you can safely place your future custom terrain interaction logic here!
         var terrainComp = obj.GetComponentInParent<TerrainInteraction>();
@@ -554,15 +533,7 @@ public class MoveUnit : MonoBehaviour
         hit = default;
 
         // --- STEP 1: PRIORITIZE HIGHLIGHT TILES (ACTION INPUTS) ---
-        // If a unit is selected and we are clicking an active highlight tile, 
-        // we MUST process the tile command, even if a player unit is standing on it.
-        //
-        // EXCEPTION: a selected unit always stands on one of its own highlight
-        // tiles (distance 0 is always within its own range). If the closest
-        // thing the ray actually hits is that selected unit itself, let the
-        // unit take priority instead of the tile underneath it — otherwise
-        // clicking your own unit to deselect it always gets swallowed as a
-        // "move onto the same tile" action instead.
+
         GameObject selectedUnit = CellHighlighter.Instance != null ? CellHighlighter.Instance.CurrentUnit : null;
         bool closestIsSelectedUnit = false;
         if (hits.Length > 0 && selectedUnit != null)

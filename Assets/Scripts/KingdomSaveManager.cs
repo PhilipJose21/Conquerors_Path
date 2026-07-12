@@ -21,6 +21,7 @@ public class KingdomSaveManager : MonoBehaviour
     private readonly List<UnitSnapshot> unitDefaults = new List<UnitSnapshot>();
     private readonly List<SavedBuildingData> buildingSnapshots = new List<SavedBuildingData>();
     private bool hasLoadedFromDisk;
+    private bool isFreshSave;
 
     [Serializable]
     private class LevelSnapshot
@@ -138,6 +139,7 @@ public class KingdomSaveManager : MonoBehaviour
             ? playerDefaults[0]
             : CapturePlayerSnapshot(registeredDefaultPlayerSO != null ? registeredDefaultPlayerSO : registeredPlayerSO);
         currentPlayer = ClonePlayerSaveData(defaultPlayerSnapshot);
+        isFreshSave = false;
 
         ApplyCapturedPlayerSnapshot(currentPlayer);
 
@@ -378,10 +380,17 @@ public class KingdomSaveManager : MonoBehaviour
         string path = GetSaveFilePath();
         if (!File.Exists(path))
         {
+            // This is the ONLY case where we can be sure there's no real save yet.
+            isFreshSave = true;
             EnsureDefaultPlayerData();
             hasLoadedFromDisk = true;
             return;
         }
+
+        // A save file exists, so whatever values it contains (even all zeros) are real
+        // player progress, not an uninitialized save. Never let EnsureDefaultPlayerData
+        // second-guess this.
+        isFreshSave = false;
 
         string json = File.ReadAllText(path);
         GameSaveData loadedSave = JsonUtility.FromJson<GameSaveData>(json);
@@ -513,7 +522,7 @@ public class KingdomSaveManager : MonoBehaviour
 
     private void EnsureDefaultPlayerData()
     {
-        if (!ShouldUseDefaultPlayerData(currentPlayer))
+        if (currentPlayer != null && !isFreshSave)
         {
             return;
         }
@@ -528,6 +537,8 @@ public class KingdomSaveManager : MonoBehaviour
         }
 
         currentPlayer = ClonePlayerSaveData(defaultPlayerSnapshot);
+
+        isFreshSave = false;
     }
 
     private bool ShouldUseDefaultPlayerData(PlayerSaveData playerData)
