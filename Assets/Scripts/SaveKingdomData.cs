@@ -13,6 +13,7 @@ public class PlayerSaveData
 	public int gems;
 	public int coins;
 	public List<string> unlockedUnitKeys = new List<string>();
+	public List<string> trainedUnitKeys = new List<string>();
 }
 
 [Serializable]

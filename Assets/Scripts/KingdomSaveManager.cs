@@ -21,6 +21,10 @@ public class KingdomSaveManager : MonoBehaviour
     private readonly List<UnitSnapshot> unitDefaults = new List<UnitSnapshot>();
     private readonly List<SavedBuildingData> buildingSnapshots = new List<SavedBuildingData>();
     private bool hasLoadedFromDisk;
+    // True only when we positively know there was no save file on disk (i.e. an actual
+    // brand-new save). We must NOT infer "fresh save" from currentPlayer's values being
+    // zero, since a real player can legitimately have 0 of every resource after spending
+    // it all (e.g. right after training a troop).
     private bool isFreshSave;
 
     [Serializable]
@@ -263,6 +267,21 @@ public class KingdomSaveManager : MonoBehaviour
                 currentPlayer.unlockedUnitKeys.Add(GetUnitSaveKey(unit));
             }
         }
+
+        currentPlayer.trainedUnitKeys = new List<string>();
+
+        if (registeredPlayerBattleSO?.playerUnitStats != null)
+        {
+            foreach (UnitSO unit in registeredPlayerBattleSO.playerUnitStats)
+            {
+                if (unit == null)
+                {
+                    continue;
+                }
+
+                currentPlayer.trainedUnitKeys.Add(GetUnitSaveKey(unit));
+            }
+        }
     }
 
     public void ApplyLoadedPlayerData()
@@ -305,8 +324,32 @@ public class KingdomSaveManager : MonoBehaviour
             }
         }
 
-        registeredPlayerBattleSO?.playerUnits?.RemoveAll(unit => unit == null);
-        registeredPlayerBattleSO?.playerUnitStats?.RemoveAll(unit => unit == null);
+        if (registeredPlayerBattleSO != null)
+        {
+            if (registeredPlayerBattleSO.playerUnitStats == null)
+            {
+                registeredPlayerBattleSO.playerUnitStats = new List<UnitSO>();
+            }
+            else
+            {
+                registeredPlayerBattleSO.playerUnitStats.Clear();
+            }
+
+            if (currentPlayer.trainedUnitKeys != null)
+            {
+                foreach (string unitKey in currentPlayer.trainedUnitKeys)
+                {
+                    if (TryResolveUnit(unitKey, out UnitSO unitSO))
+                    {
+                        registeredPlayerBattleSO.playerUnitStats.Add(unitSO);
+                    }
+                }
+            }
+
+            // playerUnits (parallel BuildingData list) is rebuilt to match playerUnitStats
+            // by PlayerData.updateUnitList(), which is called again after this method runs.
+            registeredPlayerBattleSO.playerUnits?.Clear();
+        }
     }
 
     public void RegisterAvailableUnit(UnitSO unitSO)
@@ -387,9 +430,6 @@ public class KingdomSaveManager : MonoBehaviour
             return;
         }
 
-        // A save file exists, so whatever values it contains (even all zeros) are real
-        // player progress, not an uninitialized save. Never let EnsureDefaultPlayerData
-        // second-guess this.
         isFreshSave = false;
 
         string json = File.ReadAllText(path);
@@ -516,12 +556,14 @@ public class KingdomSaveManager : MonoBehaviour
             researchPoints = source.researchPoints,
             gems = source.gems,
             coins = source.coins,
-            unlockedUnitKeys = source.unlockedUnitKeys != null ? new List<string>(source.unlockedUnitKeys) : new List<string>()
+            unlockedUnitKeys = source.unlockedUnitKeys != null ? new List<string>(source.unlockedUnitKeys) : new List<string>(),
+            trainedUnitKeys = source.trainedUnitKeys != null ? new List<string>(source.trainedUnitKeys) : new List<string>()
         };
     }
 
     private void EnsureDefaultPlayerData()
     {
+
         if (currentPlayer != null && !isFreshSave)
         {
             return;
@@ -537,6 +579,7 @@ public class KingdomSaveManager : MonoBehaviour
         }
 
         currentPlayer = ClonePlayerSaveData(defaultPlayerSnapshot);
+
 
         isFreshSave = false;
     }

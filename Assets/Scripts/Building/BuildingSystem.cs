@@ -178,8 +178,6 @@ public class BuildingSystem : MonoBehaviour
         {
             preview = CreatePreview(buildingDataList[buildingDataIndex], position);
         }
-        // Notify UI manager about the selected building (if present)
-        // KingdomUIManager.Instance?.ShowSelectedBuilding(buildingDataList[buildingDataIndex]);
 
         return true;
     }
@@ -213,9 +211,6 @@ public class BuildingSystem : MonoBehaviour
         List<Vector3> roughPositions = preview.BuildingModel.GetAllBuildingPosition();
         if (roughPositions.Count == 0) return;
 
-        // Choose primary grid for snapping and orientation - prefer a grid that contains the
-        // entire footprint to avoid selecting the wrong nearby grid when shape unit order
-        // causes the first unit to be outside the intended grid.
         BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridForPositions(roughPositions) ?? grid;
         
         if (primaryGrid != null)
@@ -328,13 +323,7 @@ public class BuildingSystem : MonoBehaviour
 
     private void PlaceBuilding(List<Vector3> buildPosition, BuildingGrid targetGrid)
     {
-        // Determine which grid to use for final placement
-        // Prefer a grid that contains the full set of positions to ensure cells
-        // are assigned to the correct grid when placing across boundaries.
-        // if ()
-        // {
-        //     //copy and paste the entire logic thats inside this Function
-        // }
+
         BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridForPositions(buildPosition) ?? targetGrid ?? grid;
 
         // Compute the exact snapped center in world space if we have a grid; otherwise use the preview position

@@ -51,6 +51,7 @@ public class PlayerData : MonoBehaviour
         {
             KingdomSaveManager.Instance?.ApplyLoadedPlayerData();
         }
+        updateUnitList();
         if (playerBattleSO != null && isBattleScene)
         {
             updatePlayerMaterials();
