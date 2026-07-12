@@ -246,13 +246,17 @@ public class KingdomSaveManager : MonoBehaviour
             currentPlayer = new PlayerSaveData();
         }
 
-        currentPlayer.woodResources = registeredPlayerSO.woodResources;
-        currentPlayer.stoneResources = registeredPlayerSO.stoneResources;
-        currentPlayer.farmResources = registeredPlayerSO.farmResources;
-        currentPlayer.energyPoints = registeredPlayerSO.energyPoints;
-        currentPlayer.researchPoints = registeredPlayerSO.researchPoints;
-        currentPlayer.gems = registeredPlayerSO.gems;
-        currentPlayer.coins = registeredPlayerSO.coins;
+        // Safety net: whatever produced a negative value upstream (e.g. a passive-resource
+        // catch-up calculation), never let it get written into the save file. Once a
+        // negative value is persisted it reloads as negative forever, so clamp at the
+        // point of capture rather than only where it's displayed.
+        currentPlayer.woodResources = ClampResource(registeredPlayerSO.woodResources);
+        currentPlayer.stoneResources = ClampResource(registeredPlayerSO.stoneResources);
+        currentPlayer.farmResources = ClampResource(registeredPlayerSO.farmResources);
+        currentPlayer.energyPoints = ClampResource(registeredPlayerSO.energyPoints);
+        currentPlayer.researchPoints = ClampResource(registeredPlayerSO.researchPoints);
+        currentPlayer.gems = ClampResource(registeredPlayerSO.gems);
+        currentPlayer.coins = ClampResource(registeredPlayerSO.coins);
         currentPlayer.unlockedUnitKeys = new List<string>();
 
         if (registeredPlayerSO.unlockedUnits != null)
@@ -268,6 +272,10 @@ public class KingdomSaveManager : MonoBehaviour
             }
         }
 
+        // Trained troops live on PlayerBattleSO, not PlayerSO, and previously were never
+        // written to the save file at all - they only survived as whatever state happened
+        // to be serialized onto the PlayerBattleSO asset itself, which is not reliable
+        // across separate application launches (see ApplyLoadedPlayerData for restore).
         currentPlayer.trainedUnitKeys = new List<string>();
 
         if (registeredPlayerBattleSO?.playerUnitStats != null)
@@ -296,13 +304,13 @@ public class KingdomSaveManager : MonoBehaviour
             return;
         }
 
-        registeredPlayerSO.woodResources = currentPlayer.woodResources;
-        registeredPlayerSO.stoneResources = currentPlayer.stoneResources;
-        registeredPlayerSO.farmResources = currentPlayer.farmResources;
-        registeredPlayerSO.energyPoints = currentPlayer.energyPoints;
-        registeredPlayerSO.researchPoints = currentPlayer.researchPoints;
-        registeredPlayerSO.gems = currentPlayer.gems;
-        registeredPlayerSO.coins = currentPlayer.coins;
+        registeredPlayerSO.woodResources = ClampResource(currentPlayer.woodResources);
+        registeredPlayerSO.stoneResources = ClampResource(currentPlayer.stoneResources);
+        registeredPlayerSO.farmResources = ClampResource(currentPlayer.farmResources);
+        registeredPlayerSO.energyPoints = ClampResource(currentPlayer.energyPoints);
+        registeredPlayerSO.researchPoints = ClampResource(currentPlayer.researchPoints);
+        registeredPlayerSO.gems = ClampResource(currentPlayer.gems);
+        registeredPlayerSO.coins = ClampResource(currentPlayer.coins);
 
         if (registeredPlayerSO.unlockedUnits == null)
         {
@@ -430,6 +438,9 @@ public class KingdomSaveManager : MonoBehaviour
             return;
         }
 
+        // A save file exists, so whatever values it contains (even all zeros) are real
+        // player progress, not an uninitialized save. Never let EnsureDefaultPlayerData
+        // second-guess this.
         isFreshSave = false;
 
         string json = File.ReadAllText(path);
@@ -563,7 +574,10 @@ public class KingdomSaveManager : MonoBehaviour
 
     private void EnsureDefaultPlayerData()
     {
-
+        // Only fall back to defaults when we positively know this is a fresh save
+        // (no file existed) or currentPlayer hasn't been created at all. Never use
+        // "values happen to be zero" as a signal - a real player can legitimately be
+        // at 0 across the board (e.g. right after spending everything on a troop).
         if (currentPlayer != null && !isFreshSave)
         {
             return;
@@ -580,7 +594,9 @@ public class KingdomSaveManager : MonoBehaviour
 
         currentPlayer = ClonePlayerSaveData(defaultPlayerSnapshot);
 
-
+        // Defaults have now been applied once. From this point on this is "real" player
+        // data (even though it currently equals the defaults), so later calls must not
+        // clobber whatever the player earns/spends from here.
         isFreshSave = false;
     }
 
@@ -611,13 +627,13 @@ public class KingdomSaveManager : MonoBehaviour
             return;
         }
 
-        registeredPlayerSO.woodResources = snapshot.woodResources;
-        registeredPlayerSO.stoneResources = snapshot.stoneResources;
-        registeredPlayerSO.farmResources = snapshot.farmResources;
-        registeredPlayerSO.energyPoints = snapshot.energyPoints;
-        registeredPlayerSO.researchPoints = snapshot.researchPoints;
-        registeredPlayerSO.gems = snapshot.gems;
-        registeredPlayerSO.coins = snapshot.coins;
+        registeredPlayerSO.woodResources = ClampResource(snapshot.woodResources);
+        registeredPlayerSO.stoneResources = ClampResource(snapshot.stoneResources);
+        registeredPlayerSO.farmResources = ClampResource(snapshot.farmResources);
+        registeredPlayerSO.energyPoints = ClampResource(snapshot.energyPoints);
+        registeredPlayerSO.researchPoints = ClampResource(snapshot.researchPoints);
+        registeredPlayerSO.gems = ClampResource(snapshot.gems);
+        registeredPlayerSO.coins = ClampResource(snapshot.coins);
 
         if (registeredPlayerSO.unlockedUnits == null)
         {
@@ -707,6 +723,15 @@ public class KingdomSaveManager : MonoBehaviour
     private bool ShouldUseDiskPersistence()
     {
         return true; 
+    }
+
+    // Resources should never be negative. This is a safety net only - it stops a negative
+    // value from being displayed or persisted to the save file, it does not address
+    // whatever upstream system actually produced the negative value in the first place
+    // (most likely the passive-resource building tick/upkeep system).
+    private static int ClampResource(int value)
+    {
+        return Mathf.Max(0, value);
     }
 
     private string GetUnitSaveKey(UnitSO unitSO)

@@ -71,6 +71,13 @@ public class PassiveResource : MonoBehaviour
         // Only accrue while active
         if (!isActive)
             return;
+
+        // A misconfigured/unset resourceTimer (0 or negative) would otherwise satisfy
+        // "currentTime >= resourceTimer" on every single frame, firing AddResource
+        // dozens of times a second instead of once per interval.
+        if (resourceTimer <= 0f)
+            return;
+
         // Track elapsed time and award resource when timer completes
         currentTime += Time.deltaTime;
 
@@ -85,28 +92,32 @@ public class PassiveResource : MonoBehaviour
     public void AddResource(BuildingStatsSO.ResourceType type)
     {
         // Add the configured resource amount to the player's SO based on type.
+        // resourceAmount can be negative (an upkeep/drain building), so every branch
+        // is clamped to a floor of 0 - passive ticks must never push a resource
+        // negative, regardless of sign or how large resourceAmount has grown from
+        // repeated upgrades (see increaseStats()).
         switch (type)
         {
             case BuildingStatsSO.ResourceType.Wood:
-                playerSO.woodResources += resourceAmount;
+                playerSO.woodResources = Mathf.Max(0, playerSO.woodResources + resourceAmount);
                 break;
             case BuildingStatsSO.ResourceType.Stone:
-                playerSO.stoneResources += resourceAmount;
+                playerSO.stoneResources = Mathf.Max(0, playerSO.stoneResources + resourceAmount);
                 break;
             case BuildingStatsSO.ResourceType.Farm:
-                playerSO.farmResources += resourceAmount;
+                playerSO.farmResources = Mathf.Max(0, playerSO.farmResources + resourceAmount);
                 break;
             case BuildingStatsSO.ResourceType.Energy:
-                playerSO.energyPoints += resourceAmount;
+                playerSO.energyPoints = Mathf.Max(0, playerSO.energyPoints + resourceAmount);
                 break;
             case BuildingStatsSO.ResourceType.Research:
-                playerSO.researchPoints += resourceAmount;
+                playerSO.researchPoints = Mathf.Max(0, playerSO.researchPoints + resourceAmount);
                 break;
             case BuildingStatsSO.ResourceType.Gems:
-                playerSO.gems += resourceAmount;
+                playerSO.gems = Mathf.Max(0, playerSO.gems + resourceAmount);
                 break;
             case BuildingStatsSO.ResourceType.Coins:
-                playerSO.coins += resourceAmount;
+                playerSO.coins = Mathf.Max(0, playerSO.coins + resourceAmount);
                 break;
         }
 
@@ -117,12 +128,12 @@ public class PassiveResource : MonoBehaviour
     public void upgradeBuilding()
     {
         Debug.Log("Attempting to upgrade building...");
-        if (playerSO.woodResources >= coinCost && playerSO.stoneResources >= rockCost && playerSO.farmResources >= farmCost && playerSO.coins >= coinCost)
+        if (playerSO.woodResources >= woodCost && playerSO.stoneResources >= rockCost && playerSO.farmResources >= farmCost && playerSO.coins >= coinCost)
         {
-            playerSO.woodResources -= woodCost;
-            playerSO.stoneResources -= rockCost;
-            playerSO.farmResources -= farmCost;
-            playerSO.coins -= coinCost;
+            playerSO.woodResources = Mathf.Max(0, playerSO.woodResources - woodCost);
+            playerSO.stoneResources = Mathf.Max(0, playerSO.stoneResources - rockCost);
+            playerSO.farmResources = Mathf.Max(0, playerSO.farmResources - farmCost);
+            playerSO.coins = Mathf.Max(0, playerSO.coins - coinCost);
             level++;
             changeUpgradeCost();
         }
@@ -162,7 +173,23 @@ public class PassiveResource : MonoBehaviour
 
     public void increaseStats()
     {
-        resourceAmount *= 2;
+        // Doubling resourceAmount every level with no cap will eventually overflow a
+        // 32-bit int and silently wrap around to a large negative number - which would
+        // then get added straight onto a resource on the very next passive tick. Clamp
+        // using long arithmetic so it saturates instead of wrapping.
+        long doubled = (long)resourceAmount * 2L;
+        if (doubled > int.MaxValue)
+        {
+            resourceAmount = int.MaxValue;
+        }
+        else if (doubled < int.MinValue)
+        {
+            resourceAmount = int.MinValue;
+        }
+        else
+        {
+            resourceAmount = (int)doubled;
+        }
     }
 
     public void refundStats()
