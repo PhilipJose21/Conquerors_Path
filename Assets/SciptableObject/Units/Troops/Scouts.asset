@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e627f14df1246df4784917414f4e84a7, type: 3}
   m_Name: Scouts
   m_EditorClassIdentifier: Assembly-CSharp::TroopData
+  unitStats: {fileID: 11400000, guid: 4bbd76910fc669144804d97c29155c58, type: 2}
   unitName: Scouts
   unitType: 2
   description: They patrol.

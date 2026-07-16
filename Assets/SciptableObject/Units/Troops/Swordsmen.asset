@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e627f14df1246df4784917414f4e84a7, type: 3}
   m_Name: Swordsmen
   m_EditorClassIdentifier: Assembly-CSharp::TroopData
+  unitStats: {fileID: 11400000, guid: 28d18d86a945b5143838a668623a1d68, type: 2}
   unitName: Swordsmen
   unitType: 0
   description: They slash.
@@ -21,5 +22,5 @@ MonoBehaviour:
   mobility: 5
   attackRange: 3
   unitCost: 3
-  canUpgrade: 1
-  canDestroy: 1
+  canUpgrade: 0
+  canDestroy: 0

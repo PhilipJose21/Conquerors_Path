@@ -71,8 +71,6 @@ public class TrainTroopsButton : MonoBehaviour
         farmCost = unitCost.farmCost;
         coinCost = unitCost.coinCost;
         increaseUnitCost(unitToTrain);
-
-        KingdomSaveManager.Instance?.ApplyLoadedPlayerData();
     }
 
     public void openConfirmationPanel()

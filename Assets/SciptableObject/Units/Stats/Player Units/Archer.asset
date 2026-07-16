@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Archer
   m_EditorClassIdentifier: Assembly-CSharp::UnitSO
   buildingData: {fileID: 11400000, guid: 6aa22561e16bec640a78b10b8825064b, type: 2}
-  unitName: Archer
+  unitName: Ranged
   unitType: 1
   level: 1
-  health: 6
+  health: 5
   damage: 3
   attackRange: 3
-  mobility: 2
+  mobility: 3
   movePoints: 1
   attackPoints: 1
   unitCost: 3

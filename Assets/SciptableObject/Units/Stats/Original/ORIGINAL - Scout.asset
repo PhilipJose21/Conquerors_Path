@@ -15,11 +15,12 @@ MonoBehaviour:
   buildingData: {fileID: 11400000, guid: 481560a86d9f3c247b8166ab56ad5a0f, type: 2}
   unitName: Scout
   unitType: 2
+  level: 1
   health: 3
   damage: 1
   attackRange: 2
   mobility: 7
-  movePoints: 3
+  movePoints: 2
   attackPoints: 1
   unitCost: 3
   harvestAmount: 0

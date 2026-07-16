@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e627f14df1246df4784917414f4e84a7, type: 3}
   m_Name: Worker
   m_EditorClassIdentifier: Assembly-CSharp::TroopData
+  unitStats: {fileID: 11400000, guid: 1c2e282f01baa904cb2df16f7c7544d8, type: 2}
   unitName: Workers
   unitType: 2
   description: Instead of attacking enemies, they attack Terrains to harvest their

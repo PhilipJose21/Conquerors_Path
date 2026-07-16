@@ -18,7 +18,7 @@ MonoBehaviour:
   energyPoints: 50
   researchPoints: 50
   gems: 50
-  coins: 500
+  coins: 5000
   unlockedUnits:
   - {fileID: 11400000, guid: 237da6f91dc3a8840acccd4ca416268d, type: 2}
   - {fileID: 11400000, guid: 28d18d86a945b5143838a668623a1d68, type: 2}

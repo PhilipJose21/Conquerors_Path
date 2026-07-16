@@ -7,6 +7,17 @@ public class MoveUnit : MonoBehaviour
     public UnitSO unitData;
 
     private static int lastProcessedClickFrame = -1;
+    // Guards against Clicked() being invoked more than once per frame.
+    // Every unit in the scene runs its own Update()/DetectObjects(), but only
+    // the first instance processed each frame actually recomputes the shared
+    // raycast (see lastProcessedClickFrame above) — every other instance's
+    // rayHit/hit fields are stale leftovers from whenever THAT instance last
+    // ran the raycast. Without this guard, a single mouse click could call
+    // Clicked() once with the correct (fresh) target and again with stale
+    // targets from other units, causing selection/highlight state to be
+    // toggled or overwritten unpredictably (e.g. selecting a unit whose
+    // highlights don't match the unit that was actually clicked).
+    private static int lastHandledClickFrame = -1;
     private Camera mainCamera;
 
     private Material originalMaterial;
@@ -132,25 +143,15 @@ public class MoveUnit : MonoBehaviour
         DetectObjects();
         if (Input.GetMouseButtonDown(0) && isPlayerTurn && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) // Left mouse button
         {
-            if (rayHit && hit.collider != null)
+            if (rayHit && hit.collider != null && lastHandledClickFrame != Time.frameCount)
             {
+                lastHandledClickFrame = Time.frameCount;
                 GameObject clickedObject = hit.collider.gameObject;
                 Clicked(clickedObject);
 
-                // Try to find the health component on the clicked unit to populate our panel
-                UnitHealth healthComp = clickedObject.GetComponentInChildren<UnitHealth>() ?? clickedObject.GetComponentInParent<UnitHealth>();
-                
-                if (healthComp != null && healthComp.unitData != null)
-                {
-                    if (MinimizedInspector.Instance != null)
-                    {
-                        MinimizedInspector.Instance.ShowUnitStats(
-                            healthComp.unitData, 
-                            healthComp.currentHealth, 
-                            healthComp.maxHealth
-                        );
-                    }
-                }
+                // NOTE: inspector-panel display used to also happen here, duplicating
+                // the toggle-aware version in OnMouseDown and causing ShowUnitStats to
+                // run twice per click. That's handled in OnMouseDown now.
             }
         }
 
@@ -179,13 +180,38 @@ public class MoveUnit : MonoBehaviour
                 return;
             }
 
-            // Detect if an enemy occupies the tile
             float checkRadius = 0.4f;
             bool enemyPresent = false;
             Collider[] hits = Physics.OverlapSphere(ht.worldPosition, checkRadius);
             foreach (var h in hits)
             {
                 if (h.CompareTag("EnemyUnit")) { enemyPresent = true; break; }
+
+                var enemyHealth = h.GetComponentInParent<UnitHealth>();
+                GameObject owner = enemyHealth != null ? enemyHealth.gameObject : null;
+                if (owner == null)
+                {
+                    var enemyMove = h.GetComponentInParent<EnemyMovement>();
+                    owner = enemyMove != null ? enemyMove.gameObject : null;
+                }
+                if (owner != null && (owner.CompareTag("EnemyUnit") || owner.GetComponentInParent<EnemyMovement>() != null))
+                {
+                    enemyPresent = true;
+                    break;
+                }
+            }
+
+            bool alliedPresent = false;
+            foreach (var h in hits)
+            {
+                var allyMove = h.GetComponentInParent<MoveUnit>();
+                if (allyMove == null) continue;
+
+                // Don't block on the selected unit's own colliders.
+                if (allyMove.gameObject == selected) continue;
+
+                alliedPresent = true;
+                break;
             }
 
             var selectedMove = selected.GetComponent<MoveUnit>();
@@ -220,7 +246,24 @@ public class MoveUnit : MonoBehaviour
                 }
             }
 
-            // 3. No attack/harvest action taken — perform move only if the selected unit has remaining moveActions
+            // 3. Never allow walking onto a tile that's occupied by an enemy.
+            // (This can happen when the tile is inside the move diamond but outside
+            // the attack-range square, so it wasn't caught by step 1 above.)
+            if (enemyPresent)
+            {
+                Debug.Log("Tile occupied by enemy and out of attack range — cannot move there.");
+                return;
+            }
+
+            // 3b. Never allow walking onto a tile that's occupied by another
+            // player unit — units cannot stack on the same cell.
+            if (alliedPresent)
+            {
+                Debug.Log("Tile occupied by another of your units — cannot move there.");
+                return;
+            }
+
+            // 4. No attack/harvest action taken — perform move only if the selected unit has remaining moveActions
             if (selectedMove != null && selectedMove.canMove && selectedMove.moveActions > 0)
             {
                 if (CellHighlighter.Instance != null)
@@ -240,7 +283,6 @@ public class MoveUnit : MonoBehaviour
 
             return;
         }
-        ////////THIS IS THE ONE
 
         //===== ATTACKING ENEMIES DIRECTLY =====
         // If player clicked an enemy directly (or a child collider), attempt attack only if a player unit is selected
@@ -387,7 +429,7 @@ public class MoveUnit : MonoBehaviour
             return;
         }
 
-        // --- NEW TERRAIN INTERACTION FALLBACK ---
+        //  TERRAIN INTERACTION FALLBACK
         // If the click pierced through everything else and we are down to just the terrain layer, 
         // you can safely place your future custom terrain interaction logic here!
         var terrainComp = obj.GetComponentInParent<TerrainInteraction>();
@@ -491,15 +533,7 @@ public class MoveUnit : MonoBehaviour
         hit = default;
 
         // --- STEP 1: PRIORITIZE HIGHLIGHT TILES (ACTION INPUTS) ---
-        // If a unit is selected and we are clicking an active highlight tile, 
-        // we MUST process the tile command, even if a player unit is standing on it.
-        //
-        // EXCEPTION: a selected unit always stands on one of its own highlight
-        // tiles (distance 0 is always within its own range). If the closest
-        // thing the ray actually hits is that selected unit itself, let the
-        // unit take priority instead of the tile underneath it — otherwise
-        // clicking your own unit to deselect it always gets swallowed as a
-        // "move onto the same tile" action instead.
+
         GameObject selectedUnit = CellHighlighter.Instance != null ? CellHighlighter.Instance.CurrentUnit : null;
         bool closestIsSelectedUnit = false;
         if (hits.Length > 0 && selectedUnit != null)
@@ -729,21 +763,6 @@ public class MoveUnit : MonoBehaviour
                     );
                 }
             }
-        }
-
-        // 3. Process Live Tactical Highlight Routing
-        if (isPlayerTurn)
-        {
-            GameObject targetSelectionObject = transform.parent != null ? transform.parent.gameObject : gameObject;
-            
-            Debug.Log($"[TACTICAL TURN ACTIVE] Passing selection root '{targetSelectionObject.name}' to highlight engine.[cite: 8]");
-            
-            // Pass the corrected object identity context into your original selection logic[cite: 8]
-            Clicked(targetSelectionObject);
-        }
-        else
-        {
-            Debug.Log("[SETUP STATE] Highlights suppressed cleanly. Ready for deployment.[cite: 8]");
         }
     }
 }

@@ -78,7 +78,8 @@ public class ClickObject : MonoBehaviour
         {
             // Trigger the animation first so open UI panels can't block it!
             TriggerBounce(buildingUI.gameObject);
-            
+            // KingdomUIManager kingdomUIManager = FindFirstObjectByType<KingdomUIManager>();
+            // kingdomUIManager.ShowObjectInfo(buildingUI.GetComponentInParent<Building>());
             
             buildingUI.OpenUI();
         }

@@ -84,6 +84,18 @@ public class KingdomUIManager : MonoBehaviour
             sceneInfoPanel = Object.FindFirstObjectByType<InfoPanel>(FindObjectsInactive.Include);
         }
 
+        // Force Awake() to run immediately, even if this panel starts inactive in the
+        // scene. An inactive GameObject's Awake() is normally delayed until it's first
+        // activated - if anything else claims InfoPanel.Instance before that happens,
+        // this panel self-destructs the moment it's finally activated later. Toggling it
+        // on/off here guarantees it claims Instance right away, before any other script's
+        // Start()/Update() has a chance to create or activate a competing InfoPanel.
+        if (sceneInfoPanel != null && !sceneInfoPanel.gameObject.activeSelf)
+        {
+            sceneInfoPanel.gameObject.SetActive(true);
+            sceneInfoPanel.gameObject.SetActive(false);
+        }
+
         if (woodText == null) woodText = FindTMP("Canvas/ResourcePanel/WoodText");
         if (stoneText == null) stoneText = FindTMP("Canvas/ResourcePanel/StoneText");
         if (farmText == null) farmText = FindTMP("Canvas/ResourcePanel/FarmText");
@@ -264,7 +276,7 @@ public class KingdomUIManager : MonoBehaviour
     public void ShowSelectedTroop(TroopData troop)
     {
         if (troop == null || sceneInfoPanel == null) return;
-        
+    
         sceneInfoPanel.gameObject.SetActive(true);
         sceneInfoPanel.SetUp(null, troop);
     }
