@@ -10,7 +10,8 @@ public class PassiveResource : MonoBehaviour
 
     public BuildingStatsSO buildingStatsSO;
     public BuildingData buildingData; 
-    public int level = 1;
+    public int level = 1; // Starts at Level 1
+    public int maxResourcePercentage = 100; // Customizable cap per prefab
     public bool isActive;
     public int resourceAmount;
     private int totalResourceAmount;
@@ -49,6 +50,7 @@ public class PassiveResource : MonoBehaviour
             return;
         }
 
+        // Fix: Read the base resource amount, but do not write back to the ScriptableObject asset
         if (buildingStatsSO != null)
         {
             resourceAmount = buildingStatsSO.resourceAmount;
@@ -153,35 +155,47 @@ public class PassiveResource : MonoBehaviour
         //it will cost 100% of the original cost at level 2
         else if (level == 2) 
         {
-            woodCost = buildingData.woodCost;
-            rockCost = buildingData.rockCost;
-            farmCost = buildingData.farmCost;
-            coinCost = buildingData.coinCost;
+            if (buildingData != null)
+            {
+                woodCost = buildingData.woodCost;
+                rockCost = buildingData.rockCost;
+                farmCost = buildingData.farmCost;
+                coinCost = buildingData.coinCost;
+            }
             increaseStats();
         }
 
         //it will increase by 10% of the original cost for each level above 2
         else if (level > 2)
         {
-            woodCost = Mathf.RoundToInt(buildingData.woodCost * (1 + (level - 2) * 0.1f));
-            rockCost = Mathf.RoundToInt(buildingData.rockCost * (1 + (level - 2) * 0.1f));
-            farmCost = Mathf.RoundToInt(buildingData.farmCost * (1 + (level - 2) * 0.1f));
-            coinCost = Mathf.RoundToInt(buildingData.coinCost * (1 + (level - 2) * 0.1f));
+            if (buildingData != null)
+            {
+                woodCost = Mathf.RoundToInt(buildingData.woodCost * (1 + (level - 2) * 0.1f));
+                rockCost = Mathf.RoundToInt(buildingData.rockCost * (1 + (level - 2) * 0.1f));
+                farmCost = Mathf.RoundToInt(buildingData.farmCost * (1 + (level - 2) * 0.1f));
+                coinCost = Mathf.RoundToInt(buildingData.coinCost * (1 + (level - 2) * 0.1f));
+            }
             increaseStats();
         }
     }
 
     public void increaseStats()
     {
+        if (resourceAmount >= maxResourcePercentage)
+        {
+            resourceAmount = maxResourcePercentage;
+            return;
+        }
+
         // Doubling resourceAmount every level with no cap will eventually overflow a
         // 32-bit int and silently wrap around to a large negative number - which would
         // then get added straight onto a resource on the very next passive tick. Clamp
         // using long arithmetic so it saturates instead of wrapping.
         long doubled = (long)resourceAmount * 2L;
         
-        if (doubled >= 100L)
+        if (doubled >= (long)maxResourcePercentage)
         {
-            resourceAmount = 100;
+            resourceAmount = maxResourcePercentage;
         }
         else if (doubled < int.MinValue)
         {

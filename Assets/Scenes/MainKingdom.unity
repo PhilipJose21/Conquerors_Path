@@ -4505,6 +4505,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 789712887}
     m_Modifications:
+    - target: {fileID: 464117137127828200, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 464117137127828200, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1227553401}
+    - target: {fileID: 464117137127828200, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: showConfirmation
+      objectReference: {fileID: 0}
+    - target: {fileID: 464117137127828200, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InfoPanel, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 464117137127828200, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1220203768973013909, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4657,13 +4677,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4542413901476149716, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: closeInfoPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4542413901476149716, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InfoPanel, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 5152293298916296068, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
       propertyPath: m_Name
       value: InfoPanel
       objectReference: {fileID: 0}
     - target: {fileID: 5152293298916296068, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5783828133122034300, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4766,9 +4794,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2088204946}
     - target: {fileID: 8194313150380381988, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: costTextDisplay
+      value: 
+      objectReference: {fileID: 2137631539}
+    - target: {fileID: 8194313150380381988, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: upgradeButtonUI
+      value: 
+      objectReference: {fileID: 2136175339}
+    - target: {fileID: 8194313150380381988, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
       propertyPath: confirmationPanel
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 420846729}
+    - target: {fileID: 8194313150380381988, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: upgradeButtonText
+      value: 
+      objectReference: {fileID: 2021597915}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8217,7 +8257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &420846730
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14929,15 +14969,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.5019608}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: fa8f8b670dfae0e459797788f82b86d0, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -15485,7 +15525,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 2e2ca222b80c7894aa811b4746137be5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -17497,7 +17537,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1227553401}
         m_TargetAssemblyTypeName: InfoPanel, Assembly-CSharp
-        m_MethodName: upgradeButton
+        m_MethodName: ConfirmUpgrade
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21142,9 +21182,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TrainUpgradeTroopUI, Assembly-CSharp
-        m_MethodName: closeConfirmPanel
+      - m_Target: {fileID: 1227553401}
+        m_TargetAssemblyTypeName: InfoPanel, Assembly-CSharp
+        m_MethodName: closeConfirmationPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30047,6 +30087,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8275508946589058711, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
   m_PrefabInstance: {fileID: 1403572673}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2021597915 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7361450653646494942, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+  m_PrefabInstance: {fileID: 210823405}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &2037726351
 GameObject:
   m_ObjectHideFlags: 0
@@ -31160,6 +31211,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+--- !u!114 &2136175339 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 464117137127828200, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+  m_PrefabInstance: {fileID: 210823405}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &2137631537
 GameObject:
   m_ObjectHideFlags: 0
@@ -31194,8 +31256,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: 35}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2137631539
 MonoBehaviour:
@@ -31244,8 +31306,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

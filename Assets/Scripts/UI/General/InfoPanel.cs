@@ -9,6 +9,8 @@ public class InfoPanel : MonoBehaviour
     public TextMeshProUGUI descriptionText;
     public GameObject gameObjectParent;
     public PlayerSO playerData;
+    public Button upgradeButtonUI;
+    public TextMeshProUGUI upgradeButtonText;
     
     public string valueTextName;
 
@@ -118,46 +120,41 @@ public class InfoPanel : MonoBehaviour
             descriptionText.text = buildingStatsSO.description;
             resourceTypeText.text = buildingStatsSO.resourceType.ToString();
             
+            if (gameObjectParent != null)
+            {
+                passiveResource = gameObjectParent.GetComponentInChildren<PassiveResource>();
+            }
+            
             if (passiveResource != null && resourceAmountText != null)
             {
                 resourceAmountText.text = passiveResource.resourceAmount.ToString() + " %";
-            }
-        }
 
-        if (unitData != null && buildingStatsSO == null)
-        {
-            unitData.SyncUnitStats();
-
-            buildingInfoParent.SetActive(false);
-            unitInfoParent.SetActive(true);
-            
-            nameText.text = unitData.unitName;
-            descriptionText.text = unitData.description;
-            unitTypeText.text = unitData.unitType.ToString();
-            hpText.text = unitData.health.ToString();
-            damageText.text = unitData.damage.ToString();
-            attackRangeText.text = unitData.attackRange.ToString();
-            mobilityText.text = unitData.mobility.ToString();
-            unitCostText.text = unitData.unitCost.ToString();
-
-            if (troopIconImage != null)
-            {
-                if (unitData.unitIcon != null) 
+                // Check if the resource has reached the 100% cap
+                if (passiveResource.resourceAmount >= 100)
                 {
-                    troopIconImage.gameObject.SetActive(true);
-                    troopIconImage.sprite = unitData.unitIcon;
+                    if (upgradeButtonUI != null) upgradeButtonUI.interactable = false;
+                    if (upgradeButtonText != null) upgradeButtonText.text = "MAX LEVEL";
                 }
                 else
                 {
-                    troopIconImage.gameObject.SetActive(false); 
+                    if (upgradeButtonUI != null) upgradeButtonUI.interactable = true;
+                    if (upgradeButtonText != null) upgradeButtonText.text = "UPGRADE";
                 }
             }
         }
     }
 
-    public void closePanel()
+    public void closeInfoPanel()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public void closeConfirmationPanel()
+    {
+        if (confirmationPanel != null)
+        {
+            confirmationPanel.SetActive(false);
+        }
     }
 
     public void destroyObject()
@@ -170,7 +167,7 @@ public class InfoPanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void upgradeButton()
+    public void showConfirmation()
     {
         if (passiveResource != null)
         {
@@ -178,7 +175,7 @@ public class InfoPanel : MonoBehaviour
             {
                 if (confirmationPanel != null)
                 {
-                    string details = "Upgrade Cost:\n";
+                    string details = ""; // Removed "Upgrade Cost:\n" string here[cite: 4]
                     if (passiveResource.coinCost > 0) details += $"Coins: {passiveResource.coinCost}\n";
                     if (passiveResource.farmCost > 0) details += $"Food: {passiveResource.farmCost}\n";
                     if (passiveResource.rockCost > 0) details += $"Rock: {passiveResource.rockCost}\n";

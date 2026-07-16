@@ -15,7 +15,7 @@ MonoBehaviour:
   <Name>k__BackingField: Bowyer
   <Size>k__BackingField: 4
   <Model>k__BackingField: {fileID: 1915748257449464270, guid: d026fb90a0e999542b0491d16bfbf18c, type: 3}
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: f99c3bf8798a90e47a39497780b634fd, type: 3}
   <coinCost>k__BackingField: 150
   <farmCost>k__BackingField: 0
   <rockCost>k__BackingField: 0
