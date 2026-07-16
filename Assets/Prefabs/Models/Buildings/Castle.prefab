@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingStatContainer
   buildingStatsSO: {fileID: 11400000, guid: 242270d0fc9cc884b997ab5875471997, type: 2}
+  buildingData: {fileID: 11400000, guid: 963a903138f490446be21035c599c1f5, type: 2}
 --- !u!114 &4381709770458237799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,10 +134,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PassiveResource
   resourceType: 1
+  buildingStatsSO: {fileID: 11400000, guid: 242270d0fc9cc884b997ab5875471997, type: 2}
+  buildingData: {fileID: 11400000, guid: 963a903138f490446be21035c599c1f5, type: 2}
+  level: 1
   isActive: 0
   resourceAmount: 1
   resourceTimer: 1
   currentTime: 0
+  coinCost: 0
+  farmCost: 0
+  rockCost: 0
+  woodCost: 0
+  gemCost: 0
+  energyCost: 0
 --- !u!114 &-1254735274301716287
 MonoBehaviour:
   m_ObjectHideFlags: 0

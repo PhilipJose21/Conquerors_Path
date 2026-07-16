@@ -178,9 +178,10 @@ public class PassiveResource : MonoBehaviour
         // then get added straight onto a resource on the very next passive tick. Clamp
         // using long arithmetic so it saturates instead of wrapping.
         long doubled = (long)resourceAmount * 2L;
-        if (doubled > int.MaxValue)
+        
+        if (doubled >= 100L)
         {
-            resourceAmount = int.MaxValue;
+            resourceAmount = 100;
         }
         else if (doubled < int.MinValue)
         {

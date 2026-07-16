@@ -370,7 +370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingStatContainer
   buildingStatsSO: {fileID: 11400000, guid: 61b23fef0a3039a4cbcbcad07058fb8e, type: 2}
-  buildingData: {fileID: 0}
+  buildingData: {fileID: 11400000, guid: f16bc13dcc95d7f409a7c64797c3c18b, type: 2}
 --- !u!114 &4381709770458237799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,8 +384,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PassiveResource
   resourceType: 1
-  buildingStatsSO: {fileID: 0}
-  buildingData: {fileID: 0}
+  buildingStatsSO: {fileID: 11400000, guid: 61b23fef0a3039a4cbcbcad07058fb8e, type: 2}
+  buildingData: {fileID: 11400000, guid: f16bc13dcc95d7f409a7c64797c3c18b, type: 2}
   level: 1
   isActive: 0
   resourceAmount: 1
