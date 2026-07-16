@@ -1,6 +1,6 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI; // ADDED: Necessary namespace for working with the Image component
+using UnityEngine.UI;
 
 public class InfoPanel : MonoBehaviour
 {
@@ -13,7 +13,7 @@ public class InfoPanel : MonoBehaviour
     public string valueTextName;
 
     [Header("Global UI Elements")]
-    public Image troopIconImage; // ADDED: Drag the layout image placeholder here!
+    public Image troopIconImage;
 
     [Header("Building UI Elements")]
     public GameObject buildingInfoParent;
@@ -38,6 +38,10 @@ public class InfoPanel : MonoBehaviour
     private TextMeshProUGUI attackRangeText;
     private TextMeshProUGUI mobilityText;
     private TextMeshProUGUI unitCostText;
+
+    [Header("Upgrade Confirmation UI")]
+    public GameObject confirmationPanel;
+    public TextMeshProUGUI costTextDisplay;
 
     public BuildingStatsSO buildingStatsSO;
     public BuildingData buildingData;
@@ -64,6 +68,11 @@ public class InfoPanel : MonoBehaviour
         attackRangeText = attackRangeParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();
         mobilityText = mobilityParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();
         unitCostText = unitCostParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();
+
+        if (confirmationPanel != null)
+        {
+            confirmationPanel.SetActive(false);
+        }
     }
 
     void Start()
@@ -88,7 +97,6 @@ public class InfoPanel : MonoBehaviour
 
     public void SetUp(BuildingStatsSO buildingStatsSO, TroopData unitData)
     {
-        // Cache the incoming references locally so your data fields match up perfectly!
         this.buildingStatsSO = buildingStatsSO;
         this.unitData = unitData;
 
@@ -97,7 +105,6 @@ public class InfoPanel : MonoBehaviour
             unitInfoParent.SetActive(false);
             buildingInfoParent.SetActive(true);
             
-            // Hide the troop icon when viewing a structure panel layout card
             if (troopIconImage != null) troopIconImage.gameObject.SetActive(false);
 
             nameText.text = buildingStatsSO.buildingName;
@@ -124,10 +131,8 @@ public class InfoPanel : MonoBehaviour
             mobilityText.text = unitData.mobility.ToString();
             unitCostText.text = unitData.unitCost.ToString();
 
-            // UPDATED: Dynamically handle updating your unit profile image asset
             if (troopIconImage != null)
             {
-                // Note: Change 'unitIcon' to whatever variable name you defined inside UnitData.cs!
                 if (unitData.unitIcon != null) 
                 {
                     troopIconImage.gameObject.SetActive(true);
@@ -162,14 +167,46 @@ public class InfoPanel : MonoBehaviour
         {
             if (buildingStatsSO != null)
             {
-                passiveResource.upgradeBuilding();
-                SetUp(buildingStatsSO, null);
+                if (confirmationPanel != null)
+                {
+                    string details = "Upgrade Cost:\n";
+                    if (passiveResource.coinCost > 0) details += $"Coins: {passiveResource.coinCost}\n";
+                    if (passiveResource.farmCost > 0) details += $"Food: {passiveResource.farmCost}\n";
+                    if (passiveResource.rockCost > 0) details += $"Rock: {passiveResource.rockCost}\n";
+                    if (passiveResource.woodCost > 0) details += $"Wood: {passiveResource.woodCost}\n";
+                    if (passiveResource.gemCost > 0) details += $"Gems: {passiveResource.gemCost}\n";
+                    if (passiveResource.energyCost > 0) details += $"Energy: {passiveResource.energyCost}\n";
+
+                    if (costTextDisplay != null) costTextDisplay.text = details;
+                    confirmationPanel.SetActive(true);
+                }
+                else
+                {
+                    ConfirmUpgrade();
+                }
             }
             if (unitData != null)
             {
-                //upgrade unit logic
                 SetUp(null, unitData);
             }
+        }
+    }
+
+    public void ConfirmUpgrade()
+    {
+        if (passiveResource != null && buildingStatsSO != null)
+        {
+            passiveResource.upgradeBuilding();
+            if (confirmationPanel != null) confirmationPanel.SetActive(false);
+            SetUp(buildingStatsSO, null);
+        }
+    }
+
+    public void CancelUpgrade()
+    {
+        if (confirmationPanel != null)
+        {
+            confirmationPanel.SetActive(false);
         }
     }
 }
