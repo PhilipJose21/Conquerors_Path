@@ -21,6 +21,7 @@ public class InfoPanel : MonoBehaviour
     public GameObject buildingInfoParent;
     public GameObject resourceOutputParent;
     public GameObject resourceTypeParent;
+    public Image buildingIconImage; // Drag your Building Icon Image component here in the Inspector!
 
     private TextMeshProUGUI resourceTypeText;
     private TextMeshProUGUI resourceAmountText;
@@ -120,6 +121,20 @@ public class InfoPanel : MonoBehaviour
             descriptionText.text = buildingStatsSO.description;
             resourceTypeText.text = buildingStatsSO.resourceType.ToString();
             
+            // Set the building icon sprite using buildingData.Icon
+            if (buildingIconImage != null)
+            {
+                if (buildingData != null && buildingData.Icon != null) 
+                {
+                    buildingIconImage.gameObject.SetActive(true);
+                    buildingIconImage.sprite = buildingData.Icon;
+                }
+                else
+                {
+                    buildingIconImage.gameObject.SetActive(false);
+                }
+            }
+            
             if (gameObjectParent != null)
             {
                 passiveResource = gameObjectParent.GetComponentInChildren<PassiveResource>();
@@ -175,7 +190,7 @@ public class InfoPanel : MonoBehaviour
             {
                 if (confirmationPanel != null)
                 {
-                    string details = ""; // Removed "Upgrade Cost:\n" string here[cite: 4]
+                    string details = ""; 
                     if (passiveResource.coinCost > 0) details += $"Coins: {passiveResource.coinCost}\n";
                     if (passiveResource.farmCost > 0) details += $"Food: {passiveResource.farmCost}\n";
                     if (passiveResource.rockCost > 0) details += $"Rock: {passiveResource.rockCost}\n";

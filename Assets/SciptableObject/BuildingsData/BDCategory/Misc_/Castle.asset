@@ -15,7 +15,7 @@ MonoBehaviour:
   <Name>k__BackingField: Castle
   <Size>k__BackingField: 25
   <Model>k__BackingField: {fileID: 1915748257449464270, guid: 4561aebfa72c06e46b3d33e4322f4b63, type: 3}
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 00c8c4337eb990c44b01cf59304b58ca, type: 3}
   <coinCost>k__BackingField: 0
   <farmCost>k__BackingField: 0
   <rockCost>k__BackingField: 0

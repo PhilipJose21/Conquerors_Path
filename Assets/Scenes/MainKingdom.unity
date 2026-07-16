@@ -4802,6 +4802,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2136175339}
     - target: {fileID: 8194313150380381988, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+      propertyPath: buildingIconImage
+      value: 
+      objectReference: {fileID: 2088204946}
+    - target: {fileID: 8194313150380381988, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
       propertyPath: confirmationPanel
       value: 
       objectReference: {fileID: 420846729}
