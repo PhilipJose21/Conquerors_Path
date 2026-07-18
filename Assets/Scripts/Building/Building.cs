@@ -24,6 +24,8 @@ public class Building : MonoBehaviour
     public bool HasData => data != null;
     public bool PersistThroughLoads => persistThroughLoads;
 
+    public BuildingData BuildingDataAsset => data;
+
     /// <summary>
     /// Initialize this Building with the provided data and rotation.
     /// - Instantiates the visual BuildingModel as a child.

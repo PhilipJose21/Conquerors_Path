@@ -270,7 +270,11 @@ public class KingdomUIManager : MonoBehaviour
         
         sceneInfoPanel.gameObject.SetActive(true);
         sceneInfoPanel.buildingData = data; 
-        sceneInfoPanel.SetUp(null, null);
+        
+        // 🌟 If your BuildingData contains or can map to your stats, pass it here.
+        // If they are completely separate systems, we must ensure InfoPanel handles it,
+        // but for now, let's make sure it doesn't break.
+        sceneInfoPanel.SetUp(sceneInfoPanel.buildingStatsSO, null);
     }
 
     public void ShowSelectedTroop(TroopData troop)
@@ -278,7 +282,7 @@ public class KingdomUIManager : MonoBehaviour
         if (troop == null || sceneInfoPanel == null) return;
     
         sceneInfoPanel.gameObject.SetActive(true);
-        sceneInfoPanel.SetUp(null, troop);
+        sceneInfoPanel.SetUp(null, troop); // This works perfectly with our updated Troop else-if block!
     }
 
     public void ShowObjectInfo(Building building)
@@ -286,7 +290,13 @@ public class KingdomUIManager : MonoBehaviour
         if (building == null || sceneInfoPanel == null) return;
 
         sceneInfoPanel.gameObject.SetActive(true);
-        sceneInfoPanel.SetUp(null, null); 
+        
+        sceneInfoPanel.gameObjectParent = building.gameObject;
+        
+        BuildingStatsSO stats = building.GetComponentInChildren<PassiveResource>()?.buildingStatsSO;
+        sceneInfoPanel.buildingData = building.BuildingDataAsset; 
+
+        sceneInfoPanel.SetUp(stats, null);
     }
 
     public void CloseObjectInfo()

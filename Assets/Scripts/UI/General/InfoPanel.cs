@@ -56,12 +56,6 @@ public class InfoPanel : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            // Don't destroy on sight. A "duplicate" InfoPanel usually means something
-            // (an inactive scene object activating late, a stray Instantiate elsewhere)
-            // claimed the Instance slot before this one got a chance to. Destroying
-            // blindly here is exactly what caused the persistent scene panel to wipe
-            // itself out during an activation-order race. Log it and back off instead -
-            // whichever object got here first keeps ownership, this one just stays inert.
             Debug.LogWarning($"InfoPanel: duplicate instance detected on '{gameObject.name}'. " +
                 $"Keeping existing Instance on '{Instance.gameObject.name}' and leaving this one alone.", this);
             return;
@@ -95,14 +89,8 @@ public class InfoPanel : MonoBehaviour
 
     void Update()
     {
-        if (buildingStatsSO != null)
-        {
-            SetUp(buildingStatsSO, null);
-        }
-        else if (unitData != null)
-        {
-            SetUp(null, unitData);
-        }
+        // 🚨 Frame-by-frame Setup logic removed to prevent UI resetting/flickering.
+        // KingdomUIManager handles this smoothly on-click.
     }
 
     public void SetUp(BuildingStatsSO buildingStatsSO, TroopData unitData)
@@ -110,16 +98,17 @@ public class InfoPanel : MonoBehaviour
         this.buildingStatsSO = buildingStatsSO;
         this.unitData = unitData;
 
+        // --- 1. HANDLING BUILDING SELECTION ---
         if (buildingStatsSO != null && unitData == null)
         {
-            unitInfoParent.SetActive(false);
-            buildingInfoParent.SetActive(true);
+            if (unitInfoParent != null) unitInfoParent.SetActive(false);
+            if (buildingInfoParent != null) buildingInfoParent.SetActive(true);
             
             if (troopIconImage != null) troopIconImage.gameObject.SetActive(false);
 
-            nameText.text = buildingStatsSO.buildingName;
-            descriptionText.text = buildingStatsSO.description;
-            resourceTypeText.text = buildingStatsSO.resourceType.ToString();
+            if (nameText != null) nameText.text = buildingStatsSO.buildingName;
+            if (descriptionText != null) descriptionText.text = buildingStatsSO.description;
+            if (resourceTypeText != null) resourceTypeText.text = buildingStatsSO.resourceType.ToString();
             
             // Set the building icon sprite using buildingData.Icon
             if (buildingIconImage != null)
@@ -157,6 +146,44 @@ public class InfoPanel : MonoBehaviour
                 }
             }
         }
+        // --- 2. ⚔️ HANDLING TROOP SELECTION ---
+        else if (unitData != null)
+        {
+            // Toggle view panels
+            if (buildingInfoParent != null) buildingInfoParent.SetActive(false);
+            if (unitInfoParent != null) unitInfoParent.SetActive(true);
+            
+            if (buildingIconImage != null) buildingIconImage.gameObject.SetActive(false);
+
+            // Populate Main Header Text
+            if (nameText != null) nameText.text = unitData.unitName;
+            if (descriptionText != null) descriptionText.text = unitData.description;
+
+            // Handle the Troop Sprite Icon
+            if (troopIconImage != null)
+            {
+                if (unitData.unitIcon != null)
+                {
+                    troopIconImage.gameObject.SetActive(true);
+                    troopIconImage.sprite = unitData.unitIcon;
+                }
+                else
+                {
+                    troopIconImage.gameObject.SetActive(false);
+                }
+            }
+
+            // Populate unit-specific text attributes
+            if (unitTypeText != null) unitTypeText.text = unitData.unitType.ToString();
+            if (hpText != null) hpText.text = unitData.health.ToString();
+            if (damageText != null) damageText.text = unitData.damage.ToString();
+            if (attackRangeText != null) attackRangeText.text = unitData.attackRange.ToString();
+            if (mobilityText != null) mobilityText.text = unitData.mobility.ToString();
+            if (unitCostText != null) unitCostText.text = unitData.unitCost.ToString();
+
+            // Hide the building upgrade button since this is a combat unit display
+            if (upgradeButtonUI != null) upgradeButtonUI.gameObject.SetActive(false);
+        }
     }
 
     public void closeInfoPanel()
@@ -176,7 +203,7 @@ public class InfoPanel : MonoBehaviour
     {
         if (gameObjectParent != null)
         {
-            passiveResource.refundStats();
+            passiveResource?.refundStats();
             Destroy(gameObjectParent);
         }
         gameObject.SetActive(false);
