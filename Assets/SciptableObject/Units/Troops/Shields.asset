@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e627f14df1246df4784917414f4e84a7, type: 3}
   m_Name: Shields
   m_EditorClassIdentifier: Assembly-CSharp::TroopData
+  unitStats: {fileID: 0}
   unitName: Shields
   unitType: 2
   description: They protect.

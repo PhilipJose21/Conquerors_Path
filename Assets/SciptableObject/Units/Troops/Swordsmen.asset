@@ -19,8 +19,8 @@ MonoBehaviour:
   unitIcon: {fileID: 21300000, guid: 63edc83ea861edf4e9cf5a1a836c9f86, type: 3}
   health: 8
   damage: 6
-  mobility: 5
-  attackRange: 3
+  mobility: 3
+  attackRange: 1
   unitCost: 3
   canUpgrade: 0
   canDestroy: 0
