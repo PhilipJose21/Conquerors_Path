@@ -51,6 +51,7 @@ GameObject:
   - component: {fileID: -1033801144095243950}
   - component: {fileID: -4825794789931344145}
   - component: {fileID: -8136064927752407722}
+  - component: {fileID: -1784911805641127539}
   m_Layer: 0
   m_Name: Bowyer
   m_TagString: Untagged
@@ -117,6 +118,7 @@ MonoBehaviour:
   buildingStatsSO: {fileID: 11400000, guid: 3c781c9547f91dd4a999b329ce7a37d6, type: 2}
   buildingData: {fileID: 11400000, guid: 309ac51e5f9d04249a8dbfde53c82a48, type: 2}
   level: 1
+  maxResourcePercentage: 100
   isActive: 0
   resourceAmount: 1
   resourceTimer: 1
@@ -175,6 +177,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingTrainingType
   unitTrainingType: 1
+--- !u!114 &-1784911805641127539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3929424400633602478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a399fdb9ef699544fb1f12c03ab94c70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingClickHandler
+  selectionSound: {fileID: 8300000, guid: ad51d6689e2cdf24894affcde2bf91fb, type: 3}
 --- !u!1001 &862069630165844041
 PrefabInstance:
   m_ObjectHideFlags: 0

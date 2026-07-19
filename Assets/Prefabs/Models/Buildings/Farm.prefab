@@ -277,6 +277,7 @@ GameObject:
   - component: {fileID: 4381709770458237799}
   - component: {fileID: -1254735274301716287}
   - component: {fileID: -1936643875974198992}
+  - component: {fileID: -7770952185084734253}
   m_Layer: 0
   m_Name: Farm
   m_TagString: Untagged
@@ -343,6 +344,7 @@ MonoBehaviour:
   buildingStatsSO: {fileID: 11400000, guid: b543e3a158769bc4aae0eb98b18a049a, type: 2}
   buildingData: {fileID: 11400000, guid: 7b3e877b6e54cd845b78f5848961ebef, type: 2}
   level: 1
+  maxResourcePercentage: 100
   isActive: 0
   resourceAmount: 1
   resourceTimer: 1
@@ -388,6 +390,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-7770952185084734253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3929424400633602478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a399fdb9ef699544fb1f12c03ab94c70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingClickHandler
+  selectionSound: {fileID: 8300000, guid: ad51d6689e2cdf24894affcde2bf91fb, type: 3}
 --- !u!1 &6426492273683568260
 GameObject:
   m_ObjectHideFlags: 0
