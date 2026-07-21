@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class UnitHealth : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class UnitHealth : MonoBehaviour
     public GameObject playerUnit;
     private bool isHealthUIHidden;
     private UnitStateMachine stateMachine;
+
+    [Header("Death")]
+    [Tooltip("How long (in seconds) the unit takes to shrink to nothing before being destroyed.")]
+    public float deathScaleDuration = 0.6f;
+    private bool isDying;
 
     void Awake()
     {
@@ -68,13 +74,37 @@ public class UnitHealth : MonoBehaviour
         }
         else
         {
-            // Play the Hurt animation only when the unit survives the hit.
-            stateMachine?.ChangeState(unitPhase.Hurt);
+            stateMachine?.ChangeState(unitPhase.Hurt, forceRetrigger: true);
         }
     }
 
     public void Die()
     {
+        if (isDying)
+        {
+            return; // already dying — don't start a second death sequence
+        }
+        isDying = true;
+        StartCoroutine(DieRoutine());
+    }
+
+    private IEnumerator DieRoutine()
+    {
+        stateMachine?.ChangeState(unitPhase.Hurt, forceRetrigger: true, holdState: true);
+
+        Transform deathTransform = playerUnit != null ? playerUnit.transform : transform;
+        Vector3 startScale = deathTransform.localScale;
+        float elapsed = 0f;
+
+        while (elapsed < deathScaleDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = deathScaleDuration > 0f ? elapsed / deathScaleDuration : 1f;
+            deathTransform.localScale = Vector3.Lerp(startScale, Vector3.zero, t);
+            yield return null;
+        }
+
+        deathTransform.localScale = Vector3.zero;
         Destroy(playerUnit);
     }
 }

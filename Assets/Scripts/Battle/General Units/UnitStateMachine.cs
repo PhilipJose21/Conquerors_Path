@@ -27,23 +27,34 @@ public class UnitStateMachine : MonoBehaviour
         animationManager?.PlayAnimationForState(currentUnitPhase);
     }
 
-    public void ChangeState(unitPhase newPhase)
+    public void ChangeState(unitPhase newPhase, bool forceRetrigger = false, bool holdState = false)
     {
-        if (currentUnitPhase == newPhase)
+        bool isSamePhase = currentUnitPhase == newPhase;
+
+        if (isSamePhase && !forceRetrigger)
         {
             return;
         }
 
         currentUnitPhase = newPhase;
-        animationManager?.PlayAnimationForState(currentUnitPhase);
 
+        if (isSamePhase && forceRetrigger)
+        {
+            animationManager?.RestartCurrentState();
+        }
+        else
+        {
+            animationManager?.PlayAnimationForState(currentUnitPhase);
+        }
+
+        // Cancel any pending "revert to idle" from a previous one-shot state.
         if (revertToIdleCoroutine != null)
         {
             StopCoroutine(revertToIdleCoroutine);
             revertToIdleCoroutine = null;
         }
-        
-        if (newPhase == unitPhase.Hurt || newPhase == unitPhase.Damage)
+
+        if (!holdState && (newPhase == unitPhase.Hurt || newPhase == unitPhase.Damage))
         {
             float clipLength = animationManager != null ? animationManager.GetClipLength(newPhase) : 0f;
             if (clipLength > 0f)
@@ -51,6 +62,11 @@ public class UnitStateMachine : MonoBehaviour
                 revertToIdleCoroutine = StartCoroutine(RevertToIdleAfterDelay(clipLength));
             }
         }
+    }
+
+    public float GetClipLength(unitPhase phase)
+    {
+        return animationManager != null ? animationManager.GetClipLength(phase) : 0f;
     }
 
     private IEnumerator RevertToIdleAfterDelay(float delay)

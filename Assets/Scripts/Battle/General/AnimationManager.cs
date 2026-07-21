@@ -14,8 +14,6 @@ public class AnimationManager : MonoBehaviour
     private const string DamageTrigger = "Damage";
     private const string HurtTrigger = "Hurt";
 
-    // Used by UnitStateMachine to know how long to wait before reverting
-    // one-shot states (Hurt/Damage) back to Idle.
     public float GetClipLength(unitPhase phase)
     {
         switch (phase)
@@ -32,8 +30,16 @@ public class AnimationManager : MonoBehaviour
         return 0f;
     }
 
-    // Called by UnitStateMachine whenever the unit's phase changes.
-    // Only handles the 4 states currently supported: Idle, Move, Damage, Hurt.
+    public void RestartCurrentState(int layer = 0)
+    {
+        if (animator == null)
+        {
+            return;
+        }
+        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(layer);
+        animator.Play(info.fullPathHash, layer, 0f);
+    }
+
     public void PlayAnimationForState(unitPhase phase)
     {
         if (animator == null)
