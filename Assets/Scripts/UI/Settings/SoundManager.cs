@@ -215,4 +215,20 @@ public class SoundManager : MonoBehaviour
             else SFXVolume(sfxVol);
         }
     }
+
+    public void PlayHoverSFX(AudioClip hoverClip)
+    {
+        if (hoverClip != null && sfxAudioSource != null)
+        {
+            sfxAudioSource.PlayOneShot(hoverClip);
+        }
+    }
+
+    public void PlayClickSFX(AudioClip clickClip)
+    {
+        if (clickClip != null && sfxAudioSource != null)
+        {
+            sfxAudioSource.PlayOneShot(clickClip);
+        }
+    }
 }

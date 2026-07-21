@@ -321,6 +321,7 @@ GameObject:
   - component: {fileID: -1254735274301716287}
   - component: {fileID: -1936643875974198992}
   - component: {fileID: 8542105372280590129}
+  - component: {fileID: 8278929142929657121}
   m_Layer: 0
   m_Name: Training Ground
   m_TagString: Untagged
@@ -370,7 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingStatContainer
   buildingStatsSO: {fileID: 11400000, guid: 61b23fef0a3039a4cbcbcad07058fb8e, type: 2}
-  buildingData: {fileID: 0}
+  buildingData: {fileID: 11400000, guid: f16bc13dcc95d7f409a7c64797c3c18b, type: 2}
 --- !u!114 &4381709770458237799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,9 +385,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PassiveResource
   resourceType: 1
-  buildingStatsSO: {fileID: 0}
-  buildingData: {fileID: 0}
+  buildingStatsSO: {fileID: 11400000, guid: 61b23fef0a3039a4cbcbcad07058fb8e, type: 2}
+  buildingData: {fileID: 11400000, guid: f16bc13dcc95d7f409a7c64797c3c18b, type: 2}
   level: 1
+  maxResourcePercentage: 100
   isActive: 0
   resourceAmount: 1
   resourceTimer: 1
@@ -445,6 +447,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingTrainingType
   unitTrainingType: 2
+--- !u!114 &8278929142929657121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3929424400633602478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a399fdb9ef699544fb1f12c03ab94c70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingClickHandler
+  selectionSound: {fileID: 8300000, guid: ad51d6689e2cdf24894affcde2bf91fb, type: 3}
 --- !u!1 &4173965743385109236
 GameObject:
   m_ObjectHideFlags: 0

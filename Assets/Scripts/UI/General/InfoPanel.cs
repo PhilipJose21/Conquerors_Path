@@ -1,6 +1,6 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI; // ADDED: Necessary namespace for working with the Image component
+using UnityEngine.UI;
 
 public class InfoPanel : MonoBehaviour
 {
@@ -9,16 +9,19 @@ public class InfoPanel : MonoBehaviour
     public TextMeshProUGUI descriptionText;
     public GameObject gameObjectParent;
     public PlayerSO playerData;
+    public Button upgradeButtonUI;
+    public TextMeshProUGUI upgradeButtonText;
     
     public string valueTextName;
 
     [Header("Global UI Elements")]
-    public Image troopIconImage; // ADDED: Drag the layout image placeholder here!
+    public Image troopIconImage;
 
     [Header("Building UI Elements")]
     public GameObject buildingInfoParent;
     public GameObject resourceOutputParent;
     public GameObject resourceTypeParent;
+    public Image buildingIconImage; // Drag your Building Icon Image component here in the Inspector!
 
     private TextMeshProUGUI resourceTypeText;
     private TextMeshProUGUI resourceAmountText;
@@ -39,6 +42,10 @@ public class InfoPanel : MonoBehaviour
     private TextMeshProUGUI mobilityText;
     private TextMeshProUGUI unitCostText;
 
+    [Header("Upgrade Confirmation UI")]
+    public GameObject confirmationPanel;
+    public TextMeshProUGUI costTextDisplay;
+
     public BuildingStatsSO buildingStatsSO;
     public BuildingData buildingData;
     public TroopData unitData;
@@ -49,12 +56,6 @@ public class InfoPanel : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            // Don't destroy on sight. A "duplicate" InfoPanel usually means something
-            // (an inactive scene object activating late, a stray Instantiate elsewhere)
-            // claimed the Instance slot before this one got a chance to. Destroying
-            // blindly here is exactly what caused the persistent scene panel to wipe
-            // itself out during an activation-order race. Log it and back off instead -
-            // whichever object got here first keeps ownership, this one just stays inert.
             Debug.LogWarning($"InfoPanel: duplicate instance detected on '{gameObject.name}'. " +
                 $"Keeping existing Instance on '{Instance.gameObject.name}' and leaving this one alone.", this);
             return;
@@ -71,6 +72,11 @@ public class InfoPanel : MonoBehaviour
         attackRangeText = attackRangeParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();
         mobilityText = mobilityParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();
         unitCostText = unitCostParent.transform.Find(valueTextName)?.GetComponent<TextMeshProUGUI>();
+
+        if (confirmationPanel != null)
+        {
+            confirmationPanel.SetActive(false);
+        }
     }
 
     void Start()
@@ -83,102 +89,172 @@ public class InfoPanel : MonoBehaviour
 
     void Update()
     {
-        if (buildingStatsSO != null)
-        {
-            SetUp(buildingStatsSO, null);
-        }
-        else if (unitData != null)
-        {
-            SetUp(null, unitData);
-        }
+        // 🚨 Frame-by-frame Setup logic removed to prevent UI resetting/flickering.
+        // KingdomUIManager handles this smoothly on-click.
     }
 
     public void SetUp(BuildingStatsSO buildingStatsSO, TroopData unitData)
     {
-        // Cache the incoming references locally so your data fields match up perfectly!
         this.buildingStatsSO = buildingStatsSO;
         this.unitData = unitData;
 
+        // --- 1. HANDLING BUILDING SELECTION ---
         if (buildingStatsSO != null && unitData == null)
         {
-            unitInfoParent.SetActive(false);
-            buildingInfoParent.SetActive(true);
+            if (unitInfoParent != null) unitInfoParent.SetActive(false);
+            if (buildingInfoParent != null) buildingInfoParent.SetActive(true);
             
-            // Hide the troop icon when viewing a structure panel layout card
             if (troopIconImage != null) troopIconImage.gameObject.SetActive(false);
 
-            nameText.text = buildingStatsSO.buildingName;
-            descriptionText.text = buildingStatsSO.description;
-            resourceTypeText.text = buildingStatsSO.resourceType.ToString();
+            if (nameText != null) nameText.text = buildingStatsSO.buildingName;
+            if (descriptionText != null) descriptionText.text = buildingStatsSO.description;
+            if (resourceTypeText != null) resourceTypeText.text = buildingStatsSO.resourceType.ToString();
+            
+            // Set the building icon sprite using buildingData.Icon
+            if (buildingIconImage != null)
+            {
+                if (buildingData != null && buildingData.Icon != null) 
+                {
+                    buildingIconImage.gameObject.SetActive(true);
+                    buildingIconImage.sprite = buildingData.Icon;
+                }
+                else
+                {
+                    buildingIconImage.gameObject.SetActive(false);
+                }
+            }
+            
+            if (gameObjectParent != null)
+            {
+                passiveResource = gameObjectParent.GetComponentInChildren<PassiveResource>();
+            }
             
             if (passiveResource != null && resourceAmountText != null)
             {
                 resourceAmountText.text = passiveResource.resourceAmount.ToString() + " %";
+
+                // Check if the resource has reached the 100% cap
+                if (passiveResource.resourceAmount >= 100)
+                {
+                    if (upgradeButtonUI != null) upgradeButtonUI.interactable = false;
+                    if (upgradeButtonText != null) upgradeButtonText.text = "MAX LEVEL";
+                }
+                else
+                {
+                    if (upgradeButtonUI != null) upgradeButtonUI.interactable = true;
+                    if (upgradeButtonText != null) upgradeButtonText.text = "UPGRADE";
+                }
             }
         }
-
-        if (unitData != null && buildingStatsSO == null)
+        // --- 2. ⚔️ HANDLING TROOP SELECTION ---
+        else if (unitData != null)
         {
-            unitData.SyncUnitStats();
-
-            buildingInfoParent.SetActive(false);
-            unitInfoParent.SetActive(true);
+            // Toggle view panels
+            if (buildingInfoParent != null) buildingInfoParent.SetActive(false);
+            if (unitInfoParent != null) unitInfoParent.SetActive(true);
             
-            nameText.text = unitData.unitName;
-            descriptionText.text = unitData.description;
-            unitTypeText.text = unitData.unitType.ToString();
-            hpText.text = unitData.health.ToString();
-            damageText.text = unitData.damage.ToString();
-            attackRangeText.text = unitData.attackRange.ToString();
-            mobilityText.text = unitData.mobility.ToString();
-            unitCostText.text = unitData.unitCost.ToString();
+            if (buildingIconImage != null) buildingIconImage.gameObject.SetActive(false);
 
-            // UPDATED: Dynamically handle updating your unit profile image asset
+            // Populate Main Header Text
+            if (nameText != null) nameText.text = unitData.unitName;
+            if (descriptionText != null) descriptionText.text = unitData.description;
+
+            // Handle the Troop Sprite Icon
             if (troopIconImage != null)
             {
-                // Note: Change 'unitIcon' to whatever variable name you defined inside UnitData.cs!
-                if (unitData.unitIcon != null) 
+                if (unitData.unitIcon != null)
                 {
                     troopIconImage.gameObject.SetActive(true);
                     troopIconImage.sprite = unitData.unitIcon;
                 }
                 else
                 {
-                    troopIconImage.gameObject.SetActive(false); 
+                    troopIconImage.gameObject.SetActive(false);
                 }
             }
+
+            // Populate unit-specific text attributes
+            if (unitTypeText != null) unitTypeText.text = unitData.unitType.ToString();
+            if (hpText != null) hpText.text = unitData.health.ToString();
+            if (damageText != null) damageText.text = unitData.damage.ToString();
+            if (attackRangeText != null) attackRangeText.text = unitData.attackRange.ToString();
+            if (mobilityText != null) mobilityText.text = unitData.mobility.ToString();
+            if (unitCostText != null) unitCostText.text = unitData.unitCost.ToString();
+
+            // Hide the building upgrade button since this is a combat unit display
+            if (upgradeButtonUI != null) upgradeButtonUI.gameObject.SetActive(false);
         }
     }
 
-    public void closePanel()
+    public void closeInfoPanel()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public void closeConfirmationPanel()
+    {
+        if (confirmationPanel != null)
+        {
+            confirmationPanel.SetActive(false);
+        }
     }
 
     public void destroyObject()
     {
         if (gameObjectParent != null)
         {
-            passiveResource.refundStats();
+            passiveResource?.refundStats();
             Destroy(gameObjectParent);
         }
         gameObject.SetActive(false);
     }
 
-    public void upgradeButton()
+    public void showConfirmation()
     {
         if (passiveResource != null)
         {
             if (buildingStatsSO != null)
             {
-                passiveResource.upgradeBuilding();
-                SetUp(buildingStatsSO, null);
+                if (confirmationPanel != null)
+                {
+                    string details = ""; 
+                    if (passiveResource.coinCost > 0) details += $"Coins: {passiveResource.coinCost}\n";
+                    if (passiveResource.farmCost > 0) details += $"Food: {passiveResource.farmCost}\n";
+                    if (passiveResource.rockCost > 0) details += $"Rock: {passiveResource.rockCost}\n";
+                    if (passiveResource.woodCost > 0) details += $"Wood: {passiveResource.woodCost}\n";
+                    if (passiveResource.gemCost > 0) details += $"Gems: {passiveResource.gemCost}\n";
+                    if (passiveResource.energyCost > 0) details += $"Energy: {passiveResource.energyCost}\n";
+
+                    if (costTextDisplay != null) costTextDisplay.text = details;
+                    confirmationPanel.SetActive(true);
+                }
+                else
+                {
+                    ConfirmUpgrade();
+                }
             }
             if (unitData != null)
             {
-                //upgrade unit logic
                 SetUp(null, unitData);
             }
+        }
+    }
+
+    public void ConfirmUpgrade()
+    {
+        if (passiveResource != null && buildingStatsSO != null)
+        {
+            passiveResource.upgradeBuilding();
+            if (confirmationPanel != null) confirmationPanel.SetActive(false);
+            SetUp(buildingStatsSO, null);
+        }
+    }
+
+    public void CancelUpgrade()
+    {
+        if (confirmationPanel != null)
+        {
+            confirmationPanel.SetActive(false);
         }
     }
 }

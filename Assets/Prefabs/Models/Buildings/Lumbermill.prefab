@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: -1033801144095243950}
   - component: {fileID: -4825794789931344145}
   - component: {fileID: -8136064927752407722}
+  - component: {fileID: 7752307902308250423}
   m_Layer: 0
   m_Name: Lumbermill
   m_TagString: Untagged
@@ -104,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingStatContainer
   buildingStatsSO: {fileID: 11400000, guid: 65a742ec1af745845aa348d58c7b6d07, type: 2}
-  buildingData: {fileID: 0}
+  buildingData: {fileID: 11400000, guid: d6e58f1c186795d468e21087837d5110, type: 2}
 --- !u!114 &8512812881624744170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,9 +119,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PassiveResource
   resourceType: 2
-  buildingStatsSO: {fileID: 0}
-  buildingData: {fileID: 0}
+  buildingStatsSO: {fileID: 11400000, guid: 65a742ec1af745845aa348d58c7b6d07, type: 2}
+  buildingData: {fileID: 11400000, guid: d6e58f1c186795d468e21087837d5110, type: 2}
   level: 1
+  maxResourcePercentage: 100
   isActive: 0
   resourceAmount: 1
   resourceTimer: 1
@@ -179,6 +181,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingTrainingType
   unitTrainingType: 1
+--- !u!114 &7752307902308250423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3929424400633602478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a399fdb9ef699544fb1f12c03ab94c70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingClickHandler
+  selectionSound: {fileID: 8300000, guid: ad51d6689e2cdf24894affcde2bf91fb, type: 3}
 --- !u!1001 &862069630165844041
 PrefabInstance:
   m_ObjectHideFlags: 0

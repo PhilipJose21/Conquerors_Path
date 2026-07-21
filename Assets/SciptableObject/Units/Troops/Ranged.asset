@@ -20,7 +20,7 @@ MonoBehaviour:
   health: 5
   damage: 3
   mobility: 3
-  attackRange: 6
+  attackRange: 3
   unitCost: 3
   canUpgrade: 1
   canDestroy: 1

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Castle
   m_EditorClassIdentifier: Assembly-CSharp::BuildingStatsSO
   buildingName: Castle
-  description: Le Castle
+  description: This is where you live, and maybe die.
   resourceType: 0
   resourceAmount: 0
   resourceTimer: 0

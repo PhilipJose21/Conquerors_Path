@@ -270,7 +270,15 @@ public class KingdomUIManager : MonoBehaviour
         
         sceneInfoPanel.gameObject.SetActive(true);
         sceneInfoPanel.buildingData = data; 
-        sceneInfoPanel.SetUp(null, null);
+        
+        sceneInfoPanel.SetUp(sceneInfoPanel.buildingStatsSO, null);
+
+        // 🔊 If you ever add `public AudioClip selectionSFX;` to your BuildingData script,
+        // you can safely uncomment these lines below to enable menu selection audio:
+        // if (data.selectionSFX != null)
+        // {
+        //     SoundManager.Instance?.PlayClickSFX(data.selectionSFX);
+        // }
     }
 
     public void ShowSelectedTroop(TroopData troop)
@@ -278,7 +286,7 @@ public class KingdomUIManager : MonoBehaviour
         if (troop == null || sceneInfoPanel == null) return;
     
         sceneInfoPanel.gameObject.SetActive(true);
-        sceneInfoPanel.SetUp(null, troop);
+        sceneInfoPanel.SetUp(null, troop); // This works perfectly with our updated Troop else-if block!
     }
 
     public void ShowObjectInfo(Building building)
@@ -286,7 +294,13 @@ public class KingdomUIManager : MonoBehaviour
         if (building == null || sceneInfoPanel == null) return;
 
         sceneInfoPanel.gameObject.SetActive(true);
-        sceneInfoPanel.SetUp(null, null); 
+        sceneInfoPanel.gameObjectParent = building.gameObject;
+        
+        BuildingStatsSO stats = building.GetComponentInChildren<PassiveResource>()?.buildingStatsSO;
+        sceneInfoPanel.buildingData = building.BuildingDataAsset; 
+
+        sceneInfoPanel.SetUp(stats, null);
+
     }
 
     public void CloseObjectInfo()
