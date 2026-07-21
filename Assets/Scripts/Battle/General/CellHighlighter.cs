@@ -220,6 +220,13 @@ public class CellHighlighter : MonoBehaviour
         {
             rotateModel = currentUnit.GetComponentInChildren<RotateModel>();
         }
+        if (rotateModel == null)
+        {
+            // Covers cases where the model/rotation script lives higher up the
+            // hierarchy (e.g. on a grandparent "unit root" object) rather than
+            // on the unit's logic object or its children.
+            rotateModel = currentUnit.GetComponentInParent<RotateModel>();
+        }
         if (rotateModel != null)
         {
             rotateModel.FacePosition(worldPos);

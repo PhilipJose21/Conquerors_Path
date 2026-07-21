@@ -12,11 +12,12 @@ public class UnitHealth : MonoBehaviour
     public unitPhase currentUnitPhase;
     public GameObject playerUnit;
     private bool isHealthUIHidden;
+    private UnitStateMachine stateMachine;
 
     void Awake()
     {
         UnitSOContainer container = this.GetComponent<UnitSOContainer>();
-        UnitStateMachine stateMachine = this.GetComponent<UnitStateMachine>();
+        stateMachine = this.GetComponent<UnitStateMachine>();
         if (stateMachine != null)
         {
             currentUnitPhase = stateMachine.currentUnitPhase;
@@ -64,6 +65,11 @@ public class UnitHealth : MonoBehaviour
         {
             currentHealth = 0;
             Die();
+        }
+        else
+        {
+            // Play the Hurt animation only when the unit survives the hit.
+            stateMachine?.ChangeState(unitPhase.Hurt);
         }
     }
 

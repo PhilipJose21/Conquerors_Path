@@ -15,7 +15,6 @@ public class HarvestResource : MonoBehaviour
             moveUnit = this.GetComponent<MoveUnit>();
             
             harvestAmount = unitData != null ? unitData.harvestAmount : harvestAmount;
-            // don't cache harvestActions here; read `moveUnit.harvestActions` at harvest time
         }
     }    
 

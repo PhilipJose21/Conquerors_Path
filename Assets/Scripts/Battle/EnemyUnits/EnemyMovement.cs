@@ -60,6 +60,13 @@ public class EnemyMovement : MonoBehaviour
         }
         if (rotateModel == null)
         {
+            // Covers cases where the model/rotation script lives higher up the
+            // hierarchy (e.g. on a grandparent "unit root" object) rather than
+            // on this object, unitObject, or either of their children.
+            rotateModel = this.GetComponentInParent<RotateModel>();
+        }
+        if (rotateModel == null)
+        {
             Debug.LogWarning($"EnemyMovement on '{gameObject.name}': No RotateModel found — model won't rotate when moving.");
         }
     }
