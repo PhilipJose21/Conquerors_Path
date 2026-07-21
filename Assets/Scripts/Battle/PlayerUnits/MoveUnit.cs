@@ -7,16 +7,6 @@ public class MoveUnit : MonoBehaviour
     public UnitSO unitData;
 
     private static int lastProcessedClickFrame = -1;
-    // Guards against Clicked() being invoked more than once per frame.
-    // Every unit in the scene runs its own Update()/DetectObjects(), but only
-    // the first instance processed each frame actually recomputes the shared
-    // raycast (see lastProcessedClickFrame above) — every other instance's
-    // rayHit/hit fields are stale leftovers from whenever THAT instance last
-    // ran the raycast. Without this guard, a single mouse click could call
-    // Clicked() once with the correct (fresh) target and again with stale
-    // targets from other units, causing selection/highlight state to be
-    // toggled or overwritten unpredictably (e.g. selecting a unit whose
-    // highlights don't match the unit that was actually clicked).
     private static int lastHandledClickFrame = -1;
     private Camera mainCamera;
 
@@ -53,6 +43,7 @@ public class MoveUnit : MonoBehaviour
     private bool isMoving;
 
     public GameObject unitObject;
+    private RotateModel rotateModel;
 
     private void OnDisable()
     {
@@ -120,6 +111,20 @@ public class MoveUnit : MonoBehaviour
         attackActions = unitData != null ? unitData.attackPoints : attackActions;
         moveActions = unitData != null ? unitData.movePoints : moveActions;
         stateMachine = this.GetComponent<UnitStateMachine>();
+
+        rotateModel = this.GetComponent<RotateModel>();
+        if (rotateModel == null && unitObject != null)
+        {
+            rotateModel = unitObject.GetComponentInChildren<RotateModel>();
+        }
+        if (rotateModel == null)
+        {
+            rotateModel = this.GetComponentInChildren<RotateModel>();
+        }
+        if (rotateModel == null)
+        {
+            Debug.LogWarning($"MoveUnit on '{gameObject.name}': No RotateModel found — model won't rotate when moving.");
+        }
     }
 
     void Update()
@@ -223,7 +228,7 @@ public class MoveUnit : MonoBehaviour
 
             var selectedMove = selected.GetComponent<MoveUnit>();
             var attacker = selected.GetComponent<AttackEnemyUnit>();
-            var harvester = selected.GetComponent<HarvestUnit>(); // Grab the harvester component
+            var harvester = selected.GetComponent<HarvestResource>(); // Grab the harvester component
 
             // 1. Prioritize attacking an enemy if it's an attack tile
             if (enemyPresent && ht.isAttack)
@@ -242,8 +247,7 @@ public class MoveUnit : MonoBehaviour
             {
                 if (selectedMove == null || selectedMove.attackActions > 0)
                 {
-                    // Execute harvest. This already consumes attackActions and clears highlights inside TryToHarvestPosition
-                    bool harvested = harvester.TryToHarvestPosition(ht.worldPosition);
+                    bool harvested = harvester.TryHarvestAtPosition(ht.worldPosition);
                     if (harvested) return; 
                 }
                 else
@@ -463,7 +467,7 @@ public class MoveUnit : MonoBehaviour
                     return;
                 }
 
-                var attacker = selected.GetComponent<HarvestUnit>();
+                var attacker = selected.GetComponent<HarvestResource>();
                 if (attacker == null)
                 {
                     Debug.Log("Selected unit cannot attack.");
@@ -501,7 +505,7 @@ public class MoveUnit : MonoBehaviour
 
                 if (inRange)
                 {
-                    bool attacked = attacker.TryToHarvestPosition(terrainHarvest.transform.position);
+                    bool attacked = attacker.TryHarvestAtPosition(terrainHarvest.transform.position);
                     if (attacked) return;
                 }
                 else
@@ -673,6 +677,9 @@ public class MoveUnit : MonoBehaviour
         
         // Safe to consume action and move
         moveActions = Mathf.Max(0, moveActions - 1);
+
+        // Turn the model to face the direction it's about to travel in.
+        rotateModel?.FaceDirection(target - moveTransform.position);
 
         if (moveCoroutine != null)
         {

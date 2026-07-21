@@ -210,6 +210,25 @@ public class CellHighlighter : MonoBehaviour
     public bool MoveCurrentUnitTo(Vector3 worldPos)
     {
         if (currentUnit == null) return false;
+
+        // Face the model toward the actual clicked cell right away, independent of
+        // how MoveToPosition ends up pathing around obstacles. Checks the unit's own
+        // object first, then its children, since the visual model with RotateModel
+        // often lives on a separate child object from the unit's logic root.
+        var rotateModel = currentUnit.GetComponent<RotateModel>();
+        if (rotateModel == null)
+        {
+            rotateModel = currentUnit.GetComponentInChildren<RotateModel>();
+        }
+        if (rotateModel != null)
+        {
+            rotateModel.FacePosition(worldPos);
+        }
+        else
+        {
+            Debug.LogWarning($"CellHighlighter: No RotateModel found on '{currentUnit.name}' or its children — model won't rotate to face the clicked cell.");
+        }
+
         var mu = currentUnit.GetComponent<MoveUnit>();
         if (mu != null)
         {

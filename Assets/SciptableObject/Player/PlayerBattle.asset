@@ -24,6 +24,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 481560a86d9f3c247b8166ab56ad5a0f, type: 2}
   - {fileID: 11400000, guid: 481560a86d9f3c247b8166ab56ad5a0f, type: 2}
   - {fileID: 11400000, guid: 761eb2c96fb4fd84fa86c598e2b68905, type: 2}
+  - {fileID: 11400000, guid: bb69fcd3dbe8038468e2d0acb244478d, type: 2}
+  - {fileID: 11400000, guid: bb69fcd3dbe8038468e2d0acb244478d, type: 2}
   playerUnitStats:
   - {fileID: 11400000, guid: 28d18d86a945b5143838a668623a1d68, type: 2}
   - {fileID: 11400000, guid: 28d18d86a945b5143838a668623a1d68, type: 2}
@@ -36,6 +38,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4bbd76910fc669144804d97c29155c58, type: 2}
   - {fileID: 11400000, guid: 4bbd76910fc669144804d97c29155c58, type: 2}
   - {fileID: 11400000, guid: f37f8ee3a8d90c0439dd3faa15870c2b, type: 2}
+  - {fileID: 11400000, guid: 1c2e282f01baa904cb2df16f7c7544d8, type: 2}
+  - {fileID: 11400000, guid: 1c2e282f01baa904cb2df16f7c7544d8, type: 2}
   playerReinforcementCost: 1
   woodHarvestAmount: 0
   stoneHarvestAmount: 0

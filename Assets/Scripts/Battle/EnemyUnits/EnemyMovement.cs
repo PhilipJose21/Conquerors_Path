@@ -30,6 +30,7 @@ public class EnemyMovement : MonoBehaviour
     private readonly HashSet<TerrainHideUnit> activeFogTerrains = new HashSet<TerrainHideUnit>();
 
     public GameObject unitObject;
+    private RotateModel rotateModel;
     private bool hasActedThisTurn = false;
     private bool isMoving;
 
@@ -47,6 +48,20 @@ public class EnemyMovement : MonoBehaviour
         attackActions = unitData != null ? unitData.attackPoints : attackActions;
         moveActions = unitData != null ? unitData.movePoints : moveActions;
         stateMachine = this.GetComponent<UnitStateMachine>();
+
+        rotateModel = this.GetComponent<RotateModel>();
+        if (rotateModel == null && unitObject != null)
+        {
+            rotateModel = unitObject.GetComponentInChildren<RotateModel>();
+        }
+        if (rotateModel == null)
+        {
+            rotateModel = this.GetComponentInChildren<RotateModel>();
+        }
+        if (rotateModel == null)
+        {
+            Debug.LogWarning($"EnemyMovement on '{gameObject.name}': No RotateModel found — model won't rotate when moving.");
+        }
     }
 
     private bool IsPlayerHidden(GameObject p)
@@ -461,6 +476,9 @@ public class EnemyMovement : MonoBehaviour
 
         // Spend the action point only if actual displacement happens
         moveActions = Mathf.Max(0, moveActions - 1);
+
+        // Turn the model to face the direction it's about to travel in.
+        rotateModel?.FaceDirection(target - moveTransform.position);
 
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
         moveCoroutine = StartCoroutine(MoveRoutine(target));
