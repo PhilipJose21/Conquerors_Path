@@ -4,6 +4,7 @@ public class AttackPlayerUnit : MonoBehaviour
 {
     private UnitSO unitData;
     private EnemyMovement moveComp;
+    private UnitStateMachine stateMachine;
     public int dmg;
 
     void Awake()
@@ -16,6 +17,7 @@ public class AttackPlayerUnit : MonoBehaviour
             dmg = unitData != null ? unitData.damage : dmg;
         }
         moveComp = this.GetComponentInParent<EnemyMovement>();
+        stateMachine = this.GetComponentInParent<UnitStateMachine>();
     }
 
     // Try to attack any player at the given world position (e.g., nearest player).
@@ -121,6 +123,7 @@ public class AttackPlayerUnit : MonoBehaviour
             {
                 health.TakeDamage(dmg);
                 moveComp.attackActions = Mathf.Max(0, moveComp.attackActions - 1);
+                stateMachine?.ChangeState(unitPhase.Damage);
                 Debug.Log("Enemy " + unitData.unitName);
                 return true;
             }
@@ -160,6 +163,7 @@ public class AttackPlayerUnit : MonoBehaviour
             {
                 health.TakeDamage(dmg);
                 moveComp.attackActions = Mathf.Max(0, moveComp.attackActions - 1);
+                stateMachine?.ChangeState(unitPhase.Damage);
                 return;
             }
             else

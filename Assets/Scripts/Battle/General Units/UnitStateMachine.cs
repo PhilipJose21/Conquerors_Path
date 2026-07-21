@@ -1,55 +1,62 @@
 using UnityEngine;
+using System.Collections;
 
+// Only these 4 states are currently supported/animated: Idle, Move, Damage, Hurt.
 public enum unitPhase
 {
     Idle,
-    Selected,
-    Moving,
-    Attacking,
-    Hurt,
-    Dying,
-    Dead
+    Move,
+    Damage,
+    Hurt
 }
 
 public class UnitStateMachine : MonoBehaviour
 {
-    
     public unitPhase currentUnitPhase;
+    private AnimationManager animationManager;
+    private Coroutine revertToIdleCoroutine;
+
+    void Awake()
+    {
+        animationManager = this.GetComponent<AnimationManager>();
+    }
 
     void Start()
     {
-        AttackEnemyUnit attackComponent = this.GetComponent<AttackEnemyUnit>();
-        UnitHealth healthComponent = this.GetComponent<UnitHealth>();
-       
         currentUnitPhase = unitPhase.Idle;
+        animationManager?.PlayAnimationForState(currentUnitPhase);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangeState(unitPhase newPhase)
     {
-        switch (currentUnitPhase)
+        if (currentUnitPhase == newPhase)
         {
-            case unitPhase.Idle:
-                // Handle idle behavior
-                break;
-            case unitPhase.Selected:
-                // Handle selected behavior
-                break;
-            case unitPhase.Moving:
-                // Handle moving behavior
-                break;
-            case unitPhase.Attacking:
-                // Handle attacking behavior
-                break;
-            case unitPhase.Hurt:
-                // Handle hurt behavior
-                break;
-            case unitPhase.Dying:
-                // Handle dying behavior
-                break;
-            case unitPhase.Dead:
-                // Handle dead behavior
-                break;
+            return;
         }
+
+        currentUnitPhase = newPhase;
+        animationManager?.PlayAnimationForState(currentUnitPhase);
+
+        if (revertToIdleCoroutine != null)
+        {
+            StopCoroutine(revertToIdleCoroutine);
+            revertToIdleCoroutine = null;
+        }
+        
+        if (newPhase == unitPhase.Hurt || newPhase == unitPhase.Damage)
+        {
+            float clipLength = animationManager != null ? animationManager.GetClipLength(newPhase) : 0f;
+            if (clipLength > 0f)
+            {
+                revertToIdleCoroutine = StartCoroutine(RevertToIdleAfterDelay(clipLength));
+            }
+        }
+    }
+
+    private IEnumerator RevertToIdleAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        revertToIdleCoroutine = null;
+        ChangeState(unitPhase.Idle);
     }
 }

@@ -155,13 +155,20 @@ public class MoveUnit : MonoBehaviour
             }
         }
 
-        if (isSelected == true)
+        if (!isMoving)
         {
-            stateMachine.currentUnitPhase = unitPhase.Selected;
+            // Don't stomp a one-shot Hurt/Damage reaction that's currently playing —
+            // it will revert to Idle on its own once the clip finishes.
+            if (stateMachine != null &&
+                stateMachine.currentUnitPhase != unitPhase.Hurt &&
+                stateMachine.currentUnitPhase != unitPhase.Damage)
+            {
+                stateMachine.ChangeState(unitPhase.Idle);
+            }
         }
-        else if (isSelected == false)
+        else if(isMoving)
         {
-            stateMachine.currentUnitPhase = unitPhase.Idle;
+            stateMachine?.ChangeState(unitPhase.Move);
         }
     }
 
@@ -744,7 +751,6 @@ public class MoveUnit : MonoBehaviour
         {
             if (MinimizedInspector.Instance != null)
             {
-                // 🌟 TOGGLE LOGIC: Check if the panel is ALREADY open AND displaying this exact unit
                 if (MinimizedInspector.Instance.gameObject.activeSelf && 
                     MinimizedInspector.Instance.nameText != null && 
                     MinimizedInspector.Instance.nameText.text == healthComp.unitData.unitName)

@@ -4,11 +4,13 @@ public class AttackEnemyUnit : MonoBehaviour
 {
     private UnitSO unitData;
     private MoveUnit moveUnit;
+    private UnitStateMachine stateMachine;
     public int dmg;
 
     void Awake()
     {
         UnitSOContainer container = this.GetComponent<UnitSOContainer>();
+        stateMachine = this.GetComponent<UnitStateMachine>();
         if (container != null)
         {
             unitData = container.unitData;
@@ -76,6 +78,7 @@ public class AttackEnemyUnit : MonoBehaviour
                 {
                     health.TakeDamage(dmg);
                     moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
+                    stateMachine?.ChangeState(unitPhase.Damage);
                 }
                 else
                 {
@@ -108,6 +111,7 @@ public class AttackEnemyUnit : MonoBehaviour
                 health.TakeDamage(dmg);
                 CellHighlighter.Instance?.ClearHighlights();
                 moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
+                stateMachine?.ChangeState(unitPhase.Damage);
                 return;
             }
         }

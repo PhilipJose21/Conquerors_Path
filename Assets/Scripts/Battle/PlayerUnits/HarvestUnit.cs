@@ -4,11 +4,13 @@ public class HarvestUnit : MonoBehaviour
 {
     private UnitSO unitData;
     private MoveUnit moveUnit;
+    private UnitStateMachine stateMachine;
     public int harvestAmount;
 
     void Awake()
     {
         UnitSOContainer container = this.GetComponent<UnitSOContainer>();
+        stateMachine = this.GetComponent<UnitStateMachine>();
         if (container != null)
         {
             unitData = container.unitData;
@@ -65,6 +67,7 @@ public class HarvestUnit : MonoBehaviour
                 // enemyUnit.GetComponent<Health>().TakeDamage(damageAmount);
                 
                 moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
+                stateMachine?.ChangeState(unitPhase.Damage);
                 CellHighlighter.Instance?.ClearHighlights();
                 return true;
             }
@@ -76,6 +79,7 @@ public class HarvestUnit : MonoBehaviour
             {
                 targetTerrain.HarvestResource(harvestAmount);
                 moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
+                stateMachine?.ChangeState(unitPhase.Damage);
             }
 
             CellHighlighter.Instance?.ClearHighlights();
@@ -105,6 +109,7 @@ public class HarvestUnit : MonoBehaviour
                 harvest.HarvestResource(harvestAmount);
                 CellHighlighter.Instance?.ClearHighlights();
                 moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
+                stateMachine?.ChangeState(unitPhase.Damage);
                 return;
             }
         }

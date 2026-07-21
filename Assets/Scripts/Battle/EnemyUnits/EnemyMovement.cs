@@ -31,6 +31,7 @@ public class EnemyMovement : MonoBehaviour
 
     public GameObject unitObject;
     private bool hasActedThisTurn = false;
+    private bool isMoving;
 
     void Awake()
     {
@@ -97,6 +98,26 @@ public class EnemyMovement : MonoBehaviour
         if (!hasActedThisTurn)
         {
             hasActedThisTurn = true;
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (stateMachine == null) return;
+
+        if (!isMoving)
+        {
+            // Don't stomp a one-shot Hurt/Damage reaction that's currently playing —
+            // it will revert to Idle on its own once the clip finishes.
+            if (stateMachine.currentUnitPhase != unitPhase.Hurt &&
+                stateMachine.currentUnitPhase != unitPhase.Damage)
+            {
+                stateMachine.ChangeState(unitPhase.Idle);
+            }
+        }
+        else
+        {
+            stateMachine.ChangeState(unitPhase.Move);
         }
     }
 
@@ -443,6 +464,7 @@ public class EnemyMovement : MonoBehaviour
 
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
         moveCoroutine = StartCoroutine(MoveRoutine(target));
+        isMoving = true;
     }
 
     IEnumerator MoveRoutine(Vector3 target)
@@ -456,6 +478,7 @@ public class EnemyMovement : MonoBehaviour
         }
         moveTransform.position = target;
         moveCoroutine = null;
+        isMoving = false;
     }
 
     // Public helper to force this enemy to act immediately (usable from UI button)
