@@ -22,7 +22,7 @@ public class RotateModel : MonoBehaviour
         modelTransform = this.transform;
     }
 
-    public void FaceDirection(Vector3 direction)
+    public void FaceDirection(Vector3 direction, System.Action onComplete = null)
     {
         if (onlyRotateOnHorizontalPlane)
         {
@@ -32,6 +32,7 @@ public class RotateModel : MonoBehaviour
         if (direction.sqrMagnitude < 0.0001f)
         {
             // No meaningful direction (e.g. target == current position) — nothing to face.
+            onComplete?.Invoke();
             return;
         }
 
@@ -46,16 +47,15 @@ public class RotateModel : MonoBehaviour
         {
             StopCoroutine(rotateCoroutine);
         }
-        rotateCoroutine = StartCoroutine(RotateTowards(targetRotation));
+        rotateCoroutine = StartCoroutine(RotateTowards(targetRotation, onComplete));
     }
 
-    // Convenience overload: face toward a world-space point instead of a raw direction.
-    public void FacePosition(Vector3 targetPosition)
+    public void FacePosition(Vector3 targetPosition, System.Action onComplete = null)
     {
-        FaceDirection(targetPosition - modelTransform.position);
+        FaceDirection(targetPosition - modelTransform.position, onComplete);
     }
 
-    private IEnumerator RotateTowards(Quaternion targetRotation)
+    private IEnumerator RotateTowards(Quaternion targetRotation, System.Action onComplete)
     {
         while (Quaternion.Angle(modelTransform.rotation, targetRotation) > 0.5f)
         {
@@ -64,5 +64,6 @@ public class RotateModel : MonoBehaviour
         }
         modelTransform.rotation = targetRotation;
         rotateCoroutine = null;
+        onComplete?.Invoke();
     }
 }

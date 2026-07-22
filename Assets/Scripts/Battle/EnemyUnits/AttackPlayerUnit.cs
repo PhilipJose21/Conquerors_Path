@@ -5,6 +5,7 @@ public class AttackPlayerUnit : MonoBehaviour
     private UnitSO unitData;
     private EnemyMovement moveComp;
     private UnitStateMachine stateMachine;
+    private RotateModel rotateModel;
     public int dmg;
 
     void Awake()
@@ -18,6 +19,16 @@ public class AttackPlayerUnit : MonoBehaviour
         }
         moveComp = this.GetComponentInParent<EnemyMovement>();
         stateMachine = this.GetComponentInParent<UnitStateMachine>();
+
+        rotateModel = this.GetComponent<RotateModel>();
+        if (rotateModel == null)
+        {
+            rotateModel = this.GetComponentInChildren<RotateModel>();
+        }
+        if (rotateModel == null)
+        {
+            rotateModel = this.GetComponentInParent<RotateModel>();
+        }
     }
 
     // Try to attack any player at the given world position (e.g., nearest player).
@@ -121,10 +132,23 @@ public class AttackPlayerUnit : MonoBehaviour
 
             if (moveComp != null && moveComp.attackActions > 0)
             {
-                health.TakeDamage(dmg);
                 moveComp.attackActions = Mathf.Max(0, moveComp.attackActions - 1);
-                stateMachine?.ChangeState(unitPhase.Damage);
-                Debug.Log("Enemy " + unitData.unitName);
+
+                if (rotateModel != null)
+                {
+                    rotateModel.FacePosition(owner.transform.position, () =>
+                    {
+                        health.TakeDamage(dmg);
+                        stateMachine?.ChangeState(unitPhase.Damage);
+                        Debug.Log("Enemy " + unitData.unitName);
+                    });
+                }
+                else
+                {
+                    health.TakeDamage(dmg);
+                    stateMachine?.ChangeState(unitPhase.Damage);
+                    Debug.Log("Enemy " + unitData.unitName);
+                }
                 return true;
             }
             else
@@ -161,9 +185,21 @@ public class AttackPlayerUnit : MonoBehaviour
 
             if (moveComp != null && moveComp.attackActions > 0)
             {
-                health.TakeDamage(dmg);
                 moveComp.attackActions = Mathf.Max(0, moveComp.attackActions - 1);
-                stateMachine?.ChangeState(unitPhase.Damage);
+
+                if (rotateModel != null)
+                {
+                    rotateModel.FacePosition(owner.transform.position, () =>
+                    {
+                        health.TakeDamage(dmg);
+                        stateMachine?.ChangeState(unitPhase.Damage);
+                    });
+                }
+                else
+                {
+                    health.TakeDamage(dmg);
+                    stateMachine?.ChangeState(unitPhase.Damage);
+                }
                 return;
             }
             else

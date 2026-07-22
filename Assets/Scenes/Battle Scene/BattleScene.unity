@@ -334,7 +334,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2295165078543630765, guid: 9003e4b75bbf06b49a81be3a5ef3a24f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.521962
+      value: 2.57
       objectReference: {fileID: 0}
     - target: {fileID: 2295165078543630765, guid: 9003e4b75bbf06b49a81be3a5ef3a24f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -342,7 +342,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2295165078543630765, guid: 9003e4b75bbf06b49a81be3a5ef3a24f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.5044427
+      value: 2.47
       objectReference: {fileID: 0}
     - target: {fileID: 2295165078543630765, guid: 9003e4b75bbf06b49a81be3a5ef3a24f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -381,6 +381,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9003e4b75bbf06b49a81be3a5ef3a24f, type: 3}
+--- !u!1 &1370181190 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1511900644399147438, guid: 593287be7a52a6e40bbe41b65c3cfddb, type: 3}
+  m_PrefabInstance: {fileID: 5993368318551866161}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1387072870 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2295165078543630765, guid: 9003e4b75bbf06b49a81be3a5ef3a24f, type: 3}
@@ -644,6 +649,18 @@ PrefabInstance:
     - target: {fileID: 5997788365793035676, guid: 593287be7a52a6e40bbe41b65c3cfddb, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121301026091193738, guid: 593287be7a52a6e40bbe41b65c3cfddb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121301026091193738, guid: 593287be7a52a6e40bbe41b65c3cfddb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1370181190}
+    - target: {fileID: 6121301026091193738, guid: 593287be7a52a6e40bbe41b65c3cfddb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6547583796688768404, guid: 593287be7a52a6e40bbe41b65c3cfddb, type: 3}
       propertyPath: m_AnchorMax.y

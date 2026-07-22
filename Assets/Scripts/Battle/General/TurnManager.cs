@@ -342,12 +342,13 @@ public class TurnManager : MonoBehaviour
         isEnemyTurnProcessing = false;
     }
 
-    public void endSetup()
+    public void endSetup(GameObject endSetupButton)
     {
         updateUnitLists();
         if (playerUnits.Length > 0)
         {
             placementPhase = false;
+            Destroy(endSetupButton);
         }
     }
 

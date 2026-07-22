@@ -5,12 +5,24 @@ public class AttackEnemyUnit : MonoBehaviour
     private UnitSO unitData;
     private MoveUnit moveUnit;
     private UnitStateMachine stateMachine;
+    private RotateModel rotateModel;
     public int dmg;
 
     void Awake()
     {
         UnitSOContainer container = this.GetComponent<UnitSOContainer>();
         stateMachine = this.GetComponent<UnitStateMachine>();
+
+        rotateModel = this.GetComponent<RotateModel>();
+        if (rotateModel == null)
+        {
+            rotateModel = this.GetComponentInChildren<RotateModel>();
+        }
+        if (rotateModel == null)
+        {
+            rotateModel = this.GetComponentInParent<RotateModel>();
+        }
+
         if (container != null)
         {
             unitData = container.unitData;
@@ -76,9 +88,21 @@ public class AttackEnemyUnit : MonoBehaviour
 
                 if (moveUnit != null && moveUnit.attackActions > 0)
                 {
-                    health.TakeDamage(dmg);
                     moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
-                    stateMachine?.ChangeState(unitPhase.Damage);
+
+                    if (rotateModel != null)
+                    {
+                        rotateModel.FacePosition(owner.transform.position, () =>
+                        {
+                            health.TakeDamage(dmg);
+                            stateMachine?.ChangeState(unitPhase.Damage);
+                        });
+                    }
+                    else
+                    {
+                        health.TakeDamage(dmg);
+                        stateMachine?.ChangeState(unitPhase.Damage);
+                    }
                 }
                 else
                 {
@@ -108,10 +132,22 @@ public class AttackEnemyUnit : MonoBehaviour
 
             if (moveUnit != null && moveUnit.attackActions > 0)
             {
-                health.TakeDamage(dmg);
-                CellHighlighter.Instance?.ClearHighlights();
                 moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
-                stateMachine?.ChangeState(unitPhase.Damage);
+                CellHighlighter.Instance?.ClearHighlights();
+
+                if (rotateModel != null)
+                {
+                    rotateModel.FacePosition(owner.transform.position, () =>
+                    {
+                        health.TakeDamage(dmg);
+                        stateMachine?.ChangeState(unitPhase.Damage);
+                    });
+                }
+                else
+                {
+                    health.TakeDamage(dmg);
+                    stateMachine?.ChangeState(unitPhase.Damage);
+                }
                 return;
             }
         }
