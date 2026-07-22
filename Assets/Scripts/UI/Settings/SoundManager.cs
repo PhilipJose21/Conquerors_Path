@@ -133,7 +133,7 @@ public class SoundManager : MonoBehaviour
         if (sfxMute != null) { sfxMute.isOn = isSfxMuted; sfxMute.onValueChanged.RemoveAllListeners(); sfxMute.onValueChanged.AddListener(ToggleSFXMute); }
     }
 
-    private void SaveVolumeParams()
+    public void SaveVolumeParams()
     {
         PlayerPrefs.SetFloat(MASTERVOLUME, masterVol);
         PlayerPrefs.SetFloat(MUSICVOLUME, musicVol);

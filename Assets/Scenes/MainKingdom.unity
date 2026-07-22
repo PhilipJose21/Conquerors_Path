@@ -31403,6 +31403,10 @@ MonoBehaviour:
   masterMuteToggle: {fileID: 698639161}
   musicMuteToggle: {fileID: 816244659}
   sfxMuteToggle: {fileID: 182625626}
+  saveButton: {fileID: 94847500}
+  saveButtonImage: {fileID: 94847501}
+  saveSuccessColor: {r: 0, g: 1, b: 0, a: 1}
+  colorFlashDuration: 0.8
 --- !u!114 &1963233009
 MonoBehaviour:
   m_ObjectHideFlags: 0
