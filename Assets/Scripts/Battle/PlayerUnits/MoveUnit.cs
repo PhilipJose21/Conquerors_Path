@@ -7,16 +7,6 @@ public class MoveUnit : MonoBehaviour
     public UnitSO unitData;
 
     private static int lastProcessedClickFrame = -1;
-    // Guards against Clicked() being invoked more than once per frame.
-    // Every unit in the scene runs its own Update()/DetectObjects(), but only
-    // the first instance processed each frame actually recomputes the shared
-    // raycast (see lastProcessedClickFrame above) — every other instance's
-    // rayHit/hit fields are stale leftovers from whenever THAT instance last
-    // ran the raycast. Without this guard, a single mouse click could call
-    // Clicked() once with the correct (fresh) target and again with stale
-    // targets from other units, causing selection/highlight state to be
-    // toggled or overwritten unpredictably (e.g. selecting a unit whose
-    // highlights don't match the unit that was actually clicked).
     private static int lastHandledClickFrame = -1;
     private Camera mainCamera;
 
@@ -247,8 +237,11 @@ public class MoveUnit : MonoBehaviour
             var attacker = selected.GetComponent<AttackEnemyUnit>();
             var harvester = selected.GetComponent<HarvestUnit>(); // Grab the harvester component
 
-            // 1. Prioritize attacking an enemy if it's an attack tile
-            if (enemyPresent && ht.isAttack)
+            // 1. This tile is within attack range AND something attackable (an enemy)
+            // is actually standing on it — attack it. This applies whether the tile
+            // is attack-only OR also within movement range (overlap tile): a target
+            // being present always takes priority over walking onto its cell.
+            if (ht.isAttack && enemyPresent)
             {
                 if (attacker != null && (selectedMove == null || selectedMove.attackActions > 0))
                 {
@@ -259,25 +252,29 @@ public class MoveUnit : MonoBehaviour
                 return;
             }
 
-            // 2. NEW: Prioritize harvesting terrain if it's an attack tile and the unit can harvest
-            if (!enemyPresent && ht.isAttack && harvester != null)
+            // 2. This tile is within attack range, has no enemy on it, but might have
+            // harvestable terrain — try to harvest it. Also applies to overlap tiles.
+            if (ht.isAttack && !enemyPresent && harvester != null)
             {
                 if (selectedMove == null || selectedMove.attackActions > 0)
                 {
                     // Execute harvest. This already consumes attackActions and clears highlights inside TryToHarvestPosition
                     bool harvested = harvester.TryToHarvestPosition(ht.worldPosition);
-                    if (harvested) return; 
+                    if (harvested) return; // there WAS harvestable terrain here
                 }
                 else
                 {
                     Debug.Log("Selected unit has no attack actions left to harvest.");
                     return;
                 }
+                // Nothing was actually harvested (no terrain there) — fall through.
+                // If this tile is also within movement range (overlap), it's just an
+                // empty walkable tile and movement should still be allowed below.
             }
 
-            // 3. Never allow walking onto a tile that's occupied by an enemy.
-            // (This can happen when the tile is inside the move diamond but outside
-            // the attack-range square, so it wasn't caught by step 1 above.)
+            // 3. Nothing to attack/harvest on this tile. Never allow walking onto a
+            // tile that's occupied by an enemy which fell outside attack range
+            // (i.e. it's inside the move diamond only, so step 1 above never fired).
             if (enemyPresent)
             {
                 Debug.Log("Tile occupied by enemy and out of attack range — cannot move there.");
@@ -292,7 +289,23 @@ public class MoveUnit : MonoBehaviour
                 return;
             }
 
-            // 4. No attack/harvest action taken — perform move only if the selected unit has remaining moveActions
+            // 4. Tile is genuinely empty (no enemy, no ally, nothing harvested).
+            // Reject the move if it's only within attack range and not within the
+            // unit's movement range (e.g. a ranged unit's attack square extends
+            // further than its movement diamond). Overlap tiles pass this check
+            // and are treated as ordinary walkable tiles.
+            if (!ht.isMove)
+            {
+                Debug.Log($"Tile is beyond movement range (attack-only) — cannot move there. " +
+                    $"[diag] unit={selected.name} mobility={(selectedMove != null ? selectedMove.mobility : -1)} " +
+                    $"attackRange={(selectedMove != null ? selectedMove.attackRange : -1)} " +
+                    $"moveActions={(selectedMove != null ? selectedMove.moveActions : -1)} " +
+                    $"attackActions={(selectedMove != null ? selectedMove.attackActions : -1)} " +
+                    $"tile={ht.worldPosition} ht.isAttack={ht.isAttack}");
+                return;
+            }
+
+            // Perform move only if the selected unit has remaining moveActions
             if (selectedMove != null && selectedMove.canMove && selectedMove.moveActions > 0)
             {
                 if (CellHighlighter.Instance != null)

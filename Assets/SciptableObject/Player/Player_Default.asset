@@ -24,3 +24,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 28d18d86a945b5143838a668623a1d68, type: 2}
   - {fileID: 11400000, guid: 4bbd76910fc669144804d97c29155c58, type: 2}
   - {fileID: 11400000, guid: 1c2e282f01baa904cb2df16f7c7544d8, type: 2}
+  woodIcon: {fileID: 21300000, guid: 82eb5ccdd7061da47be6d46fda9f810d, type: 3}
+  stoneIcon: {fileID: 21300000, guid: 865298331881e4a46870f9f2deaa33f9, type: 3}
+  farmIcon: {fileID: 21300000, guid: 08b47de7af20689409c924e3881570b2, type: 3}
+  energyIcon: {fileID: 0}
+  researchIcon: {fileID: 0}
+  gemsIcon: {fileID: 21300000, guid: eb2ca217716096e4094affbf6929fc0b, type: 3}
+  coinsIcon: {fileID: 21300000, guid: dfabd5d5f6f336b4c95cf52536cee811, type: 3}

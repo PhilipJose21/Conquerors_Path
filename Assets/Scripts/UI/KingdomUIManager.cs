@@ -69,8 +69,13 @@ public class KingdomUIManager : MonoBehaviour
     [Header("Scene Management")]
     public string worldSelectScenename = "Level Select";
 
+    private PlayerData playerData;
+    private PlayerBattleSO playerBattleSO;
+
     void Awake()
     {
+        playerData = Object.FindFirstObjectByType<PlayerData>();
+        playerBattleSO = playerData != null ? playerData.playerBattleSO : null;
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -373,7 +378,10 @@ public class KingdomUIManager : MonoBehaviour
 
     public void loadWorldSelectScene()
     {
-        KingdomSaveManager.Instance?.SaveCurrentKingdom();
-        SceneManager.LoadScene(worldSelectScenename);
+        if (playerBattleSO.playerUnitStats.Count > 0)
+        {
+            KingdomSaveManager.Instance?.SaveCurrentKingdom();
+            SceneManager.LoadScene(worldSelectScenename);
+        }
     }
 }

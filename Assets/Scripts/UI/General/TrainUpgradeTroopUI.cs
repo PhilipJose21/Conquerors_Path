@@ -281,19 +281,19 @@ public class TrainUpgradeTroopUI : MonoBehaviour
                 {
                     case 0:
                         costValue = unit.buildingData.woodCost;
-                        // costImage.sprite = playerSO.woodIcon;
+                        costImage.sprite = playerSO.woodIcon;
                         break;
                     case 1:
                         costValue = unit.buildingData.rockCost;
-                        // costImage.sprite = playerSO.stoneIcon;
+                        costImage.sprite = playerSO.stoneIcon;
                         break;
                     case 2:
                         costValue = unit.buildingData.farmCost;
-                        // costImage.sprite = playerSO.farmIcon;
+                        costImage.sprite = playerSO.farmIcon;
                         break;
                     case 3:
                         costValue = unit.buildingData.coinCost;
-                        // costImage.sprite = playerSO.coinIcon;
+                        costImage.sprite = playerSO.coinsIcon;
                         break;
                     default:
                         Debug.LogWarning("TrainUpgradeTroopUI.createCostList: Invalid index for resource type.");

@@ -145,6 +145,15 @@ public class CellHighlighter : MonoBehaviour
         }
 
         // reuse maxRange computed above
+        // Tracks every world position a tile has already been created at, so that
+        // if two grids overlap in world space (see gridsToUse above) we never
+        // create a second HighlightTile stacked on the same cell. Without this,
+        // a stray tile from a secondary grid — computed relative to THAT grid's
+        // coordinates — could land on top of the correct tile with a different
+        // isMove/isAttack combo, and whichever one the raycast happens to hit
+        // would win, making clicks behave inconsistently with what's shown.
+        HashSet<Vector3> occupiedPositions = new HashSet<Vector3>();
+
         foreach (var grid in gridsToUse)
         {
             float cellSize = grid.CellSize;
@@ -167,6 +176,16 @@ public class CellHighlighter : MonoBehaviour
                     // skip if outside grid bounds
                     if (!grid.ContainsWorldPosition(worldPos)) continue;
 
+                    // Round to guard against float precision differences between grids
+                    // landing "the same" position a hair apart and slipping past the check.
+                    Vector3 dedupeKey = new Vector3(
+                        Mathf.Round(worldPos.x * 100f) / 100f,
+                        Mathf.Round(worldPos.y * 100f) / 100f,
+                        Mathf.Round(worldPos.z * 100f) / 100f);
+                    if (!occupiedPositions.Add(dedupeKey)) continue; // already have a tile here
+
+                    bool overlap = inMove && inAttack;
+
                     GameObject tile = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     tile.name = "HighlightTile";
                     // Parent the highlight tile to the grid so it follows grid position/rotation
@@ -178,12 +197,24 @@ public class CellHighlighter : MonoBehaviour
                     var mr = tile.GetComponent<MeshRenderer>();
                     if (mr != null)
                     {
-                        mr.sharedMaterial = inAttack ? attackMaterial : moveMaterial;
-                        mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-                        mr.receiveShadows = false;
+                        if (overlap)
+                        {
+                            // Both movable AND attackable — hide the plain full-cell
+                            // renderer and show a diagonal-split visual instead (below)
+                            // so it clearly reads as "both", not just attack.
+                            mr.enabled = false;
+                        }
+                        else
+                        {
+                            mr.sharedMaterial = inAttack ? attackMaterial : moveMaterial;
+                            mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                            mr.receiveShadows = false;
+                        }
                     }
 
-                    // Add a trigger collider so clicks can be detected on highlight tiles
+                    // Add a trigger collider so clicks can be detected on highlight tiles.
+                    // Stays full-cell-sized even for overlap tiles so the whole cell is
+                    // clickable no matter which half is visually showing.
                     var col = tile.GetComponent<BoxCollider>();
                     if (col == null) col = tile.AddComponent<BoxCollider>();
                     col.isTrigger = true;
@@ -194,6 +225,11 @@ public class CellHighlighter : MonoBehaviour
                     // so it always stays correct even if the environment rotates later.
                     ht.isMove = inMove;
                     ht.isAttack = inAttack;
+
+                    if (overlap)
+                    {
+                        CreateSplitVisual(grid.transform, localCenter, cellSize);
+                    }
 
                     TryClearFogTerrainAt(worldPos, cellSize * 0.35f, clearedFogTerrains);
 
@@ -247,6 +283,70 @@ public class CellHighlighter : MonoBehaviour
         tp.y = currentUnit.transform.position.y;
         currentUnit.transform.position = tp;
         return true;
+    }
+
+    // Creates two purely-visual triangular halves (no colliders) so a cell that
+    // is both within movement range AND attack range clearly reads as "both" —
+    // one diagonal half tinted with moveMaterial, the other with attackMaterial.
+    // Split runs along the bottom-left -> top-right diagonal of the cell (in the
+    // grid's local X/Z space), so it reads correctly from angled/isometric cameras.
+    private void CreateSplitVisual(Transform gridTransform, Vector3 localCenter, float cellSize)
+    {
+        GameObject moveTri = CreateDiagonalHalf(gridTransform, localCenter, cellSize, moveMaterial, true, "HighlightTile_MoveHalf");
+        GameObject attackTri = CreateDiagonalHalf(gridTransform, localCenter, cellSize, attackMaterial, false, "HighlightTile_AttackHalf");
+
+        tiles.Add(moveTri);
+        tiles.Add(attackTri);
+    }
+
+    // upperLeft = true builds the triangle on the bottom-left/top-left/top-right side
+    // of the diagonal; upperLeft = false builds the bottom-left/bottom-right/top-right side.
+    // Together the two triangles exactly cover the cell.
+    private GameObject CreateDiagonalHalf(Transform gridTransform, Vector3 localCenter, float cellSize, Material material, bool upperLeft, string name)
+    {
+        GameObject go = new GameObject(name);
+        go.transform.SetParent(gridTransform, false);
+        go.transform.localPosition = localCenter;
+        go.transform.localRotation = Quaternion.identity;
+        go.transform.localScale = Vector3.one;
+
+        float half = cellSize * 0.5f;
+        const float y = 0.015f; // sits just above the (hidden) base tile to avoid z-fighting
+
+        Vector3 topLeft = new Vector3(-half, y, half);
+        Vector3 bottomLeft = new Vector3(-half, y, -half);
+        Vector3 bottomRight = new Vector3(half, y, -half);
+        Vector3 topRight = new Vector3(half, y, half);
+
+        Vector3[] vertices = upperLeft
+            ? new[] { topLeft, bottomLeft, topRight }
+            : new[] { bottomLeft, bottomRight, topRight };
+
+        // Two triangles sharing the same 3 vertices with opposite winding, so the
+        // flat plane renders no matter which side the camera looks from.
+        int[] triangles = { 0, 1, 2, 0, 2, 1 };
+        Vector3[] normals = { Vector3.up, Vector3.up, Vector3.up };
+        Vector2[] uvs = new Vector2[3];
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            uvs[i] = new Vector2(vertices[i].x / cellSize + 0.5f, vertices[i].z / cellSize + 0.5f);
+        }
+
+        Mesh mesh = new Mesh();
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+        mesh.normals = normals;
+        mesh.uv = uvs;
+        mesh.RecalculateBounds();
+
+        var mf = go.AddComponent<MeshFilter>();
+        mf.mesh = mesh;
+        var mr = go.AddComponent<MeshRenderer>();
+        mr.sharedMaterial = material;
+        mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        mr.receiveShadows = false;
+
+        return go;
     }
 
     private void TryClearFogTerrainAt(Vector3 worldPos, float radius, HashSet<TerrainInteraction> clearedFogTerrains)

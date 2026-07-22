@@ -12,4 +12,11 @@ public class PlayerSO : ScriptableObject
     public int gems;
     public int coins;
     public List<UnitSO> unlockedUnits;
+    public Sprite woodIcon;
+    public Sprite stoneIcon;
+    public Sprite farmIcon;
+    public Sprite energyIcon;
+    public Sprite researchIcon;
+    public Sprite gemsIcon;
+    public Sprite coinsIcon;
 }
