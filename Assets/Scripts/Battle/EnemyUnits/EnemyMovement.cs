@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -239,27 +240,27 @@ public class EnemyMovement : MonoBehaviour
             return;
         }
 
-        // Not in range -> move towards the target up to mobility cells
-        // Prefer grid-aligned movement when a BuildingGrid is available
-        BuildingGrid chosenGrid = null;
-        if (grids != null && grids.Length > 0)
-        {
-            // Prefer a grid that contains this unit, otherwise use the first grid
-            foreach (var g in grids)
-            {
-                if (g.ContainsWorldPosition(myPos)) { chosenGrid = g; break; }
-            }
-            if (chosenGrid == null) chosenGrid = grids[0];
-        }
+        // Not in range -> move towards the target up to mobility cells.
+        // The battlefield can be made of several BuildingGrid tiles stitched together
+        // (e.g. "Plain" + "Plain (1)") to form an irregular shape. Pathfinding therefore
+        // can't be locked to one grid's local coordinate frame - it needs to resolve, at
+        // every step, which tile actually owns that cell and hop between tiles as needed.
+        BuildingGrid[] candidateGrids = (grids != null) ? grids.Where(g => g.isBattleGrid).ToArray() : new BuildingGrid[0];
+        if (candidateGrids.Length == 0 && grids != null) candidateGrids = grids;
 
         var moveTransform = unitObject != null ? unitObject.transform : transform;
-        if (chosenGrid != null)
+
+        BuildingGrid sourceGrid = FindGridContaining(myPos, candidateGrids);
+        if (sourceGrid == null) sourceGrid = FindNearestGrid(myPos, candidateGrids);
+        BuildingGrid targetGrid = FindGridContaining(nearest.position, candidateGrids);
+        if (targetGrid == null) targetGrid = FindNearestGrid(nearest.position, candidateGrids);
+
+        if (sourceGrid != null && targetGrid != null)
         {
-            // Convert positions to grid coordinates and move in Manhattan steps
-            (int sx, int sy) = chosenGrid.WorldToGridPosition(myPos);
-            (int tx, int ty) = chosenGrid.WorldToGridPosition(nearest.position);
-            int delta = Mathf.Abs(sx - tx) + Mathf.Abs(sy - ty);
-            if (delta <= attackRange) return; // already in range
+            (int sx, int sy) = sourceGrid.WorldToGridPosition(myPos);
+            (int tx, int ty) = targetGrid.WorldToGridPosition(nearest.position);
+            GridCell sourceCell = new GridCell(sourceGrid, sx, sy);
+            GridCell targetCell = new GridCell(targetGrid, tx, ty);
 
             // Use the unit's full mobility as the BFS search budget rather than capping it
             // to the straight-line distance to the target. Capping by straight-line distance
@@ -270,104 +271,94 @@ public class EnemyMovement : MonoBehaviour
             int moveCells = mobility;
             if (moveCells <= 0) return;
 
-            int nx = sx;
-            int ny = sy;
-
-            float cs = chosenGrid.CellSize;
-
             // Build a "true" path-distance map by flood-filling outward from the target,
-            // respecting blocked terrain. Straight-line (Manhattan) distance can't see
-            // obstacles, so a cell that is technically further "as the crow flies" can
-            // still be the correct next step if it's on the only route around a blocked
-            // patch of tiles. This gives every reachable cell its real walking distance
-            // to the target instead of a straight-line guess.
+            // respecting blocked terrain AND grid-tile boundaries (a step off the edge of
+            // every known tile is treated as impassable - there's no cell there to land on).
             const int maxPathSearchRadius = 30; // safety cap so this can't run away on huge grids
-            var distFromTarget = new Dictionary<(int x, int y), int>();
+            (int dx, int dy)[] dirs4 = new (int, int)[] { (0, 1), (1, 0), (0, -1), (-1, 0) };
+            var distFromTarget = new Dictionary<GridCell, int>();
             {
-                var pathQueue = new Queue<(int x, int y, int dist)>();
-                pathQueue.Enqueue((tx, ty, 0));
-                distFromTarget[(tx, ty)] = 0;
-                (int dx, int dy)[] dirs4 = new (int, int)[] { (0, 1), (1, 0), (0, -1), (-1, 0) };
+                var pathQueue = new Queue<(GridCell cell, int dist)>();
+                pathQueue.Enqueue((targetCell, 0));
+                distFromTarget[targetCell] = 0;
                 while (pathQueue.Count > 0)
                 {
                     var curr = pathQueue.Dequeue();
                     if (curr.dist >= maxPathSearchRadius) continue;
                     foreach (var dir in dirs4)
                     {
-                        var next = (curr.x + dir.dx, curr.y + dir.dy);
-                        if (distFromTarget.ContainsKey(next)) continue;
-                        if (IsCellBlockedByTerrain(chosenGrid, next.Item1, next.Item2)) continue;
-                        distFromTarget[next] = curr.dist + 1;
-                        pathQueue.Enqueue((next.Item1, next.Item2, curr.dist + 1));
+                        GridCell? next = GetNeighborCell(curr.cell, dir.dx, dir.dy, candidateGrids);
+                        if (next == null) continue; // off every known tile - impassable
+                        if (distFromTarget.ContainsKey(next.Value)) continue;
+                        if (IsCellBlockedByTerrain(next.Value.grid, next.Value.x, next.Value.y)) continue;
+                        distFromTarget[next.Value] = curr.dist + 1;
+                        pathQueue.Enqueue((next.Value, curr.dist + 1));
                     }
                 }
             }
 
+            int delta = distFromTarget.TryGetValue(sourceCell, out var deltaDist) ? deltaDist : (maxPathSearchRadius * 2);
+            if (delta <= attackRange) return; // already in range
+
             // BFS to find the reachable landing cell (within this unit's mobility) that has
             // the shortest TRUE path distance to the target, using the map built above.
-            int bestX = sx;
-            int bestY = sy;
-            int minDistToTarget = distFromTarget.TryGetValue((sx, sy), out var startDist) ? startDist : delta;
+            GridCell best = sourceCell;
+            int minDistToTarget = distFromTarget.TryGetValue(sourceCell, out var startDist) ? startDist : delta;
 
-            Queue<(int x, int y, int dist)> queue = new Queue<(int x, int y, int dist)>();
-            HashSet<(int x, int y)> visited = new HashSet<(int x, int y)>();
-
-            queue.Enqueue((sx, sy, 0));
-            visited.Add((sx, sy));
+            var queue = new Queue<(GridCell cell, int dist)>();
+            var visited = new HashSet<GridCell>();
+            queue.Enqueue((sourceCell, 0));
+            visited.Add(sourceCell);
 
             while (queue.Count > 0)
             {
                 var curr = queue.Dequeue();
-                int cx = curr.x;
-                int cy = curr.y;
+                GridCell cell = curr.cell;
                 int cdist = curr.dist;
 
-                bool terrainBlocksCell = IsCellBlockedByTerrain(chosenGrid, cx, cy);
-                bool unitBlocksCell = IsCellOccupiedByUnit(chosenGrid, cx, cy);
+                bool terrainBlocksCell = IsCellBlockedByTerrain(cell.grid, cell.x, cell.y);
+                bool unitBlocksCell = IsCellOccupiedByUnit(cell.grid, cell.x, cell.y);
 
                 // Only consider this cell as a destination option if it can be safely landed on.
                 // Units no longer block traversal, but they still block landing.
                 if (!terrainBlocksCell && !unitBlocksCell)
                 {
-                    int distToTarget = distFromTarget.TryGetValue((cx, cy), out var pathDist)
+                    int distToTarget = distFromTarget.TryGetValue(cell, out var pathDist)
                         ? pathDist
                         // Cell wasn't covered by the flood fill (outside search radius / isolated) -
                         // heavily deprioritize it rather than treating it as attractive.
-                        : (Mathf.Abs(cx - tx) + Mathf.Abs(cy - ty)) + maxPathSearchRadius;
+                        : (maxPathSearchRadius * 2);
                     if (distToTarget < minDistToTarget)
                     {
                         minDistToTarget = distToTarget;
-                        bestX = cx;
-                        bestY = cy;
+                        best = cell;
                     }
                 }
 
                 if (cdist < moveCells)
                 {
-                    (int dx, int dy)[] dirs = new (int, int)[] { (0, 1), (1, 0), (0, -1), (-1, 0) };
-                    foreach (var dir in dirs)
+                    foreach (var dir in dirs4)
                     {
-                        int nxtX = cx + dir.dx;
-                        int nxtY = cy + dir.dy;
-                        if (!visited.Contains((nxtX, nxtY)))
+                        GridCell? next = GetNeighborCell(cell, dir.dx, dir.dy, candidateGrids);
+                        if (next == null) continue; // off every known tile
+                        if (visited.Contains(next.Value)) continue;
+                        visited.Add(next.Value);
+                        if (!IsCellBlockedByTerrain(next.Value.grid, next.Value.x, next.Value.y))
                         {
-                            visited.Add((nxtX, nxtY));
-                            if (!IsCellBlockedByTerrain(chosenGrid, nxtX, nxtY))
-                            {
-                                queue.Enqueue((nxtX, nxtY, cdist + 1));
-                            }
+                            queue.Enqueue((next.Value, cdist + 1));
                         }
                     }
                 }
             }
-            nx = bestX;
-            ny = bestY;
 
-            // Compute world center of target cell
-            Vector3 localCenter = new Vector3((nx + 0.5f) * cs, 0f, (ny + 0.5f) * cs);
-            Vector3 worldTarget = chosenGrid.transform.TransformPoint(localCenter);
+            // Compute world center of the chosen landing cell using ITS OWN owning grid's
+            // transform/cell size - this is what guarantees the final position is always a
+            // real cell center on a real tile, never a blended/incorrect position.
+            float cs = best.grid.CellSize;
+            Vector3 localCenter = new Vector3((best.x + 0.5f) * cs, 0f, (best.y + 0.5f) * cs);
+            Vector3 worldTarget = best.grid.transform.TransformPoint(localCenter);
             worldTarget.y = moveTransform.position.y;
-            
+
             MoveToPosition(worldTarget);
             // After moving, attempt an attack if we will be in range
             if (attackerComp != null && attackActions > 0)
@@ -377,7 +368,14 @@ public class EnemyMovement : MonoBehaviour
         }
         else
         {
-            // Fallback: continuous movement but snap to approx cell centers
+            // Fallback: couldn't resolve a grid for the unit's position or the target's
+            // position at all (e.g. no BuildingGrid exists in the scene, or the position is
+            // outside every known tile). This should be rare,
+            // but if it happens, do NOT snap using raw world X/Z - the grid can be rotated
+            // (isometric board), so flooring world coordinates directly produces a position
+            // that doesn't line up with any real cell (the off-grid diagonal bug). Since
+            // there's no grid transform to work in, just move without snapping at all;
+            // an unsnapped-but-correct position is safer than a confidently wrong "snapped" one.
             float moveMax = mobility * approxCell;
             Vector3 dir = (nearest.position - myPos);
             float dist = dir.magnitude;
@@ -385,10 +383,7 @@ public class EnemyMovement : MonoBehaviour
             float moveDist = Mathf.Min(moveMax, desiredDist);
             if (moveDist <= 0f) return;
             Vector3 moveTarget = myPos + dir.normalized * moveDist;
-            // Snap to nearest approx cell center
-            float cs = approxCell;
-            Vector3 snapped = new Vector3(Mathf.Floor(moveTarget.x / cs) * cs + cs * 0.5f, moveTarget.y, Mathf.Floor(moveTarget.z / cs) * cs + cs * 0.5f);
-            MoveToPosition(snapped);
+            MoveToPosition(moveTarget);
             if (attackerComp != null && attackActions > 0)
             {
                 StartCoroutine(AttemptAttackAfterMove(nearest, attackerComp));
@@ -444,7 +439,12 @@ public class EnemyMovement : MonoBehaviour
         BuildingGrid grid = null;
         if (grids != null && grids.Length > 0)
         {
-            foreach (var g in grids)
+            // Same battle-grid-only rule as Act() - never let cell size come from an
+            // unrelated (e.g. base-building) grid in the scene.
+            var battleGrids = grids.Where(g => g.isBattleGrid).ToArray();
+            var candidateGrids = battleGrids.Length > 0 ? battleGrids : grids;
+
+            foreach (var g in candidateGrids)
             {
                 if (g.ContainsWorldPosition(moveTransform.position))
                 {
@@ -452,7 +452,15 @@ public class EnemyMovement : MonoBehaviour
                     break;
                 }
             }
-            if (grid == null) grid = grids[0];
+            if (grid == null)
+            {
+                float bestGridDist = float.MaxValue;
+                foreach (var g in candidateGrids)
+                {
+                    float d = Vector3.Distance(g.transform.position, moveTransform.position);
+                    if (d < bestGridDist) { bestGridDist = d; grid = g; }
+                }
+            }
         }
 
         // Validate landing spot safety
@@ -510,6 +518,62 @@ public class EnemyMovement : MonoBehaviour
     public void ForceActNow()
     {
         Act();
+    }
+
+    private readonly struct GridCell : System.IEquatable<GridCell>
+    {
+        public readonly BuildingGrid grid;
+        public readonly int x;
+        public readonly int y;
+        public GridCell(BuildingGrid grid, int x, int y) { this.grid = grid; this.x = x; this.y = y; }
+        public bool Equals(GridCell other) => grid == other.grid && x == other.x && y == other.y;
+        public override bool Equals(object obj) => obj is GridCell other && Equals(other);
+        public override int GetHashCode()
+        {
+            int gridHash = grid != null ? grid.GetInstanceID() : 0;
+            return gridHash * 397 ^ (x * 31 + y);
+        }
+    }
+
+    // Finds whichever grid tile actually contains this world position, if any.
+    private BuildingGrid FindGridContaining(Vector3 worldPos, BuildingGrid[] grids)
+    {
+        if (grids == null) return null;
+        foreach (var g in grids)
+        {
+            if (g != null && g.ContainsWorldPosition(worldPos)) return g;
+        }
+        return null;
+    }
+
+    // Used only when a position falls outside every tile's bounds (e.g. right on a seam);
+    // picks the closest tile rather than an arbitrary one so coordinates stay sane.
+    private BuildingGrid FindNearestGrid(Vector3 worldPos, BuildingGrid[] grids)
+    {
+        if (grids == null || grids.Length == 0) return null;
+        BuildingGrid best = null;
+        float bestDist = float.MaxValue;
+        foreach (var g in grids)
+        {
+            if (g == null) continue;
+            float d = Vector3.Distance(g.transform.position, worldPos);
+            if (d < bestDist) { bestDist = d; best = g; }
+        }
+        return best;
+    }
+
+    private GridCell? GetNeighborCell(GridCell cell, int dx, int dy, BuildingGrid[] grids)
+    {
+        if (cell.grid == null) return null;
+        float cs = cell.grid.CellSize;
+        Vector3 localCenter = new Vector3((cell.x + dx + 0.5f) * cs, 0f, (cell.y + dy + 0.5f) * cs);
+        Vector3 worldPos = cell.grid.transform.TransformPoint(localCenter);
+
+        BuildingGrid owner = FindGridContaining(worldPos, grids);
+        if (owner == null) return null; // off every known tile - impassable
+
+        (int ox, int oy) = owner.WorldToGridPosition(worldPos);
+        return new GridCell(owner, ox, oy);
     }
 
     private bool IsCellBlockedByTerrain(BuildingGrid grid, int gx, int gy)
