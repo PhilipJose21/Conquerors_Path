@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4377dbf037eb34c97b2bbdd8c0ead6, type: 3}
   m_Name: Knight
   m_EditorClassIdentifier: Assembly-CSharp::UnitSO
-  buildingData: {fileID: 0}
+  buildingData: {fileID: 11400000, guid: 71dd4b97d9fd3f14092c371ad1736e60, type: 2}
   unitName: Knight
   unitType: 0
   level: 1
   health: 12
   damage: 5
-  attackRange: 3
-  mobility: 5
+  attackRange: 1
+  mobility: 4
   movePoints: 0
   attackPoints: 0
   unitCost: 3

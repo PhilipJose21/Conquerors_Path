@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99a167ec9bc33dc408ea2eaa2a1ababd, type: 3}
-  m_Name: PLACEMENT - Archer
+  m_Name: PLACEMENT - Knight
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
-  <Name>k__BackingField: Archer
+  <Name>k__BackingField: Knight
   <Size>k__BackingField: 1
-  <Model>k__BackingField: {fileID: 7492368166425539968, guid: c12671f109bf5c54281b24f21e7d92fd, type: 3}
+  <Model>k__BackingField: {fileID: 7492368166425539968, guid: e5da9b5e14bd1114f8d43a6c6f7c35a0, type: 3}
   <Icon>k__BackingField: {fileID: 0}
   <coinCost>k__BackingField: 0
-  <farmCost>k__BackingField: 5
-  <rockCost>k__BackingField: 0
-  <woodCost>k__BackingField: 5
+  <farmCost>k__BackingField: 10
+  <rockCost>k__BackingField: 20
+  <woodCost>k__BackingField: 0
   <gemCost>k__BackingField: 0
   <energyCost>k__BackingField: 0
   <unitCost>k__BackingField: 0
   <reinforcementCost>k__BackingField: 1
-  <unitPrefab>k__BackingField: {fileID: 11400000, guid: 237da6f91dc3a8840acccd4ca416268d, type: 2}
+  <unitPrefab>k__BackingField: {fileID: 0}
