@@ -35,6 +35,8 @@ public class ShopManager : MonoBehaviour
     private Color originalGemsColor;
     private bool colorsCached = false;
 
+    public System.Action OnUnlockedUnitsChanged;
+
     void Start()
     {
         UpdateCurrencyHUD();
@@ -74,18 +76,27 @@ public class ShopManager : MonoBehaviour
     
     public void BuySpecialUnit(UnitSO unitToUnlock, int gemCost)
     {
-        if (playerData == null) return;
+        if (playerData == null || unitToUnlock == null) return;
+
+        if (IsUnitUnlocked(unitToUnlock))
+        {
+            Debug.Log($"{unitToUnlock.name} is already unlocked.");
+            return;
+        }
 
         if (playerData.gems >= gemCost)
         {
             playerData.gems -= gemCost;
-            
-            if (!playerData.unlockedUnits.Contains(unitToUnlock))
+
+            if (playerData.unlockedUnits == null)
             {
-                playerData.unlockedUnits.Add(unitToUnlock);
+                playerData.unlockedUnits = new System.Collections.Generic.List<UnitSO>();
             }
 
+            playerData.unlockedUnits.Add(unitToUnlock);
+
             UpdateCurrencyHUD();
+            OnUnlockedUnitsChanged?.Invoke();
             Debug.Log($"Successfully unlocked {unitToUnlock.name}!");
         }
         else
@@ -93,6 +104,16 @@ public class ShopManager : MonoBehaviour
             Debug.LogWarning("Not enough Gems to buy this unit!");
         }
     }
+
+    public bool IsUnitUnlocked(UnitSO unit)
+    {
+        if (playerData == null || unit == null) return false;
+        if (playerData.unlockedUnits == null) return false;
+
+        return playerData.unlockedUnits.Contains(unit);
+    }
+
+
     public void BuyCoinsPack(int coinsReward)
     {
         if (playerData == null) return;

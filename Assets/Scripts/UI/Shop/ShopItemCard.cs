@@ -30,6 +30,30 @@ public class ShopItemCard : MonoBehaviour
     private ShopManager shopManager;
     private Button purchaseButton;
 
+    private void OnEnable()
+    {
+        if (shopManager == null)
+        {
+            shopManager = Object.FindAnyObjectByType<ShopManager>();
+        }
+
+        if (shopManager != null)
+        {
+            shopManager.OnUnlockedUnitsChanged -= RefreshPurchaseState;
+            shopManager.OnUnlockedUnitsChanged += RefreshPurchaseState;
+        }
+
+        RefreshPurchaseState();
+    }
+
+    private void OnDisable()
+    {
+        if (shopManager != null)
+        {
+            shopManager.OnUnlockedUnitsChanged -= RefreshPurchaseState;
+        }
+    }
+
     void Start()
     {
         shopManager = Object.FindAnyObjectByType<ShopManager>();
@@ -39,18 +63,7 @@ public class ShopItemCard : MonoBehaviour
         if (titleText != null) titleText.text = itemName;
         if (descriptionText != null) descriptionText.text = itemDescription;
 
-        // Format price tag button face contextually based on card type
-        if (costButtonText != null) 
-        {
-            if (cardType == ItemType.UnitCard)
-            {
-                costButtonText.text = $"{gemCost} Gems"; // Displays "50 Gems"
-            }
-            else
-            {
-                costButtonText.text = realMoneyPriceTag;  // Displays "$0.99"
-            }
-        }
+        UpdateCostButtonLabel();
 
         // Apply custom art sprite to card face layout
         if (cardIconImage != null && itemIcon != null)
@@ -62,6 +75,8 @@ public class ShopItemCard : MonoBehaviour
         {
             purchaseButton.onClick.AddListener(TriggerPurchase);
         }
+
+        RefreshPurchaseState();
     }
 
     private void TriggerPurchase()
@@ -87,6 +102,43 @@ public class ShopItemCard : MonoBehaviour
             {
                 Debug.LogError($"[Shop Error] {gameObject.name} is set to UnitCard but 'Unit Data' slot is empty!");
             }
+        }
+    }
+
+    private void RefreshPurchaseState()
+    {
+        if (purchaseButton == null) return;
+
+        if (cardType != ItemType.UnitCard)
+        {
+            purchaseButton.interactable = true;
+            UpdateCostButtonLabel();
+            return;
+        }
+
+        bool alreadyUnlocked = shopManager != null && shopManager.IsUnitUnlocked(unitData);
+        purchaseButton.interactable = !alreadyUnlocked;
+
+        if (alreadyUnlocked)
+        {
+            if (costButtonText != null) costButtonText.text = "Unlocked";
+            return;
+        }
+
+        UpdateCostButtonLabel();
+    }
+
+    private void UpdateCostButtonLabel()
+    {
+        if (costButtonText == null) return;
+
+        if (cardType == ItemType.UnitCard)
+        {
+            costButtonText.text = $"{gemCost} Gems";
+        }
+        else
+        {
+            costButtonText.text = realMoneyPriceTag;
         }
     }
 }
