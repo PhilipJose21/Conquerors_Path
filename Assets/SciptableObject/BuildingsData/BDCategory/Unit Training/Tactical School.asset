@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99a167ec9bc33dc408ea2eaa2a1ababd, type: 3}
-  m_Name: Range FIeld
+  m_Name: Tactical School
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
-  <Name>k__BackingField: Range Field
-  <Size>k__BackingField: 8
-  <Model>k__BackingField: {fileID: 1915748257449464270, guid: 585732622dcb22c41bd3f7fe6ca41df4, type: 3}
+  <Name>k__BackingField: Tactical School
+  <Size>k__BackingField: 9
+  <Model>k__BackingField: {fileID: 1915748257449464270, guid: 351840213ab0eb44591f9a405385fd57, type: 3}
   <Icon>k__BackingField: {fileID: 0}
   <coinCost>k__BackingField: 300
-  <farmCost>k__BackingField: 30
-  <rockCost>k__BackingField: 0
-  <woodCost>k__BackingField: 0
-  <gemCost>k__BackingField: 0
+  <farmCost>k__BackingField: 10
+  <rockCost>k__BackingField: 10
+  <woodCost>k__BackingField: 10
+  <gemCost>k__BackingField: 10
   <energyCost>k__BackingField: 5
   <unitCost>k__BackingField: 0
   <reinforcementCost>k__BackingField: 0

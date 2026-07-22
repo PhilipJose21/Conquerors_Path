@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: -1936643875974198992}
   - component: {fileID: -8592219082565450278}
   m_Layer: 0
-  m_Name: Mines
+  m_Name: Tactical School
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -369,8 +369,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e4ef843e907aae4184ca11b9661b064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingStatContainer
-  buildingStatsSO: {fileID: 11400000, guid: fca916a4f1c6aba43a2423a09ca012c3, type: 2}
-  buildingData: {fileID: 11400000, guid: 070833ae6512eba4a9f54f0e4f283722, type: 2}
+  buildingStatsSO: {fileID: 11400000, guid: 359d802be530f7f4fb5470cc82003821, type: 2}
+  buildingData: {fileID: 11400000, guid: c24c285962fb53340bfafb9512193ce1, type: 2}
 --- !u!114 &4381709770458237799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,8 +384,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PassiveResource
   resourceType: 1
-  buildingStatsSO: {fileID: 11400000, guid: fca916a4f1c6aba43a2423a09ca012c3, type: 2}
-  buildingData: {fileID: 11400000, guid: 070833ae6512eba4a9f54f0e4f283722, type: 2}
+  buildingStatsSO: {fileID: 11400000, guid: 359d802be530f7f4fb5470cc82003821, type: 2}
+  buildingData: {fileID: 11400000, guid: c24c285962fb53340bfafb9512193ce1, type: 2}
   level: 1
   maxResourcePercentage: 100
   isActive: 0
@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a51036a5178cf94c86ff8a7cbe919cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpenBuildingUI
-  buildingUIPrefab: {fileID: 5152293298916296068, guid: 600c4cc21fe2fcf48b947513575e0ef7, type: 3}
+  buildingUIPrefab: {fileID: 8420537435982676765, guid: 0d6419754ad56c542b27a15623b644b1, type: 3}
   transformUI: {fileID: 0}
 --- !u!65 &-1936643875974198992
 BoxCollider:
