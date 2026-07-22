@@ -257,6 +257,7 @@ GameObject:
   - component: {fileID: 2295165078543630765}
   - component: {fileID: 6438535385800186070}
   - component: {fileID: 7492368166425539968}
+  - component: {fileID: 3964447899705269742}
   m_Layer: 6
   m_Name: Ranged
   m_TagString: PlayerUnit
@@ -306,6 +307,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingModel
   wrapper: {fileID: 7995383878960746915}
+--- !u!114 &3964447899705269742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3427269806742989989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a2fec28315d7be44a96c7399b0797e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RotateModel
+  rotationSpeed: 720
+  onlyRotateOnHorizontalPlane: 1
+  invertFacing: 0
 --- !u!1 &5311035957101718237
 GameObject:
   m_ObjectHideFlags: 0
