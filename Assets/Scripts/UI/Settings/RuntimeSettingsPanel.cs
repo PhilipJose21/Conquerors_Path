@@ -14,6 +14,10 @@ public class RuntimeSettingsPanel : MonoBehaviour
     [SerializeField] private Toggle musicMuteToggle;
     [SerializeField] private Toggle sfxMuteToggle;
 
+    [Header("Navigation Buttons")]
+    [Tooltip("Assign your Back or Close button here to disable this settings panel.")]
+    [SerializeField] private Button backButton;
+
     [Header("Save Button Setup")]
     [SerializeField] private Button saveButton;
     [SerializeField] private Image saveButtonImage; 
@@ -35,6 +39,11 @@ public class RuntimeSettingsPanel : MonoBehaviour
         {
             saveButton.onClick.AddListener(OnSaveButtonClicked);
         }
+
+        if (backButton != null)
+        {
+            backButton.onClick.AddListener(OnBackButtonClicked);
+        }
     }
 
     private void OnEnable()
@@ -54,7 +63,7 @@ public class RuntimeSettingsPanel : MonoBehaviour
     {
         if (!hasSavedInThisSession && SoundManager.Instance != null)
         {
-            SoundManager.Instance.Invoke("Start", 0f); // Reloads saved PlayerPrefs
+            SoundManager.Instance.Invoke("Start", 0f); 
         }
     }
 
@@ -71,6 +80,11 @@ public class RuntimeSettingsPanel : MonoBehaviour
             if (flashCoroutine != null) StopCoroutine(flashCoroutine);
             flashCoroutine = StartCoroutine(FlashSaveButtonGreen());
         }
+    }
+
+    private void OnBackButtonClicked()
+    {
+        gameObject.SetActive(false);
     }
 
     private IEnumerator FlashSaveButtonGreen()

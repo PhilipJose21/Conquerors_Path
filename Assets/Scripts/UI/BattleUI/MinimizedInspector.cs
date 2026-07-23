@@ -19,6 +19,9 @@ public class MinimizedInspector : MonoBehaviour
     public TextMeshProUGUI attackText;
     public TextMeshProUGUI rangeText;
 
+    [Header("Dead Unit Visual Settings")]
+    [SerializeField] private Color deadUnitIconColor = new Color(0.3f, 0.3f, 0.3f, 0.8f); 
+
     [HideInInspector] public bool isLockedOpen = false;
     private bool isExpanded = false;
 
@@ -37,25 +40,47 @@ public class MinimizedInspector : MonoBehaviour
 
     public void ShowUnitStats(UnitSO unitData, int currentHP, int maxHP)
     {
-        Debug.Log("ShowUnitStats reached");
-
         if (unitData == null) return;
-        Debug.Log($"[UI Update] Unit Name: '{unitData.unitName}', Atk: {unitData.damage}, Icon Sprite Name: {unitData.unitIcon?.name}");
+        
+        bool wasActive = gameObject.activeSelf;
+
         gameObject.SetActive(true);
         isLockedOpen = true;
 
-        if (unitIconImage != null) unitIconImage.sprite = unitData.unitIcon;
+        if (unitIconImage != null)
+        {
+            if (unitData.unitIcon != null)
+            {
+                unitIconImage.sprite = unitData.unitIcon;
+                unitIconImage.color = (currentHP <= 0) ? deadUnitIconColor : Color.white; 
+            }
+            else
+            {
+                Debug.LogWarning($"[UI Warning] UnitSO '{unitData.unitName}' has NO icon assigned!");
+            }
+        }
+
         if (nameText != null) nameText.text = unitData.unitName;
-        if (healthText != null) healthText.text = $"Health: {currentHP} / {maxHP}";
-        if (healthBarFill != null) healthBarFill.fillAmount = (float)currentHP / maxHP;
-        // if (lvlText != null) lvlText.text = $"Lvl: {unitData.level}";
+        if (healthText != null) healthText.text = $"Health: {Mathf.Max(0, currentHP)} / {maxHP}";
+        if (lvlText != null) lvlText.text = $"{unitData.level}"; 
         if (attackText != null) attackText.text = $"Atk: {unitData.damage}";
         if (rangeText != null) rangeText.text = $"Range: {unitData.attackRange}x{unitData.attackRange}";
 
-        SetExpandedState(false);
+        if (healthBarFill != null) 
+        {
+            float fill = maxHP > 0 ? (float)Mathf.Max(0, currentHP) / maxHP : 0f;
+            healthBarFill.fillAmount = Mathf.Clamp01(fill);
+        }
 
-        PlayPopAnimation();
-
+        if (!wasActive)
+        {
+            SetExpandedState(false); 
+            PlayPopAnimation();
+        }
+        else
+        {
+            SetExpandedState(isExpanded); 
+        }
     }
 
     public void ToggleExpand()
@@ -67,12 +92,11 @@ public class MinimizedInspector : MonoBehaviour
     {
         isExpanded = expand;
 
-        // 🌟 ONLY toggle the stats sub-elements, do NOT touch the main panel or the exit button
+        // Toggle stats sub-elements cleanly
         if (nameText != null) nameText.gameObject.SetActive(isExpanded);
         if (healthText != null) healthText.gameObject.SetActive(isExpanded);
         if (attackText != null) attackText.gameObject.SetActive(isExpanded);
         if (rangeText != null) rangeText.gameObject.SetActive(isExpanded);
-        // if (lvlText != null) lvlText.gameObject.SetActive(isExpanded);
 
         if (healthBarFill != null && healthBarFill.transform.parent != null)
         {
@@ -80,12 +104,11 @@ public class MinimizedInspector : MonoBehaviour
         }
     }
 
-    // ❌ Called ONLY by your dedicated Red X Exit Button
     public void CloseInspector()
     {
-        isLockedOpen = false; // Release the lock
+        isLockedOpen = false;
         isExpanded = false;
-        gameObject.SetActive(false); // Cleanly turn off the panel
+        gameObject.SetActive(false);
     }
 
     public void PlayPopAnimation()
@@ -98,17 +121,15 @@ public class MinimizedInspector : MonoBehaviour
     {
         RectTransform rect = GetComponent<RectTransform>();
         
-        // Start tiny
         rect.localScale = new Vector3(0.7f, 0.7f, 1f);
         float time = 0f;
-        float duration = 0.2f; // Fast, snappy pop
+        float duration = 0.2f;
 
         while (time < duration)
         {
             time += Time.deltaTime;
             float percent = time / duration;
             
-            // Custom smooth-out math curve
             float scaleVal = Mathf.Lerp(0.7f, 1f, Mathf.Sin(percent * Mathf.PI * 0.5f));
             rect.localScale = new Vector3(scaleVal, scaleVal, 1f);
             yield return null;

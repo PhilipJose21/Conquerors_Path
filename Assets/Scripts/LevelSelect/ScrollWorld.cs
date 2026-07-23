@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class ScrollWorld : MonoBehaviour
 {
@@ -16,7 +16,7 @@ public class ScrollWorld : MonoBehaviour
     public int currentIndex = 0;
 
     [Header("Main Scene Background Link")]
-    [SerializeField] private Image sceneBackgroundImage;       // Drag your main "BG" Image object here
+    [SerializeField] private Image sceneBackgroundImage;
 
     [Header("Roll Animation Settings")]
     [SerializeField] private float transitionDuration = 0.25f; 
@@ -26,20 +26,18 @@ public class ScrollWorld : MonoBehaviour
     [SerializeField] private Color greyedOutColor = new Color(0.4f, 0.4f, 0.4f, 1f); 
 
     private Vector2[] basePositions;
-    private Vector2[] baseScales;
+    private Vector3 centerScale = Vector3.one;
+    private Vector3 sideScale = new Vector3(0.7f, 0.7f, 1f); // 🌟 Define side scale directly
     private bool isAnimating = false;
 
     void Awake()
     {
         for (int i = 0; i < levelSelectPanel.Count; i++)
         {
-            levelSelectPanel[i].SetActive(false);
+            if (levelSelectPanel[i] != null) levelSelectPanel[i].SetActive(false);
         }
-        worldSelectPanel.SetActive(true);
-        if (levelInfoPanel != null)
-        {
-            levelInfoPanel.SetActive(false);
-        }
+        if (worldSelectPanel != null) worldSelectPanel.SetActive(true);
+        if (levelInfoPanel != null) levelInfoPanel.SetActive(false);
 
         RecordOriginalLayoutPositions();
     }
@@ -54,12 +52,10 @@ public class ScrollWorld : MonoBehaviour
         if (buttonImageObjects == null || buttonImageObjects.Count < 3) return;
 
         basePositions = new Vector2[3];
-        baseScales = new Vector2[3];
 
         for (int i = 0; i < 3; i++)
         {
             basePositions[i] = buttonImageObjects[i].rectTransform.anchoredPosition;
-            baseScales[i] = buttonImageObjects[i].rectTransform.localScale;
         }
     }
 
@@ -103,14 +99,12 @@ public class ScrollWorld : MonoBehaviour
     {
         isAnimating = true;
 
-        // Cache the current background color tint as our starting baseline point
         Color startBGColor = sceneBackgroundImage != null ? sceneBackgroundImage.color : Color.white;
 
         if (scrollingLeft) currentIndex--;
         else currentIndex++;
         currentIndex = ((currentIndex % imagesPrefab.Count) + imagesPrefab.Count) % imagesPrefab.Count;
 
-        // Identify the target hardcoded color based on the name text string
         Color targetBGColor = imagesPrefab[currentIndex] != null ? GetHardcodedColor(imagesPrefab[currentIndex].worldName) : Color.white;
 
         float elapsed = 0f;
@@ -122,9 +116,8 @@ public class ScrollWorld : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = elapsed / transitionDuration;
-            t = Mathf.SmoothStep(0f, 1f, t);
+            t = Mathf.SmoothStep(0f, 1f, t); 
 
-            // DYNAMIC BACKGROUND TINT LERP: Smoothly blends the color values frame-by-frame
             if (sceneBackgroundImage != null)
             {
                 sceneBackgroundImage.color = Color.Lerp(startBGColor, targetBGColor, t);
@@ -132,32 +125,38 @@ public class ScrollWorld : MonoBehaviour
 
             if (scrollingLeft)
             {
+                // Left [0] -> Center [1] (Scales UP from sideScale to centerScale)
                 buttonImageObjects[0].rectTransform.anchoredPosition = Vector2.Lerp(basePositions[0], basePositions[1], t);
-                buttonImageObjects[0].rectTransform.localScale = Vector2.Lerp(baseScales[0], baseScales[1], t);
+                buttonImageObjects[0].rectTransform.localScale = Vector3.Lerp(sideScale, centerScale, t);
                 buttonImageObjects[0].color = Color.Lerp(greyedOutColor, normalColor, t);
                 
+                // Center [1] -> Right [2] (Scales DOWN from centerScale to sideScale)
                 buttonImageObjects[1].rectTransform.anchoredPosition = Vector2.Lerp(basePositions[1], basePositions[2], t);
-                buttonImageObjects[1].rectTransform.localScale = Vector2.Lerp(baseScales[1], baseScales[2], t);
+                buttonImageObjects[1].rectTransform.localScale = Vector3.Lerp(centerScale, sideScale, t);
                 buttonImageObjects[1].color = Color.Lerp(normalColor, greyedOutColor, t);
                 
+                // Right [2] -> Loops to Left [0] (Stays sideScale)
                 buttonImageObjects[2].rectTransform.anchoredPosition = Vector2.Lerp(basePositions[2], basePositions[0], t);
-                buttonImageObjects[2].rectTransform.localScale = Vector2.Lerp(baseScales[2], baseScales[0] * 0.75f, t);
+                buttonImageObjects[2].rectTransform.localScale = sideScale; 
                 buttonImageObjects[2].color = greyedOutColor;
                 buttonImageObjects[2].sprite = incomingSpriteLeft;
             }
             else
             {
+                // Left [0] -> Loops to Right [2] (Stays sideScale)
                 buttonImageObjects[0].rectTransform.anchoredPosition = Vector2.Lerp(basePositions[0], basePositions[2], t);
-                buttonImageObjects[0].rectTransform.localScale = Vector2.Lerp(baseScales[0], baseScales[2] * 0.75f, t);
+                buttonImageObjects[0].rectTransform.localScale = sideScale; 
                 buttonImageObjects[0].color = greyedOutColor;
                 buttonImageObjects[0].sprite = incomingSpriteRight;
 
+                // Center [1] -> Left [0] (Scales DOWN from centerScale to sideScale)
                 buttonImageObjects[1].rectTransform.anchoredPosition = Vector2.Lerp(basePositions[1], basePositions[0], t);
-                buttonImageObjects[1].rectTransform.localScale = Vector2.Lerp(baseScales[1], baseScales[0], t);
+                buttonImageObjects[1].rectTransform.localScale = Vector3.Lerp(centerScale, sideScale, t);
                 buttonImageObjects[1].color = Color.Lerp(normalColor, greyedOutColor, t);
                 
+                // Right [2] -> Center [1] (Scales UP from sideScale to centerScale)
                 buttonImageObjects[2].rectTransform.anchoredPosition = Vector2.Lerp(basePositions[2], basePositions[1], t);
-                buttonImageObjects[2].rectTransform.localScale = Vector2.Lerp(baseScales[2], baseScales[1], t);
+                buttonImageObjects[2].rectTransform.localScale = Vector3.Lerp(sideScale, centerScale, t);
                 buttonImageObjects[2].color = Color.Lerp(greyedOutColor, normalColor, t);
             }
 
@@ -177,11 +176,13 @@ public class ScrollWorld : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             buttonImageObjects[i].rectTransform.anchoredPosition = basePositions[i];
-            buttonImageObjects[i].rectTransform.localScale = baseScales[i];
+            
+            // 🌟 Set resting scale explicitly (1.0 for Center, 0.7 for Sides)
+            buttonImageObjects[i].rectTransform.localScale = (i == 1) ? centerScale : sideScale;
             buttonImageObjects[i].color = (i == 1) ? normalColor : greyedOutColor;
+            buttonImageObjects[i].raycastTarget = (i == 1);
         }
 
-        // Ensure the scene background color matches on instant loading snaps or script boots
         if (sceneBackgroundImage != null && imagesPrefab[currentIndex] != null)
         {
             sceneBackgroundImage.color = GetHardcodedColor(imagesPrefab[currentIndex].worldName);
@@ -218,7 +219,7 @@ public class ScrollWorld : MonoBehaviour
         {
             worldSelectPanel.SetActive(true);
             levelSelectPanel[currentIndex].SetActive(false);
-            levelInfoPanel.SetActive(false);
+            if (levelInfoPanel != null) levelInfoPanel.SetActive(false);
         }
     }
 }

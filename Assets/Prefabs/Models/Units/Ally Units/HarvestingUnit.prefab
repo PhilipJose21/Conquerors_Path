@@ -201,6 +201,7 @@ MonoBehaviour:
   healthBarFill: {fileID: 7157696317104797339}
   currentUnitPhase: 0
   playerUnit: {fileID: 0}
+  deathScaleDuration: 0.6
 --- !u!114 &2171935128175067292
 MonoBehaviour:
   m_ObjectHideFlags: 0
