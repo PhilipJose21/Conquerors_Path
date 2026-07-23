@@ -247,31 +247,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3580792785136705897, guid: 593287be7a52a6e40bbe41b65c3cfddb, type: 3}
   m_PrefabInstance: {fileID: 5993368318551866161}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &516380684 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3427269806742989989, guid: 7c597fc5e65a4854c9e964c2577bbb50, type: 3}
-  m_PrefabInstance: {fileID: 1587859138}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &516380687 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2295165078543630765, guid: 7c597fc5e65a4854c9e964c2577bbb50, type: 3}
   m_PrefabInstance: {fileID: 1587859138}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &516380688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 516380684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a2fec28315d7be44a96c7399b0797e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RotateModel
-  rotationSpeed: 720
-  onlyRotateOnHorizontalPlane: 1
-  invertFacing: 0
 --- !u!1001 &833642354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -590,10 +570,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3427269806742989989, guid: 7c597fc5e65a4854c9e964c2577bbb50, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 516380688}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c597fc5e65a4854c9e964c2577bbb50, type: 3}
 --- !u!4 &1642666837 stripped
 Transform:
