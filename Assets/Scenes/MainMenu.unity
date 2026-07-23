@@ -266,6 +266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -1004,6 +1006,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -1652,6 +1656,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -2681,6 +2687,7 @@ MonoBehaviour:
   masterMuteToggle: {fileID: 854728662}
   musicMuteToggle: {fileID: 1467246843}
   sfxMuteToggle: {fileID: 2052822372}
+  backButton: {fileID: 0}
   saveButton: {fileID: 1560776272}
   saveButtonImage: {fileID: 1560776270}
   saveSuccessColor: {r: 0, g: 1, b: 0, a: 1}
@@ -3341,8 +3348,9 @@ MonoBehaviour:
   musicSlider: {fileID: 1481839122}
   sfxSlider: {fileID: 2047030631}
   musicAudioSource: {fileID: 991453981}
-  mainKingdomMusic: {fileID: 8300000, guid: 3dfc6aa2207bcea46a7fd49252b88029, type: 3}
+  mainKingdomMusic: {fileID: 8300000, guid: d795ab06027e6c44290c6b91637d6f3c, type: 3}
   levelSelectMusic: {fileID: 0}
+  battleSceneMusic: {fileID: 8300000, guid: cb37eaeaa007dea49b5ea8f4cfff5c31, type: 3}
 --- !u!4 &1301573101
 Transform:
   m_ObjectHideFlags: 0
@@ -4177,6 +4185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -5091,6 +5101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -5951,6 +5963,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
