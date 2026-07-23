@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelSO
   levelName: {fileID: 11400000, guid: a5f8d703670b8884695e6c0b84056cc4, type: 2}
   levelImage: {fileID: 0}
-  levelSceneName: Mountains 2
+  levelSceneName: Mountain 2
   level: 2
   isUnlocked: 0
   isCompleted: 0
+  levelReinforcementCost: 4
   rewardClaimed: 0
-  energyPointsReward: 0
-  gemsReward: 0
-  coinsReward: 0
+  energyPointsReward: 100
+  gemsReward: 50
+  coinsReward: 20000

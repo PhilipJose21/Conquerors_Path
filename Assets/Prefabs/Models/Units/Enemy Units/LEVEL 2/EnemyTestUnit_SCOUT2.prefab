@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5f7e235abd90f244971b547dc79a947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitSOContainer
-  unitData: {fileID: 11400000, guid: 422357197606c874891582c21c05eb9f, type: 2}
+  unitData: {fileID: 11400000, guid: 59536307be689b6469e2ed06574a7059, type: 2}
 --- !u!114 &7473405283178477117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 6438535385800186070}
   - component: {fileID: 7492368166425539968}
   m_Layer: 6
-  m_Name: EnemyTestUnit_SCOUT
+  m_Name: EnemyTestUnit_SCOUT2
   m_TagString: EnemyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
