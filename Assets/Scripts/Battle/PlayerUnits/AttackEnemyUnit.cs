@@ -14,44 +14,41 @@ public class AttackEnemyUnit : MonoBehaviour
         stateMachine = this.GetComponent<UnitStateMachine>();
 
         rotateModel = this.GetComponent<RotateModel>();
-        if (rotateModel == null)
-        {
-            rotateModel = this.GetComponentInChildren<RotateModel>();
-        }
-        if (rotateModel == null)
-        {
-            rotateModel = this.GetComponentInParent<RotateModel>();
-        }
+        if (rotateModel == null) rotateModel = this.GetComponentInChildren<RotateModel>();
+        if (rotateModel == null) rotateModel = this.GetComponentInParent<RotateModel>();
 
         if (container != null)
         {
             unitData = container.unitData;
             moveUnit = this.GetComponent<MoveUnit>();
-            
             dmg = unitData != null ? unitData.damage : dmg;
-            // don't cache attackPoints here; read `moveUnit.attackActions` at attack time
         }
     }    
 
-    // Try to attack any enemy at the given world position (e.g., clicked tile).
-    // Returns true if an enemy was found and "attacked".
+    private string GetDisplayName(GameObject go)
+    {
+        if (go == null) return "Unit";
+        var container = go.GetComponentInParent<UnitSOContainer>();
+        if (container != null && container.unitData != null)
+        {
+            return container.unitData.unitName;
+        }
+        return go.name;
+    }
+
     public bool TryAttackAtPosition(Vector3 worldPos)
     {
-        float checkRadius = 0.6f; // small radius to detect enemy colliders inside the cell
+        float checkRadius = 0.6f;
         Collider[] hits = Physics.OverlapSphere(worldPos, checkRadius);
         foreach (var h in hits)
         {
-            // Try to find a UnitHealth on the collider or one of its parents (covers child colliders)
             var health = h.GetComponentInParent<UnitHealth>();
             if (health != null)
             {
-                // Ensure this health belongs to an enemy unit
                 var owner = health.gameObject;
                 bool isEnemy = owner.CompareTag("EnemyUnit") || owner.GetComponentInParent<EnemyMovement>() != null;
                 if (!isEnemy) continue;
 
-                // If the defender is on a terrain that grants attack-range immunity,
-                // require the attacker to be adjacent (one cell away).
                 bool defenderImmune = false;
                 Collider[] terrainHits = Physics.OverlapSphere(owner.transform.position, 0.2f);
                 foreach (var th in terrainHits)
@@ -63,7 +60,6 @@ public class AttackEnemyUnit : MonoBehaviour
                 Vector3 attackerPos = moveUnit != null ? moveUnit.transform.position : transform.position;
                 if (defenderImmune)
                 {
-                    // Check adjacency using the grid if available
                     BuildingGrid grid = BuildingGridManager.Instance.FindGridAtPosition(owner.transform.position);
                     bool adjacent = false;
                     if (grid != null)
@@ -74,16 +70,10 @@ public class AttackEnemyUnit : MonoBehaviour
                     }
                     else
                     {
-                        // Fallback: treat within one world unit as adjacent
                         adjacent = Vector3.Distance(attackerPos, owner.transform.position) <= BuildingSystem.CellSize * 1.5f;
                     }
 
-                    if (!adjacent)
-                    {
-                        Debug.Log("Target is protected by terrain (attack-range immune). Must move adjacent to attack.");
-                        // Do NOT consume attack action
-                        return false;
-                    }
+                    if (!adjacent) return false;
                 }
 
                 if (moveUnit != null && moveUnit.attackActions > 0)
@@ -96,17 +86,17 @@ public class AttackEnemyUnit : MonoBehaviour
                         {
                             health.TakeDamage(dmg);
                             stateMachine?.ChangeState(unitPhase.Damage);
+                            // Show Blue Text (isPlayer = true)
+                            ActionText.Instance?.ShowAttackText(GetDisplayName(moveUnit != null ? moveUnit.gameObject : gameObject), GetDisplayName(owner), dmg, owner.transform.position, true);
                         });
                     }
                     else
                     {
                         health.TakeDamage(dmg);
                         stateMachine?.ChangeState(unitPhase.Damage);
+                        // Show Blue Text (isPlayer = true)
+                        ActionText.Instance?.ShowAttackText(GetDisplayName(moveUnit != null ? moveUnit.gameObject : gameObject), GetDisplayName(owner), dmg, owner.transform.position, true);
                     }
-                }
-                else
-                {
-                    // If no MoveUnit present, still attempt with local attackPoints fallback
                 }
 
                 CellHighlighter.Instance?.ClearHighlights();
@@ -116,8 +106,6 @@ public class AttackEnemyUnit : MonoBehaviour
         return false;
     }
 
-    // Scan around this unit for enemies within the unit's attack range (in cells).
-    // attackRangeCells is the number of cells (Manhattan/square as defined by your rules).
     public void CheckForEnemiesInRange(int attackRangeCells, float cellSize)
     {
         float radius = (attackRangeCells + 0.5f) * cellSize;
@@ -141,12 +129,16 @@ public class AttackEnemyUnit : MonoBehaviour
                     {
                         health.TakeDamage(dmg);
                         stateMachine?.ChangeState(unitPhase.Damage);
+                        // Show Blue Text (isPlayer = true)
+                        ActionText.Instance?.ShowAttackText(GetDisplayName(moveUnit != null ? moveUnit.gameObject : gameObject), GetDisplayName(owner), dmg, owner.transform.position, true);
                     });
                 }
                 else
                 {
                     health.TakeDamage(dmg);
                     stateMachine?.ChangeState(unitPhase.Damage);
+                    // Show Blue Text (isPlayer = true)
+                    ActionText.Instance?.ShowAttackText(GetDisplayName(moveUnit != null ? moveUnit.gameObject : gameObject), GetDisplayName(owner), dmg, owner.transform.position, true);
                 }
                 return;
             }

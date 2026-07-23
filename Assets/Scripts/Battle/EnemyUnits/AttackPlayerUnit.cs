@@ -31,6 +31,19 @@ public class AttackPlayerUnit : MonoBehaviour
         }
     }
 
+    // Best-effort display name for combat text: prefers the unit's UnitSO name,
+    // falls back to the GameObject's name if no UnitSOContainer is found.
+    private string GetDisplayName(GameObject go)
+    {
+        if (go == null) return "Unit";
+        var container = go.GetComponentInParent<UnitSOContainer>();
+        if (container != null && container.unitData != null)
+        {
+            return container.unitData.unitName;
+        }
+        return go.name;
+    }
+
     // Try to attack any player at the given world position (e.g., nearest player).
     // Returns true if a player was found and attacked.
     public bool TryAttackAtPosition(Vector3 worldPos)
@@ -141,6 +154,13 @@ public class AttackPlayerUnit : MonoBehaviour
                         health.TakeDamage(dmg);
                         stateMachine?.ChangeState(unitPhase.Damage);
                         Debug.Log("Enemy " + unitData.unitName);
+                        ActionText.Instance?.ShowAttackText(
+                            GetDisplayName(moveComp != null ? moveComp.gameObject : gameObject), 
+                            GetDisplayName(owner), 
+                            dmg, 
+                            owner.transform.position, 
+                            false // Red color for Enemy Actions
+                        );
                     });
                 }
                 else
@@ -148,6 +168,13 @@ public class AttackPlayerUnit : MonoBehaviour
                     health.TakeDamage(dmg);
                     stateMachine?.ChangeState(unitPhase.Damage);
                     Debug.Log("Enemy " + unitData.unitName);
+                    ActionText.Instance?.ShowAttackText(
+                        GetDisplayName(moveComp != null ? moveComp.gameObject : gameObject), 
+                        GetDisplayName(owner), 
+                        dmg, 
+                        owner.transform.position, 
+                        false // Red color for Enemy Actions
+                    );
                 }
                 return true;
             }
@@ -193,12 +220,26 @@ public class AttackPlayerUnit : MonoBehaviour
                     {
                         health.TakeDamage(dmg);
                         stateMachine?.ChangeState(unitPhase.Damage);
+                        ActionText.Instance?.ShowAttackText(
+                            GetDisplayName(moveComp != null ? moveComp.gameObject : gameObject), 
+                            GetDisplayName(owner), 
+                            dmg, 
+                            owner.transform.position, 
+                            false // Red color for Enemy Actions
+                        );
                     });
                 }
                 else
                 {
                     health.TakeDamage(dmg);
                     stateMachine?.ChangeState(unitPhase.Damage);
+                    ActionText.Instance?.ShowAttackText(
+                        GetDisplayName(moveComp != null ? moveComp.gameObject : gameObject), 
+                        GetDisplayName(owner), 
+                        dmg, 
+                        owner.transform.position, 
+                        false // Red color for Enemy Actions
+                    );
                 }
                 return;
             }
