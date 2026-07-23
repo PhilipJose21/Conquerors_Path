@@ -1,65 +1,134 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems; // Required for Pointer event interfaces
+using System.Collections;
 
-public class UnitButton : MonoBehaviour
+public class UnitButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
-    public BuildingData buildingData;
-    public UnitSO unitData;
-    public Image unitIconRenderer;
-    public TextMeshProUGUI unitCostText, unitAmountText;
-    public GameObject fadedOverlay;
-    private string unitName;
+    public BuildingData buildingData; 
+    public UnitSO unitData; 
+    public Image unitIconRenderer; 
+    public TextMeshProUGUI unitCostText, unitAmountText; 
+    public GameObject fadedOverlay; 
+    private string unitName; 
 
-    public int unitCount = 1;
-    
+    public int unitCount = 1; 
+
+    [Header("Audio SFX Clips")]
+    [SerializeField] private AudioClip hoverSFX;
+    [SerializeField] private AudioClip clickSFX;
+
+    [Header("Hover & Click Animation Settings")]
+    [SerializeField] private float hoverScale = 1.08f;
+    [SerializeField] private float clickScale = 0.92f;
+    [SerializeField] private float animDuration = 0.1f;
+
+    private Vector3 originalScale;
+    private Coroutine scaleCoroutine;
+
     void Start()
     {
-        if (unitData != null)
+        originalScale = transform.localScale;
+
+        if (unitData != null) 
         {
-            if (unitData.unitIcon != null)
+            if (unitData.unitIcon != null) 
             {
-                unitIconRenderer.sprite = unitData.unitIcon;
+                unitIconRenderer.sprite = unitData.unitIcon; 
             }
-            unitName = unitData.unitName;
-            unitCostText.text = buildingData.reinforcementCost.ToString();
-            unitAmountText.text = unitCount.ToString(); //amount of this unit is in inventory
+            unitName = unitData.unitName; 
+            if (unitCostText != null && buildingData != null) unitCostText.text = buildingData.reinforcementCost.ToString(); 
+            if (unitAmountText != null) unitAmountText.text = unitCount.ToString(); 
         }
     }
 
     void Update()
     {
-        unitAmountText.text = unitCount.ToString();
-        if (unitCount <= 0)
+        if (unitAmountText != null) unitAmountText.text = unitCount.ToString(); 
+        if (fadedOverlay != null) 
         {
-            fadedOverlay.SetActive(true);
-        }
-        else
-        {
-            fadedOverlay.SetActive(false);
+            fadedOverlay.SetActive(unitCount <= 0); 
         }
     }
 
+    // --- HOVER EVENTS ---
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (unitCount <= 0) return; 
+
+        if (hoverSFX != null && SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayHoverSFX(hoverSFX);
+        }
+
+        AnimateScale(originalScale * hoverScale);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        AnimateScale(originalScale);
+    }
+
+    // --- CLICK ANIMATION FEEDBACK ---
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (unitCount <= 0) return;
+
+        // Play Click SFX
+        if (clickSFX != null && SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayClickSFX(clickSFX);
+        }
+
+        AnimateScale(originalScale * clickScale);
+    }
+
+    // --- GAMEPLAY ACTION ---
     public void ButtonClicked()
     {
-        Debug.Log(unitName);
+        // Reset scale back to normal/hover
+        AnimateScale(originalScale);
 
-        BuildingSystem buildingSystem = Object.FindFirstObjectByType<BuildingSystem>();
-        if (buildingSystem != null)
+        Debug.Log(unitName); 
+
+        BuildingSystem buildingSystem = Object.FindFirstObjectByType<BuildingSystem>(); 
+        if (buildingSystem != null) 
         {
-
-            //only allows the button selection if its inside the battle scene
-            if (buildingSystem.isBattleScene)
+            if (buildingSystem.isBattleScene) 
             {
-                buildingSystem.SelectBuildingByData(buildingData);
+                buildingSystem.SelectBuildingByData(buildingData); 
+
+                Object.FindFirstObjectByType<ToDoMessage>()?.ShowPrompt(); 
             }
             else
             {
-                Debug.LogWarning("NOT IN BATTLE SCENE");
+                Debug.LogWarning("NOT IN BATTLE SCENE"); 
             }
         }
-        else{
-            Debug.LogError("NO BUILDING SYSTEM FOUND IN SCENE");
+        else
+        {
+            Debug.LogError("NO BUILDING SYSTEM FOUND IN SCENE"); 
         }
+    }
+    private void AnimateScale(Vector3 targetScale)
+    {
+        if (scaleCoroutine != null) StopCoroutine(scaleCoroutine);
+        scaleCoroutine = StartCoroutine(ScaleRoutine(targetScale));
+    }
+
+    private IEnumerator ScaleRoutine(Vector3 targetScale)
+    {
+        Vector3 initialScale = transform.localScale;
+        float time = 0f;
+
+        while (time < animDuration)
+        {
+            time += Time.unscaledDeltaTime; 
+            transform.localScale = Vector3.Lerp(initialScale, targetScale, time / animDuration);
+            yield return null;
+        }
+
+        transform.localScale = targetScale;
     }
 }

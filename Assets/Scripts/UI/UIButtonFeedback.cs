@@ -3,6 +3,12 @@ using UnityEngine.EventSystems;
 
 public class UIButtonFeedback : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
+    [Header("Panel Trigger Settings")]
+    [Tooltip("Drag your Settings Panel GameObject here to automatically enable it on click.")]
+    [SerializeField] private GameObject settingsPanel;
+    [Tooltip("If checked, clicking will toggle the panel on/off instead of just opening it.")]
+    [SerializeField] private bool togglePanel = true;
+
     [Header("Scale Settings")]
     [SerializeField] private Vector3 hoverScale = new Vector3(1.05f, 1.05f, 1.05f);
     [SerializeField] private Vector3 pressScale = new Vector3(0.95f, 0.95f, 0.95f);
@@ -57,6 +63,8 @@ public class UIButtonFeedback : MonoBehaviour, IPointerEnterHandler, IPointerExi
         {
             SoundManager.Instance?.PlayClickSFX(panelOpenSound);
         }
+
+        TriggerSettingsPanel();
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -64,6 +72,20 @@ public class UIButtonFeedback : MonoBehaviour, IPointerEnterHandler, IPointerExi
         targetScale = eventData.dragging || !RectTransformUtility.RectangleContainsScreenPoint((RectTransform)transform, eventData.position, eventData.pressEventCamera) 
             ? originalScale 
             : hoverScale;
+    }
+
+    private void TriggerSettingsPanel()
+    {
+        if (settingsPanel == null) return;
+
+        if (togglePanel)
+        {
+            settingsPanel.SetActive(!settingsPanel.activeSelf);
+        }
+        else
+        {
+            settingsPanel.SetActive(true);
+        }
     }
 
     void OnDisable()

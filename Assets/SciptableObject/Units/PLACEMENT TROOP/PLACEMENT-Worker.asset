@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   <Name>k__BackingField: Worker
   <Size>k__BackingField: 1
-  <Model>k__BackingField: {fileID: 7492368166425539968, guid: 45132f9849e28af41a79b6d615ee7dfc, type: 3}
+  <Model>k__BackingField: {fileID: 7492368166425539968, guid: da181dc421bee664283ad1a1f39e8391, type: 3}
   <Icon>k__BackingField: {fileID: 0}
   <coinCost>k__BackingField: 0
   <farmCost>k__BackingField: 0

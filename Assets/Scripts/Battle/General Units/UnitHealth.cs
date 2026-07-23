@@ -8,7 +8,7 @@ public class UnitHealth : MonoBehaviour
     public int currentHealth;
     public int maxHealth;
 
-    public Image healthBarFill; // Reference to the UI Image component for the health bar fill
+    public Image healthBarFill; 
 
     public unitPhase currentUnitPhase;
     public GameObject playerUnit;
@@ -40,9 +40,9 @@ public class UnitHealth : MonoBehaviour
     {
         if (healthBarFill != null)
         {
-            healthBarFill.fillAmount = (float)currentHealth / maxHealth;
+            healthBarFill.fillAmount = maxHealth > 0 ? (float)currentHealth / maxHealth : 0f;
         }
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && !isDying)
         {
             currentHealth = 0;
             Die();
@@ -67,9 +67,12 @@ public class UnitHealth : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        currentHealth = Mathf.Max(0, currentHealth);
+
+        RefreshInspectorUI();
+
         if (currentHealth <= 0)
         {
-            currentHealth = 0;
             Die();
         }
         else
@@ -82,7 +85,7 @@ public class UnitHealth : MonoBehaviour
     {
         if (isDying)
         {
-            return; // already dying — don't start a second death sequence
+            return;
         }
         isDying = true;
         StartCoroutine(DieRoutine());
@@ -90,6 +93,8 @@ public class UnitHealth : MonoBehaviour
 
     private IEnumerator DieRoutine()
     {
+        RefreshInspectorUI();
+
         stateMachine?.ChangeState(unitPhase.Hurt, forceRetrigger: true, holdState: true);
 
         Transform deathTransform = playerUnit != null ? playerUnit.transform : transform;
@@ -105,6 +110,30 @@ public class UnitHealth : MonoBehaviour
         }
 
         deathTransform.localScale = Vector3.zero;
-        Destroy(playerUnit);
+
+        if (MinimizedInspector.Instance != null && MinimizedInspector.Instance.gameObject.activeSelf)
+        {
+            if (MinimizedInspector.Instance.nameText != null && 
+                unitData != null && 
+                MinimizedInspector.Instance.nameText.text == unitData.unitName)
+            {
+                MinimizedInspector.Instance.CloseInspector();
+            }
+        }
+
+        Destroy(playerUnit != null ? playerUnit : gameObject);
+    }
+
+    private void RefreshInspectorUI()
+    {
+        if (MinimizedInspector.Instance != null && MinimizedInspector.Instance.gameObject.activeSelf)
+        {
+            if (MinimizedInspector.Instance.nameText != null && 
+                unitData != null && 
+                MinimizedInspector.Instance.nameText.text == unitData.unitName)
+            {
+                MinimizedInspector.Instance.ShowUnitStats(unitData, currentHealth, maxHealth);
+            }
+        }
     }
 }

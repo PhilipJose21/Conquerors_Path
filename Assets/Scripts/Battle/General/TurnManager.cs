@@ -1,8 +1,10 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public enum turnPhase
 {
@@ -31,6 +33,20 @@ public class TurnManager : MonoBehaviour
     public GameObject playerTurnScreen;
     public GameObject enemyTurnScreen;
 
+    [Header("Turn Indicator UI Icons")]
+    [SerializeField] private Image playerIcon;
+    [SerializeField] private Image enemyIcon;
+
+    [Header("Active Icon Colors")]
+    [SerializeField] private Color playerActiveColor = new Color(0.2f, 0.6f, 1f, 1f); 
+    [SerializeField] private Color enemyActiveColor = new Color(1f, 0.2f, 0.2f, 1f); 
+
+    [Header("Inactive Icon Color")]
+    [SerializeField] private Color inactiveColor = new Color(0.3f, 0.3f, 0.3f, 0.6f); 
+
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip turnSwitchSFX;
+
     private Coroutine transitionCoroutine;
     private bool transitionPending = false;
     private bool isEnemyTurnProcessing = false;
@@ -54,11 +70,11 @@ public class TurnManager : MonoBehaviour
     void Start()
     {
         currentTurnPhase = turnPhase.SetupTurn;
+        UpdateTurnUI();
     }
 
     void Update()
     {
-        // 1. Check Win/Loss conditions FIRST before handling any phase logic
         if (currentTurnPhase != turnPhase.SetupTurn && currentTurnPhase != turnPhase.PlayerWin && currentTurnPhase != turnPhase.EnemyWin)
         {
             updateUnitLists();
@@ -79,7 +95,6 @@ public class TurnManager : MonoBehaviour
             }
         }
 
-        // 2. Only run turn logic if the game is still actively going
         if (currentTurnPhase != turnPhase.PlayerWin && currentTurnPhase != turnPhase.EnemyWin)
         {
             checkTurnPhase();
@@ -104,7 +119,6 @@ public class TurnManager : MonoBehaviour
             return;
         }
 
-        // --- NEW: Return surviving troops to inventory right upon winning ---
         ReturnTroopsToInventory();
 
         playerBattleData.currentLevel.isCompleted = true;
@@ -132,7 +146,6 @@ public class TurnManager : MonoBehaviour
         playerBattleData.currentLevel = null;
     }
 
-    // --- NEW METHOD: Restores surviving units to the persistent scriptable object collections ---
     private void ReturnTroopsToInventory()
     {
         if (playerUnits == null || playerUnits.Length == 0) return;
@@ -142,20 +155,16 @@ public class TurnManager : MonoBehaviour
         {
             if (unit == null) continue;
 
-            // Extract the MoveUnit component from the scene object
             MoveUnit moveUnitComp = unit.GetComponentInChildren<MoveUnit>() ?? unit.GetComponentInParent<MoveUnit>();
             
             if (moveUnitComp != null && moveUnitComp.unitData != null)
             {
                 UnitSO survivingUnitData = moveUnitComp.unitData;
-
-                // Add the unit back to the collection (adjust logic if you want duplicates or single tracking)
                 playerBattleData.playerUnitStats.Add(survivingUnitData);
                 Debug.Log($"[Inventory] Returned surviving unit to inventory: {survivingUnitData.unitName}");
             }
         }
 
-        // Force PlayerData to dynamically synchronize and rebuild the companion lists immediately
         if (playerData != null)
         {
             playerData.updateUnitList();
@@ -222,6 +231,7 @@ public class TurnManager : MonoBehaviour
                 foreach (var unit in enemyUnits)
                 {
                     if (unit == null) continue;
+                    
                     var moveUnit = unit.GetComponentInChildren<EnemyMovement>();
                     if (moveUnit != null)
                     {
@@ -288,6 +298,8 @@ public class TurnManager : MonoBehaviour
             yield break;
         }
 
+        PlayTurnSwitchSFX();
+
         if (newPhase == turnPhase.PlayerTurn)
         {
             playerTurnScreen.SetActive(true);
@@ -310,8 +322,35 @@ public class TurnManager : MonoBehaviour
         playerTurnScreen.SetActive(false);
         enemyTurnScreen.SetActive(false);
         currentTurnPhase = newPhase;
+
+        UpdateTurnUI();
+
         transitionCoroutine = null;
         transitionPending = false;
+    }
+
+    private void UpdateTurnUI()
+    {
+        bool isPlayerTurn = (currentTurnPhase == turnPhase.PlayerTurn || currentTurnPhase == turnPhase.StartPlayerTurn);
+        bool isEnemyTurn = (currentTurnPhase == turnPhase.EnemyTurn || currentTurnPhase == turnPhase.StartEnemyTurn);
+
+        if (playerIcon != null)
+        {
+            playerIcon.color = isPlayerTurn ? playerActiveColor : inactiveColor;
+        }
+
+        if (enemyIcon != null)
+        {
+            enemyIcon.color = isEnemyTurn ? enemyActiveColor : inactiveColor;
+        }
+    }
+
+    private void PlayTurnSwitchSFX()
+    {
+        if (turnSwitchSFX != null && SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX(turnSwitchSFX);
+        }
     }
 
     private System.Collections.IEnumerator EnemyTurnSequence()

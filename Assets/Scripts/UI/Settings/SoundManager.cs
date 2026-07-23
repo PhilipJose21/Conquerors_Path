@@ -22,6 +22,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource musicAudioSource; 
     public AudioClip mainKingdomMusic;                     
     public AudioClip levelSelectMusic;                    
+    public AudioClip battleSceneMusic; // Added for Battle Scene BGM
 
     private AudioSource sfxAudioSource;
 
@@ -29,7 +30,6 @@ public class SoundManager : MonoBehaviour
     private float musicVol;
     private float sfxVol;
 
-    // UPDATED: Individual channel mute variables
     private bool isMasterMuted = false;
     private bool isMusicMuted = false;
     private bool isSfxMuted = false;
@@ -38,7 +38,6 @@ public class SoundManager : MonoBehaviour
     private const string MUSICVOLUME  = "musicVolume";
     private const string SFXVOLUME    = "sfxVolume";
     
-    // UPDATED: Keys for tracking individual channel mutes
     private const string MASTERMUTEP_PREF = "masterMuted";
     private const string MUSICMUTEP_PREF  = "musicMuted";
     private const string SFXMUTEP_PREF    = "sfxMuted";
@@ -73,12 +72,10 @@ public class SoundManager : MonoBehaviour
             sfxAudioSource = transform.GetChild(1).GetComponent<AudioSource>();
         }
 
-        // Apply loaded parameters to Mixer groups
         MasterVolume(masterVol);
         MusicVolume(musicVol);
         SFXVolume(sfxVol);
 
-        // Force explicit updates to handle loaded mute states on boot
         ToggleMasterMute(isMasterMuted);
         ToggleMusicMute(isMusicMuted);
         ToggleSFXMute(isSfxMuted);
@@ -104,6 +101,9 @@ public class SoundManager : MonoBehaviour
             case "Level Select":
                 PlayBGM(levelSelectMusic);
                 break;
+            case "BattleScene": 
+                PlayBGM(battleSceneMusic);
+                break;
         }
     }
 
@@ -115,19 +115,16 @@ public class SoundManager : MonoBehaviour
         musicAudioSource.Play();
     }
 
-    // UPDATED: Central registration system handles all three individual toggles
     public void BindRuntimeSliders(Slider master, Slider music, Slider sfx, Toggle masterMute, Toggle musicMute, Toggle sfxMute)
     {
         masterSlider = master;
         musicSlider = music;
         sfxSlider = sfx;
 
-        // Sliders binding loop
         if (masterSlider != null) { masterSlider.value = masterVol; masterSlider.onValueChanged.RemoveAllListeners(); masterSlider.onValueChanged.AddListener(MasterVolume); }
         if (musicSlider != null) { musicSlider.value = musicVol; musicSlider.onValueChanged.RemoveAllListeners(); musicSlider.onValueChanged.AddListener(MusicVolume); }
         if (sfxSlider != null) { sfxSlider.value = sfxVol; sfxSlider.onValueChanged.RemoveAllListeners(); sfxSlider.onValueChanged.AddListener(SFXVolume); }
 
-        // Toggles binding loop
         if (masterMute != null) { masterMute.isOn = isMasterMuted; masterMute.onValueChanged.RemoveAllListeners(); masterMute.onValueChanged.AddListener(ToggleMasterMute); }
         if (musicMute != null) { musicMute.isOn = isMusicMuted; musicMute.onValueChanged.RemoveAllListeners(); musicMute.onValueChanged.AddListener(ToggleMusicMute); }
         if (sfxMute != null) { sfxMute.isOn = isSfxMuted; sfxMute.onValueChanged.RemoveAllListeners(); sfxMute.onValueChanged.AddListener(ToggleSFXMute); }
@@ -185,7 +182,6 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    // UPDATED: Independent mute controls per channel
     public void ToggleMasterMute(bool muteState)
     {
         isMasterMuted = muteState;
@@ -229,6 +225,15 @@ public class SoundManager : MonoBehaviour
         if (clickClip != null && sfxAudioSource != null)
         {
             sfxAudioSource.PlayOneShot(clickClip);
+        }
+    }
+
+    // Generic SFX Player routed through SFX AudioSource
+    public void PlaySFX(AudioClip clip)
+    {
+        if (clip != null && sfxAudioSource != null)
+        {
+            sfxAudioSource.PlayOneShot(clip);
         }
     }
 }
