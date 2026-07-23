@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8864482927642759181}
   - component: {fileID: 5351466454736267708}
   - component: {fileID: 8782964518368269755}
+  - component: {fileID: 8792680985770528032}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -60,7 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3906634, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.19977802, g: 0.509434, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -121,6 +122,26 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8792680985770528032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307500567229801086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
+  hoverScale: {x: 1.05, y: 1.05, z: 1.05}
+  pressScale: {x: 0.95, y: 0.95, z: 0.95}
+  speed: 15
+  hoverSound: {fileID: 8300000, guid: 3626603ad03b0d24e9de049be98ed443, type: 3}
+  clickSound: {fileID: 8300000, guid: a884a50fea6b2a2489ab78e021e23baa, type: 3}
+  panelOpenSound: {fileID: 0}
 --- !u!1 &1284716023890483202
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,15 +209,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: '[Description]'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: efa84e682469f6442a190db1dc264479, type: 2}
+  m_sharedMaterial: {fileID: -1578992920109060909, guid: efa84e682469f6442a190db1dc264479, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4282672257
+  m_fontColor: {r: 0.5058824, g: 0.3921569, b: 0.26666668, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -325,15 +346,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: 10K Coins
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
+  m_sharedMaterial: {fileID: -4464829965060106944, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4280438134
+  m_fontColor: {r: 0.4641509, g: 0.30184945, b: 0.13223922, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -540,7 +561,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 10e1ccfa7b4827045a4c3e09a007c97c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 89acea71c6966da44ae31e0b88de24f7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -562,18 +583,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3fd2e60d5915743ac08643989bd940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemCard
-  cardType: 0
-  itemName: 5,000 Coins
-  itemDescription: Coins galore!
+  cardType: 2
+  itemName: Blade Dancer
+  itemDescription: Slash and dance.
   itemIcon: {fileID: 0}
-  unitData: {fileID: 0}
-  rewardAmount: 5000
-  gemCost: 50
-  realMoneyPriceTag: $0.99
+  unitData: {fileID: 11400000, guid: f37f8ee3a8d90c0439dd3faa15870c2b, type: 2}
+  rewardAmount: 0
+  gemCost: 500
+  realMoneyPriceTag: 0
   titleText: {fileID: 5632507118458433867}
   descriptionText: {fileID: 1099466567445757897}
   costButtonText: {fileID: 7237062985056430323}
-  cardIconImage: {fileID: 0}
+  cardIconImage: {fileID: 2033284986073194340}
 --- !u!1 &7732646458240123040
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,7 +607,7 @@ GameObject:
   - component: {fileID: 7498631854747791507}
   - component: {fileID: 7237062985056430323}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextPrice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -641,15 +662,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: $2.99
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
+  m_sharedMaterial: {fileID: -4464829965060106944, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278241535
+  m_fontColor: {r: 1, g: 0.7846863, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

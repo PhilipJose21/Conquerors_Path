@@ -121,8 +121,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -173,6 +173,8 @@ GameObject:
   - component: {fileID: 116111655143740854}
   - component: {fileID: 2160130073230975790}
   - component: {fileID: 3926110047084902037}
+  - component: {fileID: 3716328409167536733}
+  - component: {fileID: 5582363546787543581}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -294,6 +296,46 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3716328409167536733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543714995493889463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
+  hoverScale: {x: 1.05, y: 1.05, z: 1.05}
+  pressScale: {x: 0.95, y: 0.95, z: 0.95}
+  speed: 15
+  hoverSound: {fileID: 8300000, guid: 3626603ad03b0d24e9de049be98ed443, type: 3}
+  clickSound: {fileID: 8300000, guid: a884a50fea6b2a2489ab78e021e23baa, type: 3}
+  panelOpenSound: {fileID: 0}
+--- !u!114 &5582363546787543581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543714995493889463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
+  hoverScale: {x: 1.05, y: 1.05, z: 1.05}
+  pressScale: {x: 0.95, y: 0.95, z: 0.95}
+  speed: 15
+  hoverSound: {fileID: 0}
+  clickSound: {fileID: 0}
+  panelOpenSound: {fileID: 0}
 --- !u!1 &589032391837275772
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,6 +387,7 @@ GameObject:
   - component: {fileID: 137806751673088300}
   - component: {fileID: 1795407980912661259}
   - component: {fileID: 2027624965573692952}
+  - component: {fileID: 2131604870616909280}
   m_Layer: 5
   m_Name: DeclineButton
   m_TagString: Untagged
@@ -466,6 +509,26 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2131604870616909280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755181440794884538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
+  hoverScale: {x: 1.05, y: 1.05, z: 1.05}
+  pressScale: {x: 0.95, y: 0.95, z: 0.95}
+  speed: 15
+  hoverSound: {fileID: 8300000, guid: 3626603ad03b0d24e9de049be98ed443, type: 3}
+  clickSound: {fileID: 8300000, guid: a884a50fea6b2a2489ab78e021e23baa, type: 3}
+  panelOpenSound: {fileID: 0}
 --- !u!1 &782283753824948958
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,6 +678,7 @@ GameObject:
   - component: {fileID: 5830262645414146843}
   - component: {fileID: 6574196601142472265}
   - component: {fileID: 4348547323439674171}
+  - component: {fileID: 1970314558685773519}
   m_Layer: 5
   m_Name: Level Unit Btn
   m_TagString: Untagged
@@ -736,6 +800,26 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1970314558685773519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902861391342007550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
+  hoverScale: {x: 1.05, y: 1.05, z: 1.05}
+  pressScale: {x: 0.95, y: 0.95, z: 0.95}
+  speed: 15
+  hoverSound: {fileID: 8300000, guid: 3626603ad03b0d24e9de049be98ed443, type: 3}
+  clickSound: {fileID: 8300000, guid: a884a50fea6b2a2489ab78e021e23baa, type: 3}
+  panelOpenSound: {fileID: 0}
 --- !u!1 &1548346793078113055
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,6 +1182,7 @@ GameObject:
   - component: {fileID: 2604124128975071770}
   - component: {fileID: 1919808113783941633}
   - component: {fileID: 7652677920254981283}
+  - component: {fileID: 2090787535140332998}
   m_Layer: 5
   m_Name: ConfirmButton
   m_TagString: Untagged
@@ -1219,6 +1304,26 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2090787535140332998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2496086005305615108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
+  hoverScale: {x: 1.05, y: 1.05, z: 1.05}
+  pressScale: {x: 0.95, y: 0.95, z: 0.95}
+  speed: 15
+  hoverSound: {fileID: 8300000, guid: 3626603ad03b0d24e9de049be98ed443, type: 3}
+  clickSound: {fileID: 8300000, guid: a884a50fea6b2a2489ab78e021e23baa, type: 3}
+  panelOpenSound: {fileID: 0}
 --- !u!1 &2790354788840405986
 GameObject:
   m_ObjectHideFlags: 0
@@ -1286,7 +1391,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2e2ca222b80c7894aa811b4746137be5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 89acea71c6966da44ae31e0b88de24f7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1576,7 +1681,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fa8f8b670dfae0e459797788f82b86d0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 89acea71c6966da44ae31e0b88de24f7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1628,6 +1733,7 @@ GameObject:
   - component: {fileID: 215209586511511354}
   - component: {fileID: 1525592832370243367}
   - component: {fileID: 8884005813368048459}
+  - component: {fileID: 638743811743299156}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -1749,6 +1855,26 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &638743811743299156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3937416249649557591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
+  hoverScale: {x: 1.05, y: 1.05, z: 1.05}
+  pressScale: {x: 0.95, y: 0.95, z: 0.95}
+  speed: 15
+  hoverSound: {fileID: 8300000, guid: 3626603ad03b0d24e9de049be98ed443, type: 3}
+  clickSound: {fileID: 8300000, guid: a884a50fea6b2a2489ab78e021e23baa, type: 3}
+  panelOpenSound: {fileID: 0}
 --- !u!1 &5128808637678956423
 GameObject:
   m_ObjectHideFlags: 0
@@ -2251,8 +2377,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4279583612
+  m_fontColor: {r: 0.4867924, g: 0.26343453, b: 0.08358132, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3042,7 +3168,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2e2ca222b80c7894aa811b4746137be5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 89acea71c6966da44ae31e0b88de24f7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3303,6 +3429,8 @@ GameObject:
   - component: {fileID: 1277724232988740477}
   - component: {fileID: 8100467783887048222}
   - component: {fileID: 5728532463934605149}
+  - component: {fileID: 6676608894542529527}
+  - component: {fileID: 8007338683894451063}
   m_Layer: 5
   m_Name: Destroy/RetireButton
   m_TagString: Untagged
@@ -3424,6 +3552,46 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6676608894542529527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9132744615004313478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
+  hoverScale: {x: 1.05, y: 1.05, z: 1.05}
+  pressScale: {x: 0.95, y: 0.95, z: 0.95}
+  speed: 15
+  hoverSound: {fileID: 8300000, guid: 3626603ad03b0d24e9de049be98ed443, type: 3}
+  clickSound: {fileID: 8300000, guid: a884a50fea6b2a2489ab78e021e23baa, type: 3}
+  panelOpenSound: {fileID: 0}
+--- !u!114 &8007338683894451063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9132744615004313478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
+  hoverScale: {x: 1.05, y: 1.05, z: 1.05}
+  pressScale: {x: 0.95, y: 0.95, z: 0.95}
+  speed: 15
+  hoverSound: {fileID: 0}
+  clickSound: {fileID: 0}
+  panelOpenSound: {fileID: 0}
 --- !u!1 &9153592419643272383
 GameObject:
   m_ObjectHideFlags: 0
