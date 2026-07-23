@@ -189114,8 +189114,8 @@ MonoBehaviour:
   sfxSlider: {fileID: 2047030631}
   musicAudioSource: {fileID: 991453981}
   mainKingdomMusic: {fileID: 8300000, guid: 3dfc6aa2207bcea46a7fd49252b88029, type: 3}
-  levelSelectMusic: {fileID: 0}
-  battleSceneMusic: {fileID: 0}
+  levelSelectMusic: {fileID: 8300000, guid: 751398f8edc8dff4a9a09a3809f8edc8, type: 3}
+  battleSceneMusic: {fileID: 8300000, guid: cb37eaeaa007dea49b5ea8f4cfff5c31, type: 3}
 --- !u!4 &1301573101
 Transform:
   m_ObjectHideFlags: 0
@@ -189125,13 +189125,13 @@ Transform:
   m_GameObject: {fileID: 1301573099}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 787.8836, y: 355.6251, z: -107.97099}
+  m_LocalPosition: {x: 773.78827, y: 355.6251, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 991453982}
   - {fileID: 1233716634}
-  m_Father: {fileID: 1520420636}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1301632949
 GameObject:
@@ -221427,7 +221427,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1301573101}
   - {fileID: 369634630}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -311711,9 +311710,10 @@ SceneRoots:
   m_Roots:
   - {fileID: 576450724}
   - {fileID: 1928804422}
+  - {fileID: 1301573101}
+  - {fileID: 1520420636}
   - {fileID: 1886383087}
   - {fileID: 106549372}
   - {fileID: 561392524}
   - {fileID: 833413758}
   - {fileID: 1574346245}
-  - {fileID: 1520420636}

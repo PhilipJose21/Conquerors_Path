@@ -92,19 +92,28 @@ public class SoundManager : MonoBehaviour
 
     private void EvaluateSceneBGM(string sceneName)
     {
-        switch (sceneName)
+        if (sceneName == "MainMenu" || sceneName == "MainKingdom")
         {
-            case "MainMenu":
-            case "MainKingdom":
-                PlayBGM(mainKingdomMusic);
-                break;
-            case "Level Select":
-                PlayBGM(levelSelectMusic);
-                break;
-            case "BattleScene": 
-                PlayBGM(battleSceneMusic);
-                break;
+            PlayBGM(mainKingdomMusic);
+            return;
         }
+
+        if (sceneName == "Level Select" || sceneName == "WorldSelect")
+        {
+            PlayBGM(levelSelectMusic);
+            return;
+        }
+
+        if (sceneName.StartsWith("Plains") || 
+            sceneName.StartsWith("Desert") || 
+            sceneName.StartsWith("Mountains") || 
+            sceneName == "BattleScene")
+        {
+            PlayBGM(battleSceneMusic);
+            return;
+        }
+
+        PlayBGM(battleSceneMusic);
     }
 
     private void PlayBGM(AudioClip trackClip)
@@ -142,7 +151,7 @@ public class SoundManager : MonoBehaviour
         Debug.Log("Audio configuration saved successfully!");
     }
 
-    private void LoadVolumeParams()
+    public void LoadVolumeParams()
     {
         masterVol = PlayerPrefs.GetFloat(MASTERVOLUME, 1f);
         musicVol  = PlayerPrefs.GetFloat(MUSICVOLUME, 1f);

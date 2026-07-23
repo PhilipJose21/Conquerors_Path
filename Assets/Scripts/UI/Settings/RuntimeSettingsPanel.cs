@@ -63,7 +63,7 @@ public class RuntimeSettingsPanel : MonoBehaviour
     {
         if (!hasSavedInThisSession && SoundManager.Instance != null)
         {
-            SoundManager.Instance.Invoke("Start", 0f); 
+            SoundManager.Instance.LoadVolumeParams();
         }
     }
 
