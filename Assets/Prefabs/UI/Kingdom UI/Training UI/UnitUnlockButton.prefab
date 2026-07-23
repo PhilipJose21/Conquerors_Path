@@ -121,8 +121,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7564095004138708150}
-        m_TargetAssemblyTypeName: TrainTroopsButton, Assembly-CSharp
+      - m_Target: {fileID: 7502050954207776768}
+        m_TargetAssemblyTypeName: UnlockUnitBtn, Assembly-CSharp
         m_MethodName: openConfirmationPanel
         m_Mode: 1
         m_Arguments:
@@ -279,10 +279,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4064446161348959538}
-  - component: {fileID: 7564095004138708150}
   - component: {fileID: 7502050954207776768}
   m_Layer: 5
-  m_Name: Kingdom Unit Button
+  m_Name: UnitUnlockButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -309,7 +308,7 @@ RectTransform:
   m_AnchoredPosition: {x: -76, y: 425}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7564095004138708150
+--- !u!114 &7502050954207776768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -318,41 +317,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 4295622067337134545}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ac8d9fa0abd4aa4688800b298ee1691, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TrainTroopsButton
-  unitToTrain: {fileID: 0}
-  unitNameText: {fileID: 6918452451194562834}
-  unitIconImage: {fileID: 7559432706170222801}
-  unitType: 0
-  confirmationPanel: {fileID: 0}
-  trainUpgradeTroopUI: {fileID: 0}
-  unitUnlockCostPrefab: {fileID: 8395040051607233242, guid: fe6bcf4183fda424d9a4a7511a65cc19, type: 3}
-  costParent: {fileID: 0}
-  isUpgrading: 0
-  isTraining: 0
-  woodCost: 0
-  rockCost: 0
-  farmCost: 0
-  coinCost: 0
---- !u!114 &7502050954207776768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4295622067337134545}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c27040b4c3209f419c5605923a68327, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnlockUnitBtn
   unitToUnlock: {fileID: 0}
-  unitNameText: {fileID: 0}
-  unitIconImage: {fileID: 0}
+  unitNameText: {fileID: 6918452451194562834}
+  unitIconImage: {fileID: 7559432706170222801}
   unitType: 0
   confirmationPanel: {fileID: 0}
-  unitUnlockCostPrefab: {fileID: 0}
+  unitUnlockCostPrefab: {fileID: 8395040051607233242, guid: fe6bcf4183fda424d9a4a7511a65cc19, type: 3}
   costParent: {fileID: 0}
   woodCost: 0
   rockCost: 0

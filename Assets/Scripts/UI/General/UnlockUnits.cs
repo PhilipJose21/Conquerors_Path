@@ -5,6 +5,7 @@ using TMPro;
 
 public class UnlockUnits : MonoBehaviour
 {
+    public UnitSO selectedUnit;
     public Button meleeButton; // Button for unlocking melee units
     public Button rangedButton; // Button for unlocking ranged units
     public Button supportButton; // Button for unlocking support units
@@ -14,6 +15,8 @@ public class UnlockUnits : MonoBehaviour
     public GameObject unitButtonPrefab;
     public Transform viewPort;
     public TextMeshProUGUI panelTitleText;
+    public GameObject confirmationPanel;
+    public Transform viewPortCost;
 
     [Header("Units to Unlock")]
     public List<UnitSO> unitsToUnlock = new List<UnitSO>(); // List of units to unlock
@@ -138,18 +141,25 @@ public class UnlockUnits : MonoBehaviour
                 continue;
             }
 
-            GameObject button = Instantiate(unitButtonPrefab, buttonParent);
-            TrainTroopsButton trainButton = button.GetComponent<TrainTroopsButton>();
-            if (trainButton == null)
+           GameObject button = Instantiate(unitButtonPrefab, buttonParent);
+           UnlockUnitBtn trainButton = button.GetComponent<UnlockUnitBtn>();
+           if (trainButton == null)
             {
-                Debug.LogError("UnlockUnits.FillUnitsPanel: Button prefab is missing TrainTroopsButton.");
+                Debug.LogError("UnlockUnits.FillUnitsPanel: Button prefab is missing UnlockUnitBtn.");
                 Destroy(button);
                 continue;
             }
 
-            trainButton.unitToTrain = unit;
-            trainButton.isTraining = false;
-            trainButton.isUpgrading = false;
+        trainButton.unitToUnlock = unit;
+        trainButton.confirmationPanel = confirmationPanel; // pass down the shared panel
+        trainButton.costParent = viewPortCost;              // pass down the shared cost parent
+        trainButton.unlockTroopPanel = this.gameObject; // pass down the reference to this panel
+
+        // set the button's own label immediately, don't wait for confirmation panel
+        if (trainButton.unitNameText != null)
+            trainButton.unitNameText.text = unit.unitName;
+        if (trainButton.unitIconImage != null && unit.unitIcon != null)
+            trainButton.unitIconImage.sprite = unit.unitIcon;
         }
 
         if (buttonParent.childCount == 0)
@@ -161,5 +171,89 @@ public class UnlockUnits : MonoBehaviour
     public void exitButton()
     {
         Destroy(gameObject);
+    }
+
+    public void unlockUnit()
+    {
+        if (playerSO == null)
+        {
+            Debug.LogError("UnlockUnits.unlockUnit: PlayerSO is not assigned.");
+            return;
+        }
+
+        if (selectedUnit == null)
+        {
+            Debug.LogWarning("UnlockUnits.unlockUnit: No unit is selected.");
+            return;
+        }
+
+        if (selectedUnit.buildingData == null)
+        {
+            Debug.LogWarning("UnlockUnits.unlockUnit: Selected unit has no cost data.");
+            return;
+        }
+
+        if (playerSO.unlockedUnits != null && playerSO.unlockedUnits.Contains(selectedUnit))
+        {
+            Debug.Log($"Unit {selectedUnit.unitName} is already unlocked.");
+            return;
+        }
+
+        // Same multiplier used when displaying costs in UnlockUnitBtn.createCostList
+        const int costMultiplier = 4;
+        BuildingData cost = selectedUnit.buildingData;
+        int woodCost = cost.woodCost * costMultiplier;
+        int rockCost = cost.rockCost * costMultiplier;
+        int farmCost = cost.farmCost * costMultiplier;
+        int coinCost = cost.coinCost * costMultiplier;
+
+        if (woodCost > playerSO.woodResources
+            || rockCost > playerSO.stoneResources
+            || farmCost > playerSO.farmResources
+            || coinCost > playerSO.coins)
+        {
+            Debug.Log($"UnlockUnits.unlockUnit: Not enough resources to unlock {selectedUnit.unitName}.");
+            return;
+        }
+
+        playerSO.woodResources -= woodCost;
+        playerSO.stoneResources -= rockCost;
+        playerSO.farmResources -= farmCost;
+        playerSO.coins -= coinCost;
+
+        if (playerData != null)
+        {
+            playerData.updatePlayerMaterials();
+        }
+
+        if (playerSO.unlockedUnits == null)
+        {
+            playerSO.unlockedUnits = new List<UnitSO>();
+        }
+
+        playerSO.unlockedUnits.Add(selectedUnit);
+        Debug.Log($"Unlocked unit: {selectedUnit.unitName}");
+
+        updateUnitsToUnlock(unitsToUnlock);
+
+        if (confirmationPanel != null)
+        {
+            confirmationPanel.SetActive(false);
+        }
+
+        if (unitsPanel != null && unitsPanel.activeSelf)
+        {
+            meleeListBtn();
+        }
+
+        selectedUnit = null;
+    }
+
+    public void closeConfirmationPanel()
+    {
+        if (confirmationPanel != null)
+        {
+            confirmationPanel.SetActive(false);
+        }
     }
 }

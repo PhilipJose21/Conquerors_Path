@@ -1477,9 +1477,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TrainUpgradeTroopUI, Assembly-CSharp
-        m_MethodName: TRAINorUPGRADE
+      - m_Target: {fileID: 5494028337281862909}
+        m_TargetAssemblyTypeName: UnlockUnits, Assembly-CSharp
+        m_MethodName: unlockUnit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3610,13 +3610,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73f8aa28cf361254bb4203f3c8cb8398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnlockUnits
+  selectedUnit: {fileID: 0}
   meleeButton: {fileID: 4348547323439674171}
   rangedButton: {fileID: 679323142340491074}
   supportButton: {fileID: 5835763698829450060}
   unitsPanel: {fileID: 261964314277540123}
-  unitButtonPrefab: {fileID: 4295622067337134545, guid: fd09157dcbd0a594585ce129b0434406, type: 3}
+  unitButtonPrefab: {fileID: 4295622067337134545, guid: 23a699d8580ace342b2ebc33f35567b4, type: 3}
   viewPort: {fileID: 1947192025681315176}
   panelTitleText: {fileID: 217187356560023897}
+  confirmationPanel: {fileID: 1548346793078113055}
+  viewPortCost: {fileID: 5015444760090311615}
   unitsToUnlock:
   - {fileID: 11400000, guid: 237da6f91dc3a8840acccd4ca416268d, type: 2}
   - {fileID: 11400000, guid: 4bbd76910fc669144804d97c29155c58, type: 2}

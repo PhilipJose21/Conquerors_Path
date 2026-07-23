@@ -15,6 +15,9 @@ public class TrainTroopsButton : MonoBehaviour
 
     public GameObject confirmationPanel;
     public TrainUpgradeTroopUI trainUpgradeTroopUI;
+    public GameObject unitUnlockCostPrefab;
+    public Transform costParent;
+
     private PlayerData playerData;
     private PlayerSO playerSO;
     private PlayerBattleSO playerBattleSO;
@@ -84,6 +87,7 @@ public class TrainTroopsButton : MonoBehaviour
         if (confirmationPanel != null)
         {
             confirmationPanel.SetActive(true);
+            ResourceCostListBuilder.Build(unitToTrain.buildingData, playerSO, unitUnlockCostPrefab, costParent);
         }
     }
 
