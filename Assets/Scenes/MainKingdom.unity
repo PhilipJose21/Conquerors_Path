@@ -553,6 +553,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -713,6 +715,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -853,6 +857,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -1353,6 +1359,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -1918,6 +1926,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -2200,6 +2210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -2345,6 +2357,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -3109,6 +3123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -3207,6 +3223,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -3555,6 +3573,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -3707,6 +3727,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -5127,6 +5149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -5155,6 +5179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -5287,6 +5313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -5932,6 +5960,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -5955,6 +5985,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -6093,9 +6125,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1963233007}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 70, y: -70}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &325581228
@@ -7062,6 +7094,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -7879,6 +7913,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -8227,6 +8263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -8553,6 +8591,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -8724,6 +8764,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -8747,6 +8789,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -9219,6 +9263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -9490,6 +9536,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -9632,6 +9680,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -9784,6 +9834,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -10357,6 +10409,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -10380,6 +10434,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -10855,6 +10911,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -11352,6 +11410,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -12071,6 +12131,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -12242,6 +12304,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -12477,6 +12541,143 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &671034067
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 671034068}
+  - component: {fileID: 671034070}
+  - component: {fileID: 671034069}
+  m_Layer: 5
+  m_Name: Label Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &671034068
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671034067}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 936076574}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -0.000015258789}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &671034069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671034067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Exit?
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
+  m_sharedMaterial: {fileID: -4464829965060106944, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 0
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &671034070
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671034067}
+  m_CullTransparentMesh: 1
 --- !u!1 &681101437
 GameObject:
   m_ObjectHideFlags: 0
@@ -13157,6 +13358,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -13436,6 +13639,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -13464,6 +13669,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -13910,6 +14117,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -14023,6 +14232,7 @@ RectTransform:
   - {fileID: 1227553400}
   - {fileID: 1963233007}
   - {fileID: 420846730}
+  - {fileID: 1066478786}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -14047,6 +14257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -14507,6 +14719,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -14757,6 +14971,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -14905,6 +15121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -15095,6 +15313,160 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &863999276
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 863999277}
+  - component: {fileID: 863999281}
+  - component: {fileID: 863999280}
+  - component: {fileID: 863999279}
+  - component: {fileID: 863999278}
+  m_Layer: 5
+  m_Name: ConfirmButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &863999277
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863999276}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 948226170}
+  m_Father: {fileID: 1066478786}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -15.399963, y: 98.9}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &863999278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863999276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
+  hoverScale: {x: 1.05, y: 1.05, z: 1.05}
+  pressScale: {x: 0.95, y: 0.95, z: 0.95}
+  speed: 15
+  hoverSound: {fileID: 8300000, guid: 3626603ad03b0d24e9de049be98ed443, type: 3}
+  clickSound: {fileID: 8300000, guid: a884a50fea6b2a2489ab78e021e23baa, type: 3}
+  panelOpenSound: {fileID: 0}
+--- !u!114 &863999279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863999276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 863999280}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1066478787}
+        m_TargetAssemblyTypeName: GoToMainmenu, Assembly-CSharp
+        m_MethodName: GoToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &863999280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863999276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.43947884, g: 0.8113208, b: 0.28013524, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &863999281
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863999276}
+  m_CullTransparentMesh: 1
 --- !u!114 &864078871 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2033284986073194340, guid: 55d6287283a6a9d45927bd49d351e168, type: 3}
@@ -15439,6 +15811,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -15711,12 +16085,90 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
   hoverSound: {fileID: 8300000, guid: 3626603ad03b0d24e9de049be98ed443, type: 3}
   clickSound: {fileID: 8300000, guid: a884a50fea6b2a2489ab78e021e23baa, type: 3}
   panelOpenSound: {fileID: 0}
+--- !u!1 &936076573
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 936076574}
+  - component: {fileID: 936076576}
+  - component: {fileID: 936076575}
+  m_Layer: 5
+  m_Name: Label
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &936076574
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936076573}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 671034068}
+  m_Father: {fileID: 1066478786}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 86.1, y: 188.2}
+  m_SizeDelta: {x: 126.1893, y: 63.6897}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &936076575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936076573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 2e2ca222b80c7894aa811b4746137be5, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &936076576
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936076573}
+  m_CullTransparentMesh: 1
 --- !u!1 &936378219
 GameObject:
   m_ObjectHideFlags: 0
@@ -15805,6 +16257,143 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &948226169
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 948226170}
+  - component: {fileID: 948226172}
+  - component: {fileID: 948226171}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &948226170
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948226169}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 863999277}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.00012207031, y: 0.000061035156}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &948226171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948226169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Confirm
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
+  m_sharedMaterial: {fileID: -4464829965060106944, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4281479730
+  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 24
+  m_fontSizeBase: 24
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &948226172
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948226169}
+  m_CullTransparentMesh: 1
 --- !u!1 &948693021 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7295889959758813863, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
@@ -15822,6 +16411,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -15982,6 +16573,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -16203,6 +16796,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -16714,6 +17309,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -17014,6 +17611,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -17178,6 +17777,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -17309,6 +17910,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -17575,6 +18178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -17720,6 +18325,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1058012760}
   m_CullTransparentMesh: 1
+--- !u!1 &1066478785
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1066478786}
+  - component: {fileID: 1066478787}
+  m_Layer: 5
+  m_Name: Logout Panel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1066478786
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066478785}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.101625}
+  m_LocalScale: {x: 1.50076, y: 1.50076, z: 1.50076}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 936076574}
+  - {fileID: 1751516167}
+  - {fileID: 863999277}
+  - {fileID: 1939384693}
+  m_Father: {fileID: 789712887}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -127, y: -70}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1066478787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066478785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c535155126b695341acb4260fd8c6d60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GoToMainmenu
 --- !u!224 &1066854620 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8275508946589058711, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
@@ -17737,6 +18394,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -17798,6 +18457,143 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!1 &1079648222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1079648223}
+  - component: {fileID: 1079648225}
+  - component: {fileID: 1079648224}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1079648223
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079648222}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1751516167}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 35}
+  m_SizeDelta: {x: 400, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1079648224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079648222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
+  m_sharedMaterial: {fileID: -4464829965060106944, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 18
+  m_fontSizeBase: 18
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1079648225
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079648222}
+  m_CullTransparentMesh: 1
 --- !u!1 &1079680277
 GameObject:
   m_ObjectHideFlags: 0
@@ -17944,6 +18740,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -17967,6 +18765,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -18294,6 +19094,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -19214,6 +20016,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -19877,6 +20681,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -20017,6 +20823,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -20040,6 +20848,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -20493,6 +21303,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -20666,6 +21478,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -20806,6 +21620,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -21103,6 +21919,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -21573,6 +22391,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -21884,6 +22704,174 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350044212}
   m_CullTransparentMesh: 1
+--- !u!1 &1354336598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1354336599}
+  - component: {fileID: 1354336604}
+  - component: {fileID: 1354336603}
+  - component: {fileID: 1354336602}
+  - component: {fileID: 1354336601}
+  - component: {fileID: 1354336600}
+  m_Layer: 5
+  m_Name: Logout Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1354336599
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354336598}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.2122, y: 1.2122, z: 1.2122}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1832058386}
+  m_Father: {fileID: 1670676571}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 850, y: 1.475}
+  m_SizeDelta: {x: 70, y: 70}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1354336600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354336598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
+  hoverScale: {x: 1.05, y: 1.05, z: 1.05}
+  pressScale: {x: 0.95, y: 0.95, z: 0.95}
+  speed: 15
+  hoverSound: {fileID: 8300000, guid: 3626603ad03b0d24e9de049be98ed443, type: 3}
+  clickSound: {fileID: 8300000, guid: a884a50fea6b2a2489ab78e021e23baa, type: 3}
+  panelOpenSound: {fileID: 8300000, guid: ad51d6689e2cdf24894affcde2bf91fb, type: 3}
+--- !u!114 &1354336601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354336598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62fd6ba8f72b864aa26319365e06bb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OpenUI
+  uiToOpen: {fileID: 1066478785}
+--- !u!114 &1354336602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354336598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1354336603}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1354336601}
+        m_TargetAssemblyTypeName: OpenUI, Assembly-CSharp
+        m_MethodName: toggleUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1354336603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354336598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 10d899e39cc1d4444b952ae8098ce1a6, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1354336604
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354336598}
+  m_CullTransparentMesh: 1
 --- !u!1 &1362111497
 GameObject:
   m_ObjectHideFlags: 0
@@ -22156,6 +23144,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -22679,6 +23669,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -23111,6 +24103,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -23271,6 +24265,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -23347,6 +24343,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -23498,6 +24496,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -23521,6 +24521,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -24383,6 +25385,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -24986,6 +25990,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -25192,6 +26198,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -25552,6 +26560,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -25575,6 +26585,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -26281,6 +27293,7 @@ RectTransform:
   - {fileID: 299479704}
   - {fileID: 1296381312}
   - {fileID: 968575155}
+  - {fileID: 1354336599}
   - {fileID: 2139878559}
   m_Father: {fileID: 656250127}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -26344,6 +27357,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -26511,9 +27526,9 @@ RectTransform:
   - {fileID: 94847499}
   m_Father: {fileID: 1963233007}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 132.15, y: 2.8333435}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 507.15, y: -372.16666}
   m_SizeDelta: {x: 974.3, y: 504.3333}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1682514337
@@ -26654,6 +27669,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -26785,6 +27802,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -26932,6 +27951,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -27072,6 +28093,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -27089,6 +28112,114 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &1751516166
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1751516167}
+  - component: {fileID: 1751516170}
+  - component: {fileID: 1751516169}
+  - component: {fileID: 1751516168}
+  m_Layer: 5
+  m_Name: Resource Cost Parent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1751516167
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751516166}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1992281513}
+  - {fileID: 1079648223}
+  m_Father: {fileID: 1066478786}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 86.7993, y: 100.77634}
+  m_SizeDelta: {x: 464.75, y: 146.84}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1751516168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751516166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ScrollRect
+  m_Content: {fileID: 0}
+  m_Horizontal: 1
+  m_Vertical: 1
+  m_MovementType: 1
+  m_Elasticity: 0.1
+  m_Inertia: 1
+  m_DecelerationRate: 0.135
+  m_ScrollSensitivity: 1
+  m_Viewport: {fileID: 1992281513}
+  m_HorizontalScrollbar: {fileID: 0}
+  m_VerticalScrollbar: {fileID: 0}
+  m_HorizontalScrollbarVisibility: 2
+  m_VerticalScrollbarVisibility: 2
+  m_HorizontalScrollbarSpacing: -3
+  m_VerticalScrollbarSpacing: -3
+  m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1751516169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751516166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: fa8f8b670dfae0e459797788f82b86d0, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1751516170
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751516166}
+  m_CullTransparentMesh: 1
 --- !u!1 &1757648501
 GameObject:
   m_ObjectHideFlags: 0
@@ -27154,6 +28285,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -28363,6 +29496,143 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1825388366}
   m_CullTransparentMesh: 1
+--- !u!1 &1832058385
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1832058386}
+  - component: {fileID: 1832058388}
+  - component: {fileID: 1832058387}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1832058386
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832058385}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1354336599}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1832058387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832058385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
+  m_sharedMaterial: {fileID: -4464829965060106944, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 24
+  m_fontSizeBase: 24
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1832058388
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832058385}
+  m_CullTransparentMesh: 1
 --- !u!1 &1832158188
 GameObject:
   m_ObjectHideFlags: 0
@@ -29006,6 +30276,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -29517,6 +30789,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -29937,6 +31211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -30227,6 +31503,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -30370,6 +31648,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -30512,6 +31792,160 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1932398719}
+  m_CullTransparentMesh: 1
+--- !u!1 &1939384692
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1939384693}
+  - component: {fileID: 1939384697}
+  - component: {fileID: 1939384696}
+  - component: {fileID: 1939384695}
+  - component: {fileID: 1939384694}
+  m_Layer: 5
+  m_Name: DeclineButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1939384693
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939384692}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1950413528}
+  m_Father: {fileID: 1066478786}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 180.6, y: 98.90001}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1939384694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939384692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
+  hoverScale: {x: 1.05, y: 1.05, z: 1.05}
+  pressScale: {x: 0.95, y: 0.95, z: 0.95}
+  speed: 15
+  hoverSound: {fileID: 8300000, guid: 3626603ad03b0d24e9de049be98ed443, type: 3}
+  clickSound: {fileID: 8300000, guid: a884a50fea6b2a2489ab78e021e23baa, type: 3}
+  panelOpenSound: {fileID: 0}
+--- !u!114 &1939384695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939384692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1939384696}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1066478787}
+        m_TargetAssemblyTypeName: GoToMainmenu, Assembly-CSharp
+        m_MethodName: ClosePanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1939384696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939384692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.9245283, g: 0.24247056, b: 0.24247056, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1939384697
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939384692}
   m_CullTransparentMesh: 1
 --- !u!1001 &1939832384
 PrefabInstance:
@@ -30975,6 +32409,143 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1950302503}
   m_CullTransparentMesh: 1
+--- !u!1 &1950413527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1950413528}
+  - component: {fileID: 1950413530}
+  - component: {fileID: 1950413529}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1950413528
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950413527}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1939384693}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.00012207031, y: 0.000061035156}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1950413529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950413527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Close
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
+  m_sharedMaterial: {fileID: -4464829965060106944, guid: 079215fb361fa42499d8115cd145a8d2, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4281479730
+  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 24
+  m_fontSizeBase: 24
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1950413530
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950413527}
+  m_CullTransparentMesh: 1
 --- !u!1 &1963233006
 GameObject:
   m_ObjectHideFlags: 0
@@ -31034,6 +32605,7 @@ MonoBehaviour:
   masterMuteToggle: {fileID: 698639161}
   musicMuteToggle: {fileID: 816244659}
   sfxMuteToggle: {fileID: 182625626}
+  backButton: {fileID: 0}
   saveButton: {fileID: 94847500}
   saveButtonImage: {fileID: 94847501}
   saveSuccessColor: {r: 0, g: 1, b: 0, a: 1}
@@ -31154,6 +32726,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -31436,6 +33010,120 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1983147663}
   m_CullTransparentMesh: 1
+--- !u!1 &1992281512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1992281513}
+  - component: {fileID: 1992281517}
+  - component: {fileID: 1992281516}
+  - component: {fileID: 1992281515}
+  - component: {fileID: 1992281514}
+  m_Layer: 5
+  m_Name: Viewport
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1992281513
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992281512}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1751516167}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -0.000015259}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &1992281514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992281512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GridLayoutGroup
+  m_Padding:
+    m_Left: 16
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 105.7, y: 70.5}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 2
+--- !u!114 &1992281515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992281512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Mask
+  m_ShowMaskGraphic: 0
+--- !u!114 &1992281516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992281512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1992281517
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992281512}
+  m_CullTransparentMesh: 1
 --- !u!1 &1993318167
 GameObject:
   m_ObjectHideFlags: 0
@@ -31591,6 +33279,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -31855,6 +33545,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -31878,6 +33570,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -32234,6 +33928,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -32474,6 +34170,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -32829,6 +34527,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15
@@ -33118,6 +34818,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703c46521b1d87c44a4883579764e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonFeedback
+  settingsPanel: {fileID: 0}
+  togglePanel: 1
   hoverScale: {x: 1.05, y: 1.05, z: 1.05}
   pressScale: {x: 0.95, y: 0.95, z: 0.95}
   speed: 15

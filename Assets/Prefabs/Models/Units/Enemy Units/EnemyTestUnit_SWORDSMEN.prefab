@@ -163,6 +163,7 @@ MonoBehaviour:
   healthBarFill: {fileID: 7157696317104797339}
   currentUnitPhase: 0
   playerUnit: {fileID: 0}
+  deathScaleDuration: 0.6
 --- !u!114 &5162118495126467530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,10 +609,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7814254144468023189, guid: 8f9978b599969a74fa063827d370854e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7814254144468023189, guid: 8f9978b599969a74fa063827d370854e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0124
+      objectReference: {fileID: 0}
+    - target: {fileID: -7814254144468023189, guid: 8f9978b599969a74fa063827d370854e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8f9978b599969a74fa063827d370854e, type: 3}
       propertyPath: m_Name
       value: conquerers path swordsman
       objectReference: {fileID: 0}
+    - target: {fileID: 1919658917000694654, guid: 8f9978b599969a74fa063827d370854e, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4686849319519084627, guid: 6b2a5dfc394900345a9d5e926efe2024, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

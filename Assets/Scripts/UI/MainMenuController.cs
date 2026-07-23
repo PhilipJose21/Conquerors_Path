@@ -9,6 +9,7 @@ public class MainMenuController : MonoBehaviour
 
     [Header("Sub Panels")]
     [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject creditsPanel;
 
     [Header("Task Extensions")]
     [SerializeField] private Button continueButton;
@@ -85,6 +86,16 @@ public class MainMenuController : MonoBehaviour
         {
             settingsPanel.SetActive(false);
             Debug.Log("Settings Panel Closed.");
+        }
+    }
+
+    public void OpenCredits()
+    {
+        if (creditsPanel != null)
+        {
+            CloseSettings(); // Ensure settings panel is closed before opening credits
+            creditsPanel.SetActive(true);
+            Debug.Log("Credits Panel Opened.");
         }
     }
 
