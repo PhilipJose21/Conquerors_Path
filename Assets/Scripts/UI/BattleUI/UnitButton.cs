@@ -39,13 +39,13 @@ public class UnitButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             }
             unitName = unitData.unitName; 
             if (unitCostText != null && buildingData != null) unitCostText.text = buildingData.reinforcementCost.ToString(); 
-            if (unitAmountText != null) unitAmountText.text = unitCount.ToString(); 
+            if (unitAmountText != null) unitAmountText.text = $"x{unitCount}"; 
         }
     }
 
     void Update()
     {
-        if (unitAmountText != null) unitAmountText.text = unitCount.ToString(); 
+        if (unitAmountText != null) unitAmountText.text = $"x{unitCount}"; 
         if (fadedOverlay != null) 
         {
             fadedOverlay.SetActive(unitCount <= 0); 

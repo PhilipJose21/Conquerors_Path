@@ -46,6 +46,8 @@ public class TurnManager : MonoBehaviour
 
     [Header("Audio Settings")]
     [SerializeField] private AudioClip turnSwitchSFX;
+    [SerializeField] private AudioClip victoryMusic;
+    [SerializeField] private AudioClip gameOverMusic;
 
     private Coroutine transitionCoroutine;
     private bool transitionPending = false;
@@ -75,22 +77,20 @@ public class TurnManager : MonoBehaviour
 
     void Update()
     {
-        if (currentTurnPhase != turnPhase.SetupTurn && currentTurnPhase != turnPhase.PlayerWin && currentTurnPhase != turnPhase.EnemyWin)
+        if (currentTurnPhase != turnPhase.SetupTurn && !placementPhase && currentTurnPhase != turnPhase.PlayerWin && currentTurnPhase != turnPhase.EnemyWin)
         {
             updateUnitLists();
+
+
             if (playerUnits == null || playerUnits.Length == 0)
             {
-                currentTurnPhase = turnPhase.EnemyWin;
-                gameOverScreen.SetActive(true);
-                HideTurnScreens(); // Clean up UI instantly
+                TriggerGameOver();
                 return; 
             }
+
             else if (enemyUnits == null || enemyUnits.Length == 0)
             {
-                currentTurnPhase = turnPhase.PlayerWin;
-                RecordCompletedLevel();
-                victoryScreen.SetActive(true);
-                HideTurnScreens(); // Clean up UI instantly
+                TriggerVictory();
                 return;
             }
         }
@@ -98,6 +98,31 @@ public class TurnManager : MonoBehaviour
         if (currentTurnPhase != turnPhase.PlayerWin && currentTurnPhase != turnPhase.EnemyWin)
         {
             checkTurnPhase();
+        }
+    }
+
+    private void TriggerGameOver()
+    {
+        currentTurnPhase = turnPhase.EnemyWin;
+        gameOverScreen.SetActive(true);
+        HideTurnScreens(); 
+
+        if (gameOverMusic != null && SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayBGM(gameOverMusic, false);
+        }
+    }
+
+    private void TriggerVictory()
+    {
+        currentTurnPhase = turnPhase.PlayerWin;
+        RecordCompletedLevel();
+        victoryScreen.SetActive(true);
+        HideTurnScreens();
+
+        if (victoryMusic != null && SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayBGM(victoryMusic, false);
         }
     }
 
@@ -370,13 +395,8 @@ public class TurnManager : MonoBehaviour
                 {
                     moveUnit.Act();
 
-                    // 1. Wait a frame for Act() to initialize the move coroutine
                     yield return null; 
-
-                    // 2. Wait until the unit stops moving (isMoving becomes false)
                     yield return new WaitUntil(() => !moveUnit.isMoving);
-
-                    // 3. Optional short buffer pause between actions for visual clarity
                     yield return new WaitForSeconds(0.2f);
                 }
             }

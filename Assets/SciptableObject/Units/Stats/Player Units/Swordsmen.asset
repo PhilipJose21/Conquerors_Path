@@ -15,15 +15,15 @@ MonoBehaviour:
   buildingData: {fileID: 11400000, guid: ddec126d5e5780140a61dda17dbbee35, type: 2}
   unitName: Swordsmen
   unitType: 0
-  level: 1
-  health: 8
-  damage: 6
-  attackRange: 1
-  mobility: 3
+  level: 11
+  health: 12
+  damage: 14
+  attackRange: 2
+  mobility: 4
   movePoints: 1
   attackPoints: 1
   unitCost: 3
   harvestAmount: 0
-  unitIcon: {fileID: 21300000, guid: 63edc83ea861edf4e9cf5a1a836c9f86, type: 3}
+  unitIcon: {fileID: 21300000, guid: c841d1628bb96f347bddfa4d129a5757, type: 3}
   unitPrefab: {fileID: 0}
   unitButtonPrefab: {fileID: 0}

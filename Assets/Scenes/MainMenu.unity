@@ -189114,8 +189114,8 @@ MonoBehaviour:
   sfxSlider: {fileID: 2047030631}
   musicAudioSource: {fileID: 991453981}
   mainKingdomMusic: {fileID: 8300000, guid: 3dfc6aa2207bcea46a7fd49252b88029, type: 3}
-  levelSelectMusic: {fileID: 0}
-  battleSceneMusic: {fileID: 0}
+  levelSelectMusic: {fileID: 8300000, guid: 751398f8edc8dff4a9a09a3809f8edc8, type: 3}
+  battleSceneMusic: {fileID: 8300000, guid: cb37eaeaa007dea49b5ea8f4cfff5c31, type: 3}
 --- !u!4 &1301573101
 Transform:
   m_ObjectHideFlags: 0
