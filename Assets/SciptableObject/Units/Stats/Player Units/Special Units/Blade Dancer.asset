@@ -16,6 +16,7 @@ MonoBehaviour:
   unitName: Blade Dancer
   unitType: 0
   level: 1
+  description: Dance around their enemy
   health: 6
   damage: 8
   attackRange: 1

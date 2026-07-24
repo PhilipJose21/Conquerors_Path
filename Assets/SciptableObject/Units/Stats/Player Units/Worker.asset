@@ -16,6 +16,7 @@ MonoBehaviour:
   unitName: Workers
   unitType: 2
   level: 1
+  description: they harvest
   health: 4
   damage: 1
   attackRange: 1

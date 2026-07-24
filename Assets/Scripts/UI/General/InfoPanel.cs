@@ -48,7 +48,7 @@ public class InfoPanel : MonoBehaviour
 
     public BuildingStatsSO buildingStatsSO;
     public BuildingData buildingData;
-    public TroopData unitData;
+    public UnitSO unitData;
 
     private PassiveResource passiveResource;
 
@@ -93,7 +93,7 @@ public class InfoPanel : MonoBehaviour
         // KingdomUIManager handles this smoothly on-click.
     }
 
-    public void SetUp(BuildingStatsSO buildingStatsSO, TroopData unitData)
+    public void SetUp(BuildingStatsSO buildingStatsSO, UnitSO unitData)
     {
         this.buildingStatsSO = buildingStatsSO;
         this.unitData = unitData;

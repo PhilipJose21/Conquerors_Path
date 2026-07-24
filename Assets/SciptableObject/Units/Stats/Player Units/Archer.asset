@@ -16,6 +16,7 @@ MonoBehaviour:
   unitName: Ranged
   unitType: 1
   level: 1
+  description: They shoot arrows
   health: 5
   damage: 3
   attackRange: 3
