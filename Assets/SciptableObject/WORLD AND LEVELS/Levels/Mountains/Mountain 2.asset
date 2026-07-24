@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Mountain 2
   m_EditorClassIdentifier: Assembly-CSharp::LevelSO
   levelName: {fileID: 11400000, guid: a5f8d703670b8884695e6c0b84056cc4, type: 2}
-  levelImage: {fileID: 0}
+  levelImage: {fileID: 21300000, guid: f1f4165a5964bfa44a4c9e888821fc95, type: 3}
   levelSceneName: Mountain 2
   level: 2
   isUnlocked: 0

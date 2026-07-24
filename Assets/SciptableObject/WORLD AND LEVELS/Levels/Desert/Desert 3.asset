@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Desert 3
   m_EditorClassIdentifier: Assembly-CSharp::LevelSO
   levelName: {fileID: 11400000, guid: d7fed8a147e8036458dbbd698f27f50e, type: 2}
-  levelImage: {fileID: 0}
+  levelImage: {fileID: 21300000, guid: f3f97d364065ef843878c8a57fb2d560, type: 3}
   levelSceneName: Desert 3
   level: 3
   isUnlocked: 0

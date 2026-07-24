@@ -12,13 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac51966c5eab54e47a088131e0fafe65, type: 3}
   m_Name: Plains
   m_EditorClassIdentifier: Assembly-CSharp::LevelSO
+  worldBackgroundColor: {r: 1, g: 1, b: 1, a: 1}
   worldName: Plains
-  worldImage: {fileID: 21300000, guid: 25965183b14280845951ed97bfaf277b, type: 3}
+  worldImage: {fileID: 21300000, guid: a4103265848bd404da2c416a09f0271c, type: 3}
   worldLevelScene: BattleScene
-  sceneNames:
-  - Plain_1
-  - Plain_2
-  - Plain_3
   levels:
   - {fileID: 11400000, guid: b7ec2cf5d134b934cbac154ffc686655, type: 2}
   - {fileID: 11400000, guid: a467da0818e28c04b9756575693d2971, type: 2}

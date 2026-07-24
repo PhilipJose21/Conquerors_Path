@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Plains 1
   m_EditorClassIdentifier: Assembly-CSharp::LevelSO
   levelName: {fileID: 11400000, guid: 3418f3738a541d7468649575fc4c697e, type: 2}
-  levelImage: {fileID: 0}
+  levelImage: {fileID: 21300000, guid: a4103265848bd404da2c416a09f0271c, type: 3}
   levelSceneName: Plains 1
   level: 1
   isUnlocked: 1
