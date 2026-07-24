@@ -18,7 +18,8 @@ MonoBehaviour:
   level: 2
   isUnlocked: 0
   isCompleted: 0
+  levelReinforcementCost: 4
   rewardClaimed: 0
-  energyPointsReward: 0
-  gemsReward: 0
-  coinsReward: 0
+  energyPointsReward: 50
+  gemsReward: 40
+  coinsReward: 8000

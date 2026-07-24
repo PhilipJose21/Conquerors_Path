@@ -18,6 +18,19 @@ public class HarvestResource : MonoBehaviour
         }
     }    
 
+    // Best-effort display name for combat text: prefers the unit's UnitSO name,
+    // falls back to the GameObject's name if no UnitSOContainer is found.
+    private string GetDisplayName(GameObject go)
+    {
+        if (go == null) return "Unit";
+        var container = go.GetComponentInParent<UnitSOContainer>();
+        if (container != null && container.unitData != null)
+        {
+            return container.unitData.unitName;
+        }
+        return go.name;
+    }
+
     // Try to harvest any resource at the given world position (e.g., clicked tile).
     // Returns true if a resource was found and "harvested".
     public bool TryHarvestAtPosition(Vector3 worldPos)
@@ -40,6 +53,8 @@ public class HarvestResource : MonoBehaviour
                     // If no MoveUnit present, still attempt with local harvestAmount fallback
                     resourceNode.HarvestResource(harvestAmount);
                 }
+
+                ActionText.Instance?.ShowHarvestText(GetDisplayName(moveUnit != null ? moveUnit.gameObject : gameObject), harvestAmount, resourceNode.transform.position);
 
                 CellHighlighter.Instance?.ClearHighlights();
                 return true;

@@ -21,6 +21,19 @@ public class HarvestUnit : MonoBehaviour
         }
     }
 
+    // Best-effort display name for combat text: prefers the unit's UnitSO name,
+    // falls back to the GameObject's name if no UnitSOContainer is found.
+    private string GetDisplayName(GameObject go)
+    {
+        if (go == null) return "Unit";
+        var container = go.GetComponentInParent<UnitSOContainer>();
+        if (container != null && container.unitData != null)
+        {
+            return container.unitData.unitName;
+        }
+        return go.name;
+    }
+
     public bool TryToHarvestPosition(Vector3 worldPos)
     {
         float checkRadius = 0.6f; 
@@ -80,6 +93,7 @@ public class HarvestUnit : MonoBehaviour
                 targetTerrain.HarvestResource(harvestAmount);
                 moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
                 stateMachine?.ChangeState(unitPhase.Damage);
+                ActionText.Instance?.ShowHarvestText(GetDisplayName(moveUnit != null ? moveUnit.gameObject : gameObject), harvestAmount, targetTerrain.transform.position);
             }
 
             CellHighlighter.Instance?.ClearHighlights();
@@ -110,6 +124,7 @@ public class HarvestUnit : MonoBehaviour
                 CellHighlighter.Instance?.ClearHighlights();
                 moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
                 stateMachine?.ChangeState(unitPhase.Damage);
+                ActionText.Instance?.ShowHarvestText(GetDisplayName(moveUnit != null ? moveUnit.gameObject : gameObject), harvestAmount, harvest.transform.position);
                 return;
             }
         }

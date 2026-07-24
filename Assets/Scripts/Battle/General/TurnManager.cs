@@ -369,7 +369,15 @@ public class TurnManager : MonoBehaviour
                 if (moveUnit != null && !moveUnit.endTurn)
                 {
                     moveUnit.Act();
-                    yield return new WaitForSeconds(enemyTurnDelay);
+
+                    // 1. Wait a frame for Act() to initialize the move coroutine
+                    yield return null; 
+
+                    // 2. Wait until the unit stops moving (isMoving becomes false)
+                    yield return new WaitUntil(() => !moveUnit.isMoving);
+
+                    // 3. Optional short buffer pause between actions for visual clarity
+                    yield return new WaitForSeconds(0.2f);
                 }
             }
         }

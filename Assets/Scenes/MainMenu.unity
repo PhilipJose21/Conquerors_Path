@@ -27228,8 +27228,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280108909
-  m_fontColor: {r: 0.4264151, g: 0.27661425, b: 0.11183336, a: 1}
+    rgba: 4281954466
+  m_fontColor: {r: 0.63529414, g: 0.43921572, b: 0.22352943, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -35729,8 +35729,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280108909
-  m_fontColor: {r: 0.4264151, g: 0.27661425, b: 0.11183336, a: 1}
+    rgba: 4281954466
+  m_fontColor: {r: 0.63529414, g: 0.43921572, b: 0.22352943, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -51259,7 +51259,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b85cf215148eaf04480aba43c305895a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 33ba9ec414e6fec499115e2c8c5a0e6d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -156101,8 +156101,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280108909
-  m_fontColor: {r: 0.4264151, g: 0.27661425, b: 0.11183336, a: 1}
+    rgba: 4281954466
+  m_fontColor: {r: 0.63529414, g: 0.43921572, b: 0.22352943, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -156761,7 +156761,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b85cf215148eaf04480aba43c305895a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 33ba9ec414e6fec499115e2c8c5a0e6d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -164411,7 +164411,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b85cf215148eaf04480aba43c305895a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 33ba9ec414e6fec499115e2c8c5a0e6d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -189113,9 +189113,9 @@ MonoBehaviour:
   musicSlider: {fileID: 1481839122}
   sfxSlider: {fileID: 2047030631}
   musicAudioSource: {fileID: 991453981}
-  mainKingdomMusic: {fileID: 8300000, guid: d795ab06027e6c44290c6b91637d6f3c, type: 3}
-  levelSelectMusic: {fileID: 8300000, guid: 751398f8edc8dff4a9a09a3809f8edc8, type: 3}
-  battleSceneMusic: {fileID: 8300000, guid: cb37eaeaa007dea49b5ea8f4cfff5c31, type: 3}
+  mainKingdomMusic: {fileID: 8300000, guid: 3dfc6aa2207bcea46a7fd49252b88029, type: 3}
+  levelSelectMusic: {fileID: 0}
+  battleSceneMusic: {fileID: 0}
 --- !u!4 &1301573101
 Transform:
   m_ObjectHideFlags: 0
@@ -189835,7 +189835,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b85cf215148eaf04480aba43c305895a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 03ab25b97f9e1e549af24ba63f0b2fe0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -199122,8 +199122,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280108909
-  m_fontColor: {r: 0.4264151, g: 0.27661425, b: 0.11183336, a: 1}
+    rgba: 4281954466
+  m_fontColor: {r: 0.63529414, g: 0.43921572, b: 0.22352943, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -246504,7 +246504,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b85cf215148eaf04480aba43c305895a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 33ba9ec414e6fec499115e2c8c5a0e6d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -288176,8 +288176,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280108909
-  m_fontColor: {r: 0.4264151, g: 0.27661425, b: 0.11183336, a: 1}
+    rgba: 4281954466
+  m_fontColor: {r: 0.63529414, g: 0.43921572, b: 0.22352943, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -311710,10 +311710,10 @@ SceneRoots:
   m_Roots:
   - {fileID: 576450724}
   - {fileID: 1928804422}
-  - {fileID: 1301573101}
-  - {fileID: 1520420636}
   - {fileID: 1886383087}
   - {fileID: 106549372}
   - {fileID: 561392524}
   - {fileID: 833413758}
   - {fileID: 1574346245}
+  - {fileID: 1301573101}
+  - {fileID: 1520420636}
