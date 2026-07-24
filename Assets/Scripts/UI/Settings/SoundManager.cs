@@ -22,7 +22,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource musicAudioSource; 
     public AudioClip mainKingdomMusic;                     
     public AudioClip levelSelectMusic;                    
-    public AudioClip battleSceneMusic; // Added for Battle Scene BGM
+    public AudioClip battleSceneMusic; 
 
     private AudioSource sfxAudioSource;
 
@@ -116,10 +116,12 @@ public class SoundManager : MonoBehaviour
         PlayBGM(battleSceneMusic);
     }
 
-    private void PlayBGM(AudioClip trackClip)
+    public void PlayBGM(AudioClip trackClip, bool loop = true)
     {
         if (trackClip == null || musicAudioSource == null) return;
         if (musicAudioSource.clip == trackClip && musicAudioSource.isPlaying) return;
+
+        musicAudioSource.loop = loop;
         musicAudioSource.clip = trackClip;
         musicAudioSource.Play();
     }

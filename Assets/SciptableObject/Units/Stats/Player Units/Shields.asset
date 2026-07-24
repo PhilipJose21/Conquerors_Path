@@ -25,6 +25,6 @@ MonoBehaviour:
   attackPoints: 1
   unitCost: 3
   harvestAmount: 0
-  unitIcon: {fileID: 21300000, guid: e21f3a95ca8350748aa0ae534dd5b477, type: 3}
+  unitIcon: {fileID: 21300000, guid: 743d97a7c475f4a42a6881eff68b8a72, type: 3}
   unitPrefab: {fileID: 0}
   unitButtonPrefab: {fileID: 0}
