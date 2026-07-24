@@ -20,8 +20,8 @@ MonoBehaviour:
   damage: 8
   attackRange: 1
   mobility: 5
-  movePoints: 0
-  attackPoints: 0
+  movePoints: 1
+  attackPoints: 1
   unitCost: 3
   harvestAmount: 0
   unitIcon: {fileID: 0}
