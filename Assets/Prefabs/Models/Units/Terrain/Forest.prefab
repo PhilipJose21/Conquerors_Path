@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: 2470298195495587215}
   - component: {fileID: 7084794039265949332}
   - component: {fileID: 4625408704490808723}
+  - component: {fileID: 1473925192730621924}
   m_Layer: 7
   m_Name: TestUnitModel
   m_TagString: Untagged
@@ -377,6 +378,19 @@ MonoBehaviour:
   playerbattleData: {fileID: 0}
   playerBattleSO: {fileID: 0}
   canHarvest: 1
+--- !u!114 &1473925192730621924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6146521165466870565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d571360b3f1ec08468a87f2ea51c8c37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TerrainTransparent
+  occupiedAlpha: 0.35
 --- !u!1001 &4068036065709892111
 PrefabInstance:
   m_ObjectHideFlags: 0

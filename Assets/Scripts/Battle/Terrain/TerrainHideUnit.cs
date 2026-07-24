@@ -39,6 +39,9 @@ public class TerrainHideUnit : MonoBehaviour
         return false;
     }
 
+    private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
+    private static readonly int ColorId = Shader.PropertyToID("_Color");
+
     private static void SetAlpha(Renderer targetRenderer, float alpha)
     {
         if (targetRenderer == null)
@@ -47,9 +50,23 @@ public class TerrainHideUnit : MonoBehaviour
         }
 
         Material mat = targetRenderer.material;
-        Color currentColor = mat.color;
-        currentColor.a = alpha;
-        mat.color = currentColor;
+
+        // URP Lit/Unlit shaders expose "_BaseColor" instead of the legacy
+        // "_Color" property. mat.color only works with "_Color", so on URP
+        // materials it silently no-ops. Set whichever property the shader
+        // actually has.
+        if (mat.HasProperty(BaseColorId))
+        {
+            Color c = mat.GetColor(BaseColorId);
+            c.a = alpha;
+            mat.SetColor(BaseColorId, c);
+        }
+        else if (mat.HasProperty(ColorId))
+        {
+            Color c = mat.GetColor(ColorId);
+            c.a = alpha;
+            mat.SetColor(ColorId, c);
+        }
     }
 
     // Sets alpha on every renderer found under the unit, not just the first one,
@@ -68,8 +85,30 @@ public class TerrainHideUnit : MonoBehaviour
         }
     }
 
+    // Finds the object carrying the Animator (the actual visible model) and
+    // enables/disables it. The model is often a SIBLING of unitRoot (both
+    // live under a shared "Wrapper" parent) rather than a child of it, so we
+    // search from one level up. includeInactive:true is required so we can
+    // find it again to re-enable after it's been disabled.
+    private static void SetEnemyModelActive(Component unitRoot, bool active)
+    {
+        if (unitRoot == null)
+        {
+            return;
+        }
+
+        Transform searchRoot = unitRoot.transform.parent != null ? unitRoot.transform.parent : unitRoot.transform;
+        Animator animator = searchRoot.GetComponentInChildren<Animator>(true);
+        if (animator != null)
+        {
+            animator.gameObject.SetActive(active);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log($"[TerrainHideUnit] OnTriggerEnter by '{other.gameObject.name}' (tag: {other.tag})");
+
         MoveUnit moveUnit = other.GetComponentInParent<MoveUnit>();
         if (moveUnit != null || HasTagInParents(other.transform, "Player") || HasTagInParents(other.transform, "PlayerUnit"))
         {
@@ -86,11 +125,16 @@ public class TerrainHideUnit : MonoBehaviour
         else
         {
             EnemyMovement enemyMovement = other.GetComponentInParent<EnemyMovement>();
+            Debug.Log($"[TerrainHideUnit] enemyMovement found: {enemyMovement != null}, HasTagInParents Enemy: {HasTagInParents(other.transform, "Enemy")}, EnemyUnit: {HasTagInParents(other.transform, "EnemyUnit")}");
             if (enemyMovement != null || HasTagInParents(other.transform, "Enemy") || HasTagInParents(other.transform, "EnemyUnit"))
             {
                 Component unitRoot = enemyMovement != null ? (Component)enemyMovement : other.transform;
                 UnitHealth unitHealth = enemyMovement != null ? enemyMovement.GetComponentInChildren<UnitHealth>() : other.GetComponentInParent<UnitHealth>();
-                SetAlphaAll(unitRoot, 0f);
+
+                Transform searchRoot = unitRoot.transform.parent != null ? unitRoot.transform.parent : unitRoot.transform;
+                Animator foundAnimator = searchRoot.GetComponentInChildren<Animator>(true);
+                Debug.Log($"[TerrainHideUnit] unitRoot: '{unitRoot.gameObject.name}', searchRoot: '{searchRoot.name}', Animator found: {(foundAnimator != null ? foundAnimator.gameObject.name : "NULL")}");
+                SetEnemyModelActive(unitRoot, false);
 
                 if (enemyMovement != null)
                 {
@@ -157,7 +201,7 @@ public class TerrainHideUnit : MonoBehaviour
             {
                 containedEnemyUnits.Remove(enemyMovement);
                 bool stillHidden = enemyMovement.ExitFog(this);
-                SetAlphaAll(unitRoot, stillHidden ? 0f : 1f);
+                SetEnemyModelActive(unitRoot, !stillHidden);
                 UnitHealth unitHealth = enemyMovement.GetComponentInChildren<UnitHealth>();
                 if (unitHealth != null)
                 {
@@ -169,6 +213,8 @@ public class TerrainHideUnit : MonoBehaviour
 
     private void OnDisable()
     {
+        Debug.Log($"[TerrainHideUnit] OnDisable called on '{gameObject.name}' at time {Time.time:F2} — revealing {containedEnemyUnits.Count} enemy unit(s)");
+
         foreach (MoveUnit moveUnit in containedPlayerUnits)
         {
             if (moveUnit == null) continue;
@@ -181,7 +227,7 @@ public class TerrainHideUnit : MonoBehaviour
         {
             if (enemyMovement == null) continue;
             bool stillHidden = enemyMovement.ExitFog(this);
-            SetAlphaAll(enemyMovement, stillHidden ? 0f : 1f);
+            SetEnemyModelActive(enemyMovement, !stillHidden);
             UnitHealth unitHealth = enemyMovement.GetComponentInChildren<UnitHealth>();
             if (unitHealth != null)
             {

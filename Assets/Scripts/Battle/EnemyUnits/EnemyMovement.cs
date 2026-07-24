@@ -158,8 +158,6 @@ public class EnemyMovement : MonoBehaviour
         bool anyUnhidden = false;
         foreach (var p in players) { if (!IsPlayerHidden(p)) { anyUnhidden = true; break; } }
 
-        
-
         Transform nearest = null;
         float bestDist = float.MaxValue;
         Vector3 myPos = unitObject != null ? unitObject.transform.position : transform.position;
@@ -581,6 +579,15 @@ public class EnemyMovement : MonoBehaviour
         if (grid == null) return false;
 
         // Check against terrain that should block traversal.
+        //
+        // Only "cannotMoveOn" makes a cell truly impassable — this matches the
+        // landing-spot check in MoveToPosition. "disruptsMovement" (surfaced via
+        // CantWalkThrough()) means "a unit must stop upon entering this tile,"
+        // not "this tile can never be entered" — it's a legal destination/path
+        // cell, not a block. Terrain damage (TerrainDamage/terrainDamage) is a
+        // separate, independent system entirely (deals damage via its own
+        // trigger) and was never a factor here to begin with; it doesn't need
+        // to be checked for pathfinding at all.
         float cs = grid.CellSize;
         Vector3 localCenter = new Vector3((gx + 0.5f) * cs, 0.01f, (gy + 0.5f) * cs);
         Vector3 worldCenter = grid.transform.TransformPoint(localCenter);
@@ -588,7 +595,7 @@ public class EnemyMovement : MonoBehaviour
         foreach (var c in terrainCols)
         {
             var ti = c.GetComponentInParent<TerrainInteraction>();
-            if (ti != null && (ti.cannotMoveOn || ti.CantWalkThrough()))
+            if (ti != null && ti.cannotMoveOn)
             {
                 return true;
             }
