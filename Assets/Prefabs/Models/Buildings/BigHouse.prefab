@@ -602,8 +602,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e4ef843e907aae4184ca11b9661b064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingStatContainer
-  buildingStatsSO: {fileID: 11400000, guid: b543e3a158769bc4aae0eb98b18a049a, type: 2}
-  buildingData: {fileID: 11400000, guid: 7b3e877b6e54cd845b78f5848961ebef, type: 2}
+  buildingStatsSO: {fileID: 11400000, guid: c87e32346cc8a914fa4a47e7ffbacf2c, type: 2}
+  buildingData: {fileID: 11400000, guid: 34f93ff241aaf674bbe8d629540e8c71, type: 2}
 --- !u!114 &4381709770458237799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -617,8 +617,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PassiveResource
   resourceType: 1
-  buildingStatsSO: {fileID: 11400000, guid: b543e3a158769bc4aae0eb98b18a049a, type: 2}
-  buildingData: {fileID: 11400000, guid: 7b3e877b6e54cd845b78f5848961ebef, type: 2}
+  buildingStatsSO: {fileID: 11400000, guid: c87e32346cc8a914fa4a47e7ffbacf2c, type: 2}
+  buildingData: {fileID: 11400000, guid: 34f93ff241aaf674bbe8d629540e8c71, type: 2}
   level: 1
   maxResourcePercentage: 100
   isActive: 0
