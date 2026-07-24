@@ -15,10 +15,10 @@ MonoBehaviour:
   buildingData: {fileID: 11400000, guid: ddec126d5e5780140a61dda17dbbee35, type: 2}
   unitName: Swordsmen
   unitType: 0
-  level: 2
+  level: 1
   description: they slash
   health: 8
-  damage: 7
+  damage: 6
   attackRange: 1
   mobility: 3
   movePoints: 1

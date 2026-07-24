@@ -163,6 +163,14 @@ public class CellHighlighter : MonoBehaviour
             {
                 for (int dy = -maxRange; dy <= maxRange; dy++)
                 {
+                    // Skip the unit's own current cell entirely. A HighlightTile here
+                    // would sit exactly on top of the unit's own collider, and which
+                    // one a raycast resolves first is inconsistent — sometimes a click
+                    // meant to deselect the unit instead lands on this tile and gets
+                    // treated as "move to the cell I'm already standing on," which is
+                    // never a meaningful action anyway.
+                    if (dx == 0 && dy == 0) continue;
+
                     bool inMove = Mathf.Abs(dx) + Mathf.Abs(dy) <= mobility;
                     bool inAttack = Mathf.Abs(dx) <= attackRange && Mathf.Abs(dy) <= attackRange;
                     if (!inMove && !inAttack) continue;
