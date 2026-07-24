@@ -233,43 +233,61 @@ public class MoveUnit : MonoBehaviour
                 break;
             }
 
-            var selectedMove = selected.GetComponent<MoveUnit>();
-            var attacker = selected.GetComponent<AttackEnemyUnit>();
-            var harvester = selected.GetComponent<HarvestUnit>(); // Grab the harvester component
+            var selectedMove = selected.GetComponent<MoveUnit>() ?? selected.GetComponentInParent<MoveUnit>();
+            var attacker = selected.GetComponent<AttackEnemyUnit>() ?? selected.GetComponentInChildren<AttackEnemyUnit>();
+            // Use fallback search across hierarchy so harvester isn't null if attached to a child/parent
+            var harvester = selected.GetComponent<HarvestUnit>() ?? selected.GetComponentInChildren<HarvestUnit>() ?? selected.GetComponentInParent<HarvestUnit>();
 
-            // 1. This tile is within attack range AND something attackable (an enemy)
-            // is actually standing on it — attack it. This applies whether the tile
-            // is attack-only OR also within movement range (overlap tile): a target
-            // being present always takes priority over walking onto its cell.
+            // 1. Enemy handling on attack tile
             if (ht.isAttack && enemyPresent)
             {
                 if (attacker != null && (selectedMove == null || selectedMove.attackActions > 0))
                 {
                     bool attacked = attacker.TryAttackAtPosition(ht.worldPosition);
-                    if (attacked) return; // attack occurred and highlights cleared
+                    if (attacked) return;
                 }
                 Debug.Log("Tile occupied by enemy — cannot move into it. Select your unit and click the highlighted tile to attack.");
                 return;
             }
 
-            // 2. This tile is within attack range, has no enemy on it, but might have
-            // harvestable terrain — try to harvest it. Also applies to overlap tiles.
-            if (ht.isAttack && !enemyPresent && harvester != null)
+            // 2. Harvest handling
+            TerrainHarvest targetHarvest = null;
+            foreach (var h in hits)
+            {
+                var harvest = h.GetComponentInParent<TerrainHarvest>();
+                if (harvest != null && harvest.canHarvest && harvest.resourceType != TerrainSO.ResourceType.None)
+                {
+                    targetHarvest = harvest;
+                    break;
+                }
+            }
+
+            if (ht.isAttack && !enemyPresent && (harvester != null || targetHarvest != null))
             {
                 if (selectedMove == null || selectedMove.attackActions > 0)
                 {
-                    // Execute harvest. This already consumes attackActions and clears highlights inside TryToHarvestPosition
-                    bool harvested = harvester.TryToHarvestPosition(ht.worldPosition);
-                    if (harvested) return; // there WAS harvestable terrain here
+                    if (harvester != null)
+                    {
+                        bool harvested = harvester.TryToHarvestPosition(ht.worldPosition, targetHarvest);
+                        if (harvested) return;
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Target tile has harvestable terrain, but selected unit '{selected.name}' lacks a HarvestUnit component!");
+                        return;
+                    }
+
+                    if (targetHarvest != null)
+                    {
+                        Debug.Log("Tile contains harvestable terrain, but harvest action failed.");
+                        return;
+                    }
                 }
                 else
                 {
                     Debug.Log("Selected unit has no attack actions left to harvest.");
                     return;
                 }
-                // Nothing was actually harvested (no terrain there) — fall through.
-                // If this tile is also within movement range (overlap), it's just an
-                // empty walkable tile and movement should still be allowed below.
             }
 
             // 3. Nothing to attack/harvest on this tile. Never allow walking onto a

@@ -373,9 +373,20 @@ public class CellHighlighter : MonoBehaviour
                 continue;
             }
 
-
             clearedFogTerrains.Add(terrainInteraction);
-            Destroy(terrainInteraction.gameObject);
+
+            // Find the specific parent that has the BuildingModel script attached
+            BuildingModel buildingModel = terrainInteraction.GetComponentInParent<BuildingModel>();
+            
+            if (buildingModel != null)
+            {
+                Destroy(buildingModel.gameObject);
+            }
+            else
+            {
+                // Fallback: If BuildingModel isn't found, destroy the immediate terrain interaction object
+                Destroy(terrainInteraction.gameObject);
+            }
         }
     }
 }

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2116137324839493132}
   - component: {fileID: 6020906171987382805}
   - component: {fileID: 8889273464930698551}
-  - component: {fileID: 2171935128175067292}
+  - component: {fileID: 7989941128989846400}
   - component: {fileID: 2680679557489090637}
   m_Layer: 6
   m_Name: UnitLogic
@@ -202,7 +202,7 @@ MonoBehaviour:
   currentUnitPhase: 0
   playerUnit: {fileID: 0}
   deathScaleDuration: 0.6
---- !u!114 &2171935128175067292
+--- !u!114 &7989941128989846400
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -211,9 +211,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2889937920117931480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e611856dfa56084987bcd68380cbbc3, type: 3}
+  m_Script: {fileID: 11500000, guid: eda10d08a154b094b8739614f25f692e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HarvestResource
+  m_EditorClassIdentifier: Assembly-CSharp::HarvestUnit
   harvestAmount: 0
 --- !u!114 &2680679557489090637
 MonoBehaviour:
