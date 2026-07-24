@@ -38,7 +38,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4137786837092042607}
   m_Father: {fileID: 7995383878960746915}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8913851016305286998
@@ -203,6 +204,7 @@ MonoBehaviour:
   endTurn: 0
   isHidden: 0
   unitObject: {fileID: 0}
+  isMoving: 0
 --- !u!54 &1269248568777704000
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -353,7 +355,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4618975314702655700}
-  - {fileID: 4137786837092042607}
   - {fileID: 2115939016515790083}
   - {fileID: 1490191664079888986}
   m_Father: {fileID: 2295165078543630765}
@@ -555,7 +556,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 7995383878960746915}
+    m_TransformParent: {fileID: 4618975314702655700}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 90657dcf9ad03b94a880b108252065c5, type: 3}
       propertyPath: m_LocalScale.x
@@ -571,15 +572,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 90657dcf9ad03b94a880b108252065c5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.08
+      value: -0.08002472
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 90657dcf9ad03b94a880b108252065c5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.696
+      value: 0.19599998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 90657dcf9ad03b94a880b108252065c5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.1
+      value: -0.10000038
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 90657dcf9ad03b94a880b108252065c5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -620,6 +621,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 90657dcf9ad03b94a880b108252065c5, type: 3}
       propertyPath: m_Name
       value: conquerers path rangeworkingdsdk red
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 90657dcf9ad03b94a880b108252065c5, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

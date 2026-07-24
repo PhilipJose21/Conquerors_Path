@@ -203,6 +203,7 @@ MonoBehaviour:
   endTurn: 0
   isHidden: 0
   unitObject: {fileID: 0}
+  isMoving: 0
 --- !u!114 &2609110943602517866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -624,6 +625,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 8f9978b599969a74fa063827d370854e, type: 3}
       propertyPath: m_Name
       value: conquerers path swordsman
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8f9978b599969a74fa063827d370854e, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 1919658917000694654, guid: 8f9978b599969a74fa063827d370854e, type: 3}
       propertyPath: m_Mesh

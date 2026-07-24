@@ -203,6 +203,7 @@ MonoBehaviour:
   endTurn: 0
   isHidden: 0
   unitObject: {fileID: 0}
+  isMoving: 0
 --- !u!114 &859234504818019119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -596,6 +597,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0584d0cdb81b8154c950972042291b7d, type: 3}
       propertyPath: m_Name
       value: conquerers path enemy scout
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0584d0cdb81b8154c950972042291b7d, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

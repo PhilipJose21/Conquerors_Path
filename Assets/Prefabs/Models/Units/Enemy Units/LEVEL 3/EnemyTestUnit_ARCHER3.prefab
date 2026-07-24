@@ -203,6 +203,7 @@ MonoBehaviour:
   endTurn: 0
   isHidden: 0
   unitObject: {fileID: 0}
+  isMoving: 0
 --- !u!54 &1269248568777704000
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -620,6 +621,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 90657dcf9ad03b94a880b108252065c5, type: 3}
       propertyPath: m_Name
       value: conquerers path rangeworkingdsdk red
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 90657dcf9ad03b94a880b108252065c5, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

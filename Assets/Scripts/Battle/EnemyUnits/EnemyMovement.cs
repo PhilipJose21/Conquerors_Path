@@ -33,7 +33,7 @@ public class EnemyMovement : MonoBehaviour
     public GameObject unitObject;
     private RotateModel rotateModel;
     private bool hasActedThisTurn = false;
-    private bool isMoving;
+    public bool isMoving;
 
     void Awake()
     {

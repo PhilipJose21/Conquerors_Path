@@ -24,6 +24,21 @@ public class TerrainHideUnit : MonoBehaviour
         }
     }
 
+    // Walks up the transform hierarchy checking for a tag, since child
+    // colliders (joints, sub-meshes, etc.) often aren't tagged themselves.
+    private static bool HasTagInParents(Transform t, string tag)
+    {
+        while (t != null)
+        {
+            if (t.CompareTag(tag))
+            {
+                return true;
+            }
+            t = t.parent;
+        }
+        return false;
+    }
+
     private static void SetAlpha(Renderer targetRenderer, float alpha)
     {
         if (targetRenderer == null)
@@ -37,18 +52,29 @@ public class TerrainHideUnit : MonoBehaviour
         mat.color = currentColor;
     }
 
-    private static Renderer GetUnitRenderer(Component unitRoot)
+    // Sets alpha on every renderer found under the unit, not just the first one,
+    // so multi-part models (separate joints/meshes) hide fully.
+    private static void SetAlphaAll(Component unitRoot, float alpha)
     {
-        return unitRoot != null ? unitRoot.GetComponentInChildren<Renderer>() : null;
+        if (unitRoot == null)
+        {
+            return;
+        }
+
+        Renderer[] renderers = unitRoot.GetComponentsInChildren<Renderer>();
+        foreach (Renderer r in renderers)
+        {
+            SetAlpha(r, alpha);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         MoveUnit moveUnit = other.GetComponentInParent<MoveUnit>();
-        if (moveUnit != null || other.CompareTag("Player") || other.CompareTag("PlayerUnit"))
+        if (moveUnit != null || HasTagInParents(other.transform, "Player") || HasTagInParents(other.transform, "PlayerUnit"))
         {
-            Renderer otherRenderer = GetUnitRenderer(moveUnit != null ? moveUnit : other.GetComponentInParent<MoveUnit>());
-            SetAlpha(otherRenderer, hiddenAlpha);
+            Component unitRoot = moveUnit != null ? (Component)moveUnit : other.transform;
+            SetAlphaAll(unitRoot, hiddenAlpha);
 
             if (moveUnit != null)
             {
@@ -60,11 +86,11 @@ public class TerrainHideUnit : MonoBehaviour
         else
         {
             EnemyMovement enemyMovement = other.GetComponentInParent<EnemyMovement>();
-            if (enemyMovement != null || other.CompareTag("Enemy") || other.CompareTag("EnemyUnit"))
+            if (enemyMovement != null || HasTagInParents(other.transform, "Enemy") || HasTagInParents(other.transform, "EnemyUnit"))
             {
-                Renderer otherRenderer = GetUnitRenderer(enemyMovement != null ? enemyMovement : other.GetComponentInParent<EnemyMovement>());
-                UnitHealth unitHealth = enemyMovement != null ? enemyMovement.GetComponentInChildren<UnitHealth>() : other.GetComponentInChildren<UnitHealth>();
-                SetAlpha(otherRenderer, 0f);
+                Component unitRoot = enemyMovement != null ? (Component)enemyMovement : other.transform;
+                UnitHealth unitHealth = enemyMovement != null ? enemyMovement.GetComponentInChildren<UnitHealth>() : other.GetComponentInParent<UnitHealth>();
+                SetAlphaAll(unitRoot, 0f);
 
                 if (enemyMovement != null)
                 {
@@ -83,7 +109,7 @@ public class TerrainHideUnit : MonoBehaviour
    private void OnTriggerStay(Collider other)
     {
         MoveUnit moveUnit = other.GetComponentInParent<MoveUnit>();
-        if (moveUnit != null || other.CompareTag("Player") || other.CompareTag("PlayerUnit"))
+        if (moveUnit != null || HasTagInParents(other.transform, "Player") || HasTagInParents(other.transform, "PlayerUnit"))
         {
             if (moveUnit != null)
             {
@@ -93,13 +119,13 @@ public class TerrainHideUnit : MonoBehaviour
         else
         {
             EnemyMovement enemyMovement = other.GetComponentInParent<EnemyMovement>();
-            if (enemyMovement != null || other.CompareTag("Enemy") || other.CompareTag("EnemyUnit"))
+            if (enemyMovement != null || HasTagInParents(other.transform, "Enemy") || HasTagInParents(other.transform, "EnemyUnit"))
             {
                 if (enemyMovement != null)
                 {
                     enemyMovement.EnterFog(this);
                 }
-                UnitHealth unitHealth = enemyMovement != null ? enemyMovement.GetComponentInChildren<UnitHealth>() : other.GetComponentInChildren<UnitHealth>();
+                UnitHealth unitHealth = enemyMovement != null ? enemyMovement.GetComponentInChildren<UnitHealth>() : other.GetComponentInParent<UnitHealth>();
                 if (unitHealth != null)
                 {
                     unitHealth.SetHealthUIHidden(true);
@@ -113,20 +139,25 @@ public class TerrainHideUnit : MonoBehaviour
         MoveUnit moveUnit = other.GetComponentInParent<MoveUnit>();
         EnemyMovement enemyMovement = other.GetComponentInParent<EnemyMovement>();
 
-        if (moveUnit != null || enemyMovement != null || other.CompareTag("Player") || other.CompareTag("PlayerUnit") || other.CompareTag("Enemy") || other.CompareTag("EnemyUnit"))
+        if (moveUnit != null || enemyMovement != null
+            || HasTagInParents(other.transform, "Player") || HasTagInParents(other.transform, "PlayerUnit")
+            || HasTagInParents(other.transform, "Enemy") || HasTagInParents(other.transform, "EnemyUnit"))
         {
-            Renderer otherRenderer = GetUnitRenderer(moveUnit != null ? moveUnit : enemyMovement);
+            Component unitRoot = moveUnit != null ? (Component)moveUnit
+                : enemyMovement != null ? (Component)enemyMovement
+                : other.transform;
+
             if (moveUnit != null)
             {
                 containedPlayerUnits.Remove(moveUnit);
                 bool stillHidden = moveUnit.ExitFog(this);
-                SetAlpha(otherRenderer, stillHidden ? hiddenAlpha : 1f);
+                SetAlphaAll(unitRoot, stillHidden ? hiddenAlpha : 1f);
             }
             if (enemyMovement != null)
             {
                 containedEnemyUnits.Remove(enemyMovement);
                 bool stillHidden = enemyMovement.ExitFog(this);
-                SetAlpha(otherRenderer, stillHidden ? 0f : 1f);
+                SetAlphaAll(unitRoot, stillHidden ? 0f : 1f);
                 UnitHealth unitHealth = enemyMovement.GetComponentInChildren<UnitHealth>();
                 if (unitHealth != null)
                 {
@@ -142,7 +173,7 @@ public class TerrainHideUnit : MonoBehaviour
         {
             if (moveUnit == null) continue;
             bool stillHidden = moveUnit.ExitFog(this);
-            SetAlpha(GetUnitRenderer(moveUnit), stillHidden ? hiddenAlpha : 1f);
+            SetAlphaAll(moveUnit, stillHidden ? hiddenAlpha : 1f);
         }
         containedPlayerUnits.Clear();
 
@@ -150,7 +181,7 @@ public class TerrainHideUnit : MonoBehaviour
         {
             if (enemyMovement == null) continue;
             bool stillHidden = enemyMovement.ExitFog(this);
-            SetAlpha(GetUnitRenderer(enemyMovement), stillHidden ? 0f : 1f);
+            SetAlphaAll(enemyMovement, stillHidden ? 0f : 1f);
             UnitHealth unitHealth = enemyMovement.GetComponentInChildren<UnitHealth>();
             if (unitHealth != null)
             {
