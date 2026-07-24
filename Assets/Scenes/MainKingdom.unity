@@ -25564,6 +25564,8 @@ MonoBehaviour:
   enableReinforcementCost: 0
   enableRemovingUnitFromArray: 0
   enableKeypads: 0
+  constructionFXPrefab: {fileID: 1167155001037120, guid: 14777e4d41f0de84cafca6d871768538, type: 3}
+  constructionSFX: {fileID: 8300000, guid: a00648959c5d65944a8317021e9b8f0b, type: 3}
   buildingDataList:
   - {fileID: 11400000, guid: c0e556533ebe892468208580ebbe5ef0, type: 2}
   - {fileID: 11400000, guid: c206c910a41e5b644b6fb2ada845fb64, type: 2}

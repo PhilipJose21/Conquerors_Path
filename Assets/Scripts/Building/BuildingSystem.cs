@@ -21,6 +21,10 @@ public class BuildingSystem : MonoBehaviour
 
     public bool enableKeypads = false;
 
+    [Header("Construction Effects")]
+    [SerializeField] private GameObject constructionFXPrefab;
+    [SerializeField] private AudioClip constructionSFX;
+
     [SerializeField] private List<BuildingData> buildingDataList;
 
     [SerializeField] private BuildingPreview buildingGrid;
@@ -67,7 +71,6 @@ public class BuildingSystem : MonoBehaviour
             playerData.updateUnitList();
             buildingDataList = playerBattleSO.playerUnits;
         }
-
     }
 
     private void Start()
@@ -130,7 +133,6 @@ public class BuildingSystem : MonoBehaviour
             }
         }
 
-
         // If a preview exists, move and validate it.
         if (preview != null) HandlePreview(mousePos);
     }
@@ -155,7 +157,6 @@ public class BuildingSystem : MonoBehaviour
                 return false;
             }
         }
-        
 
         // 2. TOGGLE FEATURE: If the same index is selected again, cancel/deselect placement
         if (isPlacing && buildingDataIndex == index)
@@ -242,7 +243,6 @@ public class BuildingSystem : MonoBehaviour
         {
             preview.ChangeState(BuildingPreview.BuildingPreviewState.VALID);
 
-            // Place building on left mouse click
             if (Input.GetMouseButtonDown(0) 
                 && !Input.GetKey(KeyCode.Space) 
                 && !Input.GetKey(KeyCode.R) 
@@ -259,7 +259,6 @@ public class BuildingSystem : MonoBehaviour
                     return;
                 }
 
-                // BATTLE SCENE PLACEMENT LOGIC
                 if (isBattleScene)
                 {
                     if (enableReinforcementCost)
@@ -308,13 +307,11 @@ public class BuildingSystem : MonoBehaviour
             preview.ChangeState(BuildingPreview.BuildingPreviewState.INVALID);
         }
 
-        // Rotation input for the preview
         if (Input.GetKeyDown(KeyCode.R) && canRotate)
         {
             preview.Rotate(90);
         }
 
-        // Cancel preview via keybind
         if (Input.GetKeyDown(KeyCode.Q))
         {
             CancelPlacement();
@@ -323,10 +320,8 @@ public class BuildingSystem : MonoBehaviour
 
     private void PlaceBuilding(List<Vector3> buildPosition, BuildingGrid targetGrid)
     {
-
         BuildingGrid primaryGrid = BuildingGridManager.Instance.FindGridForPositions(buildPosition) ?? targetGrid ?? grid;
 
-        // Compute the exact snapped center in world space if we have a grid; otherwise use the preview position
         Vector3 placePosition = preview != null ? preview.transform.position : Vector3.zero;
         Quaternion placeRotation = preview != null ? preview.transform.rotation : Quaternion.identity;
         if (primaryGrid != null)
@@ -338,6 +333,27 @@ public class BuildingSystem : MonoBehaviour
         Building building = Instantiate(buildingPrefab, placePosition, placeRotation, environmentParent.transform);
         building.SetUp(preview.Data, preview.BuildingModel.Rotation);
 
+        if (constructionFXPrefab != null)
+        {
+            Vector3 fxSpawnPos = placePosition + Vector3.up * 0.5f;
+
+            GameObject fxInstance = Instantiate(constructionFXPrefab, fxSpawnPos, placeRotation);
+            
+            ParticleSystem ps = fxInstance.GetComponentInChildren<ParticleSystem>();
+            if (ps != null)
+            {
+                ps.Clear();
+                ps.Play();
+            }
+
+            Destroy(fxInstance, 2.5f); 
+        }
+
+        if (constructionSFX != null && SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX(constructionSFX);
+        }
+
         // Transfer building data to the BuildingStatContainer
         BuildingStatContainer statContainer = building.GetComponentInChildren<BuildingStatContainer>();
         if (statContainer != null)
@@ -345,10 +361,8 @@ public class BuildingSystem : MonoBehaviour
             statContainer.buildingData = preview.Data;
         }
 
-        // Ensure setup didn't shift the transform unexpectedly
         building.transform.SetPositionAndRotation(placePosition, placeRotation);
 
-        // Assign each position to its containing grid
         foreach (var pos in buildPosition)
         {
             BuildingGrid posGrid = BuildingGridManager.Instance.FindGridAtPosition(pos) ?? targetGrid ?? grid;
@@ -366,7 +380,7 @@ public class BuildingSystem : MonoBehaviour
 
         Destroy(preview.gameObject);
         preview = null;
-        // Extra cleanup: remove any lingering previews that might have been left behind
+
         var lingering = Object.FindObjectsByType<BuildingPreview>(FindObjectsSortMode.None);
         foreach (var lp in lingering)
         {
@@ -381,7 +395,6 @@ public class BuildingSystem : MonoBehaviour
 
         KingdomSaveManager.Instance?.RegisterPlacedBuilding(building, buildPosition);
 
-        // After placing, ensure any selected-building UI is closed
         KingdomUIManager.Instance?.CloseObjectInfo();
     }
 
@@ -394,20 +407,16 @@ public class BuildingSystem : MonoBehaviour
             return saveData;
         }
 
-        // 1. Store the active rotation so we can restore it later
         Vector3 originalRotation = environmentParent.transform.eulerAngles;
 
-        // 2. Force the environment rotation back to 0 so positions match the default grid alignment
         environmentParent.transform.rotation = Quaternion.identity;
 
         Building[] placedBuildings = environmentParent.GetComponentsInChildren<Building>(true);
         
-        // Safety check to prevent data loss
         if (placedBuildings.Length == 0 && KingdomSaveManager.Instance != null && KingdomSaveManager.Instance.HasSavedKingdom)
         {
             Debug.LogWarning("BuildingSystem: Detected 0 live buildings but SaveManager has data. Aborting save snapshot.");
             
-            // Restore rotation before exiting early!
             environmentParent.transform.eulerAngles = originalRotation;
             return null; 
         }
@@ -434,7 +443,6 @@ public class BuildingSystem : MonoBehaviour
             });
         }
 
-        // 3. Restore the environment back to its original rotation smoothly
         environmentParent.transform.eulerAngles = originalRotation;
 
         return saveData;
@@ -518,14 +526,11 @@ public class BuildingSystem : MonoBehaviour
 
     public void ClearPlacedBuildings()
     {
-        // AUTOMATIC FALLBACK: If the slot wasn't dragged in via the Inspector, 
-        // find the "Environment" container dynamically by its hierarchy name!
         if (environmentParent == null)
         {
             environmentParent = GameObject.Find("Environment");
         }
 
-        // Ultimate safety check
         if (environmentParent == null)
         {
             Debug.LogError("BuildingSystem: Could not find any Environment Parent container object in the scene layout!");
@@ -634,7 +639,6 @@ public class BuildingSystem : MonoBehaviour
         float centerLocalZ = (maxZ + minZ) / 2f * cs + cs / 2f;
         Vector3 centerLocal = new Vector3(centerLocalX, 0f, centerLocalZ);
         Vector3 worldCenter = targetGrid.transform.TransformPoint(centerLocal);
-        // Preserve the grid's y position
         worldCenter.y = targetGrid.transform.position.y;
         return worldCenter;
     }
