@@ -4,9 +4,6 @@ using TMPro;
 
 public class ShopManager : MonoBehaviour
 {
-    [Header("Player Data")]
-    [SerializeField] private PlayerSO playerData; 
-
     [Header("Main Shop Panel")]
     [SerializeField] private GameObject shopPanel;
     [SerializeField] private Button openShopButton; 
@@ -30,6 +27,9 @@ public class ShopManager : MonoBehaviour
     [Range(0f, 1f)] 
     [SerializeField] private float inactiveAlphaOrDim = 0.4f; 
 
+    private PlayerData playerDataObj;
+    private PlayerSO playerData;
+
     private Color originalUnitsColor;
     private Color originalCoinsColor;
     private Color originalGemsColor;
@@ -37,10 +37,21 @@ public class ShopManager : MonoBehaviour
 
     public System.Action OnUnlockedUnitsChanged;
 
+    void Awake()
+    {
+        playerDataObj = Object.FindFirstObjectByType<PlayerData>();
+        if (playerDataObj != null)
+        {
+            playerData = playerDataObj.playerSO;
+        }
+        else
+        {
+            Debug.LogWarning("ShopManager: Could not find PlayerData in the scene.");
+        }
+    }
+
     void Start()
     {
-        UpdateCurrencyHUD();
-
         if (openShopButton != null) openShopButton.onClick.AddListener(ToggleShopPanel);
         
         if (unitsButton != null) unitsButton.onClick.AddListener(OpenUnitsShop);
@@ -51,13 +62,12 @@ public class ShopManager : MonoBehaviour
         OpenUnitsShop();
     }
 
-    public void UpdateCurrencyHUD()
+    void Update()
     {
-        if (playerData != null)
-        {
-            if (goldCounterText != null) goldCounterText.text = $"Coins:\n{playerData.coins.ToString("N0")}";
-            if (gemsCounterText != null) gemsCounterText.text = $"Gems:\n{playerData.gems.ToString("N0")}";
-        }
+        if (playerData == null) return;
+
+        if (goldCounterText != null) goldCounterText.text = playerData.coins.ToString("N0");
+        if (gemsCounterText != null) gemsCounterText.text = playerData.gems.ToString("N0");
     }
 
     public void ToggleShopPanel()
@@ -95,7 +105,6 @@ public class ShopManager : MonoBehaviour
 
             playerData.unlockedUnits.Add(unitToUnlock);
 
-            UpdateCurrencyHUD();
             OnUnlockedUnitsChanged?.Invoke();
             Debug.Log($"Successfully unlocked {unitToUnlock.name}!");
         }
@@ -113,28 +122,25 @@ public class ShopManager : MonoBehaviour
         return playerData.unlockedUnits.Contains(unit);
     }
 
-
     public void BuyCoinsPack(int coinsReward)
     {
         if (playerData == null) return;
         
         playerData.coins += coinsReward;
-        UpdateCurrencyHUD();
         Debug.Log($"[Real Money Mockup] Direct purchase success! Added {coinsReward} Coins.");
     }
+
     public void BuyGemsPack(int gemsReward)
     {
         if (playerData == null) return;
 
         playerData.gems += gemsReward;
-        UpdateCurrencyHUD();
         Debug.Log($"Added {gemsReward} Gems to player profile!");
     }
 
     public void OpenShopPanel()
     {
         shopPanel.SetActive(true);
-        UpdateCurrencyHUD();
     }
 
     public void CloseShopPanel()

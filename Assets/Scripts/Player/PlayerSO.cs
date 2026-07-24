@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu()]
+[CreateAssetMenu(fileName = "PlayerSO", menuName = "ScriptableObjects/PlayerSO")]
 public class PlayerSO : ScriptableObject
 {
     public int woodResources;
@@ -12,6 +12,8 @@ public class PlayerSO : ScriptableObject
     public int gems;
     public int coins;
     public List<UnitSO> unlockedUnits;
+
+    [Header("Icons")]
     public Sprite woodIcon;
     public Sprite stoneIcon;
     public Sprite farmIcon;
