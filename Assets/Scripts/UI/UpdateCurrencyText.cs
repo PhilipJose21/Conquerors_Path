@@ -35,12 +35,12 @@ public class UpdateCurrencyText : MonoBehaviour
         if (playerSO == null)
             return;
 
-        if (woodText != null) woodText.text = playerSO.woodResources.ToString();
-        if (stoneText != null) stoneText.text = playerSO.stoneResources.ToString();
-        if (farmText != null) farmText.text = playerSO.farmResources.ToString();
-        if (energyText != null) energyText.text = playerSO.energyPoints.ToString();
-        if (researchText != null) researchText.text = playerSO.researchPoints.ToString();
-        if (gemsText != null) gemsText.text = playerSO.gems.ToString();
-        if (coinsText != null) coinsText.text = playerSO.coins.ToString();
+        if (woodText != null) woodText.text = playerSO.woodResources.ToString("N0");
+        if (stoneText != null) stoneText.text = playerSO.stoneResources.ToString("N0");
+        if (farmText != null) farmText.text = playerSO.farmResources.ToString("N0");
+        if (energyText != null) energyText.text = playerSO.energyPoints.ToString("N0");
+        if (researchText != null) researchText.text = playerSO.researchPoints.ToString("N0");
+        if (gemsText != null) gemsText.text = playerSO.gems.ToString("N0");
+        if (coinsText != null) coinsText.text = playerSO.coins.ToString("N0");
     }
 }
