@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class ShowTroopOnClick : MonoBehaviour {
-    public TroopData troop;
+    public UnitSO troop;
         public void Show()
     {
         Debug.Log("Troop clicked");

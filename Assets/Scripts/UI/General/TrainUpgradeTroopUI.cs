@@ -160,31 +160,31 @@ public class TrainUpgradeTroopUI : MonoBehaviour
 
         if (buttonParent.childCount == 0)
         {
-            Debug.LogWarning($"TrainUpgradeTroopUI.fillTrainingPanel: No units matched type {unitTrainingType}. Falling back to all unlocked units.");
+            // Debug.LogWarning($"TrainUpgradeTroopUI.fillTrainingPanel: No units matched type {unitTrainingType}. Falling back to all unlocked units.");
 
-            for (int i = 0; i < unitList.Count; i++)
-            {
-                UnitSO unit = unitList[i];
-                if (unit == null)
-                {
-                    continue;
-                }
+            // for (int i = 0; i < unitList.Count; i++)
+            // {
+            //     UnitSO unit = unitList[i];
+            //     if (unit == null)
+            //     {
+            //         continue;
+            //     }
 
-                GameObject button = Instantiate(unitTrainingButtonPrefab, buttonParent);
-                TrainTroopsButton trainButton = button.GetComponent<TrainTroopsButton>();
-                if (trainButton == null)
-                {
-                    Debug.LogError("TrainUpgradeTroopUI.fillTrainingPanel: Button prefab is missing TrainTroopsButton.");
-                    Destroy(button);
-                    continue;
-                }
+            //     GameObject button = Instantiate(unitTrainingButtonPrefab, buttonParent);
+            //     TrainTroopsButton trainButton = button.GetComponent<TrainTroopsButton>();
+            //     if (trainButton == null)
+            //     {
+            //         Debug.LogError("TrainUpgradeTroopUI.fillTrainingPanel: Button prefab is missing TrainTroopsButton.");
+            //         Destroy(button);
+            //         continue;
+            //     }
 
-                trainButton.unitToTrain = unit;
-                trainButton.confirmationPanel = confirmPanel;
-                trainButton.trainUpgradeTroopUI = this;
-                trainButton.isTraining = isTraining;
-                trainButton.isUpgrading = isUpgrading;
-            }
+            //     trainButton.unitToTrain = unit;
+            //     trainButton.confirmationPanel = confirmPanel;
+            //     trainButton.trainUpgradeTroopUI = this;
+            //     trainButton.isTraining = isTraining;
+            //     trainButton.isUpgrading = isUpgrading;
+            // }
         }
 
         unitTrainingPanelTitle.text = text;

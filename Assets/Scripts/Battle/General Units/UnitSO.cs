@@ -14,6 +14,7 @@ public class UnitSO : ScriptableObject
     public string unitName;
     public UnitType unitType;
     public int level;
+    public string description;
     public int health;
     public int damage;
     public int attackRange;

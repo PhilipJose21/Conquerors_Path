@@ -286,7 +286,7 @@ public class KingdomUIManager : MonoBehaviour
         // }
     }
 
-    public void ShowSelectedTroop(TroopData troop)
+    public void ShowSelectedTroop(UnitSO troop)
     {
         if (troop == null || sceneInfoPanel == null) return;
     

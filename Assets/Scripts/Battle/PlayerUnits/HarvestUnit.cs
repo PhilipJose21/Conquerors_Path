@@ -34,70 +34,48 @@ public class HarvestUnit : MonoBehaviour
         return go.name;
     }
 
-    public bool TryToHarvestPosition(Vector3 worldPos)
+    public bool TryToHarvestPosition(Vector3 worldPos, TerrainHarvest targetTerrain = null)
     {
-        float checkRadius = 0.6f; 
-        Collider[] hits = Physics.OverlapSphere(worldPos, checkRadius);
-
-        TerrainHarvest targetTerrain = null;
-        GameObject enemyUnit = null; // Placeholder for your enemy detection method
-
-        // STEP 1: Scan all hits to categorize what is in the cell
-        foreach (var h in hits)
+        // If targetTerrain wasn't passed directly, fall back to searching the area with a larger radius
+        if (targetTerrain == null)
         {
-            // Check if it's an Enemy Unit (Adjust this condition to match your team/faction setup)
-            if (h.CompareTag("Enemy")) 
-            {
-                enemyUnit = h.gameObject;
-                break; // Found an enemy! We can stop looking because enemy takes top priority.
-            }
+            float checkRadius = 0.85f; // Increased from 0.6f to reliably hit cell bounds
+            Collider[] hits = Physics.OverlapSphere(worldPos, checkRadius);
 
-            // Check if it's a Terrain Harvest source
-            var harvest = h.GetComponentInParent<TerrainHarvest>();
-            if (harvest != null)
+            foreach (var h in hits)
             {
-                var owner = harvest.gameObject;
-                bool isTerrain = owner.CompareTag("Terrain") || owner.GetComponentInParent<TerrainHarvest>() != null;
-                // Only accept it as a harvest target if it's actually harvestable —
-                // otherwise decorative terrain (e.g. trees with resourceType None)
-                // would swallow the click and block movement onto that cell.
-                bool isActuallyHarvestable = harvest.canHarvest && harvest.resourceType != TerrainSO.ResourceType.None;
-                if (isTerrain && isActuallyHarvestable)
+                var harvest = h.GetComponentInParent<TerrainHarvest>();
+                if (harvest != null && harvest.canHarvest && harvest.resourceType != TerrainSO.ResourceType.None)
                 {
                     targetTerrain = harvest;
+                    break;
                 }
             }
         }
 
-        // STEP 2: Execute action based on priority
-        
-        // Scenario A: An Enemy is standing there -> Attack them instead of harvesting
-        if (enemyUnit != null)
-        {
-            if (moveUnit != null && moveUnit.attackActions > 0)
-            {
-                // TODO: Call your attack logic here, e.g.:
-                // enemyUnit.GetComponent<Health>().TakeDamage(damageAmount);
-                
-                moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
-                stateMachine?.ChangeState(unitPhase.Damage);
-                CellHighlighter.Instance?.ClearHighlights();
-                return true;
-            }
-        }
-        // Scenario B: No enemy found, but valid Terrain is present -> Harvest it (Player units ignored)
-        else if (targetTerrain != null)
+        // Execute harvest
+        if (targetTerrain != null)
         {
             if (moveUnit != null && moveUnit.attackActions > 0)
             {
                 targetTerrain.HarvestResource(harvestAmount);
                 moveUnit.attackActions = Mathf.Max(0, moveUnit.attackActions - 1);
                 stateMachine?.ChangeState(unitPhase.Damage);
-                ActionText.Instance?.ShowHarvestText(GetDisplayName(moveUnit != null ? moveUnit.gameObject : gameObject), harvestAmount, targetTerrain.transform.position);
+                
+                ActionText.Instance?.ShowHarvestText(
+                    GetDisplayName(moveUnit != null ? moveUnit.gameObject : gameObject), 
+                    harvestAmount, 
+                    targetTerrain.transform.position
+                );
+                
+                CellHighlighter.Instance?.ClearHighlights();
+                return true;
             }
-
-            CellHighlighter.Instance?.ClearHighlights();
-            return true;
+            else
+            {
+                Debug.Log("Unit has no attack/harvest actions left!");
+                return false;
+            }
         }
 
         return false;

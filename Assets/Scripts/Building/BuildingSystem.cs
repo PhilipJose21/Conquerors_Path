@@ -268,9 +268,16 @@ public class BuildingSystem : MonoBehaviour
                         if (costUpdate != null)
                         {
                             TurnManager turnManagerScript = Object.FindFirstObjectByType<TurnManager>();
-                            if (costUpdate.unitReinforcementCost >= unitRefCost 
-                                && turnManagerScript != null 
-                                && (turnManagerScript.currentTurnPhase == turnPhase.PlayerTurn || turnManagerScript.currentTurnPhase == turnPhase.SetupTurn))
+                            bool isSetupTurn = turnManagerScript != null && turnManagerScript.currentTurnPhase == turnPhase.SetupTurn;
+
+                            if (isSetupTurn)
+                            {
+                                // Setup turn placements should not spend reinforcement cost.
+                                // Allow the placement to continue without reducing the pool.
+                            }
+                            else if (costUpdate.unitReinforcementCost >= unitRefCost
+                                && turnManagerScript != null
+                                && turnManagerScript.currentTurnPhase == turnPhase.PlayerTurn)
                             {
                                 costUpdate.unitReinforcementCost -= unitRefCost;
                             }

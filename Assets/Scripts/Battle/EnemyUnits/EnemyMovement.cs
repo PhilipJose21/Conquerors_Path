@@ -35,6 +35,16 @@ public class EnemyMovement : MonoBehaviour
     private bool hasActedThisTurn = false;
     public bool isMoving;
 
+    // Cells other enemies have committed to moving into THIS turn but haven't
+    // physically reached yet. IsCellOccupiedByUnit alone only sees units that
+    // have already arrived (it's a live Physics.OverlapSphere check) — two
+    // enemies acting in the same turn-resolution pass could otherwise both
+    // pick the same still-empty-looking destination cell before either one
+    // actually gets there, causing them to stack. Reserving the cell at the
+    // moment of commitment (not arrival) closes that race.
+    private static readonly HashSet<GridCell> reservedDestinations = new HashSet<GridCell>();
+    private GridCell? myReservedCell;
+
     void Awake()
     {
         UnitSOContainer container = this.GetComponent<UnitSOContainer>();
@@ -114,6 +124,16 @@ public class EnemyMovement : MonoBehaviour
         if (currentTurnPhase != turnPhase.EnemyTurn)
         {
             hasActedThisTurn = false;
+            // Safety net: release this unit's own reservation and clear the
+            // whole shared set once the enemy turn ends, in case a reservation
+            // was ever left behind by an early-return elsewhere (e.g. a move
+            // that got rejected after the cell was already reserved).
+            if (myReservedCell.HasValue)
+            {
+                reservedDestinations.Remove(myReservedCell.Value);
+                myReservedCell = null;
+            }
+            reservedDestinations.Clear();
             return;
         }
 
@@ -357,6 +377,15 @@ public class EnemyMovement : MonoBehaviour
             Vector3 worldTarget = best.grid.transform.TransformPoint(localCenter);
             worldTarget.y = moveTransform.position.y;
 
+            // Claim this cell now (not on arrival) so other enemies acting later
+            // in the same turn-resolution pass see it as taken even before we've
+            // physically reached it — see reservedDestinations above.
+            if (!best.Equals(sourceCell))
+            {
+                reservedDestinations.Add(best);
+                myReservedCell = best;
+            }
+
             MoveToPosition(worldTarget);
             // After moving, attempt an attack if we will be in range
             if (attackerComp != null && attackActions > 0)
@@ -510,6 +539,15 @@ public class EnemyMovement : MonoBehaviour
         moveTransform.position = target;
         moveCoroutine = null;
         isMoving = false;
+
+        // Arrived — the cell is now genuinely occupied (Physics.OverlapSphere
+        // will find us there), so the reservation has done its job and can be
+        // released.
+        if (myReservedCell.HasValue)
+        {
+            reservedDestinations.Remove(myReservedCell.Value);
+            myReservedCell = null;
+        }
     }
 
     // Public helper to force this enemy to act immediately (usable from UI button)
@@ -607,6 +645,13 @@ public class EnemyMovement : MonoBehaviour
     private bool IsCellOccupiedByUnit(BuildingGrid grid, int gx, int gy)
     {
         if (grid == null) return false;
+
+        // A cell another enemy has already committed to (but not yet physically
+        // reached) this turn counts as occupied too — see reservedDestinations.
+        if (reservedDestinations.Contains(new GridCell(grid, gx, gy)))
+        {
+            return true;
+        }
 
         float cs = grid.CellSize;
         Vector3 localCenter = new Vector3((gx + 0.5f) * cs, 0.01f, (gy + 0.5f) * cs);

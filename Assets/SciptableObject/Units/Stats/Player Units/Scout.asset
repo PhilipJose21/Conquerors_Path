@@ -16,6 +16,7 @@ MonoBehaviour:
   unitName: Scouts
   unitType: 2
   level: 1
+  description: They view the battle field
   health: 4
   damage: 1
   attackRange: 1
