@@ -46,31 +46,48 @@ public class Building : MonoBehaviour
 
         // Parent the visual model to this Building and reset local transform
         model = Instantiate(data.Model, transform);
-        model.transform.localPosition = Vector3.zero;
         model.transform.localRotation = Quaternion.identity;
 
-        // Lift model so its bottom sits at the Building origin (grid plane)
-        var renderers = model.GetComponentsInChildren<Renderer>();
-        if (renderers.Length > 0)
+        // IMPORTANT: do not blindly overwrite model.transform.localPosition
+        // for every model. This script is shared by two genuinely different
+        // cases:
+        //  - Animated battle units (SkinnedMeshRenderer + Animator): these
+        //    have their own hand-tuned local offsets baked in at multiple
+        //    levels of their hierarchy, and Renderer.bounds on a skinned mesh
+        //    is unreliable (reflects bind pose, not the actual posed model) -
+        //    so for these we trust the authored position as-is.
+        //  - Static structures like Kingdom buildings (plain MeshRenderer,
+        //    no Animator): these never had a hand-tuned offset and always
+        //    relied on bounds-based auto-grounding to sit flush on the grid
+        //    plane - removing that broke Kingdom building placement.
+        // Detect which case this is and behave accordingly.
+        bool isAnimatedModel = model.GetComponentInChildren<SkinnedMeshRenderer>() != null;
+
+        if (isAnimatedModel)
         {
-            float minLocalY = float.PositiveInfinity;
-
-            // Find the lowest renderer bound relative to the model so we can offset upward
-            foreach (var r in renderers)
+            // Trust the prefab's own authored local position; only add the
+            // generic and per-unit-type corrections on top.
+            model.transform.localPosition += manualOffset + data.ModelOffset;
+        }
+        else
+        {
+            // Static building: auto-ground it by lifting the model so its
+            // lowest renderer bound sits at local Y = 0.
+            model.transform.localPosition = Vector3.zero;
+            var renderers = model.GetComponentsInChildren<Renderer>();
+            if (renderers.Length > 0)
             {
-                if (r == null) continue;
-
-                // Convert renderer bounds min (world) into the model's local space
-                Vector3 localMin = model.transform.InverseTransformPoint(r.bounds.min);
-                minLocalY = Mathf.Min(minLocalY, localMin.y);
+                float minLocalY = float.PositiveInfinity;
+                foreach (var r in renderers)
+                {
+                    if (r == null) continue;
+                    Vector3 localMin = model.transform.InverseTransformPoint(r.bounds.min);
+                    minLocalY = Mathf.Min(minLocalY, localMin.y);
+                }
+                if (minLocalY < float.PositiveInfinity)
+                    model.transform.localPosition = new Vector3(0, -minLocalY, 0);
             }
-
-            // Move the model up so its lowest point sits at y = 0 (building origin)
-            if (minLocalY < float.PositiveInfinity)
-                model.transform.localPosition = new Vector3(0, -minLocalY, 0);
-
-            // Apply any manual offset set in the inspector
-            model.transform.localPosition += manualOffset;
+            model.transform.localPosition += manualOffset + data.ModelOffset;
         }
 
         // Apply the requested absolute rotation to the visual model

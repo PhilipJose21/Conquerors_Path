@@ -25,7 +25,6 @@ public class BuildingPreview : MonoBehaviour
     {
         Data = data;
         BuildingModel = Instantiate(data.Model, transform);
-        BuildingModel.transform.localPosition = Vector3.zero;
         BuildingModel.transform.localRotation = Quaternion.identity;
         renderers.AddRange(BuildingModel.GetComponentsInChildren<Renderer>());
         colliders.AddRange(BuildingModel.GetComponentsInChildren<Collider>());
@@ -33,23 +32,40 @@ public class BuildingPreview : MonoBehaviour
         {
             collider.enabled = false;
         }
-        // Lift model so its bottom sits at the preview origin (grid plane)
-        if (renderers.Count > 0)
+
+        // Same reasoning as Building.SetUp(): animated units (with a
+        // SkinnedMeshRenderer) trust their own authored offsets, since
+        // Renderer.bounds on a skinned mesh is unreliable. Static models
+        // (e.g. Kingdom buildings, plain MeshRenderer, no skinning) still
+        // need the bounds-based auto-grounding they always relied on.
+        bool isAnimatedModel = false;
+        foreach (var r in renderers)
         {
-            float minLocalY = float.PositiveInfinity;
-            foreach (var r in renderers)
-            {
-                if (r == null) continue;
-                // Determine the lowest point of all renderers in the model's local space
-                // so the preview can be translated upward to sit flush with the grid plane.
-                Vector3 localMin = BuildingModel.transform.InverseTransformPoint(r.bounds.min);
-                minLocalY = Mathf.Min(minLocalY, localMin.y);
-            }
-            if (minLocalY < float.PositiveInfinity)
-                BuildingModel.transform.localPosition = new Vector3(0, -minLocalY, 0);
-            // Apply any manual offset set in the inspector
-            BuildingModel.transform.localPosition += manualOffset;
+            if (r is SkinnedMeshRenderer) { isAnimatedModel = true; break; }
         }
+
+        if (isAnimatedModel)
+        {
+            BuildingModel.transform.localPosition += manualOffset + data.ModelOffset;
+        }
+        else
+        {
+            BuildingModel.transform.localPosition = Vector3.zero;
+            if (renderers.Count > 0)
+            {
+                float minLocalY = float.PositiveInfinity;
+                foreach (var r in renderers)
+                {
+                    if (r == null) continue;
+                    Vector3 localMin = BuildingModel.transform.InverseTransformPoint(r.bounds.min);
+                    minLocalY = Mathf.Min(minLocalY, localMin.y);
+                }
+                if (minLocalY < float.PositiveInfinity)
+                    BuildingModel.transform.localPosition = new Vector3(0, -minLocalY, 0);
+            }
+            BuildingModel.transform.localPosition += manualOffset + data.ModelOffset;
+        }
+
         SetPreviewMaterial(State);
     }
 
