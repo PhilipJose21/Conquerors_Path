@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4262112357752569520
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 773900286725717726}
+  - component: {fileID: 7706372231291513382}
+  m_Layer: 0
+  m_Name: TutorialManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &773900286725717726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4262112357752569520}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -332.9187, y: -85.61609, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7706372231291513382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4262112357752569520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04feadf016e508342a1f6fa506f157af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialManager
+  requiredStepIndex: 0
+  stepToSetOnCompletion: 1
+  markTutorialAsFullyCompleted: 0
+  autoTriggerOnStart: 1
+  triggerDelay: 0.5
+  tutorialPanel: {fileID: 0}
+  titleText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  illustrationImage: {fileID: 0}
+  nextButton: {fileID: 0}
+  prevButton: {fileID: 0}
+  pages:
+  - pageTitle: Kingdom Construction
+    pageDescription: Welcome, Commander! Learn to build, interact with, and upgrade
+      your kingdom's structures to strengthen your empire.
+    illustrationImage: {fileID: 21300000, guid: 8e1f94bbd13afbd4582af73a77b9e669, type: 3}
+  - pageTitle: Managing Resources
+    pageDescription: Keep an eye on your Gold, Gems, and Energy. You will need these
+      to construct buildings and maintain your kingdom.
+    illustrationImage: {fileID: 21300000, guid: 8c56c505500d850479220a359cad735f, type: 3}
+  - pageTitle: Proceed on Building
+    pageDescription: You can now proceed on building by clicking the building button.
+    illustrationImage: {fileID: 21300000, guid: bafabc35b0680084bb2efb76466759be, type: 3}
+  - pageTitle: Place Buildings
+    pageDescription: You can place buildings by clicking the button inside the building
+      panel.
+    illustrationImage: {fileID: 21300000, guid: bafabc35b0680084bb2efb76466759be, type: 3}
+  - pageTitle: Training Troops
+    pageDescription: Train units at the Barracks! Each unit possesses distinct Health,
+      Attack Power, Range, and Movement stats suited for combat.
+    illustrationImage: {fileID: 21300000, guid: bafabc35b0680084bb2efb76466759be, type: 3}
+  - pageTitle: Power Up Your Army
+    pageDescription: Upgrade your troops in the structure menu to boost their combat
+      stats and prepare them for tougher battles ahead.
+    illustrationImage: {fileID: 21300000, guid: bafabc35b0680084bb2efb76466759be, type: 3}
+  - pageTitle: Entering the Battlefield
+    pageDescription: Head to the Level Select map and choose your first target stage
+      to launch an attack against enemy forces.
+    illustrationImage: {fileID: 21300000, guid: bafabc35b0680084bb2efb76466759be, type: 3}
+  - pageTitle: Drafting Troops
+    pageDescription: Select your squad carefully! Choose units up to the maximum
+      deployment capacity allowed for this battle stage.
+    illustrationImage: {fileID: 21300000, guid: bafabc35b0680084bb2efb76466759be, type: 3}
+  - pageTitle: Combat & Grid Rules
+    pageDescription: Place units on highlighted tiles during Setup. On your turn,
+      move along blue tile paths and attack targets within red range paths.
+    illustrationImage: {fileID: 21300000, guid: bafabc35b0680084bb2efb76466759be, type: 3}
+  - pageTitle: Claiming Victory
+    pageDescription: Great victory! Winning battles grants Coins, Gems, and Energy
+      rewards to keep growing your forces.
+    illustrationImage: {fileID: 21300000, guid: bafabc35b0680084bb2efb76466759be, type: 3}
+  - pageTitle: Kingdom Energy
+    pageDescription: Energy limits farm productivity and daily kingdom activities.
+      Plan your energy usage wisely to keep your production running!
+    illustrationImage: {fileID: 21300000, guid: bafabc35b0680084bb2efb76466759be, type: 3}
+  - pageTitle: Full Command
+    pageDescription: You now have complete command over your kingdom, army, and research
+      path. Go forth and conquer, Commander!
+    illustrationImage: {fileID: 21300000, guid: bafabc35b0680084bb2efb76466759be, type: 3}
