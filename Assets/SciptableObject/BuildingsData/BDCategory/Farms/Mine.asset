@@ -15,7 +15,7 @@ MonoBehaviour:
   <Name>k__BackingField: Mine
   <Size>k__BackingField: 9
   <Model>k__BackingField: {fileID: 1915748257449464270, guid: 311438782a74f58499ee936d50b06092, type: 3}
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 90ab91f3b691dbd47a4ff58ec256d675, type: 3}
   <coinCost>k__BackingField: 100
   <farmCost>k__BackingField: 0
   <rockCost>k__BackingField: 10
@@ -25,3 +25,4 @@ MonoBehaviour:
   <unitCost>k__BackingField: 0
   <reinforcementCost>k__BackingField: 0
   <unitPrefab>k__BackingField: {fileID: 0}
+  <ModelOffset>k__BackingField: {x: 0, y: 0, z: 0}

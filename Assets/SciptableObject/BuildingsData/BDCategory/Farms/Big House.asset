@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   <Name>k__BackingField: Big House
   <Size>k__BackingField: 4
-  <Model>k__BackingField: {fileID: 1915748257449464270, guid: e18c451318b0670419c0751ad32d4cfc, type: 3}
-  <Icon>k__BackingField: {fileID: 0}
+  <Model>k__BackingField: {fileID: 1915748257449464270, guid: 517faaac5a55e5a4692a01d5396c7581, type: 3}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 7b7a52e6814900e4aa13ec8772ca0472, type: 3}
   <coinCost>k__BackingField: 0
   <farmCost>k__BackingField: 10
   <rockCost>k__BackingField: 0
@@ -25,3 +25,4 @@ MonoBehaviour:
   <unitCost>k__BackingField: 0
   <reinforcementCost>k__BackingField: 0
   <unitPrefab>k__BackingField: {fileID: 0}
+  <ModelOffset>k__BackingField: {x: 0, y: 0, z: 0}

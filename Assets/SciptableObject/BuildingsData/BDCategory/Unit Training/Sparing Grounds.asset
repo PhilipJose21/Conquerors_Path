@@ -15,7 +15,7 @@ MonoBehaviour:
   <Name>k__BackingField: Sparing Grounds
   <Size>k__BackingField: 9
   <Model>k__BackingField: {fileID: 1915748257449464270, guid: 7a6edccd59e83784f84a32d36a16dafa, type: 3}
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 381c0e1e25d7ac142b6d5d51df6f327e, type: 3}
   <coinCost>k__BackingField: 300
   <farmCost>k__BackingField: 0
   <rockCost>k__BackingField: 30
@@ -25,3 +25,4 @@ MonoBehaviour:
   <unitCost>k__BackingField: 0
   <reinforcementCost>k__BackingField: 0
   <unitPrefab>k__BackingField: {fileID: 0}
+  <ModelOffset>k__BackingField: {x: 0, y: 0, z: 0}

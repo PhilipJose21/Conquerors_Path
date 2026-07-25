@@ -15,7 +15,7 @@ MonoBehaviour:
   <Name>k__BackingField: Small House
   <Size>k__BackingField: 1
   <Model>k__BackingField: {fileID: 1915748257449464270, guid: 6c41b9be06cc71041bcf90c59d362d51, type: 3}
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: d502b3fe885ce304a9971fea4b41d2c8, type: 3}
   <coinCost>k__BackingField: 150
   <farmCost>k__BackingField: 10
   <rockCost>k__BackingField: 0
@@ -25,3 +25,4 @@ MonoBehaviour:
   <unitCost>k__BackingField: 0
   <reinforcementCost>k__BackingField: 0
   <unitPrefab>k__BackingField: {fileID: 0}
+  <ModelOffset>k__BackingField: {x: 0, y: 0, z: 0}

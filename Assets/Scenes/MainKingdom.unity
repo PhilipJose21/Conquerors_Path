@@ -1735,6 +1735,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 54262919}
   m_CullTransparentMesh: 1
+--- !u!114 &55958562 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8464535697681811605, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+  m_PrefabInstance: {fileID: 206262641}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &61500753
 GameObject:
   m_ObjectHideFlags: 0
@@ -2631,6 +2642,10 @@ PrefabInstance:
       propertyPath: productionStats
       value: 
       objectReference: {fileID: 11400000, guid: fca916a4f1c6aba43a2423a09ca012c3, type: 2}
+    - target: {fileID: -4715351227583602286, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+      propertyPath: buildingIconImage
+      value: 
+      objectReference: {fileID: 948794217}
     - target: {fileID: 3785021665490814998, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -3716,6 +3731,28 @@ MonoBehaviour:
   hoverSound: {fileID: 8300000, guid: 3626603ad03b0d24e9de049be98ed443, type: 3}
   clickSound: {fileID: 8300000, guid: a884a50fea6b2a2489ab78e021e23baa, type: 3}
   panelOpenSound: {fileID: 8300000, guid: ad51d6689e2cdf24894affcde2bf91fb, type: 3}
+--- !u!114 &170750337 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8464535697681811605, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+  m_PrefabInstance: {fileID: 1927010647}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!114 &170905680 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8464535697681811605, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+  m_PrefabInstance: {fileID: 641842554}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &172262907
 GameObject:
   m_ObjectHideFlags: 0
@@ -4132,6 +4169,10 @@ PrefabInstance:
       propertyPath: productionStats
       value: 
       objectReference: {fileID: 11400000, guid: c87e32346cc8a914fa4a47e7ffbacf2c, type: 2}
+    - target: {fileID: -4715351227583602286, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+      propertyPath: buildingIconImage
+      value: 
+      objectReference: {fileID: 55958562}
     - target: {fileID: 3785021665490814998, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -5604,6 +5645,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8275508946589058711, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
   m_PrefabInstance: {fileID: 206262641}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &282806677 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8464535697681811605, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+  m_PrefabInstance: {fileID: 1520817861}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!224 &286788405 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8275508946589058711, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
@@ -9142,6 +9194,10 @@ PrefabInstance:
       propertyPath: placementData
       value: 
       objectReference: {fileID: 11400000, guid: dc27e84e7b3d09e44a84d51504ce1bb4, type: 2}
+    - target: {fileID: -4715351227583602286, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+      propertyPath: buildingIconImage
+      value: 
+      objectReference: {fileID: 1337529085}
     - target: {fileID: 3785021665490814998, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -11413,6 +11469,10 @@ PrefabInstance:
       propertyPath: placementData
       value: 
       objectReference: {fileID: 11400000, guid: f16bc13dcc95d7f409a7c64797c3c18b, type: 2}
+    - target: {fileID: -4715351227583602286, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+      propertyPath: buildingIconImage
+      value: 
+      objectReference: {fileID: 1778979185}
     - target: {fileID: 3785021665490814998, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -11674,6 +11734,10 @@ PrefabInstance:
       propertyPath: productionStats
       value: 
       objectReference: {fileID: 11400000, guid: b43f7554c2c64b24ba112e26b6841301, type: 2}
+    - target: {fileID: -4715351227583602286, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+      propertyPath: buildingIconImage
+      value: 
+      objectReference: {fileID: 170905680}
     - target: {fileID: 3785021665490814998, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -14126,6 +14190,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &791753040 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8464535697681811605, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+  m_PrefabInstance: {fileID: 1799446912}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &792578334 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4630921247436246756, guid: 45c3e0a3460a3bd4489a72b1cf4248c3, type: 3}
@@ -16310,6 +16385,17 @@ MonoBehaviour:
   hoverSound: {fileID: 8300000, guid: 3626603ad03b0d24e9de049be98ed443, type: 3}
   clickSound: {fileID: 8300000, guid: a884a50fea6b2a2489ab78e021e23baa, type: 3}
   panelOpenSound: {fileID: 0}
+--- !u!114 &948794217 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8464535697681811605, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+  m_PrefabInstance: {fileID: 115445622}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &949991324
 GameObject:
   m_ObjectHideFlags: 0
@@ -22807,6 +22893,17 @@ RectTransform:
   m_AnchoredPosition: {x: 11.0001, y: -5.9999847}
   m_SizeDelta: {x: 705.3253, y: 383.9441}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1337529085 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8464535697681811605, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+  m_PrefabInstance: {fileID: 490186482}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1348008666
 GameObject:
   m_ObjectHideFlags: 0
@@ -23779,6 +23876,10 @@ PrefabInstance:
       propertyPath: placementData
       value: 
       objectReference: {fileID: 11400000, guid: c24c285962fb53340bfafb9512193ce1, type: 2}
+    - target: {fileID: -4715351227583602286, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+      propertyPath: buildingIconImage
+      value: 
+      objectReference: {fileID: 1770846616}
     - target: {fileID: 3785021665490814998, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -24647,6 +24748,17 @@ MonoBehaviour:
   hoverSound: {fileID: 8300000, guid: 3626603ad03b0d24e9de049be98ed443, type: 3}
   clickSound: {fileID: 8300000, guid: a884a50fea6b2a2489ab78e021e23baa, type: 3}
   panelOpenSound: {fileID: 0}
+--- !u!114 &1461036563 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8464535697681811605, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+  m_PrefabInstance: {fileID: 2129822704}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &1481035161
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25595,6 +25707,10 @@ PrefabInstance:
       propertyPath: placementData
       value: 
       objectReference: {fileID: 11400000, guid: 34f93ff241aaf674bbe8d629540e8c71, type: 2}
+    - target: {fileID: -4715351227583602286, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+      propertyPath: buildingIconImage
+      value: 
+      objectReference: {fileID: 282806677}
     - target: {fileID: 7295889959758813863, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
       propertyPath: m_Name
       value: Building Button
@@ -26507,6 +26623,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 56f25dc558810594fa1a765e4e9bd560, type: 2}
   - {fileID: 11400000, guid: dc27e84e7b3d09e44a84d51504ce1bb4, type: 2}
   - {fileID: 11400000, guid: c24c285962fb53340bfafb9512193ce1, type: 2}
+  - {fileID: 11400000, guid: 34f93ff241aaf674bbe8d629540e8c71, type: 2}
   buildingGrid: {fileID: 4571845357412621073, guid: e8e79a61d6e7a464ea1bac703c91a86c, type: 3}
   buildingPrefab: {fileID: 2050431222552286972, guid: 5e4acca1106e8b8479eee7ac24197c6a, type: 3}
   grid: {fileID: 1512447955}
@@ -27988,6 +28105,17 @@ MonoBehaviour:
   hoverSound: {fileID: 8300000, guid: 3626603ad03b0d24e9de049be98ed443, type: 3}
   clickSound: {fileID: 8300000, guid: a884a50fea6b2a2489ab78e021e23baa, type: 3}
   panelOpenSound: {fileID: 0}
+--- !u!114 &1687435275 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8464535697681811605, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+  m_PrefabInstance: {fileID: 1716302667}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1708763381
 GameObject:
   m_ObjectHideFlags: 0
@@ -28141,6 +28269,10 @@ PrefabInstance:
       propertyPath: productionStats
       value: 
       objectReference: {fileID: 11400000, guid: 65a742ec1af745845aa348d58c7b6d07, type: 2}
+    - target: {fileID: -4715351227583602286, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+      propertyPath: buildingIconImage
+      value: 
+      objectReference: {fileID: 1687435275}
     - target: {fileID: 3785021665490814998, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -28656,6 +28788,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 2
   m_VerticalFit: 0
+--- !u!114 &1770846616 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8464535697681811605, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+  m_PrefabInstance: {fileID: 1403572673}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1773349795
 GameObject:
   m_ObjectHideFlags: 0
@@ -28852,6 +28995,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1773853345}
   m_CullTransparentMesh: 1
+--- !u!114 &1778979185 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8464535697681811605, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+  m_PrefabInstance: {fileID: 633318030}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1782944716
 GameObject:
   m_ObjectHideFlags: 0
@@ -29099,6 +29253,10 @@ PrefabInstance:
       propertyPath: placementData
       value: 
       objectReference: {fileID: 11400000, guid: 56f25dc558810594fa1a765e4e9bd560, type: 2}
+    - target: {fileID: -4715351227583602286, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+      propertyPath: buildingIconImage
+      value: 
+      objectReference: {fileID: 791753040}
     - target: {fileID: 3785021665490814998, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -31908,6 +32066,10 @@ PrefabInstance:
       propertyPath: placementData
       value: 
       objectReference: {fileID: 11400000, guid: c206c910a41e5b644b6fb2ada845fb64, type: 2}
+    - target: {fileID: -4715351227583602286, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+      propertyPath: buildingIconImage
+      value: 
+      objectReference: {fileID: 170750337}
     - target: {fileID: 3785021665490814998, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -34913,6 +35075,10 @@ PrefabInstance:
       propertyPath: placementData
       value: 
       objectReference: {fileID: 11400000, guid: 309ac51e5f9d04249a8dbfde53c82a48, type: 2}
+    - target: {fileID: -4715351227583602286, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
+      propertyPath: buildingIconImage
+      value: 
+      objectReference: {fileID: 1461036563}
     - target: {fileID: 3785021665490814998, guid: 8c222707860524e4e934e7c4a63acc19, type: 3}
       propertyPath: m_fontAsset
       value: 
