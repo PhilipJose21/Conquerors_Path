@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4377dbf037eb34c97b2bbdd8c0ead6, type: 3}
   m_Name: Shields
   m_EditorClassIdentifier: Assembly-CSharp::UnitSO
-  buildingData: {fileID: 11400000, guid: ddec126d5e5780140a61dda17dbbee35, type: 2}
+  buildingData: {fileID: 11400000, guid: 5b2107631d145534f8ba4b87b0c7cd9f, type: 2}
   unitName: Shields
   unitType: 0
   level: 1
+  description: 
   health: 15
   damage: 2
   attackRange: 1
@@ -24,6 +25,6 @@ MonoBehaviour:
   attackPoints: 1
   unitCost: 3
   harvestAmount: 0
-  unitIcon: {fileID: 21300000, guid: 63edc83ea861edf4e9cf5a1a836c9f86, type: 3}
+  unitIcon: {fileID: 21300000, guid: 743d97a7c475f4a42a6881eff68b8a72, type: 3}
   unitPrefab: {fileID: 0}
   unitButtonPrefab: {fileID: 0}

@@ -4,7 +4,8 @@ public class OpenBuildingUI : MonoBehaviour
 {
     public GameObject buildingUIPrefab;
     public Transform transformUI;
-    bool isUIOpen = false;
+    private TrainUpgradeTroopUI trainUpgradeTroopUI;
+    private bool isUIOpen = false;
 
     public void Awake()
     {
@@ -71,7 +72,13 @@ public class OpenBuildingUI : MonoBehaviour
 
         GameObject uiInstance = Instantiate(buildingUIPrefab, transformUI);
 
-        
+        // Try getting TrainUpgradeTroopUI from the newly instantiated prefab first,
+        // falling back to finding it in scene if not directly attached to the root.
+        trainUpgradeTroopUI = uiInstance.GetComponent<TrainUpgradeTroopUI>();
+        if (trainUpgradeTroopUI == null)
+        {
+            trainUpgradeTroopUI = uiInstance.GetComponentInChildren<TrainUpgradeTroopUI>();
+        }
         if (trainUpgradeTroopUI == null)
         {
             trainUpgradeTroopUI = Object.FindFirstObjectByType<TrainUpgradeTroopUI>();

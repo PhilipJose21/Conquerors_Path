@@ -5227,6 +5227,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InspectorPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 8457816640621204679, guid: a2fc60557ae30bf4880781c5fed10f01, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8655664690193761499, guid: a2fc60557ae30bf4880781c5fed10f01, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -7774,6 +7778,172 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785951205}
   m_CullTransparentMesh: 1
+--- !u!1001 &793448481
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1873224066}
+    m_Modifications:
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8685170405014120667, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_Name
+      value: TutorialOverlayPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8685170405014120667, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+--- !u!114 &793448482 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3262691664892044979, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+  m_PrefabInstance: {fileID: 793448481}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!224 &793448483 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8550859855765207850, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+  m_PrefabInstance: {fileID: 793448481}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &793448484 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4968838908472002337, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+  m_PrefabInstance: {fileID: 793448481}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!114 &793448485 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8431082058302957124, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+  m_PrefabInstance: {fileID: 793448481}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!114 &793448486 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5495129141114635128, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+  m_PrefabInstance: {fileID: 793448481}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &793448487 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4696089639497753970, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+  m_PrefabInstance: {fileID: 793448481}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &793448488 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8685170405014120667, guid: 5f21230834430dc468787b1e56ffd5d6, type: 3}
+  m_PrefabInstance: {fileID: 793448481}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &823551472 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3387047180800628501, guid: 1d3c9ba437d1c8345874abd352f8c0da, type: 3}
@@ -8756,6 +8926,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 928646530}
+  - component: {fileID: 928646531}
   m_Layer: 5
   m_Name: Victory
   m_TagString: Untagged
@@ -8785,6 +8956,34 @@ RectTransform:
   m_AnchoredPosition: {x: -1.305603, y: 2.6113892}
   m_SizeDelta: {x: 1925.3235, y: 1087.0852}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &928646531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928646529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04feadf016e508342a1f6fa506f157af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialManager
+  requiredStepIndex: 3
+  stepToSetOnCompletion: 4
+  markTutorialAsFullyCompleted: 0
+  autoTriggerOnStart: 1
+  triggerDelay: 0.5
+  tutorialPanel: {fileID: 793448488}
+  titleText: {fileID: 793448487}
+  descriptionText: {fileID: 793448486}
+  illustrationImage: {fileID: 793448485}
+  nextButton: {fileID: 793448484}
+  prevButton: {fileID: 793448482}
+  pages:
+  - pageTitle: Ready for Command
+    pageDescription: You have mastered the basics of kingdom management, recruitment,
+      and combat strategy. The fate of the realm is now in your hands!
+    illustrationImage: {fileID: 21300000, guid: 77f1df6544a8e81429c1eb2df2e84d3c, type: 3}
 --- !u!1 &931686205
 GameObject:
   m_ObjectHideFlags: 0
@@ -15951,6 +16150,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1845320371}
+  - component: {fileID: 1845320372}
   m_Layer: 5
   m_Name: GameOver
   m_TagString: Untagged
@@ -15981,6 +16181,34 @@ RectTransform:
   m_AnchoredPosition: {x: -1.305603, y: 2.6113892}
   m_SizeDelta: {x: 1925.3235, y: 1087.0852}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1845320372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845320370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04feadf016e508342a1f6fa506f157af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialManager
+  requiredStepIndex: 3
+  stepToSetOnCompletion: 4
+  markTutorialAsFullyCompleted: 0
+  autoTriggerOnStart: 1
+  triggerDelay: 0.5
+  tutorialPanel: {fileID: 793448488}
+  titleText: {fileID: 793448487}
+  descriptionText: {fileID: 793448486}
+  illustrationImage: {fileID: 793448485}
+  nextButton: {fileID: 793448484}
+  prevButton: {fileID: 793448482}
+  pages:
+  - pageTitle: Ready for Command
+    pageDescription: You have mastered the basics of kingdom management, recruitment,
+      and combat strategy. The fate of the realm is now in your hands!
+    illustrationImage: {fileID: 21300000, guid: 77f1df6544a8e81429c1eb2df2e84d3c, type: 3}
 --- !u!1001 &1853040627
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16225,6 +16453,7 @@ RectTransform:
   - {fileID: 655698941}
   - {fileID: 2134246573}
   - {fileID: 357191006}
+  - {fileID: 793448483}
   m_Father: {fileID: 1874228728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -16347,6 +16576,7 @@ Transform:
   - {fileID: 1437056514}
   - {fileID: 1873224066}
   - {fileID: 2031442957}
+  - {fileID: 2018105892}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1914214436
@@ -17404,6 +17634,78 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6912394855997887325, guid: 36c0ef38d26939a4aa8e145d708b7fa3, type: 3}
   m_PrefabInstance: {fileID: 2016078570}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2018105891
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2018105892}
+  - component: {fileID: 2018105893}
+  m_Layer: 0
+  m_Name: TutorialManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2018105892
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018105891}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1874228728}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2018105893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018105891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04feadf016e508342a1f6fa506f157af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialManager
+  requiredStepIndex: 2
+  stepToSetOnCompletion: 3
+  markTutorialAsFullyCompleted: 0
+  autoTriggerOnStart: 1
+  triggerDelay: 0.5
+  tutorialPanel: {fileID: 793448488}
+  titleText: {fileID: 793448487}
+  descriptionText: {fileID: 793448486}
+  illustrationImage: {fileID: 793448485}
+  nextButton: {fileID: 793448484}
+  prevButton: {fileID: 793448482}
+  pages:
+  - pageTitle: Deploying Your Army
+    pageDescription: Check your available Reinforcement Points and select your trained
+      troops from the recruitment bar to prepare them for battle.
+    illustrationImage: {fileID: 21300000, guid: c8214adf1f9584d458050d494a1c7d53, type: 3}
+  - pageTitle: Troop Placement
+    pageDescription: Position your units onto valid grid tiles. Strategically place
+      your troops to form effective line defenses and attack paths.
+    illustrationImage: {fileID: 21300000, guid: a23e78448908dbf43a530ab01e319563, type: 3}
+  - pageTitle: Managing Turns
+    pageDescription: Click **End Setup** after placing your troops to start combat.
+      Once you have executed your tactical moves, click **End Turn** to pass control.
+    illustrationImage: {fileID: 21300000, guid: e43f1aac271adba409ff4a71b1478e64, type: 3}
+  - pageTitle: Battle Outcomes
+    pageDescription: Defeat enemy forces to earn victory! If your army falls, click
+      Restart to adjust your tactics or Return to manage your kingdom.
+    illustrationImage: {fileID: 21300000, guid: 083b11bfc30014441879a5c0ea9d21ad, type: 3}
 --- !u!1001 &2027170073
 PrefabInstance:
   m_ObjectHideFlags: 0
