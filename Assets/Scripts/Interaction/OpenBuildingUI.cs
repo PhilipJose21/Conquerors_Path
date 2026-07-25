@@ -71,7 +71,7 @@ public class OpenBuildingUI : MonoBehaviour
 
         GameObject uiInstance = Instantiate(buildingUIPrefab, transformUI);
 
-        TrainUpgradeTroopUI trainUpgradeTroopUI = uiInstance.GetComponent<TrainUpgradeTroopUI>() ?? uiInstance.GetComponentInChildren<TrainUpgradeTroopUI>(true);
+        
         if (trainUpgradeTroopUI == null)
         {
             trainUpgradeTroopUI = Object.FindFirstObjectByType<TrainUpgradeTroopUI>();
