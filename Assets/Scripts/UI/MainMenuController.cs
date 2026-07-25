@@ -51,16 +51,17 @@ public class MainMenuController : MonoBehaviour
 
     public void NewGame()
     {
-        Debug.Log("Starting New Game. Resetting Save Data...");
+        Debug.Log("Starting New Game. Resetting Save Data and Tutorial State...");
         
+        PlayerPrefs.SetInt("TutorialStep", 0);
+        PlayerPrefs.SetInt("TutorialCompleted", 0);
+        PlayerPrefs.SetInt("IsNewGameLoading", 1);
+        PlayerPrefs.Save();
+
         if (KingdomSaveManager.Instance != null)
         {
             KingdomSaveManager.Instance.ResetSaveData();
-
             KingdomSaveManager.Instance.SaveCurrentKingdom();
-
-            PlayerPrefs.SetInt("IsNewGameLoading", 1);
-            PlayerPrefs.Save();
         }
 
         SceneManager.LoadScene(mainKingdomSceneName);
