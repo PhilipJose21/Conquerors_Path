@@ -25678,19 +25678,19 @@ MonoBehaviour:
   - pageTitle: Place Buildings
     pageDescription: You can place buildings by clicking the button inside the building
       panel.
-    illustrationImage: {fileID: 21300000, guid: bafabc35b0680084bb2efb76466759be, type: 3}
+    illustrationImage: {fileID: 21300000, guid: 2dd4152a9d5a2d3479dfb4db0042bc9f, type: 3}
   - pageTitle: Training Troops
     pageDescription: Train units at the Barracks! Each unit possesses distinct Health,
       Attack Power, Range, and Movement stats suited for combat.
-    illustrationImage: {fileID: 21300000, guid: bafabc35b0680084bb2efb76466759be, type: 3}
+    illustrationImage: {fileID: 21300000, guid: 0006b08777606fc448a142ef2d5ad595, type: 3}
   - pageTitle: Power Up Your Army
     pageDescription: Upgrade your troops in the structure menu to boost their combat
       stats and prepare them for tougher battles ahead.
-    illustrationImage: {fileID: 21300000, guid: bafabc35b0680084bb2efb76466759be, type: 3}
+    illustrationImage: {fileID: 21300000, guid: 61a6d7a5d0bff6e4480aeb8f223e18b8, type: 3}
   - pageTitle: Entering the Battlefield
     pageDescription: Head to the Level Select map and choose your first target stage
       to launch an attack against enemy forces.
-    illustrationImage: {fileID: 21300000, guid: bafabc35b0680084bb2efb76466759be, type: 3}
+    illustrationImage: {fileID: 21300000, guid: 402c06a02d5e0354dad18b7fbfe05b99, type: 3}
 --- !u!1001 &1520817861
 PrefabInstance:
   m_ObjectHideFlags: 0
