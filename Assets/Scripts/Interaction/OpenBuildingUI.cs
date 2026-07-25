@@ -4,7 +4,6 @@ public class OpenBuildingUI : MonoBehaviour
 {
     public GameObject buildingUIPrefab;
     public Transform transformUI;
-    private TrainUpgradeTroopUI trainUpgradeTroopUI;
     private bool isUIOpen = false;
 
     public void Awake()
@@ -25,21 +24,19 @@ public class OpenBuildingUI : MonoBehaviour
             return;
         }
 
-        BuildingStatContainer statContainer = GetComponent<BuildingStatContainer>();
+        // Search current GameObject, children, or parents for BuildingStatContainer
+        BuildingStatContainer statContainer = GetComponent<BuildingStatContainer>() 
+            ?? GetComponentInChildren<BuildingStatContainer>() 
+            ?? GetComponentInParent<BuildingStatContainer>();
 
-        // InfoPanel is a singleton (see InfoPanel.Awake) - there is exactly one persistent
-        // instance already placed in the scene (KingdomUIManager.sceneInfoPanel). If this
-        // building's UI prefab is that same InfoPanel prefab, DO NOT instantiate a second
-        // copy - any duplicate InfoPanel destroys itself in Awake() the instant it's created,
-        // since Instance is already claimed by the scene copy. Instead, just reuse the
-        // existing singleton and feed it this building's data.
+        if (statContainer == null)
+        {
+            Debug.LogWarning($"OpenBuildingUI on {gameObject.name}: No BuildingStatContainer found!");
+        }
+
+        // InfoPanel handling
         if (buildingUIPrefab != null && buildingUIPrefab.GetComponent<InfoPanel>() != null)
         {
-            // Go through KingdomUIManager's own reference rather than InfoPanel.Instance.
-            // Instance is only populated once InfoPanel.Awake() has actually run, which
-            // never happens if the panel GameObject starts inactive in the scene.
-            // KingdomUIManager finds it via FindObjectsInactive.Include, so it works
-            // regardless of the panel's active state.
             InfoPanel infoPanel = KingdomUIManager.Instance != null ? KingdomUIManager.Instance.sceneInfoPanel : null;
             if (infoPanel == null)
             {
@@ -60,8 +57,7 @@ public class OpenBuildingUI : MonoBehaviour
             return;
         }
 
-        // Non-singleton UI (e.g. TrainUpgradeTroopUI) - safe to clear old instances and
-        // instantiate a fresh copy each time.
+        // Clear existing UI
         if (transformUI != null)
         {
             for (int i = transformUI.childCount - 1; i >= 0; i--)
@@ -72,21 +68,19 @@ public class OpenBuildingUI : MonoBehaviour
 
         GameObject uiInstance = Instantiate(buildingUIPrefab, transformUI);
 
-        // Try getting TrainUpgradeTroopUI from the newly instantiated prefab first,
-        // falling back to finding it in scene if not directly attached to the root.
-        trainUpgradeTroopUI = uiInstance.GetComponent<TrainUpgradeTroopUI>();
-        if (trainUpgradeTroopUI == null)
-        {
-            trainUpgradeTroopUI = uiInstance.GetComponentInChildren<TrainUpgradeTroopUI>();
-        }
-        if (trainUpgradeTroopUI == null)
-        {
-            trainUpgradeTroopUI = Object.FindFirstObjectByType<TrainUpgradeTroopUI>();
-        }
-
+        // --- Pass Building Data to TrainUpgradeTroopUI ---
+        TrainUpgradeTroopUI trainUpgradeTroopUI = uiInstance.GetComponentInChildren<TrainUpgradeTroopUI>(true);
         if (trainUpgradeTroopUI != null)
         {
             trainUpgradeTroopUI.gameObjectParent = building.gameObject;
+            trainUpgradeTroopUI.SetBuildingData(statContainer?.buildingData);
+        }
+
+        // --- Pass Building Data to UnlockUnits ---
+        UnlockUnits unlockUnits = uiInstance.GetComponentInChildren<UnlockUnits>(true);
+        if (unlockUnits != null)
+        {
+            unlockUnits.SetBuildingData(statContainer?.buildingData);
         }
 
         isUIOpen = true;
