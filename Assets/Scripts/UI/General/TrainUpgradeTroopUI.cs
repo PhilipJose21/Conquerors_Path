@@ -13,6 +13,9 @@ public class TrainUpgradeTroopUI : MonoBehaviour
     private PlayerSO playerSO;
     private PlayerBattleSO playerBattleSO;
 
+    public Image buildingIconImage;
+    public BuildingData buildingData;
+
     public UnitSO.UnitType unitTrainingType; 
 
     public GameObject unitTrainingPanel;
@@ -73,6 +76,28 @@ public class TrainUpgradeTroopUI : MonoBehaviour
             : UnitSO.UnitType.Melee;
         playerUnits = playerBattleSO.playerUnitStats;
         unitList = playerSO.unlockedUnits;
+    }
+
+    public void SetBuildingData(BuildingData data)
+    {
+        buildingData = data;
+        UpdateBuildingIcon();
+    }
+
+    private void UpdateBuildingIcon()
+    {
+        if (buildingIconImage != null)
+        {
+            if (buildingData != null && buildingData.Icon != null)
+            {
+                buildingIconImage.gameObject.SetActive(true);
+                buildingIconImage.sprite = buildingData.Icon;
+            }
+            else
+            {
+                buildingIconImage.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void openUnitAddPanel()//opens list

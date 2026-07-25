@@ -10,6 +10,9 @@ public class UnlockUnits : MonoBehaviour
     public Button rangedButton; // Button for unlocking ranged units
     public Button supportButton; // Button for unlocking support units
 
+    public Image buildingIconImage; // Drag your Building Icon Image component here in the Inspector!
+    public BuildingData buildingData; // Reference to the BuildingData scriptable object
+
     [Header("Units Panel")]
     public GameObject unitsPanel;
     public GameObject unitButtonPrefab;
@@ -52,6 +55,28 @@ public class UnlockUnits : MonoBehaviour
 
         updateUnitsToUnlock(unitsToUnlock);
         meleeListBtn();
+    }
+
+    public void SetBuildingData(BuildingData data)
+    {
+        buildingData = data;
+        UpdateBuildingIcon();
+    }
+
+    private void UpdateBuildingIcon()
+    {
+        if (buildingIconImage != null)
+        {
+            if (buildingData != null && buildingData.Icon != null)
+            {
+                buildingIconImage.gameObject.SetActive(true);
+                buildingIconImage.sprite = buildingData.Icon;
+            }
+            else
+            {
+                buildingIconImage.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void updateUnitsToUnlock(List<UnitSO> newUnits)
