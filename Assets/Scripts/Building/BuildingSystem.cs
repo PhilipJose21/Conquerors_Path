@@ -71,6 +71,22 @@ public class BuildingSystem : MonoBehaviour
             playerData.updateUnitList();
             buildingDataList = playerBattleSO.playerUnits;
         }
+        if (grid == null)
+        {
+            grid = Object.FindFirstObjectByType<BuildingGrid>();
+            if (grid == null)
+            {
+                Debug.LogWarning("BuildingSystem: No BuildingGrid found in the scene.");
+            }
+        }
+        if (environmentParent == null)
+        {
+            environmentParent = GameObject.Find("Environment");
+            if (environmentParent == null)
+            {
+                Debug.LogWarning("BuildingSystem: No Environment parent found in the scene.");
+            }
+        }
     }
 
     private void Start()

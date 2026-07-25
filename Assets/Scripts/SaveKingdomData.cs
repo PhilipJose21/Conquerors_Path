@@ -14,6 +14,16 @@ public class PlayerSaveData
 	public int coins;
 	public List<string> unlockedUnitKeys = new List<string>();
 	public List<string> trainedUnitKeys = new List<string>();
+	public List<SavedLevelData> levelStates = new List<SavedLevelData>();
+}
+
+[Serializable]
+public class SavedLevelData
+{
+	public string levelKey;
+	public bool isUnlocked;
+	public bool isCompleted;
+	public bool rewardClaimed;
 }
 
 [Serializable]

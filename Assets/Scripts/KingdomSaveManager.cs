@@ -290,6 +290,29 @@ public class KingdomSaveManager : MonoBehaviour
                 currentPlayer.trainedUnitKeys.Add(GetUnitSaveKey(unit));
             }
         }
+
+        // Level unlock/completion state lives on LevelSO assets in memory only. Without
+        // capturing it here it never reaches the save file, so progress (e.g. beating a
+        // level) is silently lost the moment the app restarts, even though buildings and
+        // resources persist fine.
+        currentPlayer.levelStates = new List<SavedLevelData>();
+
+        LevelSO[] allLevels = Resources.FindObjectsOfTypeAll<LevelSO>();
+        foreach (LevelSO levelSO in allLevels)
+        {
+            if (levelSO == null)
+            {
+                continue;
+            }
+
+            currentPlayer.levelStates.Add(new SavedLevelData
+            {
+                levelKey = GetLevelSaveKey(levelSO),
+                isUnlocked = levelSO.isUnlocked,
+                isCompleted = levelSO.isCompleted,
+                rewardClaimed = levelSO.rewardClaimed
+            });
+        }
     }
 
     public void ApplyLoadedPlayerData()
@@ -457,8 +480,59 @@ public class KingdomSaveManager : MonoBehaviour
         }
 
         EnsureDefaultPlayerData();
+        ApplyLoadedLevelData();
 
         hasLoadedFromDisk = true;
+    }
+
+    private void ApplyLoadedLevelData()
+    {
+        if (currentPlayer?.levelStates == null)
+        {
+            return;
+        }
+
+        foreach (SavedLevelData levelState in currentPlayer.levelStates)
+        {
+            if (levelState == null)
+            {
+                continue;
+            }
+
+            if (TryResolveLevel(levelState.levelKey, out LevelSO levelSO))
+            {
+                levelSO.isUnlocked = levelState.isUnlocked;
+                levelSO.isCompleted = levelState.isCompleted;
+                levelSO.rewardClaimed = levelState.rewardClaimed;
+            }
+        }
+    }
+
+    private string GetLevelSaveKey(LevelSO levelSO)
+    {
+        return levelSO == null ? string.Empty : levelSO.name;
+    }
+
+    private bool TryResolveLevel(string levelKey, out LevelSO levelSO)
+    {
+        levelSO = null;
+
+        if (string.IsNullOrWhiteSpace(levelKey))
+        {
+            return false;
+        }
+
+        LevelSO[] allLevels = Resources.FindObjectsOfTypeAll<LevelSO>();
+        foreach (LevelSO candidate in allLevels)
+        {
+            if (candidate != null && candidate.name == levelKey)
+            {
+                levelSO = candidate;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void CaptureDefaults()
@@ -568,7 +642,8 @@ public class KingdomSaveManager : MonoBehaviour
             gems = source.gems,
             coins = source.coins,
             unlockedUnitKeys = source.unlockedUnitKeys != null ? new List<string>(source.unlockedUnitKeys) : new List<string>(),
-            trainedUnitKeys = source.trainedUnitKeys != null ? new List<string>(source.trainedUnitKeys) : new List<string>()
+            trainedUnitKeys = source.trainedUnitKeys != null ? new List<string>(source.trainedUnitKeys) : new List<string>(),
+            levelStates = source.levelStates != null ? new List<SavedLevelData>(source.levelStates) : new List<SavedLevelData>()
         };
     }
 

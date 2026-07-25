@@ -345,6 +345,7 @@ GameObject:
   - component: {fileID: 137806751673088300}
   - component: {fileID: 1795407980912661259}
   - component: {fileID: 2027624965573692952}
+  - component: {fileID: 3161552780514950687}
   m_Layer: 5
   m_Name: DeclineButton
   m_TagString: Untagged
@@ -454,9 +455,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TrainUpgradeTroopUI, Assembly-CSharp
-        m_MethodName: closeConfirmPanel
+      - m_Target: {fileID: 3161552780514950687}
+        m_TargetAssemblyTypeName: DisableObject, Assembly-CSharp
+        m_MethodName: DisableGameObject
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -466,6 +467,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3161552780514950687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755181440794884538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9f4566b3d762de46978a8f9d2a90f74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DisableObject
+  objectToDisable: {fileID: 755181440794884538}
 --- !u!1 &782283753824948958
 GameObject:
   m_ObjectHideFlags: 0
