@@ -284,4 +284,10 @@ public class TutorialManager : MonoBehaviour
         PlayerPrefs.Save();
         Debug.Log("[TutorialManager] Tutorial PlayerPrefs progress reset to 0.");
     }
+
+    public void ResetTutorialProgressAndShow()
+    {
+        ResetTutorialProgress();
+        TriggerTutorial();
+    }
 }

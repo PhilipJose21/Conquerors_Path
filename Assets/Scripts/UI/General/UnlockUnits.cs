@@ -55,6 +55,7 @@ public class UnlockUnits : MonoBehaviour
 
         updateUnitsToUnlock(unitsToUnlock);
         meleeListBtn();
+        unitsPanel.SetActive(false);
     }
 
     public void SetBuildingData(BuildingData data)
